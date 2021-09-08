@@ -25,4 +25,4 @@ proto:
 	@echo "Generating Go code for Protocol Buffer definitions..."
 	@rm -rf ${PROTO_GO_PATH}
 	@mkdir ${PROTO_GO_PATH}
-	@protoc --proto_path=${PROTO_DEF_PATH} --go_out=${PROTO_GO_PATH} $(wildcard ${PROTO_DEF_PATH}/*.proto)
+	@protoc --proto_path=${PROTO_DEF_PATH} --go_out=${PROTO_GO_PATH} --go-grpc_out=${PROTO_GO_PATH} $(wildcard ${PROTO_DEF_PATH}/*.proto)
