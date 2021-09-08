@@ -1,0 +1,26 @@
+syntax = "proto3";
+package gem;
+option go_package = "/gem";
+
+service GemService {
+  rpc Drop (DropRequest) returns (DropResponse);
+  rpc HelloWorld (HelloWorldRequest) returns (HelloWorldResponse);
+  // TODO: Replace placeholder methods.
+}
+
+message DropRequest {
+  string message = 1;
+}
+
+message DropResponse {
+  int64 id = 1;
+  string message = 2;
+}
+
+message HelloWorldRequest {
+  string name = 1;
+}
+
+message HelloWorldResponse {
+  string message = 1;
+}

@@ -1,18 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"google.golang.org/grpc"
 	"log"
-	"net/http"
-	"time"
+	"net"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := fmt.Fprintf(w, "Hello World! The time now is %s.", time.Now().Format("2006-01-02 15:04:05"))
-		if err != nil {
-			log.Fatalln(err)
-		}
-	})
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	l, err := net.Listen("tcp", ":8000")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	s := grpc.NewServer()
+	err = s.Serve(l)
+	if err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
