@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:html';
+import 'package:universal_html/html.dart' as html;
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,7 +12,7 @@ void main() async {
 }
 
 Future<bool> setUpGoogleMaps() {
-  ScriptElement gmap = querySelector('#google-maps');
+  html.ScriptElement gmap = html.querySelector('#google-maps');
   final String endpoint =
       "https://maps.googleapis.com/maps/api/js?key=${dotenv.env['GOOGLE_API_KEY']}";
   gmap.setAttribute("src", endpoint);
