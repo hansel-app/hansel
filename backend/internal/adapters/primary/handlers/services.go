@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/hansel-app/hansel/internal/adapters/handlers/internal"
-	"github.com/hansel-app/hansel/internal/adapters/repositories"
+	"github.com/hansel-app/hansel/internal/adapters/primary/handlers/internal"
+	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
 	"google.golang.org/grpc"
 )

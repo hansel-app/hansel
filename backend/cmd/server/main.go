@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/hansel-app/hansel/internal/adapters/handlers"
+	"github.com/hansel-app/hansel/internal/adapters/primary/handlers"
 	"google.golang.org/grpc"
 	"log"
 	"net"
