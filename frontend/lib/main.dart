@@ -1,9 +1,23 @@
 import 'dart:async';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await dotenv.load();
+  await setUpGoogleMaps();
+  runApp(MyApp());
+}
+
+Future<bool> setUpGoogleMaps() {
+  ScriptElement gmap = querySelector('#google-maps');
+  final String endpoint =
+      "https://maps.googleapis.com/maps/api/js?key=${dotenv.env['GOOGLE_API_KEY']}";
+  gmap.setAttribute("src", endpoint);
+  return gmap.onLoad.any((element) => true);
+}
 
 class MyApp extends StatelessWidget {
   @override
