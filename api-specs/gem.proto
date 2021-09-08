@@ -4,7 +4,7 @@ option go_package = "/gem";
 
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
-  rpc HelloWorld (HelloWorldRequest) returns (HelloWorldResponse);
+  rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
   // TODO: Replace placeholder methods.
 }
 
@@ -17,10 +17,10 @@ message DropResponse {
   string message = 2;
 }
 
-message HelloWorldRequest {
+message SayHelloRequest {
   string name = 1;
 }
 
-message HelloWorldResponse {
+message SayHelloResponse {
   string message = 1;
 }

@@ -18,8 +18,8 @@ func (h *gemService) Drop(c context.Context, r *gem.DropRequest) (*gem.DropRespo
 	}, nil
 }
 
-func (h *gemService) HelloWorld(c context.Context, r *gem.HelloWorldRequest) (*gem.HelloWorldResponse, error) {
-	return &gem.HelloWorldResponse{
+func (h *gemService) SayHello(c context.Context, r *gem.SayHelloRequest) (*gem.SayHelloResponse, error) {
+	return &gem.SayHelloResponse{
 		Message: fmt.Sprintf("Hello, %s", r.Name),
 	}, nil
 }

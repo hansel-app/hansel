@@ -18,9 +18,9 @@ func main() {
 
 	c := gem.NewGemServiceClient(conn)
 
-	response, err := c.HelloWorld(context.Background(), &gem.HelloWorldRequest{Name: "Uncle Soo"})
+	response, err := c.SayHello(context.Background(), &gem.SayHelloRequest{Name: "Uncle Soo"})
 	if err != nil {
-		log.Fatalf("Error when calling HelloWorld: %s", err)
+		log.Fatalf("Error when calling SayHello: %s", err)
 	}
 
 	log.Printf("Response from server: %s", response.Message)
