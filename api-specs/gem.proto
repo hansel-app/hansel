@@ -1,6 +1,6 @@
 syntax = "proto3";
-package gem;
-option go_package = "/gem";
+package gems;
+option go_package = "/gems";
 
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);

@@ -3,23 +3,23 @@ package handlers
 import (
 	"context"
 	"fmt"
-	"github.com/hansel-app/hansel/protobuf/gem"
+	"github.com/hansel-app/hansel/protobuf/gems"
 )
 
 type gemService struct {
-	gem.UnimplementedGemServiceServer
+	gems.UnimplementedGemServiceServer
 }
 
-func (h *gemService) Drop(c context.Context, r *gem.DropRequest) (*gem.DropResponse, error) {
+func (h *gemService) Drop(c context.Context, r *gems.DropRequest) (*gems.DropResponse, error) {
 	// TODO: Replace placeholder return value.
-	return &gem.DropResponse{
+	return &gems.DropResponse{
 		Id:      1,
 		Message: r.Message,
 	}, nil
 }
 
-func (h *gemService) SayHello(c context.Context, r *gem.SayHelloRequest) (*gem.SayHelloResponse, error) {
-	return &gem.SayHelloResponse{
+func (h *gemService) SayHello(c context.Context, r *gems.SayHelloRequest) (*gems.SayHelloResponse, error) {
+	return &gems.SayHelloResponse{
 		Message: fmt.Sprintf("Hello, %s", r.Name),
 	}, nil
 }

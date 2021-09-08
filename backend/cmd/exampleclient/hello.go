@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/hansel-app/hansel/protobuf/gem"
+	"github.com/hansel-app/hansel/protobuf/gems"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -16,9 +16,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := gem.NewGemServiceClient(conn)
+	c := gems.NewGemServiceClient(conn)
 
-	response, err := c.SayHello(context.Background(), &gem.SayHelloRequest{Name: "Uncle Soo"})
+	response, err := c.SayHello(context.Background(), &gems.SayHelloRequest{Name: "Uncle Soo"})
 	if err != nil {
 		log.Fatalf("Error when calling SayHello: %s", err)
 	}
