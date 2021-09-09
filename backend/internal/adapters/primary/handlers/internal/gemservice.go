@@ -18,8 +18,8 @@ func NewGemService(repository gems.Repository) *gemService {
 	}
 }
 
-func (h *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.DropResponse, error) {
-	gem, err := h.usecases.Drop(r.Message)
+func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.DropResponse, error) {
+	gem, err := s.usecases.Drop(r.Message)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,19 @@ func (h *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.D
 	}, nil
 }
 
-func (h *gemService) SayHello(c context.Context, r *gemsapi.SayHelloRequest) (*gemsapi.SayHelloResponse, error) {
+func (s *gemService) Get(c context.Context, r *gemsapi.GetRequest) (*gemsapi.GetResponse, error) {
+	gem, err := s.usecases.Get(r.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &gemsapi.GetResponse{
+		Id:      gem.ID,
+		Message: gem.Message,
+	}, nil
+}
+
+func (s *gemService) SayHello(c context.Context, r *gemsapi.SayHelloRequest) (*gemsapi.SayHelloResponse, error) {
 	return &gemsapi.SayHelloResponse{
 		Message: fmt.Sprintf("Hello, %s", r.Name),
 	}, nil

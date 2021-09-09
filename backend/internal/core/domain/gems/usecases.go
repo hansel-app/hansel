@@ -11,12 +11,9 @@ func NewUseCases(repository Repository) *UseCases {
 }
 
 func (u *UseCases) Drop(message string) (*Gem, error) {
-	gem := &Gem{
-		Message: message,
-	}
-	return u.repository.Add(gem)
+	return u.repository.Add(message)
 }
 
-func (u *UseCases) PickUp(id int64) (*Gem, error) {
+func (u *UseCases) Get(id int64) (*Gem, error) {
 	return u.repository.Get(id)
 }

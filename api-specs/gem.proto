@@ -4,6 +4,7 @@ option go_package = "/gemsapi";
 
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
+  rpc Get (GetRequest) returns (GetResponse);
   rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
   // TODO: Replace placeholder methods.
 }
@@ -13,6 +14,15 @@ message DropRequest {
 }
 
 message DropResponse {
+  int64 id = 1;
+  string message = 2;
+}
+
+message GetRequest {
+  int64 id = 1;
+}
+
+message GetResponse {
   int64 id = 1;
   string message = 2;
 }
