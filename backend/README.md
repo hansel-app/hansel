@@ -12,6 +12,22 @@
    ```sh
    $ export PATH="$PATH:$(go env GOPATH)/bin"
    ```
+1. Make a copy of `.env.development` as `.env.development.local`.
+   For development on your local system, we recommend that you connect to PostgreSQL via Unix-domain sockets so that there is no need for database server credentials, allowing you to leave `DB_USERNAME` and `DB_PASSWORD` empty.
+   This can be done by setting the DB_HOSTNAME to the following locations:
+   * Linux: `/var/run/postgresql`
+   * macOS: `/tmp`
+
+   For example:
+   ```
+   SERVER_PORT=8000
+
+   DB_HOSTNAME=/var/run/postgresql
+   DB_PORT=5432
+   DB_NAME=hansel_development
+   DB_USERNAME=
+   DB_PASSWORD=
+   ```
 1. Run `make run` to start the server.
 
 ## Updating Protocol Buffer Definitions
