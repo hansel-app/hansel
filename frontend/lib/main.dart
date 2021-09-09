@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  await dotenv.load();
+  await dotenv.load(fileName: "dotenv");
   await setUpGoogleMaps();
   runApp(MyApp());
 }
