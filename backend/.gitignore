@@ -4,4 +4,9 @@ protobuf/
 
 # IDE configuration files
 .idea/
-.vscode/*
+.vscode/
+
+# Environment variable files
+.env
+.env.local
+.env.*.local
