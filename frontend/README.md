@@ -4,7 +4,7 @@ A new Flutter project.
 
 ## Getting Started
 
-1. Set up the necesary environment variables by running `cp .env.sample .env` and then editing `.env`
+1. Set up the necesary environment variables by running `cp .env.sample dotenv` and then editing `dotenv`
    with the relevant values.
 
    - For `GOOGLE_API_KEY`, you can get your own key following the instructions here: https://cloud.google.com/docs/authentication/api-keys#creating_an_api_key
