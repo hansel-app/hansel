@@ -1,15 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h4>Hello Friendos</h4>
+    Latitude: {{ currPosition.lat.toFixed(2) }},
+    Longitude: {{ currPosition.lng.toFixed(2) }}
+  </div>
+  <div ref="mapDiv" style="width:100%; height:80vh" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+/* eslint-disable no-undef */
+import { computed, ref, onMounted } from 'vue'
+import { Loader } from '@googlemaps/js-api-loader'
+import { useGeolocation } from './useGeolocation'
+
+const GOOGLE_API_KEY=process.env.VUE_APP_GOOGLE_API_KEY
 
 export default {
   name: 'App',
+  setup() {
+    const { coords } = useGeolocation()
+    const currPosition = computed(() => ({
+      lat: coords.value.latitude,
+      lng: coords.value.longitude
+    }))
+
+    const loader = new Loader({ apiKey: GOOGLE_API_KEY})
+    const mapDiv = ref(null)
+    onMounted(async () => {
+      await loader.load()
+      new google.maps.Map(mapDiv.value, {
+        center: currPosition.value,
+        zoom: 7
+      })
+    })
+    return { currPosition, mapDiv }
+  },
   components: {
-    HelloWorld
   }
 }
 </script>
