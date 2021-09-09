@@ -12,9 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
-      - name: Set up .env file
+      - name: Pre-build configuration
         run: |
           cp frontend/.env.sample frontend/.env
       - uses: erickzanardo/flutter-gh-pages@v6
         with:
           workingDir: frontend
+      - name: Post-build configuration
+        run: |
+          repo_name=${{ github.event.repository.name }}
+          sed -i 's#<base href="/">#<base href="/'"$repo_name"'">#g' frontend/build/web/index.html
