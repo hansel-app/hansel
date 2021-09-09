@@ -8,6 +8,10 @@
    $ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
    $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
    ```
+1. Update your `PATH` so that the protocol compiler can find the plugins:
+   ```sh
+   $ export PATH="$PATH:$(go env GOPATH)/bin"
+   ```
 1. Run `make run` to start the server.
 
 ## Updating Protocol Buffer Definitions
