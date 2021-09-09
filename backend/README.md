@@ -28,12 +28,32 @@
    DB_USERNAME=
    DB_PASSWORD=
    ```
+1. Install PostgreSQL `>= 12` [here](https://www.postgresql.org/download/).
+1. Create and migrate the database:
+   ```sh
+   $ make createdb
+   $ make migratedb
+   ```
 1. Run `make run` to start the server.
 
 ## Updating Protocol Buffer Definitions
 
 After changing the definitions of the Protocol Buffer, run `make proto` to regenerate the respective Go files.
 Note that `make build` and `make run` also regenerate the Go files automatically.
+
+## Migrating Database
+
+To apply new migrations to the database, run:
+```sh
+$ make migratedb
+```
+
+If the state of your database is out of sync, you can drop it and recreate it as such:
+```sh
+$ make dropdb
+$ make createdb
+$ make migratedb
+```
 
 ## Architecture
 
