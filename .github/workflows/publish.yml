@@ -25,7 +25,7 @@ jobs:
       - name: Post-build configuration
         run: |
           repo_name=${{ github.event.repository.name }}
-          sed -i 's#<base href="/">#<base href="/'"$repo_name"'">#g' frontend/build/web/index.html
+          sed -i 's#<base href="/">#<base href="/'"$repo_name"'/">#g' frontend/build/web/index.html
       - name: Publish to GH pages
         run: |
           git config user.name github-actions
