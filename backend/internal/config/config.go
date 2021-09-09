@@ -26,7 +26,7 @@ const (
 	envDevelopment        = "development"
 	envTest               = "test"
 	envProduction         = "production"
-	configLoadErrTemplate = "unable to load env vars: %v"
+	configLoadErrTemplate = "unable to load env vars: %w"
 )
 
 var (

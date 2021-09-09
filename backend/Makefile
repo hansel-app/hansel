@@ -1,7 +1,17 @@
 BINARY_PATH=./bin/server/server.out
 SERVER_PATH=./cmd/server/main.go
+DB_CREATE_PATH=./cmd/database/create.go
+DB_DROP_PATH=./cmd/database/drop.go
 PROTO_DEF_PATH=../api-specs
 PROTO_GO_PATH=./protobuf
+
+createdb:
+	@echo "Creating database..."
+	@go run ${DB_CREATE_PATH}
+
+dropdb:
+	@echo "Dropping database..."
+	@go run ${DB_DROP_PATH}
 
 build: proto
 	@echo "Building server at ${BINARY_PATH}..."

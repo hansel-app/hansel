@@ -17,7 +17,10 @@ func NewDatabase(cfg *config.Config) (*sqlx.DB, error) {
 }
 
 func buildDSN(cfg *config.Config) string {
-	dsn := fmt.Sprintf("dbname=%v", cfg.DBName)
+	dsn := ""
+	if cfg.DBName != "" {
+		dsn += fmt.Sprintf("dbname=%v", cfg.DBName)
+	}
 	if cfg.DBHostname != "" {
 		dsn += fmt.Sprintf(" host=%v", cfg.DBHostname)
 	}
