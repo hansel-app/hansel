@@ -1,0 +1,12 @@
+# Generated files
+bin/
+protobuf/
+
+# IDE configuration files
+.idea/
+.vscode/
+
+# Environment variable files
+.env
+.env.local
+.env.*.local
