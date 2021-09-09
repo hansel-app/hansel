@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	l, err := net.Listen("tcp", ":8000")
+	l, err := net.Listen("tcp", "127.0.0.1:8000")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
