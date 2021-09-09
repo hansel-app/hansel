@@ -2,15 +2,19 @@ name: Publish to GitHub Pages
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v1
-    - uses: erickzanardo/flutter-gh-pages@v6
-      with:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+      - name: Set up .env file
+        run: |
+          cp frontend/.env.sample frontend/.env
+      - uses: erickzanardo/flutter-gh-pages@v6
+        with:
           workingDir: frontend
