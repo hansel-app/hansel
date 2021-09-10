@@ -1,21 +1,26 @@
-# Hansel Frontend
+# frontend
 
-A new Flutter project.
+## Project setup
+```
+npm install
+```
+Set up the necesary environment variables by running `cp .env.local.sample .env.local` and then editing `.env` with the relevant values.
+For `VUE_APP_GOOGLE_API_KEY`, you can get your own key following the instructions here: https://cloud.google.com/docs/authentication/api-keys#creating_an_api_key
 
-## Getting Started
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-1. Set up the necesary environment variables by running `cp .env.sample dotenv` and then editing `dotenv`
-   with the relevant values.
+### Compiles and minifies for production
+```
+npm run build
+```
 
-   - For `GOOGLE_API_KEY`, you can get your own key following the instructions here: https://cloud.google.com/docs/authentication/api-keys#creating_an_api_key
+### Lints and fixes files
+```
+npm run lint
+```
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
