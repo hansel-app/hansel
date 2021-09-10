@@ -12,8 +12,7 @@
     "core-js": "^3.6.5",
     "google-protobuf": "^3.18.0-rc.2",
     "grpc-web": "^1.2.1",
-    "vue": "^3.0.0",
-    "vue3-google-map": "^0.8.2"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

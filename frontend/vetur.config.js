@@ -11,7 +11,7 @@ module.exports = {
     // **optional** default: `[{ root: './' }]`
     // support monorepos
     projects: [
-      './packages/repo2', // Shorthand for specifying only the project root location
+      './src', // Shorthand for specifying only the project root location
       {
         root: './src',
         package: './package.json',

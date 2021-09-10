@@ -24,7 +24,7 @@ export default {
       lng: coords.value.longitude
     }))
 
-    const loader = new Loader({ apiKey: GOOGLE_API_KEY})
+    const loader = new Loader({ apiKey: GOOGLE_API_KEY })
     const mapDiv = ref(null)
     onMounted(async () => {
       await loader.load()
