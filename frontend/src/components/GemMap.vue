@@ -4,7 +4,8 @@
     Latitude: {{ currPosition.lat.toFixed(2) }}, Longitude:
     {{ currPosition.lng.toFixed(2) }}
   </div>
-  <google-map-loader :mapConfig="mapConfig" apiKey="">
+
+  <google-map-loader :mapConfig="mapConfig" :apiKey="apiKey">
     <template v-slot="{ map }">
       {{ map }}
     </template>
@@ -12,37 +13,41 @@
 </template>
 
 <script lang="ts">
-import { setup, Options, Vue } from "vue-class-component";
-import { computed } from "vue";
+import { computed, defineComponent } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import GoogleMapLoader from "./GoogleMapLoader.vue";
 
-const DEFAULT_MAP_SETTINGS = {
+const DEFAULT_MAP_CONFIG = {
   center: { lat: 1.3521, lng: 103.8198 },
   zoom: 13,
 };
 
-@Options({
-  props: {},
-  components: { GoogleMapLoader },
-})
-export default class GemMap extends Vue {
-  currPosition = setup(() => {
+const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
+
+export default defineComponent({
+  components: {
+    GoogleMapLoader,
+  },
+
+  setup() {
     const { coords } = useGeolocation();
     const currPosition = computed(() => ({
       lat: coords.value.latitude,
       lng: coords.value.longitude,
     }));
 
-    return currPosition;
-  });
+    return { currPosition };
+  },
 
-  get mapConfig() {
-    return {
-      ...DEFAULT_MAP_SETTINGS,
-    };
-  }
-}
+  computed: {
+    mapConfig() {
+      return { ...DEFAULT_MAP_CONFIG };
+    },
+    apiKey() {
+      return GOOGLE_API_KEY;
+    },
+  },
+});
 </script>
 
 <style scoped></style>

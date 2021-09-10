@@ -8,13 +8,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
+
+interface MapConfig {
+  center: {
+    lat: number;
+    lng: number;
+  };
+  zoom: number;
+}
 
 export default defineComponent({
   props: {
-    mapConfig: Object,
-    apiKey: String,
+    mapConfig: {
+      type: Object as PropType<MapConfig>,
+      required: true,
+    },
+    apiKey: {
+      type: String,
+      default: "",
+    },
   },
 
   data() {
@@ -32,7 +46,7 @@ export default defineComponent({
     async initializeMap() {
       const mapContainer = this.$refs.googleMap as Element;
       const api = await new Loader({
-        apiKey: this.apiKey ?? "",
+        apiKey: this.apiKey,
       }).load();
 
       this.map = new api.maps.Map(mapContainer, this.mapConfig);
