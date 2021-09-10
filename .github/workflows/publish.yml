@@ -11,28 +11,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-      - name: Pre-build configuration
-        run: |
-          cp frontend/.env.sample frontend/dotenv
-      - name: Build files
-        run: |
-          flutter config --enable-web
-          flutter pub get
-          flutter build web --release
-        shell: bash
+      - uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: npm install
         working-directory: frontend
-      - name: Post-build configuration
-        run: |
-          repo_name=${{ github.event.repository.name }}
-          sed -i 's#<base href="/">#<base href="/'"$repo_name"'/">#g' frontend/build/web/index.html
+      - name: Build files
+        run: npm run build
+        working-directory: frontend
       - name: Publish to GH pages
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git checkout --orphan gh-pages
-          git --work-tree build/web add --all
+          git --work-tree dist add --all
           git commit -m "Automatic deployment by github-actions"
           git push origin gh-pages --force
-        shell: bash
         working-directory: frontend
