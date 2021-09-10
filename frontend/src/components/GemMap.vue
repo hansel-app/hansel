@@ -59,13 +59,14 @@ export default defineComponent({
     return { currPosition };
   },
 
+  data() {
+    return {
+      mapConfig: { ...DEFAULT_MAP_CONFIG },
+      apiKey: GOOGLE_API_KEY,
+    };
+  },
+
   computed: {
-    mapConfig() {
-      return { ...DEFAULT_MAP_CONFIG };
-    },
-    apiKey() {
-      return GOOGLE_API_KEY;
-    },
     markersOptions() {
       return this.gems.map((gem) => {
         return {
