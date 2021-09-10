@@ -6,7 +6,7 @@ export function useGeolocation() {
     // check if geolocation api is supported
     const isSupported = 'navigator' in window && 'geolocation' in navigator
     
-    let watcher = null
+    let watcher: number | null = null
     onMounted(() => {
         if (isSupported) {
             watcher = navigator.geolocation.watchPosition(
