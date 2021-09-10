@@ -8,32 +8,28 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable no-undef */
 import { defineComponent, PropType } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
-
-interface MapConfig {
-  center: {
-    lat: number;
-    lng: number;
-  };
-  zoom: number;
-}
 
 export default defineComponent({
   props: {
     mapConfig: {
-      type: Object as PropType<MapConfig>,
+      type: Object as PropType<google.maps.MapOptions>,
       required: true,
     },
     apiKey: {
       type: String,
       default: "",
     },
+    markersOptions: {
+      type: Array as PropType<google.maps.MarkerOptions[]>,
+      default: () => [],
+    },
   },
 
   data() {
     return {
-      /* eslint-disable no-undef */
       map: null as google.maps.Map | null,
     };
   },
@@ -50,9 +46,23 @@ export default defineComponent({
       }).load();
 
       this.map = new api.maps.Map(mapContainer, this.mapConfig);
+
+      const shape = {
+        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+        type: "poly",
+      };
+
+      this.markersOptions.forEach((options) => {
+        new api.maps.Marker({
+          ...options,
+          map: this.map,
+          shape,
+        });
+      });
     },
   },
 });
+/* eslint-enable no-undef */
 </script>
 
 <style scoped>
