@@ -45,21 +45,26 @@ export default defineComponent({
   methods: {
     async initializeMap() {
       const mapContainer = this.$refs.googleMap as Element;
-      const api = await new Loader({
+      await new Loader({
         apiKey: this.apiKey,
       }).load();
 
-      this.map = new api.maps.Map(mapContainer, this.mapConfig);
+      this.map = new google.maps.Map(mapContainer, this.mapConfig);
 
+      this.initialiseMarkers();
+      this.initialiseUserMarker();
+    },
+    initialiseMarkers() {
       this.markersOptions.forEach((options) => {
-        new api.maps.Marker({
+        new google.maps.Marker({
           ...options,
           map: this.map,
           // TODO: replace this with gem icon
           // icon:
         });
       });
-
+    },
+    initialiseUserMarker() {
       const svgMarker: google.maps.Symbol = {
         path: google.maps.SymbolPath.CIRCLE,
         fillColor: "#3989fc",
@@ -69,7 +74,7 @@ export default defineComponent({
         scale: 12,
       };
 
-      this.userMarker = new api.maps.Marker({
+      this.userMarker = new google.maps.Marker({
         position: this.mapConfig.center,
         map: this.map,
         icon: svgMarker,
