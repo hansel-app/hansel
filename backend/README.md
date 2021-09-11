@@ -5,8 +5,8 @@
 1. Download and install Go `>= 1.17` [here](https://golang.org/doc/install).
 1. Install the protocol compiler plugins for Go using the following commands:
    ```sh
-   $ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
-   $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
+   $ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+   $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
    ```
 1. Update your `PATH` so that the protocol compiler can find the plugins:
    ```sh
