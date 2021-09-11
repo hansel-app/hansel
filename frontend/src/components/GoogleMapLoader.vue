@@ -78,8 +78,6 @@ export default defineComponent({
   },
 
   watch: {
-    // TODO: replace this with a function that updates the
-    // position of the marker representing the user
     currPosition: function(newVal: hansel.LatLng) {
       this.userMarker?.setPosition(newVal);
     },
