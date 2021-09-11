@@ -17,17 +17,14 @@
 import { computed, defineComponent, PropType } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import GoogleMapLoader from "./GoogleMapLoader.vue";
-
-const DEFAULT_MAP_CONFIG = {
-  center: { lat: 1.3521, lng: 103.8198 },
-  zoom: 18,
-};
+import { DEFAULT_MAP_CONFIG } from "@/constants";
+import { hansel } from "@/interfaces";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
 // TODO: replaced this once Gem interface has been created
 interface TempGem {
-  position: { lat: number; lng: number };
+  position: hansel.LatLng;
 }
 
 export default defineComponent({
@@ -52,10 +49,13 @@ export default defineComponent({
 
   setup() {
     const { coords } = useGeolocation();
-    const currPosition = computed(() => ({
-      lat: coords.value.latitude,
-      lng: coords.value.longitude,
-    }));
+    const currPosition = computed(
+      () =>
+        ({
+          lat: coords.value.lat,
+          lng: coords.value.lng,
+        } as hansel.LatLng)
+    );
 
     return {
       currPosition,
