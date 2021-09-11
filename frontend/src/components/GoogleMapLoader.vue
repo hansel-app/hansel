@@ -35,6 +35,7 @@ export default defineComponent({
   data() {
     return {
       map: null as google.maps.Map | null,
+      userMarker: null as google.maps.Marker | null,
     };
   },
 
@@ -51,18 +52,28 @@ export default defineComponent({
 
       this.map = new api.maps.Map(mapContainer, this.mapConfig);
 
-      // TODO: replace this with actual gem image / shape
-      const shape = {
-        coords: [1, 1, 1, 20, 18, 20, 18, 1],
-        type: "poly",
-      };
-
       this.markersOptions.forEach((options) => {
         new api.maps.Marker({
           ...options,
           map: this.map,
-          shape,
+          // TODO: replace this with gem icon
+          // icon:
         });
+      });
+
+      const svgMarker: google.maps.Symbol = {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: "#3989fc",
+        fillOpacity: 0.8,
+        strokeWeight: 2,
+        strokeColor: "#fff",
+        scale: 12,
+      };
+
+      this.userMarker = new api.maps.Marker({
+        position: this.mapConfig.center,
+        map: this.map,
+        icon: svgMarker,
       });
     },
   },
@@ -70,8 +81,9 @@ export default defineComponent({
   watch: {
     // TODO: replace this with a function that updates the
     // position of the marker representing the user
-    // currPosition: function(newVal: hansel.LatLng) {
-    // },
+    currPosition: function(newVal: hansel.LatLng) {
+      this.userMarker?.setPosition(newVal);
+    },
   },
 });
 /* eslint-enable no-undef */
