@@ -20,6 +20,15 @@
     :zoom-control="mapConfig.zoomControl"
   >
     <template v-if="Boolean(mapRef)">
+      <CustomControl class="center-map-control" position="TOP_RIGHT">
+        <van-button
+          round
+          icon="aim"
+          type="primary"
+          @click="centerMapOnCurrentLocation"
+        />
+      </CustomControl>
+
       <Marker
         v-for="markerOptions in markersOptions"
         :key="markerOptions.id"
@@ -33,7 +42,7 @@
 <script lang="ts">
 import { ref, computed, defineComponent, PropType } from "vue";
 import { useGeolocation } from "../useGeolocation";
-import { GoogleMap, Marker } from "vue3-google-map";
+import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import { DEFAULT_MAP_CONFIG } from "@/constants";
 import { hansel } from "@/interfaces";
 
@@ -64,6 +73,7 @@ export default defineComponent({
   components: {
     GoogleMap,
     Marker,
+    CustomControl,
   },
 
   async setup() {
@@ -115,6 +125,12 @@ export default defineComponent({
       };
     },
   },
+
+  methods: {
+    centerMapOnCurrentLocation() {
+      this.mapRef?.map?.panTo(this.currPosition);
+    },
+  },
 });
 </script>
 
@@ -122,5 +138,9 @@ export default defineComponent({
 .google-map {
   width: 100%;
   height: 80vh;
+}
+
+.google-map .center-map-control {
+  margin: 10px;
 }
 </style>
