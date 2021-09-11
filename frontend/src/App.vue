@@ -4,6 +4,7 @@
       <gem-map></gem-map>
     </template>
     <template #fallback>
+      <!-- TODO: add more useful loading / error message -->
       <div>Loading...</div>
     </template>
   </Suspense>
