@@ -28,12 +28,13 @@
    DB_USERNAME=
    DB_PASSWORD=
    ```
-1. Install PostgreSQL `>= 12` [here](https://www.postgresql.org/download/).
+1. Install PostgreSQL `>= 12` by following the instructions [here](https://www.postgresql.org/download/).
 1. Create and migrate the database:
    ```sh
    $ make createdb
    $ make migratedb
    ```
+1. Install `golangci-lint` by following the instructions [here](https://golangci-lint.run/usage/install/#local-installation).
 1. Run `make run` to start the server.
 
 ## Updating Protocol Buffer Definitions
