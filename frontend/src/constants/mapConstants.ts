@@ -6,6 +6,12 @@ export const SINGAPORE_CENTER: hansel.LatLng = Object.freeze({
 });
 
 export const DEFAULT_MAP_CONFIG: google.maps.MapOptions = Object.freeze({
+  mapTypeControlOptions: {
+    mapTypeIds: ["ROADMAP"],
+  },
+  fullscreenControl: false,
+  streetViewControl: false,
+  zoomControl: false,
   center: SINGAPORE_CENTER,
   zoom: 18,
 });
