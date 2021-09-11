@@ -50,6 +50,7 @@ export default defineComponent({
 
       this.map = new api.maps.Map(mapContainer, this.mapConfig);
 
+      // TODO: replace this with actual gem image / shape
       const shape = {
         coords: [1, 1, 1, 20, 18, 20, 18, 1],
         type: "poly",

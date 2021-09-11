@@ -1,16 +1,14 @@
 <template>
-  <hello-world></hello-world>
   <gem-map></gem-map>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
 import GemMap from "./components/GemMap.vue";
 
 export default defineComponent({
   name: "App",
-  components: { HelloWorld, GemMap },
+  components: { GemMap },
 });
 </script>
 

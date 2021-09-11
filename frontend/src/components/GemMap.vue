@@ -22,7 +22,7 @@ import { hansel } from "@/interfaces";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
-// TODO: replaced this once Gem interface has been created
+// TODO: replace this once Gem interface has been created
 interface TempGem {
   position: hansel.LatLng;
 }
