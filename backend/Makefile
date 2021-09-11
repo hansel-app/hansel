@@ -1,8 +1,8 @@
 BINARY_PATH=./bin/server/server.out
 SERVER_PATH=./cmd/server/main.go
-DB_CREATE_PATH=./cmd/database/create.go
-DB_MIGRATE_PATH=./cmd/database/migrate.go
-DB_DROP_PATH=./cmd/database/drop.go
+DB_CREATE_PATH=./cmd/database/create/main.go
+DB_MIGRATE_PATH=./cmd/database/migrate/main.go
+DB_DROP_PATH=./cmd/database/drop/main.go
 PROTO_DEF_PATH=../api-specs
 PROTO_GO_PATH=./protobuf
 
