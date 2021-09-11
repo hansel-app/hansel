@@ -22,7 +22,7 @@ export function getDistanceFromLatLonInKm(
   return d;
 }
 
-export function formatDistance(km: number): String {
+export function formatDistance(km: number): string {
   return `${km.toFixed(3)} km`;
 }
 
