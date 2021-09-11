@@ -108,16 +108,16 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
 ];
 
-export const DEFAULT_MAP_CONFIG: google.maps.MapOptions = Object.freeze({
+export const DEFAULT_MAP_CONFIG = Object.freeze({
+  center: SINGAPORE_CENTER,
+  fullscreenControl: false,
   mapTypeControlOptions: {
     mapTypeIds: ["ROADMAP"],
   },
-  fullscreenControl: false,
-  streetViewControl: false,
-  zoomControl: false,
-  styles: mapStyles,
-  center: SINGAPORE_CENTER,
-  zoom: 18,
-  minZoom: 16,
   maxZoom: 20,
+  minZoom: 3,
+  streetViewControl: false,
+  styles: mapStyles,
+  zoom: 18,
+  zoomControl: false,
 });
