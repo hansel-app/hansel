@@ -14,6 +14,9 @@ import { Loader } from "@googlemaps/js-api-loader";
 
 export default defineComponent({
   props: {
+    currPosition: {
+      type: Object as PropType<{ lat: number; lng: number }>,
+    },
     mapConfig: {
       type: Object as PropType<google.maps.MapOptions>,
       required: true,
@@ -59,6 +62,12 @@ export default defineComponent({
           shape,
         });
       });
+    },
+  },
+
+  watch: {
+    currPosition: function(newVal: { lat: number; lng: number }) {
+      this.map?.panTo(newVal);
     },
   },
 });

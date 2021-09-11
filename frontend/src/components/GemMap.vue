@@ -6,6 +6,7 @@
   </div>
 
   <google-map-loader
+    :currPosition="currPosition"
     :mapConfig="mapConfig"
     :apiKey="apiKey"
     :markersOptions="markersOptions"
@@ -19,7 +20,7 @@ import GoogleMapLoader from "./GoogleMapLoader.vue";
 
 const DEFAULT_MAP_CONFIG = {
   center: { lat: 1.3521, lng: 103.8198 },
-  zoom: 13,
+  zoom: 18,
 };
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
@@ -56,13 +57,10 @@ export default defineComponent({
       lng: coords.value.longitude,
     }));
 
-    return { currPosition };
-  },
-
-  data() {
     return {
-      mapConfig: { ...DEFAULT_MAP_CONFIG },
+      currPosition,
       apiKey: GOOGLE_API_KEY,
+      mapConfig: { ...DEFAULT_MAP_CONFIG },
     };
   },
 
