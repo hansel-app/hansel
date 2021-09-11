@@ -42,6 +42,9 @@
       "eslint:recommended",
       "@vue/typescript"
     ],
+    "globals": {
+      "google": "readonly"
+    },
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },

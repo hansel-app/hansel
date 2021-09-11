@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable no-undef */
 import { defineComponent, PropType } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
 import { hansel } from "@/interfaces";
@@ -86,7 +85,6 @@ export default defineComponent({
     },
   },
 });
-/* eslint-enable no-undef */
 </script>
 
 <style scoped>
