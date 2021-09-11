@@ -14,4 +14,6 @@ export const DEFAULT_MAP_CONFIG: google.maps.MapOptions = Object.freeze({
   zoomControl: false,
   center: SINGAPORE_CENTER,
   zoom: 18,
+  minZoom: 16,
+  maxZoom: 20,
 });
