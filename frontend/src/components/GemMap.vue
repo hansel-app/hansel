@@ -20,13 +20,23 @@
     :zoom-control="mapConfig.zoomControl"
   >
     <template v-if="Boolean(mapRef)">
-      <CustomControl class="center-map-control" position="TOP_RIGHT">
+      <CustomControl class="top-right-controls" position="TOP_RIGHT">
         <van-button
           round
           icon="aim"
           type="primary"
           @click="centerMapOnCurrentLocation"
         />
+      </CustomControl>
+      <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
+        <van-button round icon="arrow-left" type="primary" @click="prevGem" />
+        <van-button
+          round
+          icon="aim"
+          type="primary"
+          @click="centerMapOnCurrentLocation"
+        />
+        <van-button round icon="arrow" type="primary" @click="nextGem" />
       </CustomControl>
 
       <Marker
@@ -45,6 +55,7 @@ import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import { DEFAULT_MAP_CONFIG } from "@/constants";
 import { hansel } from "@/interfaces";
+import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -97,7 +108,21 @@ export default defineComponent({
     };
   },
 
+  data() {
+    return {
+      currGemIdx: 0,
+    };
+  },
+
   computed: {
+    sortedGems() {
+      return [...this.gems].sort((gem1, gem2) => {
+        return (
+          getDistanceFromLatLonInKm(gem1.position, this.currPosition) -
+          getDistanceFromLatLonInKm(gem2.position, this.currPosition)
+        );
+      });
+    },
     markersOptions() {
       return this.gems.map((gem) => {
         return {
@@ -130,6 +155,16 @@ export default defineComponent({
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
     },
+    nextGem() {
+      this.currGemIdx = (this.currGemIdx + 1) % this.sortedGems.length;
+      const currGem = this.sortedGems[this.currGemIdx];
+      this.mapRef?.map?.panTo(currGem.position);
+    },
+    prevGem() {
+      this.currGemIdx = (this.currGemIdx - 1) % this.sortedGems.length;
+      const currGem = this.sortedGems[this.currGemIdx];
+      this.mapRef?.map?.panTo(currGem.position);
+    },
   },
 });
 </script>
@@ -139,8 +174,14 @@ export default defineComponent({
   width: 100%;
   height: 80vh;
 }
-
-.google-map .center-map-control {
+.google-map .top-right-controls {
   margin: 10px;
+}
+
+.google-map .bottom-controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
 }
 </style>
