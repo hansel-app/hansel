@@ -11,11 +11,12 @@
 /* eslint-disable no-undef */
 import { defineComponent, PropType } from "vue";
 import { Loader } from "@googlemaps/js-api-loader";
+import { hansel } from "@/interfaces";
 
 export default defineComponent({
   props: {
     currPosition: {
-      type: Object as PropType<{ lat: number; lng: number }>,
+      type: Object as PropType<hansel.LatLng>,
     },
     mapConfig: {
       type: Object as PropType<google.maps.MapOptions>,
@@ -67,7 +68,7 @@ export default defineComponent({
   },
 
   watch: {
-    currPosition: function(newVal: { lat: number; lng: number }) {
+    currPosition: function(newVal: hansel.LatLng) {
       this.map?.panTo(newVal);
     },
   },
