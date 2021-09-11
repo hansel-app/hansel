@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
-	"github.com/hansel-app/hansel/protobuf/gemsapi"
-	"google.golang.org/grpc"
 	"log"
+
+	"google.golang.org/grpc"
+
+	"github.com/hansel-app/hansel/protobuf/gemsapi"
 )
 
 // TODO: Remove this proof of concept. To be executed when the server is running.

@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 	"fmt"
+
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
 )

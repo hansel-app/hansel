@@ -5,8 +5,8 @@
 1. Download and install Go `>= 1.17` [here](https://golang.org/doc/install).
 1. Install the protocol compiler plugins for Go using the following commands:
    ```sh
-   $ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.26
-   $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
+   $ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+   $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
    ```
 1. Update your `PATH` so that the protocol compiler can find the plugins:
    ```sh
@@ -28,12 +28,15 @@
    DB_USERNAME=
    DB_PASSWORD=
    ```
-1. Install PostgreSQL `>= 12` [here](https://www.postgresql.org/download/).
+1. Install PostgreSQL `>= 12` by following the instructions [here](https://www.postgresql.org/download/).
 1. Create and migrate the database:
    ```sh
    $ make createdb
    $ make migratedb
    ```
+1. Install `golangci-lint` by following the instructions [here](https://golangci-lint.run/usage/install/#local-installation).
+1. Optionally, you can integrate the linter with your IDE if it is supported by following the instructions [here](https://golangci-lint.run/usage/integrations/).
+   Otherwise, you will need to run `make fmt` and `make lintfix` to automatically format and fix any lint violations before you commit any changes, or add a pre-commit Git hook that does it for you automatically.
 1. Run `make run` to start the server.
 
 ## Updating Protocol Buffer Definitions

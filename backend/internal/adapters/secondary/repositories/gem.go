@@ -2,9 +2,11 @@ package repositories
 
 import (
 	"fmt"
+
 	"github.com/doug-martin/goqu/v9"
-	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/jmoiron/sqlx"
+
+	"github.com/hansel-app/hansel/internal/core/domain/gems"
 )
 
 type gemRepository struct {

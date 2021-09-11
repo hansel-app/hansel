@@ -1,0 +1,38 @@
+name: gosec
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  gosec:
+    name: check
+    runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.17.1'
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
+        with:
+          version: '3.x'
+      - name: Compile Protocol Buffer Definitions
+        working-directory: backend
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          make proto
+      - name: Run Gosec Security Scanner
+        working-directory: backend
+        run: |
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          gosec ./...

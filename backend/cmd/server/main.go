@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net"
+
+	"google.golang.org/grpc"
+
 	"github.com/hansel-app/hansel/internal/adapters/primary/handlers"
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
 	"github.com/hansel-app/hansel/internal/config"
-	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func main() {
