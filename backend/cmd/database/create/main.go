@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
 	"github.com/hansel-app/hansel/internal/config"
-	"log"
 )
 
 func main() {
