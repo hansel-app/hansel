@@ -47,8 +47,8 @@ export default defineComponent({
     GoogleMapLoader,
   },
 
-  setup() {
-    const { coords } = useGeolocation();
+  async setup() {
+    const { coords, getLocation } = useGeolocation();
     const currPosition = computed(
       () =>
         ({
@@ -56,11 +56,12 @@ export default defineComponent({
           lng: coords.value.lng,
         } as hansel.LatLng)
     );
+    const initPos = await getLocation();
 
     return {
       currPosition,
       apiKey: GOOGLE_API_KEY,
-      mapConfig: { ...DEFAULT_MAP_CONFIG },
+      mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
     };
   },
 

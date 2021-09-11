@@ -8,7 +8,23 @@ export function useGeolocation() {
   // check if geolocation api is supported
   const isSupported = "navigator" in window && "geolocation" in navigator;
 
+  async function getLocation(): Promise<hansel.LatLng> {
+    return new Promise((resolve, reject) => {
+      if (!isSupported) {
+        reject(new Error("Geolocation is not supported."));
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        },
+        (err) => reject(err)
+      );
+    });
+  }
+
   let watcher: number | null = null;
+
   onMounted(() => {
     if (isSupported) {
       watcher = navigator.geolocation.watchPosition(
@@ -23,5 +39,6 @@ export function useGeolocation() {
   onUnmounted(() => {
     if (watcher) navigator.geolocation.clearWatch(watcher);
   });
-  return { coords, isSupported };
+
+  return { coords, isSupported, getLocation };
 }

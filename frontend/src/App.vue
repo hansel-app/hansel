@@ -1,5 +1,12 @@
 <template>
-  <gem-map></gem-map>
+  <Suspense>
+    <template #default>
+      <gem-map></gem-map>
+    </template>
+    <template #fallback>
+      <div>Loading...</div>
+    </template>
+  </Suspense>
 </template>
 
 <script>

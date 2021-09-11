@@ -68,9 +68,10 @@ export default defineComponent({
   },
 
   watch: {
-    currPosition: function(newVal: hansel.LatLng) {
-      this.map?.panTo(newVal);
-    },
+    // TODO: replace this with a function that updates the
+    // position of the marker representing the user
+    // currPosition: function(newVal: hansel.LatLng) {
+    // },
   },
 });
 /* eslint-enable no-undef */
