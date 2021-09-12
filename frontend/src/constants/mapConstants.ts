@@ -115,7 +115,7 @@ export const DEFAULT_MAP_CONFIG = Object.freeze({
     mapTypeIds: ["ROADMAP"],
   },
   maxZoom: 20,
-  minZoom: 3,
+  minZoom: 16,
   streetViewControl: false,
   styles: mapStyles,
   zoom: 18,

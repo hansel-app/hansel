@@ -28,7 +28,11 @@
           @click="centerMapOnCurrentLocation"
         />
       </CustomControl>
-      <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
+      <CustomControl
+        v-if="gems.length > 0"
+        class="bottom-controls"
+        position="BOTTOM_CENTER"
+      >
         <van-button round icon="arrow-left" type="primary" @click="prevGem" />
         <van-button
           round
@@ -156,10 +160,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(this.currPosition);
     },
     nextGem() {
-      if (this.sortedGems.length == 0) {
-        // TODO: add better handling of this case
-        return;
-      }
+      console.assert(this.sortedGems.length > 0);
 
       if (this.currGemIdx === null) {
         this.currGemIdx = 0;
@@ -170,10 +171,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(currGem.position);
     },
     prevGem() {
-      if (this.sortedGems.length == 0) {
-        // TODO: add better handling of this case
-        return;
-      }
+      console.assert(this.sortedGems.length > 0);
 
       if (this.currGemIdx === null || this.currGemIdx === 0) {
         this.currGemIdx = this.sortedGems.length - 1;
