@@ -156,12 +156,25 @@ export default defineComponent({
       this.mapRef?.map?.panTo(this.currPosition);
     },
     nextGem() {
+      if (this.sortedGems.length == 0) {
+        // TODO: add better handling of this case
+        return;
+      }
       this.currGemIdx = (this.currGemIdx + 1) % this.sortedGems.length;
       const currGem = this.sortedGems[this.currGemIdx];
       this.mapRef?.map?.panTo(currGem.position);
     },
     prevGem() {
-      this.currGemIdx = (this.currGemIdx - 1) % this.sortedGems.length;
+      if (this.sortedGems.length == 0) {
+        // TODO: add better handling of this case
+        return;
+      }
+
+      if (this.currGemIdx == 0) {
+        this.currGemIdx = this.sortedGems.length - 1;
+      } else {
+        this.currGemIdx -= 1;
+      }
       const currGem = this.sortedGems[this.currGemIdx];
       this.mapRef?.map?.panTo(currGem.position);
     },
