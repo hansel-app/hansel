@@ -5,15 +5,119 @@ export const SINGAPORE_CENTER: hansel.LatLng = Object.freeze({
   lng: 103.8198,
 });
 
-export const DEFAULT_MAP_CONFIG: google.maps.MapOptions = Object.freeze({
+// copy-pasted from https://snazzymaps.com/style/124771/google-maps-clean
+const mapStyles: google.maps.MapTypeStyle[] = [
+  {
+    featureType: "administrative",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "landscape",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.attraction",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.business",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.business",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.business",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.government",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.school",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.school",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+];
+
+export const DEFAULT_MAP_CONFIG = Object.freeze({
+  center: SINGAPORE_CENTER,
+  fullscreenControl: false,
   mapTypeControlOptions: {
     mapTypeIds: ["ROADMAP"],
   },
-  fullscreenControl: false,
-  streetViewControl: false,
-  zoomControl: false,
-  center: SINGAPORE_CENTER,
-  zoom: 18,
-  minZoom: 16,
   maxZoom: 20,
+  minZoom: 16,
+  streetViewControl: false,
+  styles: mapStyles,
+  zoom: 18,
+  zoomControl: false,
 });
