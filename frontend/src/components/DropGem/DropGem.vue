@@ -1,7 +1,7 @@
 <template>
+  <NavBar v-bind:left-arrow="currentStageIdx > 0" @click-left="prevStage" />
   <router-view class="select-friend" v-bind:name="currentStage"></router-view>
   <div>
-    <button v-if="currentStageIdx > 0" v-on:click="prevStage">Previous</button>
     <button v-if="currentStageIdx < stages.length - 1" v-on:click="nextStage">
       Next
     </button>
@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { NavBar } from "vant";
 
 export default defineComponent({
   data() {
@@ -34,6 +35,9 @@ export default defineComponent({
         this.currentStageIdx -= 1;
       }
     },
+  },
+  components: {
+    NavBar,
   },
 });
 </script>
