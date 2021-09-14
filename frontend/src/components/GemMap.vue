@@ -4,7 +4,7 @@
     Latitude: {{ currPosition.lat.toFixed(2) }}, Longitude:
     {{ currPosition.lng.toFixed(2) }}
   </div>
-
+  <router-link :to="{ name: 'dropGem' }">Drop Gem</router-link>
   <GoogleMap
     ref="mapRef"
     class="google-map"

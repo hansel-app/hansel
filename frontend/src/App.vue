@@ -1,7 +1,7 @@
 <template>
   <Suspense>
     <template #default>
-      <gem-map></gem-map>
+      <router-view :key="$route.fullPath"></router-view>
     </template>
     <template #fallback>
       <!-- TODO: add more useful loading / error message -->
@@ -12,11 +12,9 @@
 
 <script>
 import { defineComponent } from "vue";
-import GemMap from "./components/GemMap.vue";
 
 export default defineComponent({
   name: "App",
-  components: { GemMap },
 });
 </script>
 
