@@ -1,10 +1,4 @@
 <template>
-  <div>
-    <h4>Hello Friendos</h4>
-    Latitude: {{ currPosition.lat.toFixed(2) }}, Longitude:
-    {{ currPosition.lng.toFixed(2) }}
-  </div>
-  <router-link :to="{ name: 'dropGem' }">Drop Gem</router-link>
   <GoogleMap
     ref="mapRef"
     class="google-map"
@@ -70,7 +64,7 @@ import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import { DEFAULT_MAP_CONFIG, GEM_PICKUP_RADIUS_THRESHOLD } from "@/constants";
 import { hansel } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
@@ -90,46 +84,7 @@ export default defineComponent({
   props: {
     gems: {
       type: Array as PropType<TempGem[]>,
-      // TODO: replace this with empty array once gems can be fetched
-      // from an actual data source
-      default: () => [
-        {
-          id: 1,
-          position: { lat: 1.2966, lng: 103.7764 },
-          dropper: "Bobby",
-          dropTime: dayjs(),
-        },
-        {
-          id: 2,
-          position: { lat: 1.3483, lng: 103.6831 },
-          dropper: "Bobby",
-          dropTime: dayjs(),
-        },
-        {
-          id: 3,
-          position: { lat: 1.3644, lng: 103.9915 },
-          dropper: "Bobby",
-          dropTime: dayjs(),
-        },
-        {
-          id: 4,
-          position: { lat: 1.4382, lng: 103.7891 },
-          dropper: "Bobby",
-          dropTime: dayjs(),
-        },
-        {
-          id: 5,
-          position: { lat: 1.3109, lng: 103.7952 },
-          dropper: "Bobby",
-          dropTime: dayjs(),
-        },
-        {
-          id: 6,
-          position: { lat: 1.3309, lng: 103.8752 },
-          dropper: "Bobby",
-          dropTime: dayjs(),
-        },
-      ],
+      default: () => [],
     },
   },
   components: {
