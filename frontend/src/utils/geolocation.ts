@@ -23,7 +23,12 @@ export function getDistanceFromLatLonInKm(
 }
 
 export function formatDistance(km: number): string {
-  return `${km.toFixed(3)} km`;
+  // return `${km.toFixed(3)} km`;
+  if (km >= 1) {
+    return `${km.toFixed(3)} km`;
+  } else {
+    return `${(km * 1000).toFixed(0)} m`;
+  }
 }
 
 function degreesToRadian(deg: number): number {
