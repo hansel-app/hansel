@@ -76,7 +76,7 @@ interface TempGem {
   dropper: string;
 }
 
-type MarkerOptions = TempGem &
+type GemMarkerOptions = TempGem &
   Pick<google.maps.MarkerOptions, "map" | "position">;
 
 export default defineComponent({
@@ -181,7 +181,7 @@ export default defineComponent({
         return {
           ...gem,
         };
-      }) as MarkerOptions[];
+      }) as GemMarkerOptions[];
     },
     userMarkerOptions() {
       if (!this.mapRef?.ready) {
@@ -208,6 +208,7 @@ export default defineComponent({
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
     },
+
     nextGem() {
       console.assert(this.sortedGems.length > 0);
 
@@ -230,7 +231,8 @@ export default defineComponent({
       const currGem = this.sortedGems[this.currGemIdx];
       this.mapRef?.map?.panTo(currGem.position);
     },
-    onGemMarkerClick(markerOptions: MarkerOptions) {
+
+    onGemMarkerClick(markerOptions: GemMarkerOptions) {
       const marker = Array.from(this.gemMarkerRefs).find(
         (marker) => marker.$props.options.position == markerOptions.position
       );
