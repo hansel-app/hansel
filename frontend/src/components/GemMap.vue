@@ -241,7 +241,7 @@ export default defineComponent({
 <style scoped>
 .google-map {
   width: 100%;
-  height: 80vh;
+  height: 100vh;
 }
 .google-map .top-right-controls {
   margin: 10px;

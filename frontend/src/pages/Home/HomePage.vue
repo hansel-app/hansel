@@ -1,6 +1,14 @@
 <template>
   <router-link :to="{ name: 'dropGem' }">Drop Gem</router-link>
-  <gem-map :gems="gems" />
+  <Suspense>
+    <template #default>
+      <gem-map :gems="gems" />
+    </template>
+    <template #fallback>
+      <!-- TODO: add more useful loading / error message -->
+      <div>Loading...</div>
+    </template>
+  </Suspense>
 </template>
 
 <script lang="ts">
