@@ -67,7 +67,7 @@ import {
 } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
-import { DEFAULT_MAP_CONFIG } from "@/constants";
+import { DEFAULT_MAP_CONFIG, GEM_PICKUP_RADIUS_THRESHOLD } from "@/constants";
 import { hansel } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import dayjs, { Dayjs } from "dayjs";
@@ -240,15 +240,28 @@ export default defineComponent({
     },
 
     onGemMarkerClick(markerOptions: GemMarkerOptions) {
+      const distFromSelf = getDistanceFromLatLonInKm(
+        markerOptions.position,
+        this.currPosition
+      );
+
+      if (distFromSelf >= GEM_PICKUP_RADIUS_THRESHOLD) {
+        this.showGemMarkerInfoWindow(markerOptions, distFromSelf);
+      } else {
+        // TODO: pick up gem
+      }
+    },
+
+    showGemMarkerInfoWindow(
+      markerOptions: GemMarkerOptions,
+      distFromSelf: number
+    ) {
       const marker = Array.from(this.gemMarkerRefs).find(
         (marker) => marker.$props.options.position == markerOptions.position
       );
 
       const infoWindow = createApp(GemMarkerInfoWindow, {
-        distance: getDistanceFromLatLonInKm(
-          markerOptions.position,
-          this.currPosition
-        ),
+        distance: distFromSelf,
         dropperName: markerOptions.dropper,
         dropTime: markerOptions.dropTime,
         dropperAvatar: "TODO",

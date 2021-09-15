@@ -1,5 +1,8 @@
 import { hansel } from "@/interfaces";
 
+// Distance in km
+export const GEM_PICKUP_RADIUS_THRESHOLD = 0.2;
+
 export const SINGAPORE_CENTER: hansel.LatLng = Object.freeze({
   lat: 1.3521,
   lng: 103.8198,
@@ -108,10 +111,10 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
 ];
 
-// Note: if adding new fields to this object, do remember to
+// Note: when adding new fields to this object, do remember to
 // pass it as a parameter to the GoogleMap component.
-// (I don't know why the library doesn't want to just take in a config object
-// which is what the original Google API does...)
+// (I don't know why the vue3-google-map library doesn't want to just take
+// in a config object which is what the original Google API does...)
 export const DEFAULT_MAP_CONFIG = Object.freeze({
   center: SINGAPORE_CENTER,
   fullscreenControl: false,
