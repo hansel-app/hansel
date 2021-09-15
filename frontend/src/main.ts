@@ -7,7 +7,7 @@ import {
   AttachMessage,
   DropGem,
   SelectFriend,
-} from "./components/DropGem/index";
+} from "./pages/DropGem/index";
 import GemMap from "./components/GemMap.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";

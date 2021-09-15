@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
 import { mockFriends } from "./mockData";
-import FriendCell from "../shared/FriendCell.vue";
+import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
   setup() {},

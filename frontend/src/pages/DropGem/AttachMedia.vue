@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Button, Row } from "vant";
-import GemHeader from "../shared/GemHeader.vue";
+import GemHeader from "@/components/GemHeader.vue";
 import GemColorCarousel from "./GemColorCarousel.vue";
 
 export default defineComponent({

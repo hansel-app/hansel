@@ -25,7 +25,6 @@ enum DropGemStage {
 }
 
 export default defineComponent({
-  setup() {},
   data() {
     return {
       currentStage: DropGemStage.friend as DropGemStage,

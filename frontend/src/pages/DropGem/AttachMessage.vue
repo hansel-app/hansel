@@ -13,7 +13,7 @@
 <script>
 import { defineComponent } from "vue";
 import { Button, Field } from "vant";
-import GemHeader from "../shared/GemHeader.vue";
+import GemHeader from "@/components/GemHeader.vue";
 
 export default defineComponent({
   components: {
