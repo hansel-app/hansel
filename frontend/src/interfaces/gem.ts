@@ -4,8 +4,8 @@ export interface Gem {
 }
 
 export interface GemColor {
-  // Hex code
-  selectionColor: String;
-  tintColor: String;
+  selectionColor: HexCode;
+  tintColor: HexCode;
 }
 
+type HexCode = String;
