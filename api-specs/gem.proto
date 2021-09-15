@@ -2,6 +2,8 @@ syntax = "proto3";
 package gemsapi;
 option go_package = "/gemsapi";
 
+import "google/protobuf/timestamp.proto";
+
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
@@ -19,12 +21,17 @@ message DropResponse {
 }
 
 message GetRequest {
-  int64 id = 1;
+  int64 gem_id = 1;
+  int64 receiver_id = 2;
 }
 
 message GetResponse {
-  int64 id = 1;
-  string message = 2;
+  int64 gem_id = 1;
+  int64 sender_id = 2;
+  google.protobuf.Timestamp time = 3;
+  string location = 4;
+  string message = 5;
+  bytes image = 6;
 }
 
 message SayHelloRequest {
