@@ -1,5 +1,4 @@
 <template>
-  <router-link :to="{ name: 'dropGem' }">Drop Gem</router-link>
   <Suspense>
     <template #default>
       <gem-map :gems="gems" />

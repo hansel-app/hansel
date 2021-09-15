@@ -29,12 +29,7 @@
         position="BOTTOM_CENTER"
       >
         <van-button round icon="arrow-left" type="primary" @click="prevGem" />
-        <van-button
-          round
-          icon="aim"
-          type="primary"
-          @click="centerMapOnCurrentLocation"
-        />
+        <van-button round icon="plus" type="primary" @click="goToDropGem" />
         <van-button round icon="arrow" type="primary" @click="nextGem" />
       </CustomControl>
 
@@ -61,7 +56,11 @@ import {
 } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
-import { DEFAULT_MAP_CONFIG, GEM_PICKUP_RADIUS_THRESHOLD } from "@/constants";
+import {
+  DEFAULT_MAP_CONFIG,
+  DROP_GEM_ROUTE,
+  GEM_PICKUP_RADIUS_THRESHOLD,
+} from "@/constants";
 import { hansel } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import { Dayjs } from "dayjs";
@@ -192,6 +191,9 @@ export default defineComponent({
       }
       const currGem = this.sortedGems[this.currGemIdx];
       this.mapRef?.map?.panTo(currGem.position);
+    },
+    goToDropGem() {
+      this.$router.push(DROP_GEM_ROUTE);
     },
 
     onGemMarkerClick(markerOptions: GemMarkerOptions) {
