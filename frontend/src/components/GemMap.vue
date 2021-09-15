@@ -57,14 +57,21 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, PropType, onBeforeUpdate } from "vue";
+import {
+  createApp,
+  ref,
+  computed,
+  defineComponent,
+  PropType,
+  onBeforeUpdate,
+} from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import { DEFAULT_MAP_CONFIG } from "@/constants";
 import { hansel } from "@/interfaces";
-import { formatDistance, getDistanceFromLatLonInKm } from "@/utils/geolocation";
+import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import dayjs, { Dayjs } from "dayjs";
-import { formatDateTime } from "@/utils/date";
+import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -237,16 +244,18 @@ export default defineComponent({
         (marker) => marker.$props.options.position == markerOptions.position
       );
 
-      const contentString =
-        '<div id="bodyContent">' +
-        `<p>${formatDistance(
-          getDistanceFromLatLonInKm(
-            markerOptions.position as hansel.LatLng,
-            this.currPosition
-          )
-        )} away</p>` +
-        `<p>From ${markerOptions.dropper}</p>` +
-        `<p>${formatDateTime(markerOptions.dropTime)}</p>`;
+      const infoWindow = createApp(GemMarkerInfoWindow, {
+        distance: getDistanceFromLatLonInKm(
+          markerOptions.position,
+          this.currPosition
+        ),
+        dropperName: markerOptions.dropper,
+        dropTime: markerOptions.dropTime,
+        dropperAvatar: "TODO",
+      });
+      const el = document.createElement("div");
+      const mountedApp = infoWindow.mount(el);
+      const contentString = mountedApp.$el.outerHTML;
 
       const gemMarkerInfoWindow = new google.maps.InfoWindow({
         content: contentString,
