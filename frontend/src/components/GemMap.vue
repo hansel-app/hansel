@@ -10,6 +10,7 @@
     class="google-map"
     :api-key="apiKey"
     :center="currPosition"
+    :clickable-icons="mapConfig.clickableIcons"
     :fullscreen-control="mapConfig.fullscreenControl"
     :map-type-control-options="mapConfig.mapTypeControlOptions"
     :max-zoom="mapConfig.maxZoom"
@@ -44,7 +45,9 @@
       </CustomControl>
 
       <Marker
-        v-for="markerOptions in markersOptions"
+        :ref="setGemMarkerRef"
+        v-for="markerOptions in gemMarkerOptions"
+        @click="onGemMarkerClick(markerOptions)"
         :key="markerOptions.id"
         :options="markerOptions"
       />
@@ -54,12 +57,14 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, PropType } from "vue";
+import { ref, computed, defineComponent, PropType, onBeforeUpdate } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import { DEFAULT_MAP_CONFIG } from "@/constants";
 import { hansel } from "@/interfaces";
-import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
+import { formatDistance, getDistanceFromLatLonInKm } from "@/utils/geolocation";
+import dayjs, { Dayjs } from "dayjs";
+import { formatDateTime } from "@/utils/date";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -67,7 +72,12 @@ const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 interface TempGem {
   id: number;
   position: hansel.LatLng;
+  dropTime: Dayjs;
+  dropper: string;
 }
+
+type MarkerOptions = TempGem &
+  Pick<google.maps.MarkerOptions, "map" | "position">;
 
 export default defineComponent({
   props: {
@@ -76,12 +86,42 @@ export default defineComponent({
       // TODO: replace this with empty array once gems can be fetched
       // from an actual data source
       default: () => [
-        { id: 1, position: { lat: 1.2966, lng: 103.7764 } },
-        { id: 2, position: { lat: 1.3483, lng: 103.6831 } },
-        { id: 3, position: { lat: 1.3644, lng: 103.9915 } },
-        { id: 4, position: { lat: 1.4382, lng: 103.7891 } },
-        { id: 5, position: { lat: 1.3109, lng: 103.7952 } },
-        { id: 6, position: { lat: 1.3309, lng: 103.8752 } },
+        {
+          id: 1,
+          position: { lat: 1.2966, lng: 103.7764 },
+          dropper: "Bobby",
+          dropTime: dayjs(),
+        },
+        {
+          id: 2,
+          position: { lat: 1.3483, lng: 103.6831 },
+          dropper: "Bobby",
+          dropTime: dayjs(),
+        },
+        {
+          id: 3,
+          position: { lat: 1.3644, lng: 103.9915 },
+          dropper: "Bobby",
+          dropTime: dayjs(),
+        },
+        {
+          id: 4,
+          position: { lat: 1.4382, lng: 103.7891 },
+          dropper: "Bobby",
+          dropTime: dayjs(),
+        },
+        {
+          id: 5,
+          position: { lat: 1.3109, lng: 103.7952 },
+          dropper: "Bobby",
+          dropTime: dayjs(),
+        },
+        {
+          id: 6,
+          position: { lat: 1.3309, lng: 103.8752 },
+          dropper: "Bobby",
+          dropTime: dayjs(),
+        },
       ],
     },
   },
@@ -93,6 +133,17 @@ export default defineComponent({
 
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
+    let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
+
+    const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
+      if (el) {
+        gemMarkerRefs.add(el);
+      }
+    };
+
+    onBeforeUpdate(() => {
+      gemMarkerRefs = new Set();
+    });
 
     const { coords, getLocation } = useGeolocation();
     const currPosition = computed(
@@ -102,19 +153,17 @@ export default defineComponent({
           lng: coords.value.lng,
         } as hansel.LatLng)
     );
+
     const initPos = await getLocation();
 
     return {
       mapRef,
+      gemMarkerRefs,
+      setGemMarkerRef,
       currPosition,
+      currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
-    };
-  },
-
-  data() {
-    return {
-      currGemIdx: null as number | null,
     };
   },
 
@@ -127,12 +176,12 @@ export default defineComponent({
         );
       });
     },
-    markersOptions() {
+    gemMarkerOptions() {
       return this.gems.map((gem) => {
         return {
           ...gem,
         };
-      });
+      }) as MarkerOptions[];
     },
     userMarkerOptions() {
       if (!this.mapRef?.ready) {
@@ -180,6 +229,31 @@ export default defineComponent({
       }
       const currGem = this.sortedGems[this.currGemIdx];
       this.mapRef?.map?.panTo(currGem.position);
+    },
+    onGemMarkerClick(markerOptions: MarkerOptions) {
+      const marker = Array.from(this.gemMarkerRefs).find(
+        (marker) => marker.$props.options.position == markerOptions.position
+      );
+
+      const contentString =
+        '<div id="bodyContent">' +
+        `<p>${formatDistance(
+          getDistanceFromLatLonInKm(
+            markerOptions.position as hansel.LatLng,
+            this.currPosition
+          )
+        )} away</p>` +
+        `<p>From ${markerOptions.dropper}</p>` +
+        `<p>${formatDateTime(markerOptions.dropTime)}</p>`;
+
+      const gemMarkerInfoWindow = new google.maps.InfoWindow({
+        content: contentString,
+      });
+      gemMarkerInfoWindow.open({
+        anchor: marker?.marker.component.value,
+        map: this.mapRef?.map,
+        shouldFocus: false,
+      });
     },
   },
 });
