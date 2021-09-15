@@ -4,6 +4,7 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import DropGem from "./components/DropGem.vue";
 import GemMap from "./components/GemMap.vue";
+import FoundGem from "./components/PickupGem/FoundGem.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";
 import "./registerServiceWorker";
@@ -13,6 +14,7 @@ const router = createRouter({
   routes: [
     { path: "/", name: "home", component: GemMap },
     { path: "/drop", name: "dropGem", component: DropGem },
+    { path: "/pickup", name: "pickupGem", component: FoundGem },
   ],
 });
 
