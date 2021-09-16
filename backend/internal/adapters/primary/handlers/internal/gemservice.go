@@ -59,7 +59,7 @@ func (s *gemService) GetPendingCollectionByUser(c context.Context, r *gemsapi.Ge
 			Latitude:   gem.Latitude,
 			Longitude:  gem.Longitude,
 			CreatorId:  gem.CreatorId,
-			CreatedAt:  &timestamppb.Timestamp{Seconds: gem.CreatedAt.Unix()},
+			CreatedAt:  timestamppb.New(gem.CreatedAt),
 			ReceiverId: gem.ReceiverId,
 		}
 		processedGems = append(processedGems, &processedGem)
