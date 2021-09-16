@@ -95,6 +95,7 @@ export default defineComponent({
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
+    const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
 
     const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
       if (el) {
@@ -120,6 +121,7 @@ export default defineComponent({
     return {
       mapRef,
       gemMarkerRefs,
+      gemMarkerInfoWindowRef,
       setGemMarkerRef,
       currPosition,
       currGemIdx: null as null | number,
@@ -227,13 +229,20 @@ export default defineComponent({
       const mountedApp = infoWindow.mount(el);
       const contentString = mountedApp.$el.outerHTML;
 
-      const gemMarkerInfoWindow = new google.maps.InfoWindow({
-        content: contentString,
-      });
-      gemMarkerInfoWindow.open({
+      if (!this.gemMarkerInfoWindowRef) {
+        this.gemMarkerInfoWindowRef = new google.maps.InfoWindow();
+      }
+      // Close the existing window (if any)
+      this.gemMarkerInfoWindowRef.close();
+      this.gemMarkerInfoWindowRef.setContent(contentString);
+      this.gemMarkerInfoWindowRef.open({
         anchor: marker?.marker.component.value,
         map: this.mapRef?.map,
         shouldFocus: false,
+      });
+
+      this.mapRef?.map?.addListener("click", () => {
+        this.gemMarkerInfoWindowRef?.close();
       });
     },
   },
