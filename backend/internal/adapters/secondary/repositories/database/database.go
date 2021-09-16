@@ -42,6 +42,7 @@ func buildDSN(cfg *config.Config) string {
 	return dsn
 }
 
+// From https://stackoverflow.com/a/56616250
 func camelToSnake(s string) string {
 	var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
 	var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
