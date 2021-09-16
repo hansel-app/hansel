@@ -35,7 +35,7 @@ export default {
   position:absolute;
   text-align:center;
   top: 3em;
-  width: 100%
+  width: 100%;
 }
 h1 {
   font-family: CircularStd-Black;
