@@ -12,6 +12,7 @@
     "dayjs": "^1.10.7",
     "google-protobuf": "^3.18.0-rc.2",
     "grpc-web": "^1.2.1",
+    "protoc-gen-grpc-web": "^1.2.1",
     "register-service-worker": "^1.7.1",
     "vant": "^3.2.2",
     "vue": "^3.0.0",

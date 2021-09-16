@@ -7,9 +7,6 @@
    ```
    $ nodenv install 16.9.1
    ```
-1. Download the `protoc-gen-grpc-web` protoc plugin [here](https://github.com/grpc/grpc-web/releases).
-1. Make the `protoc-gen-grpc-web` protoc plugin executable and move it into a location discoverable from your `PATH` environment variable.
-   For an example of this, take a look [here](https://github.com/grpc/grpc-web#code-generator-plugin).
 1. Install the project dependencies:
    ```
    $ npm install
