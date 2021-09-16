@@ -23,6 +23,8 @@ dropdb:
 	@echo "Dropping database..."
 	@go run ${DB_DROP_PATH}
 
+setupdb: createdb migratedb seeddb
+
 build: proto
 	@echo "Building server at ${BINARY_PATH}..."
 	@go build -o ${BINARY_PATH} ${SERVER_PATH}

@@ -21,7 +21,7 @@ func main() {
 	}
 
 	seedPath := filepath.Join("seeds", "seed.sql")
-	c, ioErr := ioutil.ReadFile(seedPath)
+	c, ioErr := ioutil.ReadFile(filepath.Clean(seedPath))
 	if ioErr != nil {
 		log.Fatalf("failed to read seed file: %v", err)
 	}
