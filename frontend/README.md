@@ -1,6 +1,15 @@
-# frontend
+# Hansel Frontend
 
 ## Project setup
+
+Install `nodenv` by following the instructions [here](https://github.com/nodenv/nodenv#installation).
+Then, install Node `16.9.1` via:
+```
+nodenv install 16.9.1
+```
+
+Next, install the project dependencies:
+
 ```
 npm install
 ```
