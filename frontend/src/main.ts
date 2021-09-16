@@ -8,7 +8,8 @@ import {
   DropGem,
   SelectFriend,
 } from "./pages/DropGem/index";
-import GemMap from "./components/GemMap.vue";
+import { DROP_GEM_ROUTE, HOME_ROUTE } from "@/constants";
+import HomePage from "./pages/Home/HomePage.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";
 import "./registerServiceWorker";
@@ -16,9 +17,9 @@ import "./registerServiceWorker";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: "/", name: "home", component: GemMap },
+    { path: HOME_ROUTE, name: "home", component: HomePage },
     {
-      path: "/drop",
+      path: DROP_GEM_ROUTE,
       name: "dropGem",
       component: DropGem,
       children: [
