@@ -2,11 +2,25 @@ syntax = "proto3";
 package gemsapi;
 option go_package = "/gemsapi";
 
+import "google/protobuf/timestamp.proto";
+
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
+  rpc GetPendingCollectionByUser (GetPendingCollectionByUserRequest) returns (GetPendingCollectionByUserResponse);
   rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
   // TODO: Replace placeholder methods.
+}
+
+message Gem {
+  int64 id = 1;
+  string message = 2;
+  double latitude = 3;
+  double longitude = 4;
+  int64 creator_id = 5;
+  google.protobuf.Timestamp created_at = 6;
+  int64 receiver_id = 7;
+  google.protobuf.Timestamp received_at = 8;
 }
 
 message DropRequest {
@@ -25,6 +39,14 @@ message GetRequest {
 message GetResponse {
   int64 id = 1;
   string message = 2;
+}
+
+message GetPendingCollectionByUserRequest {
+  int64 userId = 1;
+}
+
+message GetPendingCollectionByUserResponse {
+  repeated Gem gems = 1;
 }
 
 message SayHelloRequest {

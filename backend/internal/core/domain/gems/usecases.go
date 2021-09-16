@@ -17,3 +17,7 @@ func (u *UseCases) Drop(message string) (*Gem, error) {
 func (u *UseCases) Get(id int64) (*Gem, error) {
 	return u.repository.Get(id)
 }
+
+func (u *UseCases) GetPendingCollectionByUser(userId int64) ([]Gem, error) {
+	return u.repository.GetPendingCollectionByUser(userId)
+}

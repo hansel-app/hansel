@@ -6,6 +6,7 @@ import (
 
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type gemService struct {
@@ -40,6 +41,32 @@ func (s *gemService) Get(c context.Context, r *gemsapi.GetRequest) (*gemsapi.Get
 	return &gemsapi.GetResponse{
 		Id:      gem.ID,
 		Message: gem.Message,
+	}, nil
+}
+
+func (s *gemService) GetPendingCollectionByUser(c context.Context, r *gemsapi.GetPendingCollectionByUserRequest) (*gemsapi.GetPendingCollectionByUserResponse, error) {
+	gems, err := s.usecases.GetPendingCollectionByUser(r.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	processedGems := []*gemsapi.Gem{}
+
+	for _, gem := range gems {
+		processedGem := gemsapi.Gem{
+			Id:         gem.ID,
+			Message:    gem.Message,
+			Latitude:   gem.Latitude,
+			Longitude:  gem.Longitude,
+			CreatorId:  gem.CreatorId,
+			CreatedAt:  timestamppb.New(gem.CreatedAt),
+			ReceiverId: gem.ReceiverId,
+		}
+		processedGems = append(processedGems, &processedGem)
+	}
+
+	return &gemsapi.GetPendingCollectionByUserResponse{
+		Gems: processedGems,
 	}, nil
 }
 
