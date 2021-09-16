@@ -32,3 +32,4 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           working-directory: backend
+          skip-pkg-cache: true
