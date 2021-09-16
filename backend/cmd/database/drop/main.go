@@ -32,5 +32,5 @@ func main() {
 	}
 
 	db.MustExec("DROP DATABASE " + dbName)
-	log.Printf("Successfully created database '%s'", dbName)
+	log.Printf("Successfully dropped database '%s'", dbName)
 }
