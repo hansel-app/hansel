@@ -2,7 +2,12 @@ import Vant from "vant";
 import { createApp } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
 
-import DropGem from "./components/DropGem.vue";
+import {
+  AttachMedia,
+  AttachMessage,
+  DropGem,
+  SelectFriend,
+} from "./pages/DropGem/index";
 import { DROP_GEM_ROUTE, HOME_ROUTE } from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
 import App from "./App.vue";
@@ -13,7 +18,21 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: HOME_ROUTE, name: "home", component: HomePage },
-    { path: DROP_GEM_ROUTE, name: "dropGem", component: DropGem },
+    {
+      path: DROP_GEM_ROUTE,
+      name: "dropGem",
+      component: DropGem,
+      children: [
+        {
+          path: "",
+          components: {
+            friend: SelectFriend,
+            media: AttachMedia,
+            message: AttachMessage,
+          },
+        },
+      ],
+    },
   ],
 });
 
