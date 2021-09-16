@@ -2,6 +2,7 @@ BINARY_PATH=./bin/server/server.out
 SERVER_PATH=./cmd/server/main.go
 DB_CREATE_PATH=./cmd/database/create/main.go
 DB_MIGRATE_PATH=./cmd/database/migrate/main.go
+DB_SEED_PATH=./cmd/database/seed/main.go
 DB_DROP_PATH=./cmd/database/drop/main.go
 PROTO_DEF_PATH=../api-specs
 PROTO_GO_PATH=./protobuf
@@ -14,9 +15,15 @@ migratedb:
 	@echo "Migrating database..."
 	@go run ${DB_MIGRATE_PATH}
 
+seeddb:
+	@echo "Seeding database..."
+	@go run ${DB_SEED_PATH}
+
 dropdb:
 	@echo "Dropping database..."
 	@go run ${DB_DROP_PATH}
+
+setupdb: createdb migratedb seeddb
 
 build: proto
 	@echo "Building server at ${BINARY_PATH}..."

@@ -1,0 +1,57 @@
+<template>
+  <NavBar v-bind:left-arrow="currentStage > 0" @click-left="prevStage" />
+  <router-view class="select-friend" :name="currentStageName"></router-view>
+  <div>
+    <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
+      Next
+    </button>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { NavBar } from "vant";
+
+// TODO: configure eslint to not flag enums as unused vars
+
+// eslint-disable-next-line no-unused-vars
+enum DropGemStage {
+  // eslint-disable-next-line no-unused-vars
+  friend,
+  // eslint-disable-next-line no-unused-vars
+  media,
+  // eslint-disable-next-line no-unused-vars
+  message,
+}
+
+export default defineComponent({
+  data() {
+    return {
+      currentStage: DropGemStage.friend as DropGemStage,
+    };
+  },
+  computed: {
+    numStages(): number {
+      return Object.keys(DropGemStage).length / 2;
+    },
+    currentStageName(): String {
+      return DropGemStage[this.currentStage];
+    },
+  },
+  methods: {
+    nextStage() {
+      if (this.currentStage < this.numStages - 1) {
+        this.currentStage += 1;
+      }
+    },
+    prevStage() {
+      if (this.currentStage > 0) {
+        this.currentStage -= 1;
+      }
+    },
+  },
+  components: {
+    NavBar,
+  },
+});
+</script>
