@@ -2,7 +2,7 @@
   <!-- <div  :style="{'background-image':'url('+backgroundUrl+');'}"> -->
   <div class="bg-container">
     <div class="found-gem">
-      <h1>You found a gem!!</h1>
+      <h1>You found a gem!</h1>
       <button>View contents</button>
     </div>
   </div>
@@ -18,17 +18,28 @@ export default {
 };
 </script>
 <style scoped>
-html, body {
-    height:100%;
-    margin: 0;
-    padding: 0;
-}
-* {
-    box-sizing: border-box;
-}
 .bg-container {
   height:100vh;
-  border:5px solid red;
-  background: url("../../assets/purple-gem.png") no-repeat center center fixed; 
+  position: relative;
+  background-image: url("../../assets/purple-gem.png"); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.found-gem {
+  left: 0;
+  position:absolute;
+  text-align:center;
+  top: 3em;
+  width: 100%
+}
+h1 {
+  font-family: CircularStd-Black;
+  font-size: 3em;
+  color: black;
 }
 </style>
