@@ -14,6 +14,11 @@
 1. Set up the necesary environment variables by running `cp .env.local.sample .env.local` and then editing `.env` with the relevant values.
    For `VUE_APP_GOOGLE_API_KEY`, you can get your own key following the instructions here: https://cloud.google.com/docs/authentication/api-keys#creating_an_api_key
 
+## Updating Protocol Buffer Definitions
+
+After changing the definitions of the Protocol Buffer, run `npm run proto` to regenerate the respective TypeScript / JavaScript files.
+Note that `npm run serve` and `npm run build` also regenerate the TypeScript / JavaScript files automatically.
+
 ## Useful Commands
 
 ### Compiles and hot-reloads for development
