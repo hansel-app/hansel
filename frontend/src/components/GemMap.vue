@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <h4>Hello Friendos</h4>
-    Latitude: {{ currPosition.lat.toFixed(2) }}, Longitude:
-    {{ currPosition.lng.toFixed(2) }}
-  </div>
-  <router-link :to="{ name: 'dropGem' }">Drop Gem</router-link>
   <GoogleMap
     ref="mapRef"
     class="google-map"
     :api-key="apiKey"
     :center="currPosition"
+    :clickable-icons="mapConfig.clickableIcons"
     :fullscreen-control="mapConfig.fullscreenControl"
     :map-type-control-options="mapConfig.mapTypeControlOptions"
     :max-zoom="mapConfig.maxZoom"
@@ -34,17 +29,14 @@
         position="BOTTOM_CENTER"
       >
         <van-button round icon="arrow-left" type="primary" @click="prevGem" />
-        <van-button
-          round
-          icon="aim"
-          type="primary"
-          @click="centerMapOnCurrentLocation"
-        />
+        <van-button round icon="plus" type="primary" @click="goToDropGem" />
         <van-button round icon="arrow" type="primary" @click="nextGem" />
       </CustomControl>
 
       <Marker
-        v-for="markerOptions in markersOptions"
+        :ref="setGemMarkerRef"
+        v-for="markerOptions in gemMarkerOptions"
+        @click="onGemMarkerClick(markerOptions)"
         :key="markerOptions.id"
         :options="markerOptions"
       />
@@ -54,12 +46,25 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, PropType } from "vue";
+import {
+  createApp,
+  ref,
+  computed,
+  defineComponent,
+  PropType,
+  onBeforeUpdate,
+} from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
-import { DEFAULT_MAP_CONFIG } from "@/constants";
+import {
+  DEFAULT_MAP_CONFIG,
+  DROP_GEM_ROUTE,
+  GEM_PICKUP_RADIUS_THRESHOLD,
+} from "@/constants";
 import { hansel } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
+import { Dayjs } from "dayjs";
+import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -67,22 +72,18 @@ const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 interface TempGem {
   id: number;
   position: hansel.LatLng;
+  dropTime: Dayjs;
+  dropper: string;
 }
+
+type GemMarkerOptions = TempGem &
+  Pick<google.maps.MarkerOptions, "map" | "position">;
 
 export default defineComponent({
   props: {
     gems: {
       type: Array as PropType<TempGem[]>,
-      // TODO: replace this with empty array once gems can be fetched
-      // from an actual data source
-      default: () => [
-        { id: 1, position: { lat: 1.2966, lng: 103.7764 } },
-        { id: 2, position: { lat: 1.3483, lng: 103.6831 } },
-        { id: 3, position: { lat: 1.3644, lng: 103.9915 } },
-        { id: 4, position: { lat: 1.4382, lng: 103.7891 } },
-        { id: 5, position: { lat: 1.3109, lng: 103.7952 } },
-        { id: 6, position: { lat: 1.3309, lng: 103.8752 } },
-      ],
+      default: () => [],
     },
   },
   components: {
@@ -93,6 +94,18 @@ export default defineComponent({
 
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
+    let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
+    const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
+
+    const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
+      if (el) {
+        gemMarkerRefs.add(el);
+      }
+    };
+
+    onBeforeUpdate(() => {
+      gemMarkerRefs = new Set();
+    });
 
     const { coords, getLocation } = useGeolocation();
     const currPosition = computed(
@@ -102,19 +115,18 @@ export default defineComponent({
           lng: coords.value.lng,
         } as hansel.LatLng)
     );
+
     const initPos = await getLocation();
 
     return {
       mapRef,
+      gemMarkerRefs,
+      gemMarkerInfoWindowRef,
+      setGemMarkerRef,
       currPosition,
+      currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
-    };
-  },
-
-  data() {
-    return {
-      currGemIdx: null as number | null,
     };
   },
 
@@ -127,12 +139,12 @@ export default defineComponent({
         );
       });
     },
-    markersOptions() {
+    gemMarkerOptions() {
       return this.gems.map((gem) => {
         return {
           ...gem,
         };
-      });
+      }) as GemMarkerOptions[];
     },
     userMarkerOptions() {
       if (!this.mapRef?.ready) {
@@ -159,6 +171,7 @@ export default defineComponent({
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
     },
+
     nextGem() {
       console.assert(this.sortedGems.length > 0);
 
@@ -168,7 +181,9 @@ export default defineComponent({
         this.currGemIdx = (this.currGemIdx + 1) % this.sortedGems.length;
       }
       const currGem = this.sortedGems[this.currGemIdx];
+
       this.mapRef?.map?.panTo(currGem.position);
+      this.showGemMarkerInfoWindow(currGem);
     },
     prevGem() {
       console.assert(this.sortedGems.length > 0);
@@ -179,7 +194,62 @@ export default defineComponent({
         this.currGemIdx -= 1;
       }
       const currGem = this.sortedGems[this.currGemIdx];
+
       this.mapRef?.map?.panTo(currGem.position);
+      this.showGemMarkerInfoWindow(currGem);
+    },
+    goToDropGem() {
+      this.$router.push(DROP_GEM_ROUTE);
+    },
+
+    onGemMarkerClick(markerOptions: GemMarkerOptions) {
+      const distFromSelf = getDistanceFromLatLonInKm(
+        markerOptions.position,
+        this.currPosition
+      );
+
+      if (distFromSelf >= GEM_PICKUP_RADIUS_THRESHOLD) {
+        this.showGemMarkerInfoWindow(markerOptions);
+      } else {
+        // TODO: pick up gem
+      }
+    },
+
+    showGemMarkerInfoWindow(gem: TempGem) {
+      const marker = Array.from(this.gemMarkerRefs).find(
+        (marker) => marker.$props.options.position == gem.position
+      );
+
+      const distFromSelf = getDistanceFromLatLonInKm(
+        gem.position,
+        this.currPosition
+      );
+
+      const infoWindow = createApp(GemMarkerInfoWindow, {
+        distance: distFromSelf,
+        dropperName: gem.dropper,
+        dropTime: gem.dropTime,
+        dropperAvatar: "TODO",
+      });
+      const el = document.createElement("div");
+      const mountedApp = infoWindow.mount(el);
+      const contentString = mountedApp.$el.outerHTML;
+
+      if (!this.gemMarkerInfoWindowRef) {
+        this.gemMarkerInfoWindowRef = new google.maps.InfoWindow();
+      }
+      // Close the existing window (if any)
+      this.gemMarkerInfoWindowRef.close();
+      this.gemMarkerInfoWindowRef.setContent(contentString);
+      this.gemMarkerInfoWindowRef.open({
+        anchor: marker?.marker.component.value,
+        map: this.mapRef?.map,
+        shouldFocus: false,
+      });
+
+      this.mapRef?.map?.addListener("click", () => {
+        this.gemMarkerInfoWindowRef?.close();
+      });
     },
   },
 });
@@ -188,7 +258,7 @@ export default defineComponent({
 <style scoped>
 .google-map {
   width: 100%;
-  height: 80vh;
+  height: 100vh;
 }
 .google-map .top-right-controls {
   margin: 10px;

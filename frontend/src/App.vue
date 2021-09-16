@@ -1,13 +1,5 @@
 <template>
-  <Suspense>
-    <template #default>
-      <router-view :key="$route.fullPath"></router-view>
-    </template>
-    <template #fallback>
-      <!-- TODO: add more useful loading / error message -->
-      <div>Loading...</div>
-    </template>
-  </Suspense>
+  <router-view :key="$route.fullPath"></router-view>
 </template>
 
 <script>
@@ -25,6 +17,5 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

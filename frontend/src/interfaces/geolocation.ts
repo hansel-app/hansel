@@ -1,6 +1,3 @@
 export namespace hansel {
-  export interface LatLng {
-    lat: number;
-    lng: number;
-  }
+  export type LatLng = Pick<google.maps.LatLngLiteral, "lat" | "lng">;
 }
