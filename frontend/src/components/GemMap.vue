@@ -181,7 +181,9 @@ export default defineComponent({
         this.currGemIdx = (this.currGemIdx + 1) % this.sortedGems.length;
       }
       const currGem = this.sortedGems[this.currGemIdx];
+
       this.mapRef?.map?.panTo(currGem.position);
+      this.showGemMarkerInfoWindow(currGem);
     },
     prevGem() {
       console.assert(this.sortedGems.length > 0);
@@ -192,7 +194,9 @@ export default defineComponent({
         this.currGemIdx -= 1;
       }
       const currGem = this.sortedGems[this.currGemIdx];
+
       this.mapRef?.map?.panTo(currGem.position);
+      this.showGemMarkerInfoWindow(currGem);
     },
     goToDropGem() {
       this.$router.push(DROP_GEM_ROUTE);
@@ -205,24 +209,26 @@ export default defineComponent({
       );
 
       if (distFromSelf >= GEM_PICKUP_RADIUS_THRESHOLD) {
-        this.showGemMarkerInfoWindow(markerOptions, distFromSelf);
+        this.showGemMarkerInfoWindow(markerOptions);
       } else {
         // TODO: pick up gem
       }
     },
 
-    showGemMarkerInfoWindow(
-      markerOptions: GemMarkerOptions,
-      distFromSelf: number
-    ) {
+    showGemMarkerInfoWindow(gem: TempGem) {
       const marker = Array.from(this.gemMarkerRefs).find(
-        (marker) => marker.$props.options.position == markerOptions.position
+        (marker) => marker.$props.options.position == gem.position
+      );
+
+      const distFromSelf = getDistanceFromLatLonInKm(
+        gem.position,
+        this.currPosition
       );
 
       const infoWindow = createApp(GemMarkerInfoWindow, {
         distance: distFromSelf,
-        dropperName: markerOptions.dropper,
-        dropTime: markerOptions.dropTime,
+        dropperName: gem.dropper,
+        dropTime: gem.dropTime,
         dropperAvatar: "TODO",
       });
       const el = document.createElement("div");
