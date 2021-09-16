@@ -38,6 +38,21 @@ func (r *gemRepository) GetAllForUser(userId int64) ([]gems.Gem, error) {
 	return []gems.Gem{}, nil
 }
 
+func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, error) {
+	sql, _, _ := qb.From("gems").Where(
+		goqu.C("receiver_id").Eq(userId),
+		goqu.C("received_at").IsNull(),
+	).ToSQL()
+
+	var gems []gems.Gem
+	err := r.db.Select(&gems, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get gems pending collection for user with id %d: %w", userId, err)
+	}
+
+	return gems, nil
+}
+
 func (r *gemRepository) Add(message string) (*gems.Gem, error) {
 	sql, _, _ := qb.Insert("gems").Rows(goqu.Record{
 		"message": message,
