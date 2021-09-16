@@ -4,7 +4,7 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import DropGem from "./components/DropGem.vue";
 import GemMap from "./components/GemMap.vue";
-import FoundGem from "./components/PickupGem/FoundGem.vue";
+import FoundGem from "./pages/PickupGem/FoundGem.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";
 import "./registerServiceWorker";
