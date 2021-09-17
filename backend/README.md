@@ -27,7 +27,10 @@
    DB_NAME=hansel_development
    DB_USERNAME=
    DB_PASSWORD=
+   DB_SSLMODE=
    ```
+
+   Note that if you are connecting via `localhost`, you might need to set `DB_SSLMODE=disable`.
 1. Install PostgreSQL `>= 12` by following the instructions [here](https://www.postgresql.org/download/).
 1. Create and migrate the database:
    ```sh
