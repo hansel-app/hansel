@@ -15,7 +15,7 @@ func main() {
 
 	dbName := cfg.DBName
 	cfg.DBName = ""
-	db, err := database.NewDatabase(cfg)
+	db, err := database.New(cfg)
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
