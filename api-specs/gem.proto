@@ -18,9 +18,9 @@ message Gem {
   double latitude = 3;
   double longitude = 4;
   int64 creator_id = 5;
-  int64 receiver_id = 7;
   google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp received_at = 8;
+  google.protobuf.Timestamp received_at = 7;
+  int64 receiver_id = 8;
   enum Colour {
     PURPLE = 0;
     PINK = 1;
@@ -29,8 +29,8 @@ message Gem {
     YELLOW = 4;
     GREEN = 5;
   }
-  Colour colour = 8;
-  bytes image = 9;
+  Colour colour = 9;
+  bytes image = 10;
 }
 
 message DropRequest {
