@@ -1,5 +1,5 @@
 <template>
-  <NavBar left-arrow @click-left="goToHome" />
+  <NavBar left-arrow @click-left="goBack" />
   <AvatarHeader
     :avatarUrl="placeholderAvatarUrl"
     :displayName="mockSelfUser.displayName"
@@ -9,12 +9,14 @@
   <CellGroup>
     <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
   </CellGroup>
+  <Button round type="primary" @click="goToAddFriends"> <Icon name="plus"/> </Button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { NavBar } from "vant";
+import { Button, Icon, NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
+import { ADD_FRIENDS_ROUTE } from "@/constants";
 import AvatarHeader from "./AvatarHeader.vue";
 import FriendCell from "@/components/FriendCell.vue";
 
@@ -29,13 +31,18 @@ export default defineComponent({
     };
   },
   methods: {
-    goToHome() {
+    goBack() {
       this.$router.back();
     },
+    goToAddFriends() {
+      this.$router.push(ADD_FRIENDS_ROUTE);
+    }
   },
   components: {
     AvatarHeader,
+    Button,
     FriendCell,
+    Icon,
     NavBar,
   },
 });
