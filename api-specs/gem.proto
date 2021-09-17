@@ -24,12 +24,11 @@ message Gem {
 }
 
 message DropRequest {
-  string message = 1;
+  Gem gem = 1;
 }
 
 message DropResponse {
-  int64 id = 1;
-  string message = 2;
+  Gem droppedGem = 1;
 }
 
 message GetRequest {

@@ -22,14 +22,13 @@ func NewGemService(repository gems.Repository) *gemService {
 }
 
 func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.DropResponse, error) {
-	gem, err := s.usecases.Drop(r.Message)
+	gem, err := s.usecases.Drop(r.gem)
 	if err != nil {
 		return nil, err
 	}
 
 	return &gemsapi.DropResponse{
-		Id:      gem.ID,
-		Message: gem.Message,
+		droppedGem: r.gem
 	}, nil
 }
 

@@ -53,10 +53,13 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 	return gems, nil
 }
 
-func (r *gemRepository) Add(message string) (*gems.Gem, error) {
-	sql, _, _ := qb.Insert("gems").Rows(goqu.Record{
-		"message": message,
-	}).Returning(goqu.T("gems").All()).ToSQL()
+func (r *gemRepository) Add(*gems.Gem gem) (*gems.Gem, error) {
+	sql, _, _ := qb.Insert("gems").Rows(
+		goqu.Record{
+			"message": gem.message, "latitude": gem.latitude, "longitude": gem.longitude,
+			"creator_id": gem.creator_id
+		}
+	).Returning(goqu.T("gems").All()).ToSQL()
 
 	var gem gems.Gem
 	err := r.db.Get(&gem, sql)
