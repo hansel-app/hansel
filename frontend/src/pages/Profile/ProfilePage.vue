@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <NavBar left-arrow @click-left="goToHome"/>
   <AvatarHeader
     :avatarUrl="placeholderAvatarUrl"
     :displayName="mockSelfUser.displayName"
@@ -15,6 +15,7 @@
 import { defineComponent } from "vue";
 import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
+import { HOME_ROUTE } from "@/constants";
 import AvatarHeader from "./AvatarHeader.vue";
 import FriendCell from "@/components/FriendCell.vue";
 
@@ -27,6 +28,11 @@ export default defineComponent({
       mockSelfUser,
       mockFriends,
     };
+  },
+  methods: {
+    goToHome() {
+      this.$router.replace(HOME_ROUTE);
+    }
   },
   components: {
     AvatarHeader,
