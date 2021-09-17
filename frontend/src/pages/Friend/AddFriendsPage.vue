@@ -8,7 +8,10 @@
       :key="user.id"
       :friend="user"
       :shouldDisplayUsername="true"
-    />
+    >
+      <!-- TODO: find correct add user icon -->
+      <van-icon name="user-o" @click="addFriend" />
+    </FriendCell>
   </CellGroup>
 </template>
 
@@ -28,24 +31,26 @@ export default defineComponent({
   data() {
     return {
       mockFriends,
-      searchQuery: '',
+      searchQuery: "",
     };
   },
   computed: {
-      filteredUsers() {
-          if (!this.searchQuery) {
-              // Don't display any users when search bar is empty.
-              return [];
-          }
-          return mockFriends.filter(
-              user => user.username.indexOf(this.searchQuery) === 0
-          );
+    filteredUsers() {
+      if (!this.searchQuery) {
+        // Don't display any users when search bar is empty.
+        return [];
       }
-
+      return mockFriends.filter(
+        (user) => user.username.indexOf(this.searchQuery) === 0
+      );
+    },
   },
   methods: {
     goBack() {
       this.$router.back();
+    },
+    addFriend() {
+      console.log("add friend");
     },
   },
 });

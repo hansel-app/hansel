@@ -9,6 +9,9 @@
       <!-- TODO: replace with user's own avatar -->
       <CircleAvatar :avatarUrl="placeholderAvatarUrl" />
     </template>
+    <template #right-icon>
+      <slot />
+    </template>
   </Cell>
 </template>
 
