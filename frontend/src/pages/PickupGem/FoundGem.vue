@@ -1,22 +1,32 @@
 <template>
   <div class="bg-container">
-    <div class="found-gem">
+    <video autoplay muted poster="@/assets/images/gem-purple-found.png" id="gem-video">
+      <source src="@/assets/gem-purple-found.mp4" type="video/mp4">
+    </video>
+    <div id="found-gem">
       <h1>You found a gem!</h1>
     </div>
-    <div id="hi">
-      <input type="button" class="button" value="View contents">
+    <div id="view-button">
+      <van-button>View contents</van-button>
     </div>
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      // backgroundUrl: require('../../assets/purple-gem.png')
-      //image: { backgroundImage: "../../assets/purple-gem.png" }
-    };
-  }
-};
+import { defineComponent } from "vue";
+import { Button } from "vant";
+
+export default defineComponent({
+  props: {
+    gemColor: {
+      // TODO: change bg src according to colour of gem
+      type: String,
+      enum: ['purple', 'pink', 'blue', 'black', 'yellow', 'green']
+    }
+  },
+  components: { 
+    "van-button": Button,
+  },
+});
 </script>
 <style scoped>
 .bg-container {
@@ -24,16 +34,9 @@ export default {
   text-align: center;
   height:100vh;
   position: relative;
-  background-image: url("../../assets/purple-gem.png"); 
-  background-size: cover;
-  background-position: 50% 50%;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
 }
 
-.found-gem {
+#found-gem {
   box-sizing: border-box;
   padding: 2em;
   display: inline-block;
@@ -43,26 +46,29 @@ export default {
   width: 100%;
 }
 
-.large-button {
-  position: absolute;
-  bottom: 0;
-  margin: 0 auto;
+#gem-video {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
-#hi {
-  position: absolute; 
-  bottom: 20%; 
-  left: 50%; 
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-
-.button {
+.van-button {
   padding: 1em 2em;
   background-color: black;
   border: none;
   border-radius: 2em;
   color: white;
+}
+
+#view-button {
+  position: absolute; 
+  bottom: 20%; 
+  left: 50%; 
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
 h1 {
