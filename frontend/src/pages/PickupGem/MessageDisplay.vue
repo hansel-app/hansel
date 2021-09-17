@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import BottomDrawer from "@/components/MessageBottomSheet.vue";
+import BottomDrawer from "@/components/BottomSheet/MessageBottomSheet.vue";
 
 export default defineComponent({
   components: {

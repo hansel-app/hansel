@@ -21,3 +21,4 @@ export default defineComponent({
   components: { Image },
 });
 </script>
+

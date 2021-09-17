@@ -8,10 +8,13 @@ import {
   DropGem,
   SelectFriend,
 } from "./pages/DropGem/index";
+import {
+  PickupGem,
+  FoundGem,
+  MessageDisplay
+} from "./pages/PickupGem/index";
 import { DROP_GEM_ROUTE, HOME_ROUTE, PICKUP_GEM_ROUTE } from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
-import FoundGem from "./pages/PickupGem/FoundGem.vue";
-import Temp from "./pages/PickupGem/MessageDisplay.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";
 import "./registerServiceWorker";
@@ -35,8 +38,20 @@ const router = createRouter({
         },
       ],
     },
-    { path: PICKUP_GEM_ROUTE, name: "pickupGem", component: FoundGem },
-    { path: '/temp', name: "Temp", component: Temp },
+    { 
+      path: PICKUP_GEM_ROUTE, 
+      name: "pickupGem", 
+      component: PickupGem,
+      children: [
+        {
+          path: "",
+          components: {
+            FoundGem: FoundGem,
+            MessageDisplay: MessageDisplay,
+          }
+        }
+      ]
+    },
   ],
 });
 
