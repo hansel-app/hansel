@@ -2,10 +2,15 @@ package interceptors
 
 import (
 	"context"
+	"log"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 
 	"github.com/hansel-app/hansel/internal/auth"
+	"github.com/hansel-app/hansel/internal/contextkeys"
 )
 
 type AuthInterceptor struct {
@@ -24,7 +29,12 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		req interface{},
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
-	) (resp interface{}, err error) {
+	) (interface{}, error) {
+		ctx, err := i.authorize(ctx, info.FullMethod)
+		if err != nil {
+			return nil, err
+		}
+
 		return handler(ctx, req)
 	}
 }
@@ -36,6 +46,37 @@ func (i *AuthInterceptor) Stream() grpc.StreamServerInterceptor {
 		info *grpc.StreamServerInfo,
 		handler grpc.StreamHandler,
 	) error {
+		// TODO: Update the stream server with the new context.
+		_, err := i.authorize(stream.Context(), info.FullMethod)
+		if err != nil {
+			return err
+		}
+
 		return handler(srv, stream)
 	}
+}
+
+func (i *AuthInterceptor) authorize(ctx context.Context, method string) (context.Context, error) {
+	// TODO: Add exceptions for login and registration methods.
+	log.Println(method)
+
+	m, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return ctx, status.Errorf(codes.Unauthenticated, "missing metadata")
+	}
+
+	values := m["authorization"]
+	if len(values) == 0 {
+		return ctx, status.Errorf(codes.Unauthenticated, "missing authorization token")
+	}
+
+	accessToken := values[0]
+	claims, err := i.jwtManager.Verify(accessToken)
+	if err != nil {
+		return ctx, status.Errorf(codes.Unauthenticated, "invalid access token: %v", err)
+	}
+
+	// Add the user ID to the context for use in requests.
+	ctx = context.WithValue(ctx, contextkeys.UserID, claims.UserID)
+	return ctx, nil
 }
