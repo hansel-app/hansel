@@ -3,7 +3,12 @@
   <h3>Choose a receiver</h3>
   <Search placeholder="Search a friend" />
   <CellGroup>
-    <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
+    <FriendCell
+      v-for="user in mockFriends"
+      :key="user.id"
+      :friend="user"
+      isClickable="true"
+    />
   </CellGroup>
 </template>
 
