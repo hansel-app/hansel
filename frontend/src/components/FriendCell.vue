@@ -19,7 +19,7 @@ export default defineComponent({
     friend: User,
     isClickable: {
       type: Boolean,
-      defualt: () => false,
+      default: () => false,
     }
   },
   data() {

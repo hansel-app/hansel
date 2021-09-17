@@ -27,10 +27,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.circle-avatar {
-  width: 4rem;
-  height: 4rem;
-}
-</style>
