@@ -15,7 +15,7 @@ type JWTManager struct {
 	tokenDuration *time.Duration
 }
 
-func New(secretKey string, tokenDuration *time.Duration) *JWTManager {
+func NewJWTManager(secretKey string, tokenDuration *time.Duration) *JWTManager {
 	return &JWTManager{
 		secretKey:     secretKey,
 		tokenDuration: tokenDuration,

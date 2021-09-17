@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
+	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/internal/config"
 	"github.com/hansel-app/hansel/internal/server"
 )
@@ -27,7 +28,9 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	s := server.New(db)
+	jwtManager := auth.NewJWTManager(cfg.SecretKey, nil)
+
+	s := server.New(db, jwtManager)
 	log.Printf("Starting server on port %d...", cfg.ServerPort)
 	err = s.Serve(l)
 	if err != nil {
