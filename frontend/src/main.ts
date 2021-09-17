@@ -8,8 +8,9 @@ import {
   DropGem,
   SelectFriend,
 } from "./pages/DropGem/index";
-import { DROP_GEM_ROUTE, HOME_ROUTE } from "@/constants";
+import { DROP_GEM_ROUTE, HOME_ROUTE, PROFILE_ROUTE } from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
+import ProfilePage from "./pages/Profile/ProfilePage.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";
 import "./registerServiceWorker";
@@ -33,6 +34,7 @@ const router = createRouter({
         },
       ],
     },
+    { path: PROFILE_ROUTE, component: ProfilePage },
   ],
 });
 

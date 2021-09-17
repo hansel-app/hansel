@@ -12,7 +12,7 @@
 <script>
 import { defineComponent } from "vue";
 import { Button, Row } from "vant";
-import { mockGems } from "./mockData";
+import { mockGems } from "@/interfaces/mockData";
 
 export default defineComponent({
   data() {
