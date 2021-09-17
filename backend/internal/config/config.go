@@ -21,6 +21,7 @@ type Config struct {
 	DBName      string
 	DBUsername  string
 	DBPassword  string
+	DBSSLMode   string
 }
 
 const (
@@ -102,6 +103,7 @@ func (c *Config) loadConfig() error {
 	}
 	c.DBUsername = os.Getenv("DB_USERNAME")
 	c.DBPassword = os.Getenv("DB_PASSWORD")
+	c.DBSSLMode = os.Getenv("DB_SSLMODE")
 
 	return nil
 }

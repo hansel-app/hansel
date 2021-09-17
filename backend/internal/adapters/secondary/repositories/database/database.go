@@ -39,6 +39,9 @@ func buildDSN(cfg *config.Config) string {
 	if cfg.DBPassword != "" {
 		dsn += fmt.Sprintf(" password=%v", cfg.DBPassword)
 	}
+	if cfg.DBSSLMode != "" {
+		dsn += fmt.Sprintf(" sslmode=%v", cfg.DBSSLMode)
+	}
 	return dsn
 }
 
