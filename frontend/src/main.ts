@@ -11,7 +11,7 @@ import {
 import { DROP_GEM_ROUTE, HOME_ROUTE, PICKUP_GEM_ROUTE } from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
 import FoundGem from "./pages/PickupGem/FoundGem.vue";
-import Temp from "./pages/PickupGem/GemImage.vue";
+import Temp from "./pages/PickupGem/MessageDisplay.vue";
 import App from "./App.vue";
 import "vant/lib/index.css";
 import "./registerServiceWorker";
@@ -36,7 +36,7 @@ const router = createRouter({
       ],
     },
     { path: PICKUP_GEM_ROUTE, name: "pickupGem", component: FoundGem },
-    { path: '/helo', name: "Helo", component: Temp },
+    { path: '/temp', name: "Temp", component: Temp },
   ],
 });
 

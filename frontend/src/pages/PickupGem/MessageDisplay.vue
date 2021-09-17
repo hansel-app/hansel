@@ -1,19 +1,15 @@
 <template>
   <div class="bg-container" :style="addBackground">
-    <van-popup v-model="show" position="bottom" :style="{ width: '100%', height: '100%' }">
-      <div>
-        <h1>内容s</h1>
-      </div>
-    </van-popup>
+    <BottomDrawer/>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Popup } from "vant";
+import BottomDrawer from "@/components/MessageBottomSheet.vue";
 
 export default defineComponent({
   components: {
-    'van-popup': Popup,
+    BottomDrawer
   },
   data() {
     return {
