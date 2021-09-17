@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/doug-martin/goqu/v9 v9.16.0
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/protobuf v1.5.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
 	github.com/jmoiron/sqlx v1.3.4
