@@ -28,7 +28,10 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	jwtManager := auth.NewJWTManager(cfg.SecretKey, nil)
+	jwtManager, err := auth.NewJWTManager(cfg.SecretKey, nil)
+	if err != nil {
+		log.Fatalf("failed to create JWT manager: %v", err)
+	}
 
 	s := server.New(db, jwtManager)
 	log.Printf("Starting server on port %d...", cfg.ServerPort)

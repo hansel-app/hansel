@@ -10,16 +10,21 @@ import (
 	"github.com/hansel-app/hansel/internal/core/domain/users"
 )
 
+const secretKeyMinLength = 64
+
 type JWTManager struct {
 	secretKey     string
 	tokenDuration *time.Duration
 }
 
-func NewJWTManager(secretKey string, tokenDuration *time.Duration) *JWTManager {
+func NewJWTManager(secretKey string, tokenDuration *time.Duration) (*JWTManager, error) {
+	if len(secretKey) < secretKeyMinLength {
+		return nil, fmt.Errorf("secret key must be at least %d characters", secretKeyMinLength)
+	}
 	return &JWTManager{
 		secretKey:     secretKey,
 		tokenDuration: tokenDuration,
-	}
+	}, nil
 }
 
 func (m *JWTManager) Generate(user *users.User) (string, error) {
