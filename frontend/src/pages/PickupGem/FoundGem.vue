@@ -1,7 +1,7 @@
 <template>
   <div class="bg-container">
     <video autoplay muted poster="@/assets/images/gem-purple-found.png" id="gem-video">
-      <source src="@/assets/gem-purple-found.mp4" type="video/mp4">
+      <source src="@/assets/videos/gem-purple-found.mp4" type="video/mp4">
     </video>
     <div id="found-gem">
       <h1>You found a gem!</h1>
