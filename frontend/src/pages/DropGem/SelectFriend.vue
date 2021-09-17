@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
-import { mockFriends } from "./mockData";
+import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
