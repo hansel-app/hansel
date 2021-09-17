@@ -1,20 +1,26 @@
 <template>
-  <Cell center :title="friend.username" is-link>
+  <Cell center :title="friend.displayName" :is-link="isClickable">
     <template #icon>
       <!-- TODO: replace with user's own avatar -->
-      <Image round :src="placeholderAvatarUrl" class="circle-avatar" />
+      <CircleAvatar :avatarUrl="placeholderAvatarUrl" />
     </template>
   </Cell>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { Cell, Image } from "vant";
+import { Cell } from "vant";
 import { User } from "@/interfaces";
+
+import CircleAvatar from "./CircleAvatar.vue";
 
 export default defineComponent({
   props: {
     friend: User,
+    isClickable: {
+      type: Boolean,
+      defualt: () => false,
+    }
   },
   data() {
     return {
@@ -25,14 +31,7 @@ export default defineComponent({
   },
   components: {
     Cell,
-    Image,
+    CircleAvatar
   },
 });
 </script>
-
-<style scoped>
-.circle-avatar {
-  width: 4rem;
-  height: 4rem;
-}
-</style>
