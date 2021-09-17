@@ -16,7 +16,7 @@ export default defineComponent({
       show: true,
       addBackground: {
         // TODO: get and chuck image here
-        backgroundImage: `url(${require('@/assets/images/purple-gem.png')})`
+        backgroundImage: `url(${require('@/assets/images/gem-purple-found.png')})`
       },
     };
   },
