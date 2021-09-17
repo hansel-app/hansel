@@ -1,7 +1,10 @@
 <template>
   <Suspense>
     <template #default>
+      <div>
+      <button @click="goToProfile">Profile</button>
       <gem-map :gems="gems" />
+      </div>
     </template>
     <template #fallback>
       <!-- TODO: add more useful loading / error message -->
@@ -12,6 +15,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { PROFILE_ROUTE } from "@/constants";
 import GemMap from "@/components/GemMap.vue";
 import dayjs from "dayjs";
 
@@ -65,5 +69,10 @@ export default defineComponent({
       gems,
     };
   },
+  methods: {
+    goToProfile() {
+      this.$router.push(PROFILE_ROUTE);
+    }
+  }
 });
 </script>
