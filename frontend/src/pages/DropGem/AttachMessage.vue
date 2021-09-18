@@ -30,7 +30,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .message-input {
   background-color: #e9e9e9;
 }

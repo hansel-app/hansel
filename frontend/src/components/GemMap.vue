@@ -255,7 +255,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .google-map {
   width: 100%;
   height: 100vh;

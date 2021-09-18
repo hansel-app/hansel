@@ -9,7 +9,9 @@
   <CellGroup>
     <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
   </CellGroup>
-  <Button round type="primary" @click="goToAddFriends"> <Icon name="plus"/> </Button>
+  <Button round type="primary" @click="goToAddFriends">
+    <Icon name="plus" />
+  </Button>
   <!-- TODO: find out where to put friend requests button -->
   <Button type="primary" @click="goToFriendRequests">friend requests</Button>
 </template>
@@ -41,7 +43,7 @@ export default defineComponent({
     },
     goToFriendRequests() {
       this.$router.push(FRIEND_REQUESTS_ROUTE);
-    }
+    },
   },
   components: {
     AvatarHeader,
@@ -53,7 +55,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .sub-header {
   text-align: left;
 }
