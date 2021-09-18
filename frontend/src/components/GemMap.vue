@@ -77,7 +77,7 @@ interface TempGem {
 }
 
 type GemMarkerOptions = TempGem &
-  Pick<google.maps.MarkerOptions, "map" | "position">;
+  Pick<google.maps.MarkerOptions, "map" | "position" | "icon">;
 
 export default defineComponent({
   props: {
@@ -141,8 +141,10 @@ export default defineComponent({
     },
     gemMarkerOptions() {
       return this.gems.map((gem) => {
+        const gemImageUrl = this.getGemImageUrl(gem);
         return {
           ...gem,
+          icon: gemImageUrl,
         };
       }) as GemMarkerOptions[];
     },
@@ -170,6 +172,12 @@ export default defineComponent({
   methods: {
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
+    },
+
+    getGemImageUrl(gem: TempGem) {
+      // TODO: replace with if-else block based on gem colour
+      console.log(gem);
+      return require("@/assets/blue_gem_64.png");
     },
 
     nextGem() {
