@@ -1,17 +1,11 @@
 <template>
   <van-row type="flex" align="center">
     <van-col span="6">
-      <van-image
-        round
-        fit="cover"
-        src="https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp"
-        :show-loading="false"
-        :show-error="false"
-      />
+      <CircleAvatar :avatarUrl="dropperAvatar" />
     </van-col>
-    <van-col span="18">
-      <p>{{ displayDistance }}</p>
-      <p>From {{ dropperName }}</p>
+    <van-col class="marker-text-info" span="18">
+      <p class="distance-indicator">{{ displayDistance }}</p>
+      <p>From: {{ dropperName }}</p>
       <p>{{ displayDropDateTime }}</p>
     </van-col>
   </van-row>
@@ -22,10 +16,15 @@ import { Dayjs } from "dayjs";
 import { defineComponent } from "vue";
 import { formatDistance } from "@/utils/geolocation";
 import { formatDateTime } from "@/utils/date";
-import { Row, Col, Image } from "vant";
+import { Row, Col } from "vant";
+import CircleAvatar from "./CircleAvatar.vue";
 
 export default defineComponent({
-  components: { "van-image": Image, "van-row": Row, "van-col": Col },
+  components: {
+    "van-row": Row,
+    "van-col": Col,
+    CircleAvatar,
+  },
   props: {
     distance: {
       type: Number,
@@ -40,7 +39,7 @@ export default defineComponent({
       required: true,
     },
     dropperAvatar: {
-      type: String, // TODO: replace this with actual avatar
+      type: String,
       required: true,
     },
   },
@@ -54,3 +53,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="less">
+.marker-text-info {
+  padding-left: 2em;
+
+  p {
+    text-align: left;
+  }
+
+  .distance-indicator {
+    font-weight: bold;
+    font-size: large;
+  }
+}
+</style>

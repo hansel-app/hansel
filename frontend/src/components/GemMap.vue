@@ -229,7 +229,9 @@ export default defineComponent({
         distance: distFromSelf,
         dropperName: gem.dropper,
         dropTime: gem.dropTime,
-        dropperAvatar: "TODO",
+        // TODO: replace this with actual avatar
+        dropperAvatar:
+          "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg",
       });
       const el = document.createElement("div");
       const mountedApp = infoWindow.mount(el);
