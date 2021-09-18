@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.19.1
+    command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l debug
+    volumes:
+      - ./envoy:/etc/envoy
+    ports:
+      - "10000:10000"
+      - "9901:9901"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
