@@ -1,13 +1,19 @@
 <template>
   <div class="bg-container" :style="addBackground">
-    <BottomDrawer/>
+    <BottomDrawer :gemPackage="gemPackage"/>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
+<script  lang="ts">
+import { defineComponent, PropType } from "vue";
+import { GemInfo } from "@/interfaces";
 import BottomDrawer from "@/components/BottomSheet/MessageBottomSheet.vue";
 
 export default defineComponent({
+  props: {
+    gemPackage: {
+      type: Object as PropType<GemInfo>,
+    },
+  },
   components: {
     BottomDrawer
   },

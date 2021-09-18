@@ -2,12 +2,12 @@
     <div class="drawer" @click="toggleBottomSheet">
         <div class="wrapper">
             <van-row ref="infoBox" class="message-content">
-                <p>Me gusta los camarones</p>
+                <p>{{ gemPackage.message }}</p>
             </van-row>
             <div v-if=!collapsed>
               <van-row class="message-details" span="10">
-                  <p>hi</p>
-                  <p>bye</p>
+                  <p>{{ gemPackage.dropper }}</p>
+                  <p>{{ gemPackage.dropTime }}</p>
               </van-row>
               <van-row class="buttons">
                   <van-button @click="backToHome">Continue</van-button>
@@ -16,15 +16,15 @@
         </div>
     </div>
 </template>
-<script>
-import { Dayjs } from "dayjs";
-import { defineComponent, ref, computed } from "vue";
+<script lang="ts">
+import { GemInfo } from "@/interfaces";
+import { defineComponent, PropType, ref, computed } from "vue";
 // import { collapsed, toggleBottomSheet, bottomSheetHeight } from "@/components/BottomSheet/state";
 import { Row, Button } from "vant";
 
 export default defineComponent({
   setup() {
-    const collapsed = ref(true);
+    const collapsed = ref(true)
     const toggleBottomSheet = () => (collapsed.value = !collapsed.value)
     // how to set this dynamically...
     const BOTTOM_SHEET_HEIGHT = 160
@@ -37,35 +37,21 @@ export default defineComponent({
       collapsed, toggleBottomSheet, bottomSheetHeight,
     };
   },
-  mounted() {
-    this.getHeight();
-  },
   components: {
       "van-button": Button,
       "van-row": Row,
     //   "van-col": Col
   },
   props: {
-    dropperName: {
-      type: String,
+    gemPackage: {
+      type: Object as PropType<GemInfo>,
       required: true,
-    },
-    dropTime: {
-      type: Dayjs,
-      required: true,
-    },
-    dropperAvatar: {
-      // TODO: replace w with actual avatar
-      type: String, 
-    },
+    }
   },
   methods: {
     backToHome() {
       this.$router.replace({ name: "home" });
     },
-    getHeight() {
-      console.log(this.$refs.infoBox.clientHeight + 'px');
-    }
   },
   computed: {
     

@@ -4,24 +4,24 @@
       <source src="@/assets/videos/gem-purple-found.mp4" type="video/mp4">
     </video>
     <div id="found-gem">
-      <h1>You found a gem!</h1>
+      <h1>You found a gem! {{ gemPackage.color }}</h1>
     </div>
     <div id="view-button">
       <van-button @click="$emit('nextStage')">View contents</van-button>
     </div>
   </div>
 </template>
-<script>
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, PropType } from "vue";
 import { Button } from "vant";
+import { GemInfo } from "@/interfaces";
 
 export default defineComponent({
   props: {
-    gemColor: {
-      // TODO: change bg src according to colour of gem
-      type: String,
-      enum: ['purple', 'pink', 'blue', 'black', 'yellow', 'green']
-    },
+    gemPackage: {
+      type: Object as PropType<GemInfo>,
+      required: true,
+    }
   },
   components: { 
     "van-button": Button,
