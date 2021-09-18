@@ -4,7 +4,7 @@
       <source :src="getVideo" type="video/mp4">
     </video>
     <div id="found-gem">
-      <h1>You found a gem! {{ gemPackage.color }}</h1>
+      <h1>You found a gem!</h1>
     </div>
     <div id="view-button">
       <van-button @click="$emit('nextStage')">View contents</van-button>
@@ -28,17 +28,12 @@ export default defineComponent({
   },
   computed: {
     getPoster() {
-      // is this bad code, should i use switch instead :-)
-      if (Object.values(color).includes(this.gemPackage.color as color)) {
-        return require('@/assets/images/gem-' + this.gemPackage.color +'-found.png');
-      }
-      return require('@/assets/images/gem-purple-found.png');
+      console.assert(Object.values(color).includes(this.gemPackage.color as color));
+      return require('@/assets/images/gem-found-' + this.gemPackage.color +'.png');
     },
     getVideo() {
-      if (Object.values(color).includes(this.gemPackage.color as color)) {
-        return require('@/assets/videos/gem-' + this.gemPackage.color +'-found.mp4');
-      }
-      return require('@/assets/videos/gem-purple-found.mp4');
+      console.assert(Object.values(color).includes(this.gemPackage.color as color));
+      return require('@/assets/videos/gem-found-' + this.gemPackage.color +'.mp4');
     },
   }
 });

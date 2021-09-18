@@ -1,12 +1,12 @@
 <template>
   <div class="bg-container" :style="addBackground">
-    <BottomDrawer :gemPackage="gemPackage"/>
+    <BottomSheet :gemPackage="gemPackage"/>
   </div>
 </template>
 <script  lang="ts">
 import { defineComponent, PropType } from "vue";
 import { GemInfo } from "@/interfaces";
-import BottomDrawer from "@/components/MessageBottomSheet.vue";
+import BottomSheet from "@/components/BottomSheet.vue";
 
 export default defineComponent({
   props: {
@@ -15,14 +15,14 @@ export default defineComponent({
     },
   },
   components: {
-    BottomDrawer
+    BottomSheet
   },
   data() {
     return {
       show: true,
       addBackground: {
         // TODO: get and chuck image here
-        backgroundImage: `url(${require('@/assets/images/gem-purple-found.png')})`
+        backgroundImage: `url(${require('@/assets/images/gem-found-yellow.png')})`
       },
     };
   },
