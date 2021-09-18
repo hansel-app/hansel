@@ -1,7 +1,11 @@
 <template>
   <van-row type="flex" align="center">
     <van-col span="6">
-      <CircleAvatar :avatarUrl="dropperAvatar" />
+      <CircleAvatar
+        :avatarUrl="dropperAvatar"
+        :showLoading="false"
+        :showError="false"
+      />
     </van-col>
     <van-col class="marker-text-info" span="18">
       <p class="distance-indicator">{{ displayDistance }}</p>
