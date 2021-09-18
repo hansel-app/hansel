@@ -1,4 +1,4 @@
-import { User, Gem } from "@/interfaces";
+import { User, Gem, GemColor } from "@/interfaces";
 
 export const mockFriends: User[] = [
   { id: 1, displayName: "Groundskeeper", username: "goosehater123" },
@@ -8,39 +8,25 @@ export const mockFriends: User[] = [
 ];
 
 export const mockSelfUser: User = {
-  id: 100, displayName: "Maggie Mee", username: "maggiemee"
-}
+  id: 100,
+  displayName: "Maggie Mee",
+  username: "maggiemee",
+};
 
-// Color values are placeholders
 export const mockGems: Gem[] = [
   {
-    color: {
-      selectionColor: "#cdb4db",
-      tintColor: "#000000",
-    },
+    color: GemColor.PURPLE,
   },
   {
-    color: {
-      selectionColor: "#ffc8dd",
-      tintColor: "#000000",
-    },
+    color: GemColor.BLUE,
   },
   {
-    color: {
-      selectionColor: "#ffafcc",
-      tintColor: "#000000",
-    },
+    color: GemColor.GREEN,
   },
   {
-    color: {
-      selectionColor: "#bde0fe",
-      tintColor: "#000000",
-    },
+    color: GemColor.YELLOW,
   },
   {
-    color: {
-      selectionColor: "#a2d2ff",
-      tintColor: "#000000",
-    },
+    color: GemColor.PINK,
   },
 ];
