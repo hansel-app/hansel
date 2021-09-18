@@ -23,7 +23,6 @@ export function getDistanceFromLatLonInKm(
 }
 
 export function formatDistance(km: number): string {
-  // return `${km.toFixed(3)} km`;
   if (km >= 1) {
     return `${km.toFixed(3)} km`;
   } else {
