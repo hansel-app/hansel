@@ -40,8 +40,8 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
-      return mockFriends.filter(
-        (user) => user.username.indexOf(this.searchQuery) === 0
+      return mockFriends.filter((user) =>
+        user.username.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
   },
