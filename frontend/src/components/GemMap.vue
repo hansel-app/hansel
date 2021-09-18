@@ -77,7 +77,7 @@ interface TempGem {
 }
 
 type GemMarkerOptions = TempGem &
-  Pick<google.maps.MarkerOptions, "map" | "position">;
+  Pick<google.maps.MarkerOptions, "map" | "position" | "icon">;
 
 export default defineComponent({
   props: {
@@ -141,8 +141,10 @@ export default defineComponent({
     },
     gemMarkerOptions() {
       return this.gems.map((gem) => {
+        const gemImageUrl = this.getGemImageUrl(gem);
         return {
           ...gem,
+          icon: gemImageUrl,
         };
       }) as GemMarkerOptions[];
     },
@@ -170,6 +172,12 @@ export default defineComponent({
   methods: {
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
+    },
+
+    getGemImageUrl(gem: TempGem) {
+      // TODO: replace with if-else block based on gem colour
+      console.log(gem);
+      return require("@/assets/blue_gem_64.png");
     },
 
     nextGem() {
@@ -229,7 +237,9 @@ export default defineComponent({
         distance: distFromSelf,
         dropperName: gem.dropper,
         dropTime: gem.dropTime,
-        dropperAvatar: "TODO",
+        // TODO: replace this with actual avatar
+        dropperAvatar:
+          "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg",
       });
       const el = document.createElement("div");
       const mountedApp = infoWindow.mount(el);
@@ -255,7 +265,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .google-map {
   width: 100%;
   height: 100vh;

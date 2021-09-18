@@ -1,5 +1,11 @@
 <template>
-  <Image round :src="avatarUrl" :style="dimensions" />
+  <Image
+    round
+    :src="avatarUrl"
+    :style="dimensions"
+    :show-loading="showLoading"
+    :show-error="showError"
+  />
 </template>
 
 <script lang="ts">
@@ -12,6 +18,14 @@ export default defineComponent({
     radius: {
       type: Number,
       default: () => 2,
+    },
+    showLoading: {
+      type: Boolean,
+      default: () => true,
+    },
+    showError: {
+      type: Boolean,
+      default: () => true,
     },
   },
   computed: {
