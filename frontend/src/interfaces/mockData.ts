@@ -1,9 +1,9 @@
 import { User, Gem } from "@/interfaces";
 
 export const mockFriends: User[] = [
-  { id: 1, displayName: "Groundskeeper", username: "abc" },
-  { id: 2, displayName: "Wimp", username: "abc" },
-  { id: 3, displayName: "Goose", username: "abc" },
+  { id: 1, displayName: "Groundskeeper", username: "goosehater123" },
+  { id: 2, displayName: "Wimp", username: "scared_of_geese" },
+  { id: 3, displayName: "Goose", username: "goose" },
   { id: 4, displayName: "Pub owner", username: "abc" },
 ];
 

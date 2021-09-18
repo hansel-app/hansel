@@ -1,8 +1,16 @@
 <template>
-  <Cell center :title="friend.displayName" :is-link="isClickable">
+  <Cell
+    center
+    :title="friend.displayName"
+    :label="shouldDisplayUsername ? '@' + friend.username : ''"
+    :is-link="isClickable"
+  >
     <template #icon>
       <!-- TODO: replace with user's own avatar -->
       <CircleAvatar :avatarUrl="placeholderAvatarUrl" />
+    </template>
+    <template #right-icon>
+      <slot />
     </template>
   </Cell>
 </template>
@@ -20,7 +28,11 @@ export default defineComponent({
     isClickable: {
       type: Boolean,
       default: () => false,
-    }
+    },
+    shouldDisplayUsername: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   data() {
     return {
@@ -31,7 +43,7 @@ export default defineComponent({
   },
   components: {
     Cell,
-    CircleAvatar
+    CircleAvatar,
   },
 });
 </script>
