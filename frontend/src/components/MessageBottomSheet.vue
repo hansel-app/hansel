@@ -40,7 +40,6 @@ export default defineComponent({
   components: {
       "van-button": Button,
       "van-row": Row,
-    //   "van-col": Col
   },
   props: {
     gemPackage: {
@@ -73,7 +72,7 @@ export default defineComponent({
     bottom: 0;
     padding: 0.5em;
 
-    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    transition: max-height 0.3s;
 
     display: flex;
     flex-direction: row;
