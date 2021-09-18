@@ -16,6 +16,7 @@ enum PickupGemStage {
 
 export default defineComponent({
   setup() {
+    // TODO: replace later~
     const gemPackage = {
       message: "Me gusta los camarones",
       position: { lat: 1.2966, lng: 103.7764 },
