@@ -23,10 +23,10 @@ export interface GemInfo {
 }
 
 export enum color {
-  PURPLE,
-  PINK,
-  BLUE,
-  BLACK,
-  YELLOW,
-  GREEN,
+  PURPLE = 'purple',
+  PINK = 'pink',
+  BLUE = 'blue',
+  BLACK = 'black',
+  YELLOW = 'yellow',
+  GREEN = 'green',
 }

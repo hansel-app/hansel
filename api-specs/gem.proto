@@ -19,18 +19,8 @@ message Gem {
   double longitude = 4;
   int64 creator_id = 5;
   google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp received_at = 7;
-  int64 receiver_id = 8;
-  enum Colour {
-    PURPLE = 0;
-    PINK = 1;
-    BLUE = 2;
-    BLACK = 3;
-    YELLOW = 4;
-    GREEN = 5;
-  }
-  Colour colour = 9;
-  bytes image = 10;
+  int64 receiver_id = 7;
+  google.protobuf.Timestamp received_at = 8;
 }
 
 message DropRequest {
@@ -43,12 +33,12 @@ message DropResponse {
 }
 
 message GetRequest {
-  int64 gem_id = 1;
-  int64 receiver_id = 2;
+  int64 id = 1;
 }
 
 message GetResponse {
-  Gem gem = 1;
+  int64 id = 1;
+  string message = 2;
 }
 
 message GetPendingCollectionByUserRequest {

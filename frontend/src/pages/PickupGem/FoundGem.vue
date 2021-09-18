@@ -1,7 +1,7 @@
 <template>
   <div class="bg-container">
-    <video autoplay muted poster="@/assets/images/gem-purple-found.png" id="gem-video">
-      <source src="@/assets/videos/gem-purple-found.mp4" type="video/mp4">
+    <video autoplay muted :poster="getPoster" id="gem-video">
+      <source :src="getVideo" type="video/mp4">
     </video>
     <div id="found-gem">
       <h1>You found a gem! {{ gemPackage.color }}</h1>
@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { Button } from "vant";
-import { GemInfo } from "@/interfaces";
+import { GemInfo, color } from "@/interfaces";
 
 export default defineComponent({
   props: {
@@ -26,6 +26,21 @@ export default defineComponent({
   components: { 
     "van-button": Button,
   },
+  computed: {
+    getPoster() {
+      // is this bad code, should i use switch instead :-)
+      if (Object.values(color).includes(this.gemPackage.color as color)) {
+        return require('@/assets/images/gem-' + this.gemPackage.color +'-found.png');
+      }
+      return require('@/assets/images/gem-purple-found.png');
+    },
+    getVideo() {
+      if (Object.values(color).includes(this.gemPackage.color as color)) {
+        return require('@/assets/videos/gem-' + this.gemPackage.color +'-found.mp4');
+      }
+      return require('@/assets/videos/gem-purple-found.mp4');
+    },
+  }
 });
 </script>
 <style scoped>

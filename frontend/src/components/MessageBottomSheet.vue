@@ -4,8 +4,8 @@
             <van-row ref="infoBox" class="message-content">
                 <p>{{ gemPackage.message }}</p>
             </van-row>
-            <div v-if=!collapsed>
-              <van-row class="message-details" span="10">
+            <div v-if="!collapsed">
+              <van-row class="message-details">
                   <p>{{ gemPackage.dropper }}</p>
                   <p>{{ gemPackage.dropTime }}</p>
               </van-row>
@@ -73,7 +73,7 @@ export default defineComponent({
     bottom: 0;
     padding: 0.5em;
 
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
 
     display: flex;
     flex-direction: row;
@@ -84,15 +84,6 @@ export default defineComponent({
     width: 100%;
     text-align: left;
     padding: 0 1em;
-}
-
-.message-content {
-    border: blue solid 1px;
-    font-family: "CircularStd";
-}
-
-.message-details {
-    border: red solid 1px;
 }
 
 .Button {
