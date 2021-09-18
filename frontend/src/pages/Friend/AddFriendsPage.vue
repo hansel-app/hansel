@@ -20,6 +20,7 @@ import { defineComponent } from "vue";
 import { CellGroup, NavBar, Search } from "vant";
 import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
+import { User } from "@/interfaces";
 
 export default defineComponent({
   components: {
@@ -35,7 +36,7 @@ export default defineComponent({
     };
   },
   computed: {
-    filteredUsers() {
+    filteredUsers(): User[] {
       if (!this.searchQuery) {
         // Don't display any users when search bar is empty.
         return [];
