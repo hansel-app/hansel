@@ -18,4 +18,36 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
 }
+
+@font-face {
+  font-family: "CircularStd";
+  src: local("CircularStd-Black"),
+   url(./assets/fonts/CircularStd-Black.otf) format("truetype");
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CircularStd";
+  src: local("CircularStd-Bold"),
+   url(./assets/fonts/CircularStd-Bold.otf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CircularStd";
+  src: local("CircularStd-Medium"),
+   url(./assets/fonts/CircularStd-Medium.otf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CircularStd";
+  src: local("CircularStd-MediumItalic"),
+   url(./assets/fonts/CircularStd-MediumItalic.otf) format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
 </style>
