@@ -3,14 +3,19 @@
   <h3>Choose a receiver</h3>
   <Search placeholder="Search a friend" />
   <CellGroup>
-    <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
+    <FriendCell
+      v-for="user in mockFriends"
+      :key="user.id"
+      :friend="user"
+      isClickable="true"
+    />
   </CellGroup>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
-import { mockFriends } from "./mockData";
+import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
