@@ -19,7 +19,6 @@ import HomePage from "./pages/Home/HomePage.vue";
 import ProfilePage from "./pages/Profile/ProfilePage.vue";
 import { AddFriendPage, FriendRequestsPage } from "./pages/Friend";
 import App from "./App.vue";
-import "vant/lib/index.css";
 import "./registerServiceWorker";
 
 const router = createRouter({
