@@ -6,7 +6,7 @@
 <script  lang="ts">
 import { defineComponent, PropType } from "vue";
 import { GemInfo } from "@/interfaces";
-import BottomDrawer from "@/components/BottomSheet/MessageBottomSheet.vue";
+import BottomDrawer from "@/components/MessageBottomSheet.vue";
 
 export default defineComponent({
   props: {
