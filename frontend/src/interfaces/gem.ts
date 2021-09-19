@@ -1,4 +1,4 @@
-import { hansel } from "@/interfaces";
+import { LatLng } from "@/interfaces";
 import { Dayjs } from "dayjs";
 
 // TODO: replace with interface generated from protobuf?
@@ -15,7 +15,7 @@ type HexCode = String;
 
 export interface GemInfo {
   message: string;
-  position: hansel.LatLng;
+  position: LatLng;
   dropper: string;
   receiver: string;
   dropTime: Dayjs;
@@ -23,10 +23,10 @@ export interface GemInfo {
 }
 
 export enum color {
-  PURPLE = 'purple',
-  PINK = 'pink',
-  BLUE = 'blue',
-  BLACK = 'black',
-  YELLOW = 'yellow',
-  GREEN = 'green',
+  PURPLE = "purple",
+  PINK = "pink",
+  BLUE = "blue",
+  BLACK = "black",
+  YELLOW = "yellow",
+  GREEN = "green",
 }

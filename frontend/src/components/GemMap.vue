@@ -61,7 +61,7 @@ import {
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
 } from "@/constants";
-import { hansel } from "@/interfaces";
+import { LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import { Dayjs } from "dayjs";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
@@ -71,7 +71,7 @@ const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 // TODO: replace this once Gem interface has been created
 interface TempGem {
   id: number;
-  position: hansel.LatLng;
+  position: LatLng;
   dropTime: Dayjs;
   dropper: string;
 }
@@ -113,7 +113,7 @@ export default defineComponent({
         ({
           lat: coords.value.lat,
           lng: coords.value.lng,
-        } as hansel.LatLng)
+        } as LatLng)
     );
 
     const initPos = await getLocation();
