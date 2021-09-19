@@ -35,7 +35,7 @@ export default defineComponent({
     };
   },
   computed: {
-    currentStageName(): String {
+    currentStageName(): string {
       return PickupGemStage[this.currentStage];
     },
   },

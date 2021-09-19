@@ -1,7 +1,6 @@
 <template><slot></slot></template>
 
 <script lang="ts">
-import { GemServicePromiseClient } from "@/protobuf/gem_grpc_web_pb";
 import {
   Gem as ProtoGem,
   GetPendingCollectionByUserRequest,
@@ -9,9 +8,7 @@ import {
 import { defineComponent, InjectionKey, provide } from "vue";
 import { Gem } from "@/interfaces";
 import dayjs from "dayjs";
-
-const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
+import services from "@/api/services";
 
 export const FETCH_GEMS_PENDING_COLLECTION: InjectionKey<(
   userId: number
@@ -40,8 +37,7 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
 
 export default defineComponent({
   setup() {
-    const hostname = `${SERVER_URL}:${SERVER_PORT}`;
-    const client = new GemServicePromiseClient(hostname, null, null);
+    const client = services.gemsClient
 
     const getGemsPendingCollectionByUser = async (
       userId: number

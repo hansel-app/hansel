@@ -28,7 +28,7 @@ export default defineComponent({
     numStages(): number {
       return Object.keys(DropGemStage).length / 2;
     },
-    currentStageName(): String {
+    currentStageName(): string {
       return DropGemStage[this.currentStage];
     },
   },
