@@ -8,16 +8,15 @@
             :avatarUrl="placeholderAvatarUrl"
             :radius="3"
             @click="goToProfile"
-            class="profile-button"
           >
-            Profile</CircleAvatar
-          >
+            Profile
+          </CircleAvatar>
         </div>
       </div>
     </template>
     <template #fallback>
       <!-- TODO: add more useful loading / error message -->
-      <div>Loading...</div>
+      <Loading size="24px">Loading...</Loading>
     </template>
   </Suspense>
 </template>
@@ -29,11 +28,13 @@ import GemMap from "@/components/GemMap.vue";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import { FETCH_GEMS_PENDING_COLLECTION } from "@/providers/GemProvider.vue";
 import { Gem } from "@/interfaces";
+import { Loading } from "vant";
 
 export default defineComponent({
   components: {
     CircleAvatar,
     GemMap,
+    Loading,
   },
 
   setup() {
@@ -71,11 +72,12 @@ export default defineComponent({
 <style scoped lang="less">
 .container {
   position: relative;
-}
-.container .profile-button {
-  position: absolute;
-  z-index: 10;
-  top: 4px;
-  left: 4px;
+
+  .profile-button {
+    position: absolute;
+    z-index: 10;
+    top: 4px;
+    left: 4px;
+  }
 }
 </style>
