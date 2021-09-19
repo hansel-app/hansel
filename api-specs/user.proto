@@ -1,0 +1,16 @@
+syntax = "proto3";
+package userapi;
+option go_package = "/userapi";
+
+service userService {
+	rpc getProfile (getProfileRequest) returns (Profile);
+}
+
+message getProfileRequest {
+	int64 userId = 1;
+}
+
+message Profile {
+	PersonInfo info = 1;
+	repeated Profile friends = 2;
+}
