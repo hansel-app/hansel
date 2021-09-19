@@ -1,3 +1,4 @@
+import { AuthServicePromiseClient } from "@/protobuf/auth_grpc_web_pb";
 import { GemServicePromiseClient } from "@/protobuf/gem_grpc_web_pb";
 import AuthInterceptor from "@/api/interceptors/auth";
 
@@ -15,6 +16,7 @@ const options = {
 };
 
 const services = Object.freeze({
+  authClient: new AuthServicePromiseClient(hostname, null, options),
   gemsClient: new GemServicePromiseClient(hostname, null, options)
 });
 
