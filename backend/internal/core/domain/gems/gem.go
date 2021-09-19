@@ -1,18 +1,19 @@
 package gems
 
 import (
+	"database/sql/driver"
 	"time"
 )
 
 type GemColor int64
 
 const (
-	Purple GemColor = iota
-	Pink
-	Blue
-	Black
-	Yellow
-	Green
+	Purple GemColor = 0
+	Pink   GemColor = 1
+	Blue   GemColor = 2
+	Black  GemColor = 3
+	Yellow GemColor = 4
+	Green  GemColor = 5
 )
 
 type Gem struct {
@@ -26,3 +27,6 @@ type Gem struct {
 	ReceivedAt *time.Time
 	Color      GemColor
 }
+
+func (u *GemColor) Scan(value interface{}) error { *u = GemColor(value.(int64)); return nil }
+func (u GemColor) Value() (driver.Value, error)  { return int64(u), nil }
