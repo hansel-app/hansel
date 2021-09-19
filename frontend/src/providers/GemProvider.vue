@@ -22,7 +22,7 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       lat: protoGem.getLatitude(),
       lng: protoGem.getLongitude(),
     },
-    createdAt: dayjs(protoGem.getCreatedAt().toDate()),
+    createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
     // TODO: replace this with actual user object
     createdBy: {
       id: 9999,
