@@ -30,6 +30,9 @@ import CircleAvatar from "@/components/CircleAvatar.vue";
 import { GemServiceClient } from "@/protobuf/GemServiceClientPb";
 import { Gem, GetPendingCollectionByUserRequest } from "@/protobuf/gem_pb";
 
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
+
 export default defineComponent({
   components: {
     CircleAvatar,
@@ -37,7 +40,11 @@ export default defineComponent({
   },
 
   setup() {
-    const client = new GemServiceClient("http://localhost:10000", null, null);
+    const client = new GemServiceClient(
+      `${SERVER_URL}:${SERVER_PORT}`,
+      null,
+      null
+    );
     const request = new GetPendingCollectionByUserRequest();
     request.setUserid(2);
 
@@ -45,6 +52,7 @@ export default defineComponent({
     client.getPendingCollectionByUser(request, {}, (err, resp) => {
       // TODO: add error handling
       console.log(err);
+      console.log(resp.getGemsList());
       gems = resp.getGemsList();
     });
 
