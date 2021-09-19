@@ -1,7 +1,6 @@
 import { LatLng, User } from "@/interfaces";
 import { Dayjs } from "dayjs";
 
-// TODO: replace with interface generated from protobuf?
 export interface Gem {
   id: number;
   message: string;
