@@ -3,7 +3,7 @@
 <script lang="ts">
 import {
   Gem as ProtoGem,
-  GetPendingCollectionByUserRequest,
+  GetPendingCollectionForUserRequest,
 } from "@/protobuf/gem_pb";
 import { defineComponent, InjectionKey, provide } from "vue";
 import { Gem } from "@/interfaces";
@@ -39,22 +39,19 @@ export default defineComponent({
   setup() {
     const client = services.gemsClient
 
-    const getGemsPendingCollectionByUser = async (
-      userId: number
-    ): Promise<Gem[]> => {
-      const request = new GetPendingCollectionByUserRequest();
-      request.setUserid(userId);
+    const getGemsPendingCollectionForUser = async (): Promise<Gem[]> => {
+      const request = new GetPendingCollectionForUserRequest();
 
       try {
         return await client
-          .getPendingCollectionByUser(request)
+          .getPendingCollectionForUser(request)
           .then((resp) => resp.getGemsList().map(protoGemToGemMapper));
       } catch (err) {
         return Promise.reject(err);
       }
     };
 
-    provide(FETCH_GEMS_PENDING_COLLECTION, getGemsPendingCollectionByUser);
+    provide(FETCH_GEMS_PENDING_COLLECTION, getGemsPendingCollectionForUser);
   },
 });
 </script>
