@@ -23,14 +23,64 @@
           @click="centerMapOnCurrentLocation"
         />
       </CustomControl>
-      <CustomControl
-        v-if="gems.length > 0"
-        class="bottom-controls"
-        position="BOTTOM_CENTER"
-      >
-        <van-button round icon="arrow-left" type="primary" @click="prevGem" />
-        <van-button round icon="plus" type="primary" @click="goToDropGem" />
-        <van-button round icon="arrow" type="primary" @click="nextGem" />
+      <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
+        <van-cell class="secondary" v-if="gems.length > 0">
+          <van-row justify="space-around" align="center">
+            <van-col span="16">
+              The nearest gem is {{ displayNearestGemDistance }} away. Move
+              closer to pick it up!
+            </van-col>
+            <van-col>
+              <van-button
+                v-show="shouldShowPickupButton"
+                type="primary"
+                round
+                @click="goToPickupGem"
+              >
+                Pick up
+              </van-button>
+            </van-col>
+          </van-row>
+        </van-cell>
+
+        <van-cell class="primary">
+          <van-row v-if="gems.length > 0" justify="space-around" align="center">
+            <van-col>
+              <van-button
+                round
+                plain
+                icon="arrow-left"
+                type="primary"
+                @click="prevGem"
+              />
+            </van-col>
+
+            <van-col span="12" class="label van-multi-ellipsis--l2 ">
+              You have {{ gems.length }} gems waiting to be collected.
+            </van-col>
+
+            <van-col>
+              <van-button
+                round
+                plain
+                icon="arrow"
+                type="primary"
+                @click="nextGem"
+              />
+            </van-col>
+          </van-row>
+          <van-row v-else justify="space-around" align="center">
+            <van-col class="label van-multi-ellipsis--l2 ">
+              Great work, you have collected all your gems!
+            </van-col>
+          </van-row>
+
+          <van-row justify="space-around">
+            <van-button type="primary" size="large" round @click="goToDropGem">
+              Drop a Gem
+            </van-button>
+          </van-row>
+        </van-cell>
       </CustomControl>
 
       <Marker
@@ -60,9 +110,10 @@ import {
   DEFAULT_MAP_CONFIG,
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
+  PICKUP_GEM_ROUTE,
 } from "@/constants";
 import { Gem, GemColor, LatLng } from "@/interfaces";
-import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
+import { formatDistance, getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
@@ -122,6 +173,27 @@ export default defineComponent({
   },
 
   computed: {
+    nearestGemDistance() {
+      if (this.sortedGems.length === 0) {
+        return null;
+      }
+      const nearest = this.sortedGems[0];
+      return getDistanceFromLatLonInKm(nearest.position, this.currPosition);
+    },
+    displayNearestGemDistance() {
+      if (this.nearestGemDistance === null) {
+        return null;
+      }
+
+      return formatDistance(this.nearestGemDistance);
+    },
+    shouldShowPickupButton() {
+      return (
+        this.nearestGemDistance &&
+        this.nearestGemDistance <= GEM_PICKUP_RADIUS_THRESHOLD
+      );
+    },
+
     sortedGems() {
       return [...this.gems].sort((gem1, gem2) => {
         return (
@@ -201,18 +273,13 @@ export default defineComponent({
     goToDropGem() {
       this.$router.push(DROP_GEM_ROUTE);
     },
+    goToPickupGem() {
+      // TODO: pass gem to new route
+      this.$router.push(PICKUP_GEM_ROUTE);
+    },
 
     onGemMarkerClick(markerOptions: GemMarkerOptions) {
-      const distFromSelf = getDistanceFromLatLonInKm(
-        markerOptions.position,
-        this.currPosition
-      );
-
-      if (distFromSelf >= GEM_PICKUP_RADIUS_THRESHOLD) {
-        this.showGemMarkerInfoWindow(markerOptions);
-      } else {
-        // TODO: pick up gem
-      }
+      this.showGemMarkerInfoWindow(markerOptions);
     },
 
     showGemMarkerInfoWindow(gem: Gem) {
@@ -258,15 +325,33 @@ export default defineComponent({
 .google-map {
   width: 100%;
   height: 100vh;
-}
-.google-map .top-right-controls {
-  margin: 10px;
-}
 
-.google-map .bottom-controls {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
+  .top-right-controls {
+    margin-top: 2vh;
+    margin-right: 2vw;
+  }
+
+  .bottom-controls {
+    width: 90vw;
+    margin-bottom: 5vh;
+
+    .van-cell {
+      margin-top: 1.5vh;
+      border-radius: 2rem;
+      box-shadow: @shadow-medium;
+
+      &.primary {
+        background-color: @purple-secondary;
+      }
+    }
+
+    .label {
+      text-align: center;
+    }
+
+    .van-row {
+      margin: 0.75rem 0;
+    }
+  }
 }
 </style>

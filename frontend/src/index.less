@@ -1,3 +1,13 @@
+// Shadows
+@shadow-color: 0deg 0% 50%;
+@shadow-small: 0.5px 1px 1px hsl(@shadow-color / 0.7);
+@shadow-medium: 1px 2px 2px hsl(@shadow-color / 0.333),
+  2px 4px 4px hsl(@shadow-color / 0.333), 3px 6px 6px hsl(@shadow-color / 0.333);
+@shadow-large: 1px 2px 2px hsl(@shadow-color / 0.2),
+  2px 4px 4px hsl(@shadow-color / 0.2), 4px 8px 8px hsl(@shadow-color / 0.2),
+  8px 16px 16px hsl(@shadow-color / 0.2),
+  16px 32px 32px hsl(@shadow-color / 0.2);
+
 // Color Palette
 @black: #000;
 @white: #fff;
@@ -16,6 +26,7 @@
 @orange-light: #fffbe8;
 @green: #07c160;
 @purple: #5f4bae;
+@purple-secondary: #b3a3d8;
 
 // Gradient Colors
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
