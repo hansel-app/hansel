@@ -27,7 +27,7 @@
 <script>
 import { defineComponent, inject } from "vue";
 import { LOGIN } from "@/providers/AuthProvider"
-import {LOGIN_ROUTE} from "@/constants";
+import { HOME_ROUTE } from "@/constants";
 
 export default defineComponent({
   setup() {
@@ -45,7 +45,7 @@ export default defineComponent({
   methods: {
     handleLogin() {
       this.login(this.username, this.password)
-        .then(() => this.$router.push(LOGIN_ROUTE))
+        .then(() => this.$router.push(HOME_ROUTE))
         .catch((err) => console.log(err, "Failed to log in"));
     }
   }
