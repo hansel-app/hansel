@@ -2,14 +2,14 @@
   <van-row type="flex" align="center">
     <van-col span="6">
       <CircleAvatar
-        :avatarUrl="gemCreatorAvatar"
+        :avatarUrl="gemCreator.avatar"
         :showLoading="false"
         :showError="false"
       />
     </van-col>
     <van-col class="marker-text-info" span="18">
       <p class="distance-indicator">{{ displayDistance }}</p>
-      <p>From: {{ gemCreator }}</p>
+      <p>From: {{ gemCreator.displayName }}</p>
       <p>{{ displayDropDateTime }}</p>
     </van-col>
   </van-row>
@@ -17,11 +17,12 @@
 
 <script lang="ts">
 import { Dayjs } from "dayjs";
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { formatDistance } from "@/utils/geolocation";
 import { formatDateTime } from "@/utils/date";
 import { Row, Col } from "vant";
 import CircleAvatar from "./CircleAvatar.vue";
+import { User } from "@/interfaces";
 
 export default defineComponent({
   components: {
@@ -35,15 +36,11 @@ export default defineComponent({
       required: true,
     },
     gemCreator: {
-      type: String,
+      type: Object as PropType<User>,
       required: true,
     },
     dropTime: {
       type: Dayjs,
-      required: true,
-    },
-    gemCreatorAvatar: {
-      type: String,
       required: true,
     },
   },

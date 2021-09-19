@@ -3,7 +3,13 @@ import { Dayjs } from "dayjs";
 
 // TODO: replace with interface generated from protobuf?
 export interface Gem {
-  color: GemColor;
+  id: number;
+  message: string;
+  position: LatLng;
+  createdAt: Dayjs;
+  createdBy: string; // TODO: replace this with user object
+  receivedAt: Dayjs;
+  // color: GemColor; // TODO: replace this with enum
 }
 
 export interface GemColor {
@@ -11,8 +17,9 @@ export interface GemColor {
   tintColor: HexCode;
 }
 
-type HexCode = String;
+type HexCode = string;
 
+// TODO: remove this and replace it directly with Gem
 export interface GemInfo {
   message: string;
   position: LatLng;
