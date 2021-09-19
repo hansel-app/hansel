@@ -2,7 +2,6 @@ package interceptors
 
 import (
 	"context"
-	"log"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -59,9 +58,14 @@ func (i *AuthInterceptor) Stream() grpc.StreamServerInterceptor {
 	}
 }
 
+var publicMethods = []string{"/authapi.AuthService/Login"}
+
 func (i *AuthInterceptor) authorize(ctx context.Context, method string) (context.Context, error) {
-	// TODO: Add exceptions for login and registration methods.
-	log.Println(method)
+	for _, publicMethod := range publicMethods {
+		if method == publicMethod {
+			return ctx, nil
+		}
+	}
 
 	m, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
