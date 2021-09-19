@@ -8,7 +8,7 @@
     "prebuild": "npm run proto",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "proto": "rm -rf ./protobuf && mkdir ./protobuf && protoc --proto_path ../api-specs --js_out=import_style=commonjs,binary:./protobuf --grpc-web_out=import_style=typescript,mode=grpcwebtext:./protobuf $(find ../api-specs -type f -name \"*.proto\")"
+    "proto": "rm -rf ./src/protobuf && mkdir ./src/protobuf && protoc --proto_path ../api-specs --js_out=import_style=commonjs,binary:./src/protobuf --grpc-web_out=import_style=typescript,mode=grpcwebtext:./src/protobuf $(find ../api-specs -type f -name \"*.proto\")"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -58,6 +58,9 @@
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },
+    "ignorePatterns": [
+      "src/protobuf/*"
+    ],
     "rules": {}
   },
   "browserslist": [
