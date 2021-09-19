@@ -11,6 +11,7 @@ import (
 
 	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/internal/contextkeys"
+	"github.com/hansel-app/hansel/internal/server/serverstream"
 )
 
 type AuthInterceptor struct {
@@ -46,11 +47,13 @@ func (i *AuthInterceptor) Stream() grpc.StreamServerInterceptor {
 		info *grpc.StreamServerInfo,
 		handler grpc.StreamHandler,
 	) error {
-		// TODO: Update the stream server with the new context.
-		_, err := i.authorize(stream.Context(), info.FullMethod)
+		ctx, err := i.authorize(stream.Context(), info.FullMethod)
 		if err != nil {
 			return err
 		}
+
+		ss := serverstream.NewServerStreamWithContext(stream)
+		ss.SetContext(ctx)
 
 		return handler(srv, stream)
 	}
