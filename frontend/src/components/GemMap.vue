@@ -168,7 +168,7 @@ export default defineComponent({
     getGemImageUrl(gem: Gem) {
       // TODO: replace with if-else block based on gem colour
       console.log(gem);
-      return require("@/assets/blue_gem_64.png");
+      return require("@/assets/images/blue_64.png");
     },
 
     nextGem() {
