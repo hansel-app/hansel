@@ -1,16 +1,17 @@
 <template>
-  <router-view :name="currentStageName" :gemPackage="gemPackage" @nextStage="nextStage"></router-view>
+  <router-view
+    :name="currentStageName"
+    :gemPackage="gemPackage"
+    @nextStage="nextStage"
+  ></router-view>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import dayjs from "dayjs"; 
+import dayjs from "dayjs";
 
-// eslint-disable-next-line no-unused-vars
 enum PickupGemStage {
-  // eslint-disable-next-line no-unused-vars
   FoundGem,
-  // eslint-disable-next-line no-unused-vars
   MessageDisplay,
 }
 
@@ -24,9 +25,9 @@ export default defineComponent({
       receiver: "Wimp",
       dropTime: dayjs(),
       color: "purple",
-    }
+    };
 
-    return { gemPackage }
+    return { gemPackage };
   },
   data() {
     return {
@@ -34,14 +35,14 @@ export default defineComponent({
     };
   },
   computed: {
-    currentStageName(): String {
+    currentStageName(): string {
       return PickupGemStage[this.currentStage];
     },
   },
   methods: {
     nextStage() {
-        this.currentStage = PickupGemStage.MessageDisplay;
-    }
-  }
+      this.currentStage = PickupGemStage.MessageDisplay;
+    },
+  },
 });
 </script>

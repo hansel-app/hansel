@@ -22,7 +22,6 @@ import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
-  setup() {},
   components: {
     CellGroup,
     FriendCell,

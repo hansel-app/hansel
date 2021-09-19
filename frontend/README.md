@@ -11,7 +11,7 @@
    ```
    $ npm install
    ```
-1. Set up the necesary environment variables by running `cp .env.local.sample .env.local` and then editing `.env` with the relevant values.
+1. Set up the necesary environment variables by running `cp .env.local.sample .env.local` and then editing `.env.local` with the relevant values.
    For `VUE_APP_GOOGLE_API_KEY`, you can get your own key following the instructions here: https://cloud.google.com/docs/authentication/api-keys#creating_an_api_key
 
 ## Updating Protocol Buffer Definitions
