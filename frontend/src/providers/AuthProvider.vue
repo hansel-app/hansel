@@ -22,10 +22,7 @@ export default defineComponent({
             // If there is no error, then the authentication was successful.
             .then(() => true);
       } catch (err) {
-        if (err instanceof Error) {
-          return Promise.reject(err);
-        }
-        return Promise.reject(new Error("Unknown error type"))
+        return Promise.reject(err)
       }
     };
 

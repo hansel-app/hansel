@@ -50,10 +50,7 @@ export default defineComponent({
           .getPendingCollectionByUser(request)
           .then((resp) => resp.getGemsList().map(protoGemToGemMapper));
       } catch (err) {
-        if (err instanceof Error) {
-          return Promise.reject(err);
-        }
-        return Promise.reject(new Error("Unknown error type"));
+        return Promise.reject(err);
       }
     };
 
