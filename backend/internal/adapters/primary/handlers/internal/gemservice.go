@@ -65,6 +65,7 @@ func (s *gemService) GetPendingCollectionByUser(
 			CreatorId:  gem.CreatorId,
 			CreatedAt:  timestamppb.New(gem.CreatedAt),
 			ReceiverId: gem.ReceiverId,
+			Color:      gemsapi.GemColor(gem.Color),
 		}
 		processedGems = append(processedGems, &processedGem)
 	}

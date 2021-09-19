@@ -4,6 +4,17 @@ import (
 	"time"
 )
 
+type GemColor int64
+
+const (
+	Purple GemColor = iota
+	Pink
+	Blue
+	Black
+	Yellow
+	Green
+)
+
 type Gem struct {
 	ID         int64
 	Message    string
@@ -13,4 +24,5 @@ type Gem struct {
 	CreatedAt  time.Time
 	ReceiverId int64
 	ReceivedAt *time.Time
+	Color      GemColor
 }
