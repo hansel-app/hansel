@@ -1,7 +1,6 @@
 -- +migrate Up
 ALTER TABLE gems
-ADD color bigint NOT NULL;
-
+ADD color BIGINT NOT NULL;
 
 -- +migrate Down
 ALTER TABLE gems
