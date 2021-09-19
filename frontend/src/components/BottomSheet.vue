@@ -19,7 +19,6 @@
 <script lang="ts">
 import { GemInfo } from "@/interfaces";
 import { defineComponent, PropType, ref, computed } from "vue";
-// import { collapsed, toggleBottomSheet, bottomSheetHeight } from "@/components/BottomSheet/state";
 import { Row, Button } from "vant";
 
 export default defineComponent({
@@ -52,9 +51,6 @@ export default defineComponent({
       this.$router.replace({ name: "home" });
     },
   },
-  computed: {
-    
-  }
 });
 </script>
 <style scoped>
