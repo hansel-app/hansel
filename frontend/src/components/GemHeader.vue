@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ title }}</h1>
+  <span class="big-header">{{ title }}</span>
   <Image :src="placeholderGemUrl" />
 </template>
 
