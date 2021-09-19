@@ -11,7 +11,7 @@ export interface GemColor {
   tintColor: HexCode;
 }
 
-type HexCode = String;
+type HexCode = string;
 
 export interface GemInfo {
   message: string;

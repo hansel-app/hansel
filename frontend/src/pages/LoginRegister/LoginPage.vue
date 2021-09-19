@@ -15,7 +15,7 @@
         placeholder="Password"
         :rules="[{ required: true, message: 'Password is required' }]"
       />
-      <div style="margin: 16px;">
+      <div class="button-container">
         <van-button round block type="primary" native-type="submit" width="80%">
           Login
         </van-button>
@@ -27,5 +27,8 @@
 <style scoped lang="less">
 .container .van-field {
   width: 80%;
+}
+.button-container {
+  margin: 16px;
 }
 </style>

@@ -22,7 +22,7 @@
         placeholder="Confirm password"
         :rules="[{ required: true, message: 'Confirm password is required' }]"
       />
-      <div style="margin: 16px;">
+      <div class="button-container">
         <van-button round block type="primary" native-type="submit" width="80%">
           Register
         </van-button>
@@ -34,5 +34,8 @@
 <style scoped lang="less">
 .container .van-field {
   width: 80%;
+}
+.button-container {
+  margin: 16px;
 }
 </style>
