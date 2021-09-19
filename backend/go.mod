@@ -11,6 +11,7 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.10.1
 	github.com/rubenv/sql-migrate v0.0.0-20210614095031-55d5740dbbcc
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	google.golang.org/grpc v1.40.0
 	google.golang.org/protobuf v1.27.1
 )

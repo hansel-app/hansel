@@ -31,7 +31,19 @@ func (r *userRepository) Get(id int64) (*users.User, error) {
 	return &user, nil
 }
 
-func (r *userRepository) Add(user users.User) error {
+func (r *userRepository) GetByUsername(username string) (*users.User, error) {
+	sql, _, _ := qb.From("users").Where(goqu.C("username").Eq(username)).ToSQL()
+
+	var user users.User
+	err := r.db.Get(&user, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get user with username '%s': %w", username, err)
+	}
+
+	return &user, nil
+}
+
+func (r *userRepository) Add(user *users.User) error {
 	sql, _, _ := qb.Insert("users").Rows(user).ToSQL()
 
 	_, err := r.db.Exec(sql)
@@ -42,7 +54,7 @@ func (r *userRepository) Add(user users.User) error {
 	return nil
 }
 
-func (r *userRepository) Update(id int64, user users.User) error {
+func (r *userRepository) Update(id int64, user *users.User) error {
 	sql, _, _ := qb.Update("users").Where(goqu.C("id").Eq(id)).Set(user).ToSQL()
 
 	_, err := r.db.Exec(sql)

@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-
-	"github.com/hansel-app/hansel/internal/core/domain/users"
 )
 
 const secretKeyMinLength = 64
@@ -27,7 +25,7 @@ func NewJWTManager(secretKey string, tokenDuration *time.Duration) (*JWTManager,
 	}, nil
 }
 
-func (m *JWTManager) Generate(user *users.User) (string, error) {
+func (m *JWTManager) Generate(userID int64) (string, error) {
 	// An expiry claim of 0 indicates that the token never expires.
 	expiresAt := int64(0)
 	if m.tokenDuration != nil {
@@ -38,7 +36,7 @@ func (m *JWTManager) Generate(user *users.User) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expiresAt,
 		},
-		UserID: user.ID,
+		UserID: userID,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)

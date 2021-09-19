@@ -26,6 +26,6 @@ func New(db *sqlx.DB, jwtManager *auth.JWTManager) *grpc.Server {
 		)),
 	)
 
-	handlers.RegisterServices(s, db)
+	handlers.RegisterServices(s, db, jwtManager)
 	return s
 }
