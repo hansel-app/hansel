@@ -27,8 +27,13 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
     },
     createdAt: dayjs(protoGem.getCreatedAt().toDate()),
     // TODO: replace this with actual user object
-    // createdBy: protoGem.getCreatorId(),
-    createdBy: "Bobby",
+    createdBy: {
+      id: 9999,
+      username: "bobbythebobcat",
+      displayName: "bobby",
+      avatar:
+        "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
+    },
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
   };
 };

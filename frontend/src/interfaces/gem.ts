@@ -1,4 +1,4 @@
-import { LatLng } from "@/interfaces";
+import { LatLng, User } from "@/interfaces";
 import { Dayjs } from "dayjs";
 
 // TODO: replace with interface generated from protobuf?
@@ -7,7 +7,7 @@ export interface Gem {
   message: string;
   position: LatLng;
   createdAt: Dayjs;
-  createdBy: string; // TODO: replace this with user object
+  createdBy: User;
   receivedAt: Dayjs;
   // color: GemColor; // TODO: replace this with enum
 }
