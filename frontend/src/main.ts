@@ -14,10 +14,13 @@ import {
   FRIEND_REQUESTS_ROUTE,
   HOME_ROUTE,
   PROFILE_ROUTE,
+  LOGIN_ROUTE,
+  REGISTER_ROUTE,
 } from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
 import ProfilePage from "./pages/Profile/ProfilePage.vue";
 import { AddFriendPage, FriendRequestsPage } from "./pages/Friend";
+import { LoginPage, RegisterPage } from "./pages/LoginRegister";
 import App from "./App.vue";
 import "./registerServiceWorker";
 
@@ -43,6 +46,8 @@ const router = createRouter({
     { path: PROFILE_ROUTE, component: ProfilePage },
     { path: ADD_FRIENDS_ROUTE, component: AddFriendPage },
     { path: FRIEND_REQUESTS_ROUTE, component: FriendRequestsPage },
+    { path: LOGIN_ROUTE, component: LoginPage },
+    { path: REGISTER_ROUTE, component: RegisterPage },
   ],
 });
 
