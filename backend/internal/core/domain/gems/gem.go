@@ -1,7 +1,6 @@
 package gems
 
 import (
-	"database/sql/driver"
 	"time"
 )
 
@@ -27,6 +26,3 @@ type Gem struct {
 	ReceivedAt *time.Time
 	Color      GemColor
 }
-
-func (u *GemColor) Scan(value interface{}) error { *u = GemColor(value.(int64)); return nil }
-func (u GemColor) Value() (driver.Value, error)  { return int64(u), nil }
