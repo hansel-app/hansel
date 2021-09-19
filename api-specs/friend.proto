@@ -1,13 +1,13 @@
 syntax = "proto3";
 package friendsapi;
-option go_package = "/friendsapi"
+option go_package = "/friendsapi";
 
 import "google/protobuf/empty.proto";
 
 service FriendService {
 	rpc Add (FriendRequest) returns (google.protobuf.Empty);
 	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
-	rpc Block (FriendRequest) return (google.protobuf.Empty);
+	rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
 message FriendRequest {
