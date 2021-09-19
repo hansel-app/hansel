@@ -1,7 +1,7 @@
 <template>
   <router-view
     :name="currentStageName"
-    :gem="gemPackage"
+    :gem="gem"
     @nextStage="nextStage"
   ></router-view>
 </template>
