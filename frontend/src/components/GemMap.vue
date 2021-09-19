@@ -61,28 +61,19 @@ import {
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
 } from "@/constants";
-import { LatLng } from "@/interfaces";
+import { Gem, LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
-import { Dayjs } from "dayjs";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
-// TODO: replace this once Gem interface has been created
-interface TempGem {
-  id: number;
-  position: LatLng;
-  dropTime: Dayjs;
-  dropper: string;
-}
-
-type GemMarkerOptions = TempGem &
+type GemMarkerOptions = Gem &
   Pick<google.maps.MarkerOptions, "map" | "position" | "icon">;
 
 export default defineComponent({
   props: {
     gems: {
-      type: Array as PropType<TempGem[]>,
+      type: Array as PropType<Gem[]>,
       default: () => [],
     },
   },
@@ -174,7 +165,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(this.currPosition);
     },
 
-    getGemImageUrl(gem: TempGem) {
+    getGemImageUrl(gem: Gem) {
       // TODO: replace with if-else block based on gem colour
       console.log(gem);
       return require("@/assets/blue_gem_64.png");
@@ -223,7 +214,7 @@ export default defineComponent({
       }
     },
 
-    showGemMarkerInfoWindow(gem: TempGem) {
+    showGemMarkerInfoWindow(gem: Gem) {
       const marker = Array.from(this.gemMarkerRefs).find(
         (marker) => marker.$props.options.position == gem.position
       );
@@ -235,8 +226,8 @@ export default defineComponent({
 
       const infoWindow = createApp(GemMarkerInfoWindow, {
         distance: distFromSelf,
-        dropperName: gem.dropper,
-        dropTime: gem.dropTime,
+        dropperName: gem.createdBy,
+        dropTime: gem.createdAt,
         // TODO: replace this with actual avatar
         dropperAvatar:
           "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg",

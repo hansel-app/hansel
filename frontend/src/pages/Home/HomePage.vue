@@ -23,15 +23,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, inject, ref } from "vue";
 import { PROFILE_ROUTE } from "@/constants";
 import GemMap from "@/components/GemMap.vue";
 import CircleAvatar from "@/components/CircleAvatar.vue";
-import { GemServiceClient } from "@/protobuf/GemServiceClientPb";
-import { Gem, GetPendingCollectionByUserRequest } from "@/protobuf/gem_pb";
-
-const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
+import { FETCH_GEMS_PENDING_COLLECTION } from "@/providers/GemProvider.vue";
+import { Gem } from "@/interfaces";
 
 export default defineComponent({
   components: {
@@ -40,21 +37,17 @@ export default defineComponent({
   },
 
   setup() {
-    const client = new GemServiceClient(
-      `${SERVER_URL}:${SERVER_PORT}`,
-      null,
-      null
+    const fetchGems = inject(FETCH_GEMS_PENDING_COLLECTION, () =>
+      Promise.resolve([])
     );
-    const request = new GetPendingCollectionByUserRequest();
-    request.setUserid(2);
-
-    let gems: Gem[] = [];
-    client.getPendingCollectionByUser(request, {}, (err, resp) => {
-      // TODO: add error handling
-      console.log(err);
-      console.log(resp.getGemsList());
-      gems = resp.getGemsList();
-    });
+    const gems = ref<Gem[]>([]);
+    // TODO: remove hardcoded userid
+    fetchGems(2)
+      .then((resp) => {
+        gems.value = resp;
+      })
+      // TODO: better error handling
+      .catch((err) => console.log(err, "Failed to fetch gems"));
 
     return {
       gems,

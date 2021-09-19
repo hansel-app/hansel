@@ -2,14 +2,14 @@
   <van-row type="flex" align="center">
     <van-col span="6">
       <CircleAvatar
-        :avatarUrl="dropperAvatar"
+        :avatarUrl="gemCreatorAvatar"
         :showLoading="false"
         :showError="false"
       />
     </van-col>
     <van-col class="marker-text-info" span="18">
       <p class="distance-indicator">{{ displayDistance }}</p>
-      <p>From: {{ dropperName }}</p>
+      <p>From: {{ gemCreator }}</p>
       <p>{{ displayDropDateTime }}</p>
     </van-col>
   </van-row>
@@ -34,7 +34,7 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    dropperName: {
+    gemCreator: {
       type: String,
       required: true,
     },
@@ -42,7 +42,7 @@ export default defineComponent({
       type: Dayjs,
       required: true,
     },
-    dropperAvatar: {
+    gemCreatorAvatar: {
       type: String,
       required: true,
     },

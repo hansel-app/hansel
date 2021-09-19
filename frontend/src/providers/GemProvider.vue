@@ -8,7 +8,7 @@ import {
 } from "@/protobuf/gem_pb";
 import { defineComponent, InjectionKey, provide } from "vue";
 import { Gem } from "@/interfaces";
-import { unix } from "dayjs";
+import dayjs from "dayjs";
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
@@ -25,11 +25,11 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       lat: protoGem.getLatitude(),
       lng: protoGem.getLongitude(),
     },
-    createdAt: unix(protoGem.getCreatedAt()),
+    createdAt: dayjs(protoGem.getCreatedAt().toDate()),
     // TODO: replace this with actual user object
     // createdBy: protoGem.getCreatorId(),
     createdBy: "Bobby",
-    receivedAt: unix(protoGem.getReceivedAt()),
+    receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
   };
 };
 
