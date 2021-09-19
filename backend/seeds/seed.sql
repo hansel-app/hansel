@@ -1,7 +1,8 @@
-INSERT INTO users (username)
+-- Passwords are 'password'
+INSERT INTO users (username, email, hashed_password)
 VALUES
-  ('bobby'),
-  ('tommy');
+  ('bobby', 'bobby@example.com', '$2a$10$QRZ9dpL2JRGTK7hNG/UXF.w5tyBtGmDj2fKu8Ce4v2pYrcjGUJKtK'),
+  ('tommy', 'tommy@example.com', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe');
 
 INSERT INTO gems (message, latitude, longitude, creator_id, receiver_id)
 VALUES

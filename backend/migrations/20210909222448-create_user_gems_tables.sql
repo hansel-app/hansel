@@ -1,7 +1,9 @@
 -- +migrate Up
 CREATE TABLE users (
-    id       BIGSERIAL PRIMARY KEY,
-    username VARCHAR UNIQUE
+    id              BIGSERIAL PRIMARY KEY,
+    username        VARCHAR UNIQUE NOT NULL,
+    email           VARCHAR UNIQUE NOT NULL,
+    hashed_password VARCHAR NOT NULL
 );
 
 CREATE TABLE gems (
