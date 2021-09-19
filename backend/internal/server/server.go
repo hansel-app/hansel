@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/jmoiron/sqlx"
 	"google.golang.org/grpc"
 
@@ -11,10 +12,20 @@ import (
 
 func New(db *sqlx.DB, jwtManager *auth.JWTManager) *grpc.Server {
 	authInterceptor := interceptors.NewAuthInterceptor(jwtManager)
+	loggingInterceptor := interceptors.NewLoggingInterceptor()
+
+	// Note that the interceptors are executed in the order in which they are declared here.
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(authInterceptor.Unary()),
-		grpc.StreamInterceptor(authInterceptor.Stream()),
+		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+			loggingInterceptor.Unary(),
+			authInterceptor.Unary(),
+		)),
+		grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
+			loggingInterceptor.Stream(),
+			authInterceptor.Stream(),
+		)),
 	)
+
 	handlers.RegisterServices(s, db)
 	return s
 }
