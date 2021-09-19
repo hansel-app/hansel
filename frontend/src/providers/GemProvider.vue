@@ -7,8 +7,9 @@ import {
   GetPendingCollectionByUserRequest,
 } from "@/protobuf/gem_pb";
 import { defineComponent, InjectionKey, provide } from "vue";
-import { Gem } from "@/interfaces";
+import { Gem, GemColor } from "@/interfaces";
 import dayjs from "dayjs";
+import { mockSelfUser } from "@/interfaces/mockData";
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
@@ -34,7 +35,9 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       avatar:
         "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
     },
+    receiver: mockSelfUser,
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
+    color: GemColor.BLUE,
   };
 };
 
