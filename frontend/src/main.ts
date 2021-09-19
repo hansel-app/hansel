@@ -8,6 +8,7 @@ import {
   DropGem,
   SelectFriend,
 } from "./pages/DropGem/index";
+import { PickupGem, FoundGem, MessageDisplay } from "./pages/PickupGem/index";
 import {
   DROP_GEM_ROUTE,
   ADD_FRIENDS_ROUTE,
@@ -16,6 +17,7 @@ import {
   PROFILE_ROUTE,
   LOGIN_ROUTE,
   REGISTER_ROUTE,
+  PICKUP_GEM_ROUTE,
 } from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
 import ProfilePage from "./pages/Profile/ProfilePage.vue";
@@ -39,6 +41,20 @@ const router = createRouter({
             friend: SelectFriend,
             media: AttachMedia,
             message: AttachMessage,
+          },
+        },
+      ],
+    },
+    {
+      path: PICKUP_GEM_ROUTE,
+      name: "pickupGem",
+      component: PickupGem,
+      children: [
+        {
+          path: "",
+          components: {
+            FoundGem: FoundGem,
+            MessageDisplay: MessageDisplay,
           },
         },
       ],
