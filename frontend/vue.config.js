@@ -1,5 +1,6 @@
 const merge = require("webpack-merge");
 const tsImportPluginFactory = require("ts-import-plugin");
+const path = require("path");
 
 module.exports = {
   // customises settings for manifest.json
@@ -21,6 +22,23 @@ module.exports = {
     //     // ...other Workbox options...
     //  }
   },
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: {
+            // overide with less vars
+            hack: `true; @import "${path.resolve(
+              __dirname,
+              "src",
+              "index.less"
+            )}";`,
+          },
+        },
+      },
+    },
+  },
   chainWebpack: (config) => {
     config.module
       .rule("ts")
@@ -33,7 +51,7 @@ module.exports = {
               tsImportPluginFactory({
                 libraryName: "vant",
                 libraryDirectory: "es",
-                style: true,
+                style: (name) => `${name}/style/less`,
               }),
             ],
           }),

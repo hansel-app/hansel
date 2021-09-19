@@ -8,11 +8,23 @@ import {
   DropGem,
   SelectFriend,
 } from "./pages/DropGem/index";
-import { DROP_GEM_ROUTE, HOME_ROUTE, PROFILE_ROUTE } from "@/constants";
+import {
+  PickupGem,
+  FoundGem,
+  MessageDisplay
+} from "./pages/PickupGem/index";
+import { 
+  DROP_GEM_ROUTE,
+  ADD_FRIENDS_ROUTE,
+  FRIEND_REQUESTS_ROUTE,
+  HOME_ROUTE,
+  PROFILE_ROUTE,
+  PICKUP_GEM_ROUTE
+} from "@/constants";
 import HomePage from "./pages/Home/HomePage.vue";
 import ProfilePage from "./pages/Profile/ProfilePage.vue";
+import { AddFriendPage, FriendRequestsPage } from "./pages/Friend";
 import App from "./App.vue";
-import "vant/lib/index.css";
 import "./registerServiceWorker";
 
 const router = createRouter({
@@ -34,7 +46,23 @@ const router = createRouter({
         },
       ],
     },
+    { 
+      path: PICKUP_GEM_ROUTE, 
+      name: "pickupGem", 
+      component: PickupGem,
+      children: [
+        {
+          path: "",
+          components: {
+            FoundGem: FoundGem,
+            MessageDisplay: MessageDisplay,
+          }
+        }
+      ]
+    },
     { path: PROFILE_ROUTE, component: ProfilePage },
+    { path: ADD_FRIENDS_ROUTE, component: AddFriendPage },
+    { path: FRIEND_REQUESTS_ROUTE, component: FriendRequestsPage },
   ],
 });
 

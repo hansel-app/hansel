@@ -1,11 +1,8 @@
-import { hansel } from "@/interfaces";
+import { LatLng } from "@/interfaces";
 
 // Adapted from https://stackoverflow.com/a/27943
 // Returns distance between 2 points (as indicated by their LatLng values) in km
-export function getDistanceFromLatLonInKm(
-  latlng1: hansel.LatLng,
-  latlng2: hansel.LatLng
-) {
+export function getDistanceFromLatLonInKm(latlng1: LatLng, latlng2: LatLng) {
   const R = 6371; // Radius of the earth in km
   const dLat = degreesToRadian(latlng2.lat - latlng1.lat);
   const dLon = degreesToRadian(latlng2.lng - latlng1.lng);
@@ -23,7 +20,6 @@ export function getDistanceFromLatLonInKm(
 }
 
 export function formatDistance(km: number): string {
-  // return `${km.toFixed(3)} km`;
   if (km >= 1) {
     return `${km.toFixed(3)} km`;
   } else {
