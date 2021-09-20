@@ -26,6 +26,7 @@ import { LoginPage, RegisterPage } from "./pages/LoginRegister";
 import App from "@/App.vue";
 import "@/registerServiceWorker";
 import VueClickAway from "vue3-click-away";
+import VueGtag from "vue-gtag";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -68,8 +69,13 @@ const router = createRouter({
   ],
 });
 
+const GOOGLE_ANALYTICS_ID = process.env.VUE_APP_GOOGLE_ANALYTICS_ID;
+
 createApp(App)
   .use(Vant)
   .use(router)
+  .use(VueGtag, {
+    config: { id: GOOGLE_ANALYTICS_ID }
+  }, router)
   .use(VueClickAway)
   .mount("#app");
