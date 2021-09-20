@@ -28,10 +28,10 @@ services:
     logging:
       driver: journald
     expose:
-      - '${SERVER_PORT}'
+      - '8000'
     environment:
       GO_ENV: production
-      SERVER_PORT: ${SERVER_PORT}
+      SERVER_PORT: 8000
       SECRET_KEY: ${SECRET_KEY}
       DB_HOSTNAME: ${DB_HOSTNAME}
       DB_PORT: ${DB_PORT}
