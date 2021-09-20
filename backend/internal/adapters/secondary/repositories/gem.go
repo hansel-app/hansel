@@ -51,18 +51,15 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 	return gems, nil
 }
 
-func (r *gemRepository) Add(message string) (*gems.Gem, error) {
-	sql, _, _ := qb.Insert("gems").Rows(goqu.Record{
-		"message": message,
-	}).Returning(goqu.T("gems").All()).ToSQL()
+func (r *gemRepository) Add(gem *gems.Gem) (string, error) {
+	sql, _, _ := qb.Insert("gems").ToSQL()
 
-	var gem gems.Gem
-	err := r.db.Get(&gem, sql)
+	_, err := r.db.Exec(sql)
 	if err != nil {
-		return nil, fmt.Errorf("unable to add gem: %w", err)
+		return "Error", fmt.Errorf("unable to add gem: %w", err)
 	}
 
-	return &gem, nil
+	return "Success", nil
 }
 
 func (r *gemRepository) Update(gem *gems.Gem) (*gems.Gem, error) {
