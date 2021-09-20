@@ -24,5 +24,10 @@ message PendingRequest {
 }
 
 message PendingResponse {
-	repeated PersonInfo pending_requests = 1;
+	repeated PendingFriend pending_requests = 1;
+}
+
+message PendingFriend {
+	PersonInfo info = 1;
+	google.protobuf.Timestamp created_at = 2;
 }
