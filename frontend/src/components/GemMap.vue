@@ -18,19 +18,24 @@
       <CustomControl class="right-top-controls" position="RIGHT_TOP">
         <van-row>
           <van-icon
-            class="circle-icon-lg"
+            class="circle-button-icon-md"
             :name="require('@/assets/icons/compass.svg')"
             @click="centerMapOnCurrentLocation"
           />
         </van-row>
         <van-row>
           <van-icon
-            class="circle-icon-lg"
+            class="circle-button-icon-md"
             :name="require('@/assets/icons/info.svg')"
           />
         </van-row>
       </CustomControl>
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
+        <van-icon
+          class="circle-button-icon-lg"
+          :name="require('@/assets/images/purple_64.png')"
+          @click="goToDropGem"
+        />
         <van-cell v-if="gems.length > 0">
           <van-row justify="space-around" align="center">
             <van-col span="16">
@@ -54,7 +59,7 @@
           <van-row v-if="gems.length > 0" justify="space-around" align="center">
             <van-col>
               <van-icon
-                class="circle-icon-xs"
+                class="circle-button-icon-xs"
                 :name="require('@/assets/icons/chevron-left-circle.svg')"
                 @click="prevGem"
               />
@@ -66,7 +71,7 @@
 
             <van-col>
               <van-icon
-                class="circle-icon-xs"
+                class="circle-button-icon-xs"
                 :name="require('@/assets/icons/chevron-right-circle.svg')"
                 @click="nextGem"
               />
@@ -187,7 +192,6 @@ export default defineComponent({
         this.nearestGemDistance <= GEM_PICKUP_RADIUS_THRESHOLD
       );
     },
-
     sortedGems() {
       return [...this.gems].sort((gem1, gem2) => {
         return (
@@ -244,7 +248,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(currGem.position);
       this.showGemMarkerInfoWindow(currGem);
     },
-    
+
     goToDropGem() {
       this.$router.push(DROP_GEM_ROUTE);
     },
@@ -256,7 +260,6 @@ export default defineComponent({
     onGemMarkerClick(markerOptions: GemMarkerOptions) {
       this.showGemMarkerInfoWindow(markerOptions);
     },
-
     showGemMarkerInfoWindow(gem: Gem) {
       const marker = Array.from(this.gemMarkerRefs).find(
         (marker) => marker.$props.options.position == gem.position

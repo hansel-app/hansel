@@ -118,13 +118,28 @@
 @circle-button-icon-size: 5em;
 =======
 // Icons
-@circle-button-icon-size-lg: 5em;
+@circle-button-icon-size-lg: 7em;
+@circle-button-icon-size-md: 5em;
 @circle-button-icon-size-xs: 3em;
-.circle-icon-lg {
+.circle-button-icon-lg {
   font-size: @circle-button-icon-size-lg;
+  img {
+    background: @background-color;
+    border-radius: @circle-button-icon-size-lg;
+  }
 }
-
-.circle-icon-xs {
+.circle-button-icon-md {
+  font-size: @circle-button-icon-size-md;
+  img {
+    background: @background-color;
+    border-radius: @circle-button-icon-size-md;
+  }
+}
+.circle-button-icon-xs {
   font-size: @circle-button-icon-size-xs;
+  img {
+    background: @background-color;
+    border-radius: @circle-button-icon-size-xs;
+  }
 }
 >>>>>>> Add left and right chevron
