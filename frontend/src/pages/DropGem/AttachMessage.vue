@@ -7,17 +7,15 @@
     type="textarea"
     rows="5"
   />
-  <Button v-on:click="dropGem">Drop gem</Button>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { Button, Field } from "vant";
+import { Field } from "vant";
 import GemHeader from "@/components/GemHeader.vue";
 
 export default defineComponent({
   components: {
-    Button,
     Field,
     GemHeader,
   },

@@ -7,6 +7,9 @@
     <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
       Next
     </button>
+    <button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
+      Drop Gem
+    </button>
   </div>
 </template>
 
@@ -48,14 +51,17 @@ export default defineComponent({
         this.currentStage -= 1;
       }
     },
-    dropGem() {
+    dropMyGem() {
+      console.log("called dropMyGem");
       const dropGem = inject(DROP_GEM, () => Promise.resolve(""));
       const response = ref<string>("");
+      console.log(this.draftGem);
       dropGem(this.draftGem)
         .then((resp) => {
           response.value = resp;
         })
         .catch((err) => console.log(err, "Failed to drop gem"));
+      console.log(response.value);
     },
   },
   components: {
