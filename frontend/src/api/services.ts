@@ -1,5 +1,6 @@
 import { AuthServicePromiseClient } from "@/protobuf/auth_grpc_web_pb";
 import { GemServicePromiseClient } from "@/protobuf/gem_grpc_web_pb";
+import { FriendServicePromiseClient } from "@/protobuf/friend_grpc_web_pb";
 import AuthInterceptor from "@/api/interceptors/auth";
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
@@ -16,7 +17,8 @@ const options = {
 
 const services = Object.freeze({
   authClient: new AuthServicePromiseClient(hostname, null, options),
-  gemsClient: new GemServicePromiseClient(hostname, null, options)
+  gemsClient: new GemServicePromiseClient(hostname, null, options),
+  friendsClient: new FriendServicePromiseClient(hostname, null, options)
 });
 
 export default services;
