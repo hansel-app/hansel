@@ -12,6 +12,7 @@ type friendService struct {
 	usecases friends.UseCases
 }
 
+// how to link friend requests repo here?
 func NewFriendService(repository friends.Repository) *friendService {
 	return &friendService{
 		usecases: *friends.NewUseCases(repository),

@@ -19,17 +19,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
+import { User } from "@/interfaces";
 import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
+import { mapState, useStore } from "vuex";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    const fetchFriendRequests = () => store.dispatch("getFriendRequests");
+
+    onMounted(() => fetchFriendRequests);
+  },
   components: {
     FriendCell,
   },
   data() {
     return {
       mockFriends,
+      ...mapState({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        friends: (state: any) => state.friends.friendRequests as User[],
+      })
     };
   },
   methods: {
