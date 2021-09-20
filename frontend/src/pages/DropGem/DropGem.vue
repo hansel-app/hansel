@@ -22,10 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref } from "vue";
-import { DROP_GEM } from "@/providers/GemProvider.vue";
+import { defineComponent, ref } from "vue";
 import { NavBar } from "vant";
 import { GemMessage, GemColor } from "@/protobuf/gem_pb";
+import { useStore } from "vuex";
 
 enum DropGemStage {
   friend,
@@ -38,6 +38,7 @@ export default defineComponent({
     return {
       currentStage: DropGemStage.friend as DropGemStage,
       draftGem: new GemMessage(),
+      store: useStore(),
     };
   },
   computed: {
@@ -71,10 +72,10 @@ export default defineComponent({
     },
     dropMyGem() {
       console.log("called dropMyGem");
-      const dropGem = inject(DROP_GEM, () => Promise.resolve(""));
-      const response = ref<string>("");
+      const dropGem = () => this.store.dispatch("dropGem", this.draftGem);
+      const response = ref<number>(-1);
       console.log(this.draftGem);
-      dropGem(this.draftGem)
+      dropGem()
         .then((resp) => {
           response.value = resp;
         })

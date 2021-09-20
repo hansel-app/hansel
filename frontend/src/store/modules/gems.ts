@@ -86,9 +86,9 @@ const gemsModule: Module<GemsState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    dropGem({ commit }) {
+    dropGem({ commit }, gem: GemMessage) {
       const request = new DropRequest();
-      request.setGemMessage();
+      request.setGemMessage(gem);
 
       return new Promise((resolve, reject) => {
         services.gemsClient
