@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, inject, ref } from "vue";
+import { DROP_GEM } from "@/providers/GemProvider.vue";
 import { NavBar } from "vant";
 
 enum DropGemStage {
@@ -42,6 +43,15 @@ export default defineComponent({
       if (this.currentStage > 0) {
         this.currentStage -= 1;
       }
+    },
+    dropGem() {
+      const dropGem = inject(DROP_GEM, () => Promise.resolve([]));
+      const response = ref<any[]>([]);
+      dropGem()
+        .then((resp) => {
+          response.value = resp;
+        })
+        .catch((err) => console.log(err, "Failed to drop gem"));
     },
   },
   components: {
