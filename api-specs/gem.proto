@@ -47,8 +47,7 @@ message DropRequest {
 }
 
 message DropResponse {
-  boolean status = 1;
-  string errorMessage = 2;
+  string message = 2;
 }
 
 message GetRequest {
