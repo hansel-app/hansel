@@ -131,9 +131,4 @@ export default defineComponent({
 .van-row:hover, .van-row:focus {
   background-color: var(--menu-item-active);
 }
-
-.test {
-  border: red 1px solid;
-  background-color: blue;
-}
 </style>
