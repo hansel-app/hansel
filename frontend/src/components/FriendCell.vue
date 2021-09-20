@@ -4,7 +4,7 @@
     :title="friend.displayName"
     :label="shouldDisplayUsername ? '@' + friend.username : ''"
     :is-link="isClickable"
-    class="content"
+    class="content remove-padding"
   >
     <template #icon>
       <!-- TODO: replace with user's own avatar -->
@@ -64,5 +64,9 @@ export default defineComponent({
   background-clip: padding-box;
   padding: 4px;
   margin-right: 12px;
+}
+
+.remove-padding {
+  margin-left: -20px;
 }
 </style>
