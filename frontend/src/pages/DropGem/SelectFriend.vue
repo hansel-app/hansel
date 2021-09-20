@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <p class="header">Drop a gem</p>
-    <!-- <div class="spacer" /> -->
     <p class="sub-header">Choose a receiver</p>
     <Search placeholder="Search a friend" />
     <CellGroup>
