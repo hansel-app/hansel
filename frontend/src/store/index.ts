@@ -1,16 +1,16 @@
 import { createStore, Store } from "vuex";
 import authModule, { AuthState } from "./modules/auth";
-import gemModule, { GemState } from "./modules/gem";
+import gemsModule, { GemsState } from "./modules/gems";
 
 export interface RootState {
   auth: AuthState;
-  gems: GemState;
+  gems: GemsState;
 }
 
 const store: Store<RootState> = createStore({
   modules: {
     auth: authModule,
-    gems: gemModule,
+    gems: gemsModule,
   },
 });
 

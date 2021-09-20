@@ -11,7 +11,7 @@ import { RootState } from "@/store";
 import dayjs from "dayjs";
 import { Module } from "vuex";
 
-export interface GemState {
+export interface GemsState {
   gemsPendingCollection: Gem[];
 }
 
@@ -53,7 +53,7 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
   };
 };
 
-const gemModule: Module<GemState, RootState> = {
+const gemsModule: Module<GemsState, RootState> = {
   state: {
     gemsPendingCollection: [],
   },
@@ -81,4 +81,4 @@ const gemModule: Module<GemState, RootState> = {
   },
 };
 
-export default gemModule;
+export default gemsModule;
