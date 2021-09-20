@@ -43,8 +43,11 @@ services:
   reverse-proxy:
     image: hansel-reverse-proxy
     container_name: hansel-reverse-proxy
+    restart: always
     depends_on:
       - backend
+    networks:
+      - hansel-network
     ports:
       - "10000:10000"
       - "9901:9901"
