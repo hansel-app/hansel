@@ -29,15 +29,15 @@ func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.D
 	gemMessage := r.GetGemMessage()
 	gem := gems.Gem{
 		// TODO: generate ID here, not sure how
-		ID: 123,
-		Message: gemMessage.GetMessage(),
-		Latitude: gemMessage.GetLatitude(),
-		Longitude: gemMessage.GetLongitude(),
-		CreatorId: gemMessage.GetCreatorId(),
-		CreatedAt: time.Now(),
+		ID:         123,
+		Message:    gemMessage.GetMessage(),
+		Latitude:   gemMessage.GetLatitude(),
+		Longitude:  gemMessage.GetLongitude(),
+		CreatorId:  gemMessage.GetCreatorId(),
+		CreatedAt:  time.Now(),
 		ReceiverId: gemMessage.GetReceiverId(),
 		ReceivedAt: nil,
-		Color: gems.GemColor(gemMessage.GetColor()),
+		Color:      gems.GemColor(gemMessage.GetColor()),
 	}
 	message, err := s.usecases.Drop(&gem)
 	if err != nil {
