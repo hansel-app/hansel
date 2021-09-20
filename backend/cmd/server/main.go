@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
 	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/internal/config"
 	"github.com/hansel-app/hansel/internal/server"
 )
+
+var jwtDuration = 7 * 24 * time.Hour
 
 func main() {
 	cfg, err := config.Load()
@@ -28,7 +31,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	jwtManager, err := auth.NewJWTManager(cfg.SecretKey, nil)
+	jwtManager, err := auth.NewJWTManager(cfg.SecretKey, &jwtDuration)
 	if err != nil {
 		log.Fatalf("failed to create JWT manager: %v", err)
 	}
