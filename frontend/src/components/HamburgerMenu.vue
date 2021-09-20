@@ -4,7 +4,7 @@
             <img :src="HamburgerMenuIcon">
         </div>
         <div class="menu" :style="{ width: menuWidth }">
-            <div class="menu-contents" v-if="!collapsed">
+            <div class="menu-contents" v-if="!collapsed" @click="toggleMenu">
                 <div class="avatar">
                     <CircleAvatar
                     :avatarUrl="placeholderAvatarUrl"
@@ -31,11 +31,11 @@
 </template>
 <script>
 import { PROFILE_ROUTE, ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
-import { defineComponent, PropType, ref, computed } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import { Row } from "vant";
-import vClickOutside from 'v-click-outside'
+// import vClickOutside from 'v-click-outside'
 
 export default defineComponent({
   setup() {
@@ -81,52 +81,53 @@ export default defineComponent({
 </script>
 <style>
 :root {
-    --menu-bg-color: #5f4bae;
-    --menu-item-active: #9c8be0;
+  --menu-bg-color: #5f4bae;
+  --menu-item-active: #9c8be0;
 }
 </style>
 <style scoped>
 .menu, .menu-icon {
-    color: white;
-    background-color: var(--menu-bg-color);
+  color: white;
+  background-color: var(--menu-bg-color);
 
-    float: left;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    display: flex;
+  float: left;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  display: flex;
 }
 .menu {
-    top: 0;
-    bottom: 0;
-    transition: 0.3s ease;
-    flex-direction: column;
+  top: 0;
+  bottom: 0;
+  transition: 0.3s ease;
+  flex-direction: column;
 }
 
 .menu-icon {
-    top: 2em;
-    color: white;
-    background-color: var(--menu-bg-color);
-    padding: 0.5em;
-    border-radius: 0 0.75em 0.75em 0;
-    vertical-align:middle; 
-    text-align:center;
+  top: 2em;
+  color: white;
+  background-color: var(--menu-bg-color);
+  padding: 0.5em;
+  border-radius: 0 0.75em 0.75em 0;
+  vertical-align:middle; 
+  text-align:center;
 }
 
 .menu-contents {
-    padding: 5em 1em;
+  padding: 5em 1em;
 }
 
 .avatar {
-    margin-bottom: 2em;
+  margin-bottom: 2em;
 }
 
 .van-row {
-    border-radius: 1em;
-    padding: 0 1em;
+  border-radius: 1em;
+  padding: 0 1em;
+  white-space: nowrap;
 }
 
 .van-row:hover, .van-row:focus {
-    background-color: var(--menu-item-active);
+  background-color: var(--menu-item-active);
 }
 </style>
