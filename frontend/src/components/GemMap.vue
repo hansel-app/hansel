@@ -101,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
+import { createApp, ref, defineComponent, PropType } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
@@ -111,7 +111,7 @@ import {
   PICKUP_GEM_ROUTE,
 } from "@/constants";
 import { Gem, GemColor } from "@/interfaces";
-import { formatDistance, getDistanceFromLatLonInKm } from "@/utils/geolocation";
+import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
@@ -146,10 +146,6 @@ export default defineComponent({
       }
     };
 
-    onBeforeUpdate(() => {
-      gemMarkerRefs = new Set();
-    });
-
     const { coords: currPosition, getLocation } = useGeolocation();
     const initPos = await getLocation();
     const shouldShowPopup = ref<boolean>(false);
@@ -166,6 +162,28 @@ export default defineComponent({
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
       shouldShowPopup,
     };
+  },
+
+  beforeUpdate() {
+    // reset gem markers
+    this.gemMarkerRefs = new Set();
+
+    // clear, then add event listeners to map
+    if (this.mapRef?.map) {
+      google.maps.event.clearInstanceListeners(this.mapRef?.map);
+    }
+    const popupCloseEvents = ["mousedown", "dragstart"];
+    popupCloseEvents.forEach((event) => {
+      this.mapRef?.map?.addListener(event, () => {
+        this.hidePopup();
+      });
+    });
+    const gemInfoWindowCloseEvents = ["click"];
+    gemInfoWindowCloseEvents.forEach((event) => {
+      this.mapRef?.map?.addListener(event, () => {
+        this.gemMarkerInfoWindowRef?.close();
+      });
+    });
   },
 
   computed: {
@@ -280,14 +298,13 @@ export default defineComponent({
         map: this.mapRef?.map,
         shouldFocus: false,
       });
-
-      this.mapRef?.map?.addListener("click", () => {
-        this.gemMarkerInfoWindowRef?.close();
-      });
     },
 
     showPopup() {
       this.shouldShowPopup = true;
+    },
+    hidePopup() {
+      this.shouldShowPopup = false;
     },
   },
 });
@@ -332,9 +349,5 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   border-radius: 1rem;
   box-shadow: @shadow-medium;
-
-  .van-row {
-    justify-content: center;
-  }
 }
 </style>

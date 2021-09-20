@@ -2,11 +2,10 @@
   <Suspense>
     <template #default>
       <div>
-        <HamburgerMenu ref="hamburgerMenu"/>
+        <HamburgerMenu ref="hamburgerMenu" />
         <div class="container">
           <gem-map :gems="gems" />
-          <div class="profile-button">
-          </div>
+          <div class="profile-button"></div>
         </div>
       </div>
     </template>
@@ -18,7 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref } from "vue";
+import { onMounted, defineComponent, inject, ref } from "vue";
+import { PROFILE_ROUTE } from "@/constants";
 import GemMap from "@/components/GemMap.vue";
 import { FETCH_GEMS_PENDING_COLLECTION } from "@/providers/GemProvider.vue";
 import { Gem } from "@/interfaces";
@@ -36,13 +36,16 @@ export default defineComponent({
       Promise.resolve([])
     );
     const gems = ref<Gem[]>([]);
-    // TODO: remove hardcoded userid
-    fetchGems(2)
-      .then((resp) => {
-        gems.value = resp;
-      })
-      // TODO: better error handling
-      .catch((err) => console.log(err, "Failed to fetch gems"));
+
+    onMounted(() => {
+      // TODO: remove hardcoded userid
+      fetchGems(2)
+        .then((resp) => {
+          gems.value = resp;
+        })
+        // TODO: better error handling
+        .catch((err) => console.log(err, "Failed to fetch gems"));
+    });
 
     return {
       gems,

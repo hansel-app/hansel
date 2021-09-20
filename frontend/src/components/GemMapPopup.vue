@@ -4,7 +4,9 @@
       <van-row>
         <van-col span="12">
           <van-row>
-            {{ numberGemsPendingCollection }}
+            <span class="number-label">
+              {{ numberGemsPendingCollection }}
+            </span>
           </van-row>
           <van-row>
             uncollected gems
@@ -13,7 +15,9 @@
 
         <van-col span="12">
           <van-row>
-            {{ displayNearestGemDistance }}
+            <span class="number-label">
+              {{ displayNearestGemDistance }}
+            </span>
           </van-row>
           <van-row>
             to the nearest gem
@@ -54,3 +58,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="less">
+.number-label {
+  font-size: @font-size-xl;
+  font-weight: @font-weight-extra-bold;
+}
+.van-row {
+  justify-content: center;
+}
+</style>
