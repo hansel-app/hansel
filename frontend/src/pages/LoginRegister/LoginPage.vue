@@ -46,6 +46,7 @@ export default defineComponent({
     handleLogin() {
       this.login(this.username, this.password)
         .then(() => this.$router.push(HOME_ROUTE))
+        // TODO: Display some form of user feedback upon login failure.
         .catch((err) => console.log(err, "Failed to log in"));
     }
   }
