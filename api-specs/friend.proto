@@ -2,7 +2,6 @@ syntax = "proto3";
 package friendsapi;
 option go_package = "/friendsapi";
 
-import "generated/user.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -28,6 +27,8 @@ message PendingResponse {
 }
 
 message PendingFriend {
-	PersonInfo info = 1;
-	google.protobuf.Timestamp created_at = 2;
+	string user_id = 1;
+	string name = 2;
+	string username = 3;
+	google.protobuf.Timestamp created_at = 4;
 }
