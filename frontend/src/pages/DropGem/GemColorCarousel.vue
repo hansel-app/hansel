@@ -5,6 +5,7 @@
       v-for="gem in GemColor"
       :key="gem"
       :color="getGemColorHex(gem)"
+      @click="this.$emit('SetGemColorEvent', $event.target.value)"
     />
   </Row>
 </template>

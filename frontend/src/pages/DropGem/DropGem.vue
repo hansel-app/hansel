@@ -9,6 +9,7 @@
     :name="currentStageName"
     @SetReceiverEvent="setReceiverId"
     @SetMessageEvent="setMessage"
+    @SetGemColorEvent="setGemColor"
   ></router-view>
   <div>
     <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
@@ -24,7 +25,7 @@
 import { defineComponent, inject, ref } from "vue";
 import { DROP_GEM } from "@/providers/GemProvider.vue";
 import { NavBar } from "vant";
-import { GemMessage } from "@/protobuf/gem_pb";
+import { GemMessage, GemColor } from "@/protobuf/gem_pb";
 
 enum DropGemStage {
   friend,
@@ -64,6 +65,9 @@ export default defineComponent({
     },
     setMessage(value: string): void {
       this.draftGem.setMessage(value);
+    },
+    setGemColor(value: GemColor): void {
+      this.draftGem.setColor(value);
     },
     dropMyGem() {
       console.log("called dropMyGem");
