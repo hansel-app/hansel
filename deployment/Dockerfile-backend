@@ -4,8 +4,20 @@
 # Base image
 FROM golang:1.17.1
 
+# Install Protocol Buffer compiler
+RUN apt-get update
+RUN apt-get install -y protobuf-compiler
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1.0
+
 # Environment variables
+ENV API_SPECS_ROOT /api-specs
 ENV APP_ROOT /backend
+
+# Copy API specs into container
+RUN mkdir --parents $API_SPECS_ROOT
+WORKDIR $API_SPECS_ROOT
+COPY api-specs .
 
 # Copy source code into container
 RUN mkdir --parents $APP_ROOT
