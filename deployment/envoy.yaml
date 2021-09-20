@@ -5,7 +5,7 @@ admin:
 
 static_resources:
   listeners:
-    - name: hansel_client_listener
+    - name: hansel_backend_listener
       address:
         socket_address: { address: 0.0.0.0, port_value: 10000 }
       filter_chains:
@@ -23,7 +23,7 @@ static_resources:
                       routes:
                         - match: { prefix: "/" }
                           route:
-                            cluster: hansel_service
+                            cluster: hansel_backend_service
                             timeout: 0s
                             max_stream_duration:
                               grpc_timeout_header_max: 0s
@@ -39,7 +39,7 @@ static_resources:
                   - name: envoy.filters.http.cors
                   - name: envoy.filters.http.router
   clusters:
-    - name: hansel_service
+    - name: hansel_backend_service
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
