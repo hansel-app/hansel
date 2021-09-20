@@ -12,6 +12,15 @@ service GemService {
   // TODO: Replace placeholder methods.
 }
 
+enum GemColor {
+  PURPLE = 0;
+  PINK = 1;
+  BLUE = 2;
+  BLACK = 3;
+  YELLOW = 4;
+  GREEN = 5;
+}
+
 message Gem {
   int64 id = 1;
   string message = 2;
@@ -21,6 +30,7 @@ message Gem {
   google.protobuf.Timestamp created_at = 6;
   int64 receiver_id = 7;
   google.protobuf.Timestamp received_at = 8;
+  GemColor color = 9;
 }
 
 message DropRequest {

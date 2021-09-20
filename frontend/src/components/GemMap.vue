@@ -61,7 +61,7 @@ import {
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
 } from "@/constants";
-import { Gem, LatLng } from "@/interfaces";
+import { Gem, GemColor, LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 
@@ -166,9 +166,8 @@ export default defineComponent({
     },
 
     getGemImageUrl(gem: Gem) {
-      // TODO: replace with if-else block based on gem colour
-      console.log(gem);
-      return require("@/assets/blue_gem_64.png");
+      console.assert(Object.values(GemColor).includes(gem.color));
+      return require(`@/assets/images/${gem.color}_64.png`);
     },
 
     nextGem() {

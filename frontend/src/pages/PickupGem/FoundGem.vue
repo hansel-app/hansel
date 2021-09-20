@@ -1,7 +1,7 @@
 <template>
   <div class="bg-container">
     <video autoplay muted :poster="getPoster" id="gem-video">
-      <source :src="getVideo" type="video/mp4">
+      <source :src="getVideo" type="video/mp4" />
     </video>
     <div id="found-gem">
       <h1>You found a gem!</h1>
@@ -11,38 +11,40 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { Button } from "vant";
-import { GemInfo, color } from "@/interfaces";
+import { Gem, GemColor } from "@/interfaces";
 
 export default defineComponent({
   props: {
-    gemPackage: {
-      type: Object as PropType<GemInfo>,
+    gem: {
+      type: Object as PropType<Gem>,
       required: true,
-    }
+    },
   },
-  components: { 
+  components: {
     "van-button": Button,
   },
   computed: {
     getPoster() {
-      console.assert(Object.values(color).includes(this.gemPackage.color as color));
-      return require('@/assets/images/gem-found-' + this.gemPackage.color +'.png');
+      console.assert(Object.values(GemColor).includes(this.gem.color));
+      return require("@/assets/images/gem-found-" + this.gem.color + ".png");
     },
     getVideo() {
-      console.assert(Object.values(color).includes(this.gemPackage.color as color));
-      return require('@/assets/videos/gem-found-' + this.gemPackage.color +'.mp4');
+      console.assert(Object.values(GemColor).includes(this.gem.color));
+      return require("@/assets/videos/gem-found-" + this.gem.color + ".mp4");
     },
-  }
+  },
 });
 </script>
+
 <style scoped>
 .bg-container {
   font-size: 100%;
   text-align: center;
-  height:100vh;
+  height: 100vh;
   position: relative;
 }
 
@@ -51,7 +53,7 @@ export default defineComponent({
   padding: 2em;
   display: inline-block;
   left: 0;
-  position:absolute;
+  position: absolute;
   height: 80%;
   width: 100%;
 }
@@ -74,9 +76,9 @@ export default defineComponent({
 }
 
 #view-button {
-  position: absolute; 
-  bottom: 20%; 
-  left: 50%; 
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
 }

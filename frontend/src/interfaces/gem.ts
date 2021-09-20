@@ -7,28 +7,12 @@ export interface Gem {
   position: LatLng;
   createdAt: Dayjs;
   createdBy: User;
-  receivedAt: Dayjs;
-  // color: GemColor; // TODO: replace this with enum
+  receiver: User;
+  receivedAt: Dayjs | null;
+  color: GemColor;
 }
 
-export interface GemColor {
-  selectionColor: HexCode;
-  tintColor: HexCode;
-}
-
-type HexCode = string;
-
-// TODO: remove this and replace it directly with Gem
-export interface GemInfo {
-  message: string;
-  position: LatLng;
-  dropper: string;
-  receiver: string;
-  dropTime: Dayjs;
-  color: string;
-}
-
-export enum color {
+export enum GemColor {
   PURPLE = "purple",
   PINK = "pink",
   BLUE = "blue",

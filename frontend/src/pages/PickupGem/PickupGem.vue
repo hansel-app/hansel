@@ -1,14 +1,15 @@
 <template>
   <router-view
     :name="currentStageName"
-    :gemPackage="gemPackage"
+    :gem="gem"
     @nextStage="nextStage"
   ></router-view>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import dayjs from "dayjs";
+import { mockGems } from "@/interfaces/mockData";
+import { Gem } from "@/interfaces";
 
 enum PickupGemStage {
   FoundGem,
@@ -18,16 +19,8 @@ enum PickupGemStage {
 export default defineComponent({
   setup() {
     // TODO: replace later~
-    const gemPackage = {
-      message: "Me gusta los camarones",
-      position: { lat: 1.2966, lng: 103.7764 },
-      dropper: "Goose",
-      receiver: "Wimp",
-      dropTime: dayjs(),
-      color: "purple",
-    };
-
-    return { gemPackage };
+    const gem: Gem = mockGems[0];
+    return { gem };
   },
   data() {
     return {
