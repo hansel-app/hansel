@@ -1,20 +1,19 @@
-<template><slot></slot></template>
-
-<script lang="ts">
+import services from "@/api/services";
+import { Gem, GemColor } from "@/interfaces";
+import { mockFriends, mockSelfUser } from "@/interfaces/mockData";
 import {
   Gem as ProtoGem,
   GemColor as ProtoGemColor,
   GetPendingCollectionForUserRequest,
+  GetPendingCollectionForUserResponse,
 } from "@/protobuf/gem_pb";
-import { defineComponent, InjectionKey, provide } from "vue";
-import { Gem, GemColor } from "@/interfaces";
+import { RootState } from "@/store";
 import dayjs from "dayjs";
-import services from "@/api/services";
-import { mockSelfUser } from "@/interfaces/mockData";
+import { Module } from "vuex";
 
-export const FETCH_GEMS_PENDING_COLLECTION: InjectionKey<(
-  userId: number
-) => Promise<Gem[]>> = Symbol("Fetch Gems Pending Collection");
+export interface GemsState {
+  gemsPendingCollection: Gem[];
+}
 
 const protoGemColorToGemColorMapper = (
   protoGemColor: ProtoGemColor
@@ -36,6 +35,7 @@ const protoGemColorToGemColorMapper = (
       throw new Error("Unknown gem color received!");
   }
 };
+
 const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
   return {
     id: protoGem.getId(),
@@ -45,37 +45,40 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       lng: protoGem.getLongitude(),
     },
     createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
-    // TODO: replace this with actual user object
-    createdBy: {
-      id: 9999,
-      username: "bobbythebobcat",
-      displayName: "bobby",
-      avatar:
-        "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
-    },
+    // TODO: replace these with actual user object
+    createdBy: mockFriends[0],
     receiver: mockSelfUser,
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
   };
 };
 
-export default defineComponent({
-  setup() {
-    const client = services.gemsClient
-
-    const getGemsPendingCollectionForUser = async (): Promise<Gem[]> => {
+const gemsModule: Module<GemsState, RootState> = {
+  state: {
+    gemsPendingCollection: [],
+  },
+  mutations: {
+    setGemsPendingCollection(state, gems: Gem[]) {
+      state.gemsPendingCollection.splice(0, state.gemsPendingCollection.length);
+      gems.forEach((gem) => state.gemsPendingCollection.push(gem));
+    },
+  },
+  actions: {
+    getGemsPendingCollectionForUser({ commit }) {
       const request = new GetPendingCollectionForUserRequest();
 
-      try {
-        return await client
+      return new Promise((resolve, reject) => {
+        services.gemsClient
           .getPendingCollectionForUser(request)
-          .then((resp) => resp.getGemsList().map(protoGemToGemMapper));
-      } catch (err) {
-        return Promise.reject(err);
-      }
-    };
-
-    provide(FETCH_GEMS_PENDING_COLLECTION, getGemsPendingCollectionForUser);
+          .then((resp: GetPendingCollectionForUserResponse) => {
+            const gems: Gem[] = resp.getGemsList().map(protoGemToGemMapper);
+            commit("setGemsPendingCollection", gems);
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
   },
-});
-</script>
+};
+
+export default gemsModule;

@@ -17,12 +17,12 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, inject, ref } from "vue";
+import { onMounted, defineComponent } from "vue";
 import GemMap from "@/components/GemMap.vue";
-import { FETCH_GEMS_PENDING_COLLECTION } from "@/providers/GemProvider.vue";
 import { Gem } from "@/interfaces";
 import { Loading } from "vant";
 import HamburgerMenu from "@/components/HamburgerMenu.vue";
+import { mapState, useStore } from "vuex";
 
 export default defineComponent({
   components: {
@@ -31,27 +31,21 @@ export default defineComponent({
     Loading,
   },
   setup() {
-    const fetchGems = inject(FETCH_GEMS_PENDING_COLLECTION, () =>
-      Promise.resolve([])
-    );
-    const gems = ref<Gem[]>([]);
+    const store = useStore();
+    const fetchGems = () => store.dispatch("getGemsPendingCollectionForUser");
 
     onMounted(() => {
-      // TODO: remove hardcoded userid
-      fetchGems(2)
-        .then((resp) => {
-          gems.value = resp;
-        })
-        // TODO: better error handling
-        .catch((err) => console.log(err, "Failed to fetch gems"));
+      fetchGems();
     });
-
-    return {
-      gems,
-    };
+  },
+  computed: {
+    ...mapState({
+      gems: (state: any) => state.gems.gemsPendingCollection as Gem[],
+    }),
   },
 });
 </script>
+
 <style scoped lang="less">
 .container {
   position: relative;

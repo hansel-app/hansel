@@ -1,16 +1,12 @@
 <template>
-  <Provider>
-    <router-view :key="$route.fullPath"></router-view>
-  </Provider>
+  <router-view :key="$route.fullPath"></router-view>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import Provider from "./providers/Provider.vue";
 
 export default defineComponent({
   name: "App",
-  components: { Provider },
 });
 </script>
 
