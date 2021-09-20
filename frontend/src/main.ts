@@ -1,7 +1,6 @@
 import Vant from "vant";
 import { createApp } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
-
 import {
   AttachMedia,
   AttachMessage,
@@ -25,6 +24,7 @@ import { AddFriendPage, FriendRequestsPage } from "./pages/Friend";
 import { LoginPage, RegisterPage } from "./pages/LoginRegister";
 import App from "./App.vue";
 import "./registerServiceWorker";
+import store from "@/store";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -70,4 +70,5 @@ const router = createRouter({
 createApp(App)
   .use(Vant)
   .use(router)
+  .use(store)
   .mount("#app");
