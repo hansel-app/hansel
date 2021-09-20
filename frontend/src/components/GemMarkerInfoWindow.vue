@@ -1,13 +1,15 @@
 <template>
-  <van-row type="flex" align="center">
-    <van-col span="6">
+  <van-row class="info-window" type="flex" align="center">
+    <van-col class="avatar-container">
       <CircleAvatar
         :avatarUrl="gemCreator.avatar"
         :showLoading="false"
         :showError="false"
+        :radius="1.5"
       />
     </van-col>
-    <van-col class="marker-text-info" span="18">
+
+    <van-col class="marker-text-info">
       <p class="distance-indicator">{{ displayDistance }}</p>
       <p>From: {{ gemCreator.displayName }}</p>
       <p>{{ displayDropDateTime }}</p>
@@ -56,16 +58,22 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.info-window {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
 .marker-text-info {
-  padding-left: 2em;
-
   p {
     text-align: left;
   }
 
   .distance-indicator {
-    font-weight: bold;
-    font-size: large;
+    font-weight: @font-weight-bold;
+    font-size: @font-size-md;
   }
+}
+
+.avatar-container {
+  margin-right: 0.5em;
 }
 </style>
