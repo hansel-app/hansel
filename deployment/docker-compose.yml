@@ -40,14 +40,34 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_SSLMODE: disable
 
+  frontend:
+    image: hansel-frontend
+    container_name: hansel-frontend
+    restart: always
+    networks:
+      - hansel-network
+    logging:
+      driver: journald
+    expose:
+      - '8080'
+    environment:
+      NODE_ENV: production
+      VUE_APP_SERVER_URL: hansel-backend
+      VUE_APP_SERVER_PORT: 10000
+      VUE_APP_GOOGLE_API_KEY: ${VUE_APP_GOOGLE_API_KEY}
+      VUE_APP_GOOGLE_ANALYTICS_ID: ${VUE_APP_GOOGLE_ANALYTICS_ID}
+
   reverse-proxy:
     image: hansel-reverse-proxy
     container_name: hansel-reverse-proxy
     restart: always
     depends_on:
       - backend
+      - frontend
     networks:
       - hansel-network
+    logging:
+      driver: journald
     ports:
       - "10000:10000"
       - "9901:9901"
