@@ -1,7 +1,11 @@
-import { createStore } from "vuex";
-import authModule from "./modules/auth";
+import {createStore, Store} from "vuex";
+import authModule, { AuthState } from "./modules/auth";
 
-const store = createStore({
+export interface RootState {
+  auth: AuthState;
+}
+
+const store: Store<RootState> = createStore({
   modules: {
     auth: authModule
   }
