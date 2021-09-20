@@ -1,13 +1,5 @@
 <template>
-  <van-row type="flex" align="center">
-    <van-col>
-      <van-icon
-        class="circle-button-icon-xs prev-gem"
-        :name="require('@/assets/icons/chevron-left-circle.svg')"
-        @click="$emit('prevGem')"
-      />
-    </van-col>
-
+  <van-row class="info-window" type="flex" align="center">
     <van-col class="avatar-container">
       <CircleAvatar
         :avatarUrl="gemCreator.avatar"
@@ -22,14 +14,6 @@
       <p>From: {{ gemCreator.displayName }}</p>
       <p>{{ displayDropDateTime }}</p>
     </van-col>
-
-    <van-col>
-      <van-icon
-        class="circle-button-icon-xs next-gem"
-        :name="require('@/assets/icons/chevron-right-circle.svg')"
-        @click="$emit('nextGem')"
-      />
-    </van-col>
   </van-row>
 </template>
 
@@ -38,7 +22,7 @@ import { Dayjs } from "dayjs";
 import { defineComponent, PropType } from "vue";
 import { formatDistance } from "@/utils/geolocation";
 import { formatDateTime } from "@/utils/date";
-import { Row, Col, Icon } from "vant";
+import { Row, Col } from "vant";
 import CircleAvatar from "./CircleAvatar.vue";
 import { User } from "@/interfaces";
 
@@ -46,7 +30,6 @@ export default defineComponent({
   components: {
     "van-row": Row,
     "van-col": Col,
-    "van-icon": Icon,
     CircleAvatar,
   },
   props: {
@@ -75,6 +58,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.info-window {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
 .marker-text-info {
   p {
     text-align: left;
@@ -87,7 +74,6 @@ export default defineComponent({
 }
 
 .avatar-container {
-  margin-left: 0.5em;
   margin-right: 0.5em;
 }
 </style>

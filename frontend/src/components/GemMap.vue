@@ -33,14 +33,31 @@
       </CustomControl>
 
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
-        <van-row justify="center">
-          <van-icon
-            class="circle-button-icon-lg"
-            :name="require('@/assets/images/purple_64.png')"
-            @click="goToDropGem"
-          />
+        <van-row justify="space-around" align="center">
+          <van-col>
+            <van-icon
+              class="circle-button-icon-md prev-gem"
+              :name="require('@/assets/icons/chevron-left-circle.svg')"
+              @click="() => prevGem()"
+            />
+          </van-col>
+
+          <van-col>
+            <van-icon
+              class="circle-button-icon-lg"
+              :name="require('@/assets/images/purple_64.png')"
+              @click="goToDropGem"
+            />
+          </van-col>
+
+          <van-col>
+            <van-icon
+              class="circle-button-icon-md next-gem"
+              :name="require('@/assets/icons/chevron-right-circle.svg')"
+              @click="() => nextGem()"
+            />
+          </van-col>
         </van-row>
-        Drop a Gem
       </CustomControl>
 
       <Marker
