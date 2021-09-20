@@ -4,6 +4,7 @@
     class="select-friend"
     :name="currentStageName"
     @SetReceiverEvent="setReceiverId"
+    @SetMessageEvent="setMessage"
   ></router-view>
   <div>
     <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
@@ -53,9 +54,12 @@ export default defineComponent({
         this.currentStage -= 1;
       }
     },
+    // Tried to make this inline, couldn't figure out how to pass in value.
     setReceiverId(value: number): void {
       this.draftGem.setReceiverId(value);
-      console.log(this.draftGem.getReceiverId());
+    },
+    setMessage(value: string): void {
+      this.draftGem.setMessage(value);
     },
     dropMyGem() {
       console.log("called dropMyGem");
