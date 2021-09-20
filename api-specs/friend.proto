@@ -21,18 +21,19 @@ message FriendRequest {
 }
 
 message PendingRequest {
-	int64 user_id = 1;
+	FriendInfo user = 1;
+	google.protobuf.Timestamp created_at = 4;
+
 }
 
 message PendingResponse {
-	repeated PendingFriend pending_requests = 1;
+	repeated FriendInfo pending_requests = 1;
 }
 
-message PendingFriend {
-	string user_id = 1;
-	string name = 2;
+message FriendInfo {
+	int64 user_id = 1;
+	string display_name = 2;
 	string username = 3;
-	google.protobuf.Timestamp created_at = 4;
 }
 
 message GetFriendsRequest {
@@ -40,5 +41,5 @@ message GetFriendsRequest {
 }
 
 message GetFriendsResponse {
-	repeated int64 friends = 1;
+	repeated FriendInfo friends = 1;
 }

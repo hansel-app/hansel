@@ -24,8 +24,17 @@ func (s *friendService) GetFriends(c context.Context, r *friendsapi.GetFriendsRe
 		return nil, err
 	}
 
+	var friendsInfo []*friendsapi.FriendInfo
+	for _, f := range friends {
+		friendsInfo = append(friendsInfo, 
+		&friendsapi.FriendInfo{
+			UserId: f.ID,
+			DisplayName: f.DisplayName,
+			Username: f.Username,
+		})
+	}
 	return &friendsapi.GetFriendsResponse{
-		Friends: friends,
+		Friends: friendsInfo,
 	}, nil
 }
 
