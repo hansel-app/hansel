@@ -3,7 +3,6 @@ package internal
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -28,15 +27,11 @@ func NewGemService(repository gems.Repository) *gemService {
 func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.DropResponse, error) {
 	gemMessage := r.GetGemMessage()
 	gem := gems.Gem{
-		// TODO: generate ID here, not sure how.
-		ID:         123,
 		Message:    gemMessage.GetMessage(),
 		Latitude:   gemMessage.GetLatitude(),
 		Longitude:  gemMessage.GetLongitude(),
 		CreatorId:  gemMessage.GetCreatorId(),
-		CreatedAt:  time.Now(),
 		ReceiverId: gemMessage.GetReceiverId(),
-		ReceivedAt: nil,
 		Color:      gems.GemColor(gemMessage.GetColor()),
 		Photo: gemMessage.GetPhoto(),
 	}

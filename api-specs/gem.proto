@@ -38,10 +38,9 @@ message GemMessage {
   string message = 1;
   double latitude = 2;
   double longitude = 3;
-  int64 creator_id = 4;
   int64 receiver_id = 5;
-  GemColor color = 6;
-  bytes photo = 7;
+  GemColor color = 5;
+  bytes photo = 6;
 }
 
 message DropRequest {
