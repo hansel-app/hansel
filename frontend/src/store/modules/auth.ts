@@ -30,6 +30,7 @@ const authModule: Module<AuthState, RootState> = {
     },
     clearAccessToken(state) {
       state.accessToken = null;
+      Cookies.remove(ACCESS_TOKEN_COOKIE);
     }
   },
   actions: {
@@ -48,6 +49,9 @@ const authModule: Module<AuthState, RootState> = {
           })
           .catch(err => reject(err));
       });
+    },
+    logout({ commit }) {
+      commit('clearAccessToken');
     }
   }
 };
