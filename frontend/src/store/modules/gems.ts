@@ -5,9 +5,10 @@ import {
   Gem as ProtoGem,
   GemColor as ProtoGemColor,
   GetPendingCollectionForUserRequest,
-  DropRequest,
-  GemMessage
   GetPendingCollectionForUserResponse,
+  DropRequest,
+  DropResponse,
+  GemMessage,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
 import dayjs from "dayjs";
@@ -15,11 +16,8 @@ import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
+  droppedGemId: number;
 }
-
-export const DROP_GEM: InjectionKey<(
-  gemMessage: GemMessage
-) => Promise<string>> = Symbol("Drop Gem");
 
 const protoGemColorToGemColorMapper = (
   protoGemColor: ProtoGemColor
@@ -62,11 +60,15 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
 const gemsModule: Module<GemsState, RootState> = {
   state: {
     gemsPendingCollection: [],
+    droppedGemId: -1,
   },
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection.splice(0, state.gemsPendingCollection.length);
       gems.forEach((gem) => state.gemsPendingCollection.push(gem));
+    },
+    setDropResponse(state, droppedGemId: number) {
+      state.droppedGemId = droppedGemId;
     },
   },
   actions: {
@@ -79,6 +81,21 @@ const gemsModule: Module<GemsState, RootState> = {
           .then((resp: GetPendingCollectionForUserResponse) => {
             const gems: Gem[] = resp.getGemsList().map(protoGemToGemMapper);
             commit("setGemsPendingCollection", gems);
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    dropGem({ commit }) {
+      const request = new DropRequest();
+      request.setGemMessage();
+
+      return new Promise((resolve, reject) => {
+        services.gemsClient
+          .drop(request)
+          .then((resp: DropResponse) => {
+            const droppedGemId: number = resp.getDroppedGemId();
+            commit("setDropResponse", droppedGemId);
             resolve(resp);
           })
           .catch((err) => reject(err));
