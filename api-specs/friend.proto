@@ -1,6 +1,6 @@
 syntax = "proto3";
 package friendsapi;
-option go_package = "/friendsapi
+option go_package = "/friendsapi";
 
 import "generated/user.proto";
 import "google/protobuf/empty.proto";
@@ -20,7 +20,7 @@ message FriendRequest {
 }
 
 message PendingRequest {
-	int64 user_id;
+	int64 user_id = 1;
 }
 
 message PendingResponse {
