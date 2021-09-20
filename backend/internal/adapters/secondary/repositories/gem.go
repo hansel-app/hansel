@@ -51,16 +51,19 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 	return gems, nil
 }
 
-func (r *gemRepository) Add(gem *gems.Gem) (string, error) {
+func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	sql, _, _ := qb.Insert("gems").Rows(gem).ToSQL()
 
-	_, err := r.db.Exec(sql)
+	res, err := r.db.Exec(sql)
 	if err != nil {
-		return "Error", fmt.Errorf("unable to add gem: %w", err)
+		return -1, fmt.Errorf("unable to add gem: %w", err)
 	}
-	// Thinking if we should return id of the inserted gem here.
-	// Feel free to overwrite
-	return "Success", nil
+
+	gemId, err := res.LastInsertId()
+	if err != nil {
+		return -1, fmt.Errorf("unable to add gem: %w", err)
+	}
+	return gemId, nil
 }
 
 func (r *gemRepository) Update(gem *gems.Gem) (*gems.Gem, error) {

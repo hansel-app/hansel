@@ -27,7 +27,6 @@ func main() {
 		Message:    "hello!",
 		Latitude:   1.0,
 		Longitude:  1.0,
-		CreatorId:  1,
 		ReceiverId: 1,
 		Color:      gemsapi.GemColor_BLUE,
 	}})

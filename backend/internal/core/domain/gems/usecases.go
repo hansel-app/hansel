@@ -10,7 +10,7 @@ func NewUseCases(repository Repository) *UseCases {
 	}
 }
 
-func (u *UseCases) Drop(gem *Gem) (string, error) {
+func (u *UseCases) Drop(gem *Gem) (int64, error) {
 	return u.repository.Add(gem)
 }
 

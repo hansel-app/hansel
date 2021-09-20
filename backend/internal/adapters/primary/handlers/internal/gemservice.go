@@ -30,18 +30,17 @@ func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.D
 		Message:    gemMessage.GetMessage(),
 		Latitude:   gemMessage.GetLatitude(),
 		Longitude:  gemMessage.GetLongitude(),
-		CreatorId:  gemMessage.GetCreatorId(),
 		ReceiverId: gemMessage.GetReceiverId(),
 		Color:      gems.GemColor(gemMessage.GetColor()),
-		Photo: gemMessage.GetPhoto(),
+		Photo:      gemMessage.GetPhoto(),
 	}
-	message, err := s.usecases.Drop(&gem)
+	droppedGemId, err := s.usecases.Drop(&gem)
 	if err != nil {
 		return nil, err
 	}
 
 	return &gemsapi.DropResponse{
-		Message: message,
+		DroppedGemId: droppedGemId,
 	}, nil
 }
 

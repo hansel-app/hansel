@@ -25,5 +25,5 @@ type Gem struct {
 	ReceiverId int64
 	ReceivedAt *time.Time
 	Color      GemColor
-	Photo []byte
+	Photo      []byte
 }
