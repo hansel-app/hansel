@@ -15,13 +15,20 @@
     :zoom-control="mapConfig.zoomControl"
   >
     <template v-if="Boolean(mapRef)">
-      <CustomControl class="top-right-controls" position="TOP_RIGHT">
-        <van-button
-          round
-          icon="aim"
-          type="primary"
-          @click="centerMapOnCurrentLocation"
-        />
+      <CustomControl class="right-top-controls" position="RIGHT_TOP">
+        <van-row>
+          <van-icon
+            class="circle-icon"
+            :name="require('@/assets/icons/compass.svg')"
+            @click="centerMapOnCurrentLocation"
+          />
+        </van-row>
+        <van-row>
+          <van-icon
+            class="circle-icon"
+            :name="require('@/assets/icons/info.svg')"
+          />
+        </van-row>
       </CustomControl>
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
         <van-cell class="secondary" v-if="gems.length > 0">
@@ -322,11 +329,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.circle-icon {
+  font-size: @circle-button-icon-size;
+}
+
 .google-map {
   width: 100%;
   height: 100vh;
 
-  .top-right-controls {
+  .right-top-controls {
     margin-top: 2vh;
     margin-right: 2vw;
   }
