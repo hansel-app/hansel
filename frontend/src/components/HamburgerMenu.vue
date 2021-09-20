@@ -1,10 +1,11 @@
 <template>
-    <div>
-        <div class="menu-icon" v-if="collapsed" @click="toggleMenu">
-            <img :src="HamburgerMenuIcon">
+    <div v-click-away="toggleMenu">
+        <div class="menu-icon" @click="toggleMenu">
+              <img :src="HamburgerMenuIcon">
         </div>
         <div class="menu" :style="{ width: menuWidth }">
-            <div class="menu-contents" v-if="!collapsed" @click="toggleMenu">
+            
+            <div class="menu-contents" v-if="!collapsed">
                 <div class="avatar">
                     <CircleAvatar
                     :avatarUrl="placeholderAvatarUrl"
@@ -35,7 +36,6 @@ import { defineComponent, ref, computed } from "vue";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import { Row } from "vant";
-// import vClickOutside from 'v-click-outside'
 
 export default defineComponent({
   setup() {
@@ -97,6 +97,7 @@ export default defineComponent({
   display: flex;
 }
 .menu {
+  border: red 1px solid;
   top: 0;
   bottom: 0;
   transition: 0.3s ease;
@@ -129,5 +130,10 @@ export default defineComponent({
 
 .van-row:hover, .van-row:focus {
   background-color: var(--menu-item-active);
+}
+
+.test {
+  border: red 1px solid;
+  background-color: blue;
 }
 </style>

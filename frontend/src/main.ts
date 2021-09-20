@@ -7,8 +7,8 @@ import {
   AttachMessage,
   DropGem,
   SelectFriend,
-} from "./pages/DropGem/index";
-import { PickupGem, FoundGem, MessageDisplay } from "./pages/PickupGem/index";
+} from "@/pages/DropGem/index";
+import { PickupGem, FoundGem, MessageDisplay } from "@/pages/PickupGem/index";
 import {
   DROP_GEM_ROUTE,
   ADD_FRIENDS_ROUTE,
@@ -19,12 +19,13 @@ import {
   REGISTER_ROUTE,
   PICKUP_GEM_ROUTE,
 } from "@/constants";
-import HomePage from "./pages/Home/HomePage.vue";
-import ProfilePage from "./pages/Profile/ProfilePage.vue";
-import { AddFriendPage, FriendRequestsPage } from "./pages/Friend";
+import HomePage from "@/pages/Home/HomePage.vue";
+import ProfilePage from "@/pages/Profile/ProfilePage.vue";
+import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
 import { LoginPage, RegisterPage } from "./pages/LoginRegister";
-import App from "./App.vue";
-import "./registerServiceWorker";
+import App from "@/App.vue";
+import "@/registerServiceWorker";
+import VueClickAway from "vue3-click-away";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -70,4 +71,5 @@ const router = createRouter({
 createApp(App)
   .use(Vant)
   .use(router)
+  .use(VueClickAway)
   .mount("#app");

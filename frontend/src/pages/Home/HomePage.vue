@@ -2,7 +2,7 @@
   <Suspense>
     <template #default>
       <div>
-        <HamburgerMenu />
+        <HamburgerMenu ref="hamburgerMenu"/>
         <div class="container">
           <gem-map :gems="gems" />
           <div class="profile-button">
@@ -50,7 +50,6 @@ export default defineComponent({
   },
 });
 </script>
-
 <style scoped lang="less">
 .container {
   position: relative;
