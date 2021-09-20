@@ -1,3 +1,13 @@
+// Shadows
+@shadow-color: 0deg 0% 50%;
+@shadow-small: 0.5px 1px 1px hsl(@shadow-color / 0.7);
+@shadow-medium: 1px 2px 2px hsl(@shadow-color / 0.333),
+  2px 4px 4px hsl(@shadow-color / 0.333), 3px 6px 6px hsl(@shadow-color / 0.333);
+@shadow-large: 1px 2px 2px hsl(@shadow-color / 0.2),
+  2px 4px 4px hsl(@shadow-color / 0.2), 4px 8px 8px hsl(@shadow-color / 0.2),
+  8px 16px 16px hsl(@shadow-color / 0.2),
+  16px 32px 32px hsl(@shadow-color / 0.2);
+
 // Color Palette
 @black: #000;
 @white: #fff;
@@ -16,6 +26,7 @@
 @orange-light: #fffbe8;
 @green: #07c160;
 @purple: #5f4bae;
+@purple-secondary: #b3a3d8;
 
 // Gradient Colors
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
@@ -47,7 +58,9 @@
 @font-size-sm: 12px;
 @font-size-md: 14px;
 @font-size-lg: 16px;
-@font-weight-bold: 500;
+@font-size-xl: 24px;
+@font-weight-bold: 700;
+@font-weight-extra-bold: 800;
 @line-height-xs: 14px;
 @line-height-sm: 18px;
 @line-height-md: 20px;
@@ -55,8 +68,6 @@
 @base-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
   Helvetica, Segoe UI, Arial, Roboto, "PingFang SC", "miui", "Hiragino Sans GB",
   "Microsoft Yahei", sans-serif;
-@price-integer-font-family: Avenir-Heavy, PingFang SC, Helvetica Neue, Arial,
-  sans-serif;
 
 // Animation
 @animation-duration-base: 0.3s;
@@ -71,3 +82,67 @@
 @border-radius-md: 4px;
 @border-radius-lg: 8px;
 @border-radius-max: 999px;
+
+// Text styles
+.big-header {
+  font-family: CircularStd;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.header {
+  font-family: CircularStd;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.sub-header {
+  font-family: CircularStd;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.content {
+  font-family: CircularStd;
+  font-size: 16px;
+  text-align: left;
+}
+
+// Preset margins
+.container {
+  margin: 32px;
+}
+
+//Icons
+@circle-button-icon-size-lg: 7em;
+@circle-button-icon-size-md: 5em;
+@circle-button-icon-size-xs: 2.5em;
+.circle-button-icon-lg {
+  font-size: @circle-button-icon-size-lg;
+  img {
+    background: @background-color;
+    border-radius: @circle-button-icon-size-lg;
+  }
+}
+.circle-button-icon-md {
+  font-size: @circle-button-icon-size-md;
+  img {
+    background: @background-color;
+    border-radius: @circle-button-icon-size-md;
+  }
+}
+.circle-button-icon-xs {
+  font-size: @circle-button-icon-size-xs;
+  img {
+    background: @background-color;
+    border-radius: @circle-button-icon-size-xs;
+  }
+}
+
+// Google Map
+.gm-style .gm-style-iw-c {
+  padding: 0px !important;
+  max-width: 80vw !important;
+}

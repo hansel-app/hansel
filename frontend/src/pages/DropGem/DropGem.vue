@@ -1,5 +1,9 @@
 <template>
-  <NavBar v-bind:left-arrow="currentStage > 0" @click-left="prevStage" />
+  <NavBar
+    v-bind:left-arrow="currentStage > 0"
+    @click-left="prevStage"
+    class="nav-bar"
+  />
   <router-view
     class="select-friend"
     :name="currentStageName"
@@ -79,3 +83,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.nav-bar {
+  position: absolute;
+}
+</style>

@@ -14,23 +14,50 @@
     :zoom="mapConfig.zoom"
     :zoom-control="mapConfig.zoomControl"
   >
-    <template v-if="Boolean(mapRef)">
-      <CustomControl class="top-right-controls" position="TOP_RIGHT">
-        <van-button
-          round
-          icon="aim"
-          type="primary"
-          @click="centerMapOnCurrentLocation"
-        />
+    <template v-if="Boolean(mapRef) && mapRef?.ready">
+      <CustomControl class="right-top-controls" position="RIGHT_TOP">
+        <van-row>
+          <van-icon
+            class="circle-button-icon-md"
+            :name="require('@/assets/icons/compass.svg')"
+            @click="centerMapOnCurrentLocation"
+          />
+        </van-row>
+        <van-row>
+          <van-icon
+            class="circle-button-icon-md"
+            :name="require('@/assets/icons/info.svg')"
+            @click="showPopup"
+          />
+        </van-row>
       </CustomControl>
-      <CustomControl
-        v-if="gems.length > 0"
-        class="bottom-controls"
-        position="BOTTOM_CENTER"
-      >
-        <van-button round icon="arrow-left" type="primary" @click="prevGem" />
-        <van-button round icon="plus" type="primary" @click="goToDropGem" />
-        <van-button round icon="arrow" type="primary" @click="nextGem" />
+
+      <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
+        <van-row justify="space-around" align="center">
+          <van-col>
+            <van-icon
+              class="circle-button-icon-md prev-gem"
+              :name="require('@/assets/icons/chevron-left-circle.svg')"
+              @click="() => prevGem()"
+            />
+          </van-col>
+
+          <van-col>
+            <van-icon
+              class="circle-button-icon-lg"
+              :name="require('@/assets/images/purple_64.png')"
+              @click="goToDropGem"
+            />
+          </van-col>
+
+          <van-col>
+            <van-icon
+              class="circle-button-icon-md next-gem"
+              :name="require('@/assets/icons/chevron-right-circle.svg')"
+              @click="() => nextGem()"
+            />
+          </van-col>
+        </van-row>
       </CustomControl>
 
       <Marker
@@ -40,30 +67,36 @@
         :key="markerOptions.id"
         :options="markerOptions"
       />
-      <Marker :options="userMarkerOptions" />
+      <MapUserMarker
+        :position="currPosition"
+        :circle-radius="userCircleRadius"
+      />
     </template>
   </GoogleMap>
+
+  <GemMapPopup
+    class="popup"
+    v-show="shouldShowPopup"
+    :number-gems-pending-collection="gems.length"
+    :nearest-gem-distance="nearestGemDistance"
+  />
 </template>
 
 <script lang="ts">
-import {
-  createApp,
-  ref,
-  computed,
-  defineComponent,
-  PropType,
-  onBeforeUpdate,
-} from "vue";
+import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
   DEFAULT_MAP_CONFIG,
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
+  PICKUP_GEM_ROUTE,
 } from "@/constants";
-import { Gem, GemColor, LatLng } from "@/interfaces";
+import { Gem, GemColor } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
+import MapUserMarker from "./MapUserMarker.vue";
+import GemMapPopup from "./GemMapPopup.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -81,8 +114,9 @@ export default defineComponent({
     GoogleMap,
     Marker,
     CustomControl,
+    MapUserMarker,
+    GemMapPopup,
   },
-
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
@@ -95,19 +129,13 @@ export default defineComponent({
     };
 
     onBeforeUpdate(() => {
+      // reset gem markers
       gemMarkerRefs = new Set();
     });
 
-    const { coords, getLocation } = useGeolocation();
-    const currPosition = computed(
-      () =>
-        ({
-          lat: coords.value.lat,
-          lng: coords.value.lng,
-        } as LatLng)
-    );
-
+    const { coords: currPosition, getLocation } = useGeolocation();
     const initPos = await getLocation();
+    const shouldShowPopup = ref<boolean>(false);
 
     return {
       mapRef,
@@ -115,13 +143,47 @@ export default defineComponent({
       gemMarkerInfoWindowRef,
       setGemMarkerRef,
       currPosition,
+      userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
+      shouldShowPopup,
     };
   },
 
+  beforeUpdate() {
+    // clear, then add event listeners to map
+    if (this.mapRef?.map) {
+      google.maps.event.clearInstanceListeners(this.mapRef?.map);
+    }
+    const popupCloseEvents = ["mousedown", "dragstart"];
+    popupCloseEvents.forEach((event) => {
+      this.mapRef?.map?.addListener(event, () => {
+        this.hidePopup();
+      });
+    });
+    const gemInfoWindowCloseEvents = ["click"];
+    gemInfoWindowCloseEvents.forEach((event) => {
+      this.mapRef?.map?.addListener(event, () => {
+        this.gemMarkerInfoWindowRef?.close();
+      });
+    });
+  },
+
   computed: {
+    nearestGemDistance() {
+      if (this.sortedGems.length === 0) {
+        return undefined;
+      }
+      const nearest = this.sortedGems[0];
+      return getDistanceFromLatLonInKm(nearest.position, this.currPosition);
+    },
+    shouldShowPickupButton() {
+      return (
+        this.nearestGemDistance &&
+        this.nearestGemDistance <= GEM_PICKUP_RADIUS_THRESHOLD
+      );
+    },
     sortedGems() {
       return [...this.gems].sort((gem1, gem2) => {
         return (
@@ -138,25 +200,6 @@ export default defineComponent({
           icon: gemImageUrl,
         };
       }) as GemMarkerOptions[];
-    },
-    userMarkerOptions() {
-      if (!this.mapRef?.ready) {
-        return {};
-      }
-
-      const svgMarker: google.maps.Symbol = {
-        path: google.maps.SymbolPath.CIRCLE,
-        fillColor: "#3989fc",
-        fillOpacity: 0.8,
-        strokeWeight: 2,
-        strokeColor: "#fff",
-        scale: 12,
-      };
-
-      return {
-        position: this.currPosition,
-        icon: svgMarker,
-      };
     },
   },
 
@@ -183,6 +226,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(currGem.position);
       this.showGemMarkerInfoWindow(currGem);
     },
+
     prevGem() {
       console.assert(this.sortedGems.length > 0);
 
@@ -196,23 +240,18 @@ export default defineComponent({
       this.mapRef?.map?.panTo(currGem.position);
       this.showGemMarkerInfoWindow(currGem);
     },
+
     goToDropGem() {
       this.$router.push(DROP_GEM_ROUTE);
     },
-
-    onGemMarkerClick(markerOptions: GemMarkerOptions) {
-      const distFromSelf = getDistanceFromLatLonInKm(
-        markerOptions.position,
-        this.currPosition
-      );
-
-      if (distFromSelf >= GEM_PICKUP_RADIUS_THRESHOLD) {
-        this.showGemMarkerInfoWindow(markerOptions);
-      } else {
-        // TODO: pick up gem
-      }
+    goToPickupGem() {
+      // TODO: pass gem to new route
+      this.$router.push(PICKUP_GEM_ROUTE);
     },
 
+    onGemMarkerClick(markerOptions: GemMarkerOptions) {
+      this.showGemMarkerInfoWindow(markerOptions);
+    },
     showGemMarkerInfoWindow(gem: Gem) {
       const marker = Array.from(this.gemMarkerRefs).find(
         (marker) => marker.$props.options.position == gem.position
@@ -243,10 +282,13 @@ export default defineComponent({
         map: this.mapRef?.map,
         shouldFocus: false,
       });
+    },
 
-      this.mapRef?.map?.addListener("click", () => {
-        this.gemMarkerInfoWindowRef?.close();
-      });
+    showPopup() {
+      this.shouldShowPopup = true;
+    },
+    hidePopup() {
+      this.shouldShowPopup = false;
     },
   },
 });
@@ -256,15 +298,40 @@ export default defineComponent({
 .google-map {
   width: 100%;
   height: 100vh;
-}
-.google-map .top-right-controls {
-  margin: 10px;
+
+  .right-top-controls {
+    margin-top: 2vh;
+    margin-right: 2vw;
+  }
+
+  .bottom-controls {
+    width: 90vw;
+    margin-bottom: 5vh;
+
+    .van-cell {
+      margin-top: 1.5vh;
+      border-radius: 2rem;
+      box-shadow: @shadow-medium;
+    }
+
+    .label {
+      text-align: center;
+    }
+
+    .van-row {
+      margin: 0.75rem 0;
+    }
+  }
 }
 
-.google-map .bottom-controls {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
+.popup {
+  position: absolute;
+  z-index: 10;
+  width: 90vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  box-shadow: @shadow-medium;
 }
 </style>

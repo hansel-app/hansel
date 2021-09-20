@@ -25,17 +25,10 @@
 </template>
 
 <script>
-import { defineComponent, inject } from "vue";
-import { LOGIN } from "@/providers/AuthProvider"
+import { defineComponent } from "vue";
 import { HOME_ROUTE } from "@/constants";
 
 export default defineComponent({
-  setup() {
-    const login = inject(LOGIN, () => Promise.resolve(false));
-    return {
-      login
-    };
-  },
   data() {
     return {
       username: "",
@@ -44,8 +37,10 @@ export default defineComponent({
   },
   methods: {
     handleLogin() {
-      this.login(this.username, this.password)
-        .then(() => this.$router.push(HOME_ROUTE))
+      this.$store.dispatch('login', {
+        username: this.username,
+        password: this.password
+      }).then(() => this.$router.push(HOME_ROUTE))
         // TODO: Display some form of user feedback upon login failure.
         .catch((err) => console.log(err, "Failed to log in"));
     }

@@ -1,6 +1,10 @@
 <template>
-  <h1>{{ title }}</h1>
-  <Image :src="placeholderGemUrl" />
+  <div class="stack-container">
+    <p class="big-header overlay">{{ title }}</p>
+    <div class="square" />
+    <div class="semi-circle" />
+    <Image :src="getGemImageUrl" class="overlay" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,6 +14,11 @@ import { Image } from "vant";
 export default defineComponent({
   props: {
     title: String,
+  },
+  methods: {
+    gemPath() {
+      return require("@/assets/images/blue_64.png");
+    },
   },
   data() {
     return {
@@ -21,4 +30,37 @@ export default defineComponent({
   components: { Image },
 });
 </script>
+<style scoped>
+.stack-container {
+  position: relative;
+  height: 325px;
+}
 
+.square {
+  height: 250px;
+  width: 100%;
+  background-color: #e4bfbf;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.semi-circle {
+  position: absolute;
+  transform: translate(0%, -50%);
+  height: 150px;
+  width: 100%;
+  border-radius: 0 0 50% 50%;
+  background-color: #e4bfbf;
+}
+
+.gem-display {
+  width: 100px;
+  height: 100px;
+}
+</style>

@@ -6,7 +6,6 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
 const hostname = `${SERVER_URL}:${SERVER_PORT}`;
 
-// TODO: Inject token.
 const authInterceptor = new AuthInterceptor();
 
 // Note that the equivalent stream authentication interceptor is not defined.

@@ -1,13 +1,16 @@
 <template>
   <GemHeader title="Drop a gem" />
-  <h4>Attach a message!</h4>
-  <Field
-    class="message-input"
-    placeholder="Enter your message"
-    type="textarea"
-    rows="5"
-    @input="this.$emit('SetMessageEvent', $event.target.value)"
-  />
+  <div class="container">
+    <p class="sub-header">Attach a message!</p>
+    <Field
+      class="message-input"
+      placeholder="Enter your message"
+      type="textarea"
+      rows="5"
+      @input="this.$emit('SetMessageEvent', $event.target.value)"
+    />
+  </div>
+  <Button v-on:click="dropGem">Drop gem</Button>
 </template>
 
 <script>
