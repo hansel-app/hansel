@@ -10,7 +10,6 @@
       @input="this.$emit('SetMessageEvent', $event.target.value)"
     />
   </div>
-  <Button v-on:click="dropGem">Drop gem</Button>
 </template>
 
 <script>
