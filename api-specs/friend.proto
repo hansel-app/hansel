@@ -7,9 +7,10 @@ import "google/protobuf/timestamp.proto";
 
 service FriendService {
 	rpc Add (FriendRequest) returns (google.protobuf.Empty);
-	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
-	rpc Block (FriendRequest) returns (google.protobuf.Empty);
 	rpc GetPending (PendingRequest) returns (PendingResponse);
+	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
+	rpc Reject (FriendRequest) returns (google.protobuf.Empty);
+	rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
 message FriendRequest {
