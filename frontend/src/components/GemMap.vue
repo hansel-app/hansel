@@ -14,7 +14,7 @@
     :zoom="mapConfig.zoom"
     :zoom-control="mapConfig.zoomControl"
   >
-    <template v-if="Boolean(mapRef)">
+    <template v-if="Boolean(mapRef) && mapRef?.ready">
       <CustomControl class="right-top-controls" position="RIGHT_TOP">
         <van-row>
           <van-icon
@@ -93,20 +93,16 @@
         :key="markerOptions.id"
         :options="markerOptions"
       />
-      <Marker :options="userMarkerOptions" />
+      <MapUserMarker
+        :position="currPosition"
+        :circle-radius="userCircleRadius"
+      />
     </template>
   </GoogleMap>
 </template>
 
 <script lang="ts">
-import {
-  createApp,
-  ref,
-  computed,
-  defineComponent,
-  PropType,
-  onBeforeUpdate,
-} from "vue";
+import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
@@ -115,9 +111,10 @@ import {
   GEM_PICKUP_RADIUS_THRESHOLD,
   PICKUP_GEM_ROUTE,
 } from "@/constants";
-import { Gem, GemColor, LatLng } from "@/interfaces";
+import { Gem, GemColor } from "@/interfaces";
 import { formatDistance, getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
+import MapUserMarker from "./MapUserMarker.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -135,6 +132,7 @@ export default defineComponent({
     GoogleMap,
     Marker,
     CustomControl,
+    MapUserMarker,
   },
 
   async setup() {
@@ -152,15 +150,7 @@ export default defineComponent({
       gemMarkerRefs = new Set();
     });
 
-    const { coords, getLocation } = useGeolocation();
-    const currPosition = computed(
-      () =>
-        ({
-          lat: coords.value.lat,
-          lng: coords.value.lng,
-        } as LatLng)
-    );
-
+    const { coords: currPosition, getLocation } = useGeolocation();
     const initPos = await getLocation();
 
     return {
@@ -169,6 +159,7 @@ export default defineComponent({
       gemMarkerInfoWindowRef,
       setGemMarkerRef,
       currPosition,
+      userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
@@ -213,25 +204,6 @@ export default defineComponent({
           icon: gemImageUrl,
         };
       }) as GemMarkerOptions[];
-    },
-    userMarkerOptions() {
-      if (!this.mapRef?.ready) {
-        return {};
-      }
-
-      const svgMarker: google.maps.Symbol = {
-        path: google.maps.SymbolPath.CIRCLE,
-        fillColor: "#3989fc",
-        fillOpacity: 0.8,
-        strokeWeight: 2,
-        strokeColor: "#fff",
-        scale: 12,
-      };
-
-      return {
-        position: this.currPosition,
-        icon: svgMarker,
-      };
     },
   },
 
