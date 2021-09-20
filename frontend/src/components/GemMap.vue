@@ -41,41 +41,6 @@
           />
         </van-row>
         Drop a Gem
-
-        <van-cell>
-          <van-row v-if="gems.length > 0" justify="space-around" align="center">
-            <van-col>
-              <van-icon
-                class="circle-button-icon-xs"
-                :name="require('@/assets/icons/chevron-left-circle.svg')"
-                @click="prevGem"
-              />
-            </van-col>
-
-            <van-col span="12" class="label van-multi-ellipsis--l2 ">
-              You have {{ gems.length }} gems waiting to be collected.
-            </van-col>
-
-            <van-col>
-              <van-icon
-                class="circle-button-icon-xs"
-                :name="require('@/assets/icons/chevron-right-circle.svg')"
-                @click="nextGem"
-              />
-            </van-col>
-          </van-row>
-          <van-row v-else justify="space-around" align="center">
-            <van-col class="label van-multi-ellipsis--l2 ">
-              Great work, you have collected all your gems!
-            </van-col>
-          </van-row>
-
-          <van-row justify="space-around">
-            <van-button type="primary" size="large" round @click="goToDropGem">
-              Drop a Gem
-            </van-button>
-          </van-row>
-        </van-cell>
       </CustomControl>
 
       <Marker
@@ -101,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { createApp, ref, defineComponent, PropType } from "vue";
+import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
 import { useGeolocation } from "../useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
@@ -146,6 +111,11 @@ export default defineComponent({
       }
     };
 
+    onBeforeUpdate(() => {
+      // reset gem markers
+      gemMarkerRefs = new Set();
+    });
+
     const { coords: currPosition, getLocation } = useGeolocation();
     const initPos = await getLocation();
     const shouldShowPopup = ref<boolean>(false);
@@ -165,9 +135,6 @@ export default defineComponent({
   },
 
   beforeUpdate() {
-    // reset gem markers
-    this.gemMarkerRefs = new Set();
-
     // clear, then add event listeners to map
     if (this.mapRef?.map) {
       google.maps.event.clearInstanceListeners(this.mapRef?.map);
