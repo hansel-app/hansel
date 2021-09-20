@@ -20,6 +20,7 @@
     "vant": "^3.2.2",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
+    "vue-gtag": "^2.0.1",
     "vue-router": "^4.0.11",
     "vue3-click-away": "^1.2.1",
     "vue3-google-map": "^0.8.2"
