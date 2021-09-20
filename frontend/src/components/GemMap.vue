@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import {FProv
+import {
   createApp,
   ref,
   computed,
