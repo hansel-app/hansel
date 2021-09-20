@@ -2,7 +2,7 @@ syntax = "proto3";
 package usersapi;
 option go_package = "/usersapi";
 
-service UsersService {
+service UserService {
 	rpc getProfile (ProfileRequest) returns (ProfileResponse);
 }
 
