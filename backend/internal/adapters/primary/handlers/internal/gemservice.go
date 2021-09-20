@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
+	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
 )
@@ -45,11 +48,16 @@ func (s *gemService) Get(c context.Context, r *gemsapi.GetRequest) (*gemsapi.Get
 	}, nil
 }
 
-func (s *gemService) GetPendingCollectionByUser(
+func (s *gemService) GetPendingCollectionForUser(
 	c context.Context,
-	r *gemsapi.GetPendingCollectionByUserRequest,
-) (*gemsapi.GetPendingCollectionByUserResponse, error) {
-	gems, err := s.usecases.GetPendingCollectionByUser(r.UserId)
+	r *gemsapi.GetPendingCollectionForUserRequest,
+) (*gemsapi.GetPendingCollectionForUserResponse, error) {
+	userID, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	gems, err := s.usecases.GetPendingCollectionByUser(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -65,11 +73,12 @@ func (s *gemService) GetPendingCollectionByUser(
 			CreatorId:  gem.CreatorId,
 			CreatedAt:  timestamppb.New(gem.CreatedAt),
 			ReceiverId: gem.ReceiverId,
+			Color:      gemsapi.GemColor(gem.Color),
 		}
 		processedGems = append(processedGems, &processedGem)
 	}
 
-	return &gemsapi.GetPendingCollectionByUserResponse{
+	return &gemsapi.GetPendingCollectionForUserResponse{
 		Gems: processedGems,
 	}, nil
 }
