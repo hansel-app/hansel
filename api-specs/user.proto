@@ -11,7 +11,12 @@ message ProfileRequest {
 }
 
 message ProfileResponse {
-	string name = 1;
-	string username = 2;
-	repeated Profile friends = 3;
+	PersonInfo info = 1;
+	repeated PersonInfo friends = 2;
+}
+
+message PersonInfo {
+	string userId = 1;
+	string name = 2;
+	string username = 3;
 }
