@@ -31,7 +31,7 @@
         </van-row>
       </CustomControl>
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
-        <van-cell class="secondary" v-if="gems.length > 0">
+        <van-cell v-if="gems.length > 0">
           <van-row justify="space-around" align="center">
             <van-col span="16">
               The nearest gem is {{ displayNearestGemDistance }} away. Move
@@ -50,7 +50,7 @@
           </van-row>
         </van-cell>
 
-        <van-cell class="primary">
+        <van-cell>
           <van-row v-if="gems.length > 0" justify="space-around" align="center">
             <van-col>
               <van-icon
@@ -342,10 +342,6 @@ export default defineComponent({
       margin-top: 1.5vh;
       border-radius: 2rem;
       box-shadow: @shadow-medium;
-
-      &.primary {
-        background-color: @purple-secondary;
-      }
     }
 
     .label {
