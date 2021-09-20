@@ -29,8 +29,5 @@ COPY deployment/entrypoint-scripts/backend.sh /usr/bin/
 RUN chmod +x /usr/bin/backend.sh
 ENTRYPOINT ["backend.sh"]
 
-# Expose port 8000
-EXPOSE 8000
-
 # Default command
 CMD ["sh", "-c", "make run"]

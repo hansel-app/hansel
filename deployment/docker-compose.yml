@@ -28,7 +28,7 @@ services:
     logging:
       driver: journald
     expose:
-      - '8000'
+      - '${SERVER_PORT}'
     environment:
       GO_ENV: production
       SERVER_PORT: ${SERVER_PORT}
