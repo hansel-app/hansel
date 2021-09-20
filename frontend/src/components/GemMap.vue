@@ -27,33 +27,20 @@
           <van-icon
             class="circle-button-icon-md"
             :name="require('@/assets/icons/info.svg')"
+            @click="showPopup"
           />
         </van-row>
       </CustomControl>
+
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
-        <van-icon
-          class="circle-button-icon-lg"
-          :name="require('@/assets/images/purple_64.png')"
-          @click="goToDropGem"
-        />
-        <van-cell v-if="gems.length > 0">
-          <van-row justify="space-around" align="center">
-            <van-col span="16">
-              The nearest gem is {{ displayNearestGemDistance }} away. Move
-              closer to pick it up!
-            </van-col>
-            <van-col>
-              <van-button
-                v-show="shouldShowPickupButton"
-                type="primary"
-                round
-                @click="goToPickupGem"
-              >
-                Pick up
-              </van-button>
-            </van-col>
-          </van-row>
-        </van-cell>
+        <van-row justify="center">
+          <van-icon
+            class="circle-button-icon-lg"
+            :name="require('@/assets/images/purple_64.png')"
+            @click="goToDropGem"
+          />
+        </van-row>
+        Drop a Gem
 
         <van-cell>
           <van-row v-if="gems.length > 0" justify="space-around" align="center">
@@ -104,6 +91,13 @@
       />
     </template>
   </GoogleMap>
+
+  <GemMapPopup
+    class="popup"
+    v-show="shouldShowPopup"
+    :number-gems-pending-collection="gems.length"
+    :nearest-gem-distance="nearestGemDistance"
+  />
 </template>
 
 <script lang="ts">
@@ -120,6 +114,7 @@ import { Gem, GemColor } from "@/interfaces";
 import { formatDistance, getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
+import GemMapPopup from "./GemMapPopup.vue";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -138,8 +133,8 @@ export default defineComponent({
     Marker,
     CustomControl,
     MapUserMarker,
+    GemMapPopup,
   },
-
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
@@ -157,6 +152,7 @@ export default defineComponent({
 
     const { coords: currPosition, getLocation } = useGeolocation();
     const initPos = await getLocation();
+    const shouldShowPopup = ref<boolean>(false);
 
     return {
       mapRef,
@@ -168,23 +164,17 @@ export default defineComponent({
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
+      shouldShowPopup,
     };
   },
 
   computed: {
     nearestGemDistance() {
       if (this.sortedGems.length === 0) {
-        return null;
+        return undefined;
       }
       const nearest = this.sortedGems[0];
       return getDistanceFromLatLonInKm(nearest.position, this.currPosition);
-    },
-    displayNearestGemDistance() {
-      if (this.nearestGemDistance === null) {
-        return null;
-      }
-
-      return formatDistance(this.nearestGemDistance);
     },
     shouldShowPickupButton() {
       return (
@@ -295,6 +285,10 @@ export default defineComponent({
         this.gemMarkerInfoWindowRef?.close();
       });
     },
+
+    showPopup() {
+      this.shouldShowPopup = true;
+    },
   },
 });
 </script>
@@ -326,6 +320,21 @@ export default defineComponent({
     .van-row {
       margin: 0.75rem 0;
     }
+  }
+}
+
+.popup {
+  position: absolute;
+  z-index: 10;
+  width: 80vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  box-shadow: @shadow-medium;
+
+  .van-row {
+    justify-content: center;
   }
 }
 </style>
