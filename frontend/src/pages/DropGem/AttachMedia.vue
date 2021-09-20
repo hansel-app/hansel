@@ -1,11 +1,15 @@
 <template>
-  <GemHeader title="Drop a gem" />
-  <GemColorCarousel />
-  <h4>Choose media</h4>
-  <Row>
-    <Button>Camera</Button>
-    <Button>Photos</Button>
-  </Row>
+  <div>
+    <GemHeader title="Drop a gem" />
+    <GemColorCarousel />
+    <div class="container">
+      <p class="sub-header">Choose media</p>
+      <Row>
+        <Button>Camera</Button>
+        <Button>Photos</Button>
+      </Row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
