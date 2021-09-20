@@ -49,9 +49,9 @@ export default defineComponent({
       }
     },
     dropGem() {
-      const dropGem = inject(DROP_GEM, () => Promise.resolve([]));
-      const response = ref<any[]>([]);
-      dropGem()
+      const dropGem = inject(DROP_GEM, () => Promise.resolve(""));
+      const response = ref<string>("");
+      dropGem(this.draftGem)
         .then((resp) => {
           response.value = resp;
         })
