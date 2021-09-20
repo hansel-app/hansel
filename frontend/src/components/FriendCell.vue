@@ -4,10 +4,15 @@
     :title="friend.displayName"
     :label="shouldDisplayUsername ? '@' + friend.username : ''"
     :is-link="isClickable"
+    class="content"
   >
     <template #icon>
       <!-- TODO: replace with user's own avatar -->
-      <CircleAvatar :avatarUrl="placeholderAvatarUrl" class="avatar-border" />
+      <CircleAvatar
+        :avatarUrl="placeholderAvatarUrl"
+        class="avatar-border"
+        radius="1.8"
+      />
     </template>
     <template #right-icon>
       <slot />
@@ -57,6 +62,7 @@ export default defineComponent({
     linear-gradient(to bottom, #c27df9, #c27df900),
     linear-gradient(to top, #e43d97, #e43d9700);
   background-clip: padding-box;
-  padding: 6px;
+  padding: 4px;
+  margin-right: 12px;
 }
 </style>
