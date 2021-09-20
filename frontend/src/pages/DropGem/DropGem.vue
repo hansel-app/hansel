@@ -1,6 +1,8 @@
 <template>
   <NavBar v-bind:left-arrow="currentStage > 0" @click-left="prevStage" />
-  <router-view class="select-friend" :name="currentStageName"></router-view>
+  <div @SetReceiverEvent="draftGem.receiverId = $event">
+    <router-view class="select-friend" :name="currentStageName"></router-view>
+  </div>
   <div>
     <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
       Next
@@ -12,6 +14,7 @@
 import { defineComponent, inject, ref } from "vue";
 import { DROP_GEM } from "@/providers/GemProvider.vue";
 import { NavBar } from "vant";
+import { GemMessage } from "@/protobuf/gem_pb";
 
 enum DropGemStage {
   friend,
@@ -23,6 +26,7 @@ export default defineComponent({
   data() {
     return {
       currentStage: DropGemStage.friend as DropGemStage,
+      draftGem: new GemMessage(),
     };
   },
   computed: {

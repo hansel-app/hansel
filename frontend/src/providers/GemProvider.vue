@@ -6,8 +6,8 @@ import {
   GemColor as ProtoGemColor,
   GetPendingCollectionForUserRequest,
   DropRequest,
+  GemMessage
 } from "@/protobuf/gem_pb";
-import { GemServicePromiseClient } from "@/protobuf/gem_grpbc_web_pb"
 import { defineComponent, InjectionKey, provide } from "vue";
 import { Gem, GemColor } from "@/interfaces";
 import dayjs from "dayjs";
@@ -19,8 +19,8 @@ export const FETCH_GEMS_PENDING_COLLECTION: InjectionKey<(
 ) => Promise<Gem[]>> = Symbol("Fetch Gems Pending Collection");
 
 export const DROP_GEM: InjectionKey<(
-  placeholder: string
-) => Promise<boolean>> = Symbol("Drop Gem");
+  gemMessage: GemMessage
+) => Promise<string>> = Symbol("Drop Gem");
 
 const protoGemColorToGemColorMapper = (
   protoGemColor: ProtoGemColor
@@ -65,10 +65,10 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
   };
 };
 
-const client : GemServicePromiseClient = services.gemClient;
 
 export default defineComponent({
   setup() {
+    const client = services.gemsClient;
     const getGemsPendingCollectionForUser = async (): Promise<Gem[]> => {
       const request = new GetPendingCollectionForUserRequest();
 
@@ -81,12 +81,14 @@ export default defineComponent({
       }
     };
 
-    const dropGem = () : Promise<boolean> => {
+    const dropGem = async (gemMessage : GemMessage) : Promise<string> => {
       const request = new DropRequest();
+      request.setGemmessage(gemMessage);
 
       try {
         return await client
         .drop(request)
+        .then((resp) => resp.getMessage())
       } catch (err) {
         return Promise.reject(err);
       }
@@ -94,13 +96,6 @@ export default defineComponent({
 
     provide(FETCH_GEMS_PENDING_COLLECTION, getGemsPendingCollectionForUser);
     provide(DROP_GEM, dropGem);
-  },
-  methods: {
-    dropGem() {
-      try {
-        return await client.drop()
-      }
-    }
   },
 });
 </script>

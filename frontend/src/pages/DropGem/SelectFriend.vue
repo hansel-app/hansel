@@ -8,6 +8,8 @@
       :key="user.id"
       :friend="user"
       isClickable="true"
+      @onClick='$emit("SetReceiverEvent", user.id)'
+      v-model="receiverId"
     />
   </CellGroup>
 </template>

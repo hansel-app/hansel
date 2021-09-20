@@ -43,7 +43,7 @@ message GemMessage {
 }
 
 message DropRequest {
-  GemMessage gemMessage = 1;
+  GemMessage gem_message = 1;
 }
 
 message DropResponse {
