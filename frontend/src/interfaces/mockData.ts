@@ -1,4 +1,5 @@
-import { User } from "@/interfaces";
+import { Gem, GemColor, User } from "@/interfaces";
+import dayjs from "dayjs";
 
 export const mockFriends: User[] = [
   {
@@ -42,36 +43,35 @@ export const mockSelfUser: User = {
     "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
 };
 
-// Color values are placeholders
-// export const mockGems: Gem[] = [
-//   {
-//     color: {
-//       selectionColor: "#cdb4db",
-//       tintColor: "#000000",
-//     },
-//   },
-//   {
-//     color: {
-//       selectionColor: "#ffc8dd",
-//       tintColor: "#000000",
-//     },
-//   },
-//   {
-//     color: {
-//       selectionColor: "#ffafcc",
-//       tintColor: "#000000",
-//     },
-//   },
-//   {
-//     color: {
-//       selectionColor: "#bde0fe",
-//       tintColor: "#000000",
-//     },
-//   },
-//   {
-//     color: {
-//       selectionColor: "#a2d2ff",
-//       tintColor: "#000000",
-//     },
-//   },
-// ];
+export const mockGems: Gem[] = [
+  {
+    id: 1111,
+    message: "Me gusta los camarones",
+    position: { lat: 1.2966, lng: 103.7764 },
+    createdAt: dayjs(),
+    createdBy: mockFriends[0],
+    receiver: mockSelfUser,
+    receivedAt: null,
+    color: GemColor.PURPLE,
+  },
+  {
+    id: 222,
+    message: "Me gusta los camarones",
+    position: { lat: 1.2976, lng: 103.7764 },
+    createdAt: dayjs(),
+    createdBy: mockFriends[1],
+    receiver: mockSelfUser,
+    receivedAt: null,
+    color: GemColor.BLACK,
+  },
+  {
+    id: 333,
+    message: "Me gusta los camarones",
+    position: { lat: 1.2986, lng: 103.7764 },
+    createdAt: dayjs(),
+    createdBy: mockFriends[2],
+    receiver: mockSelfUser,
+    receivedAt: null,
+    color: GemColor.BLUE,
+  },
+];

@@ -4,11 +4,13 @@
 import { GemServicePromiseClient } from "@/protobuf/gem_grpc_web_pb";
 import {
   Gem as ProtoGem,
+  GemColor as ProtoGemColor,
   GetPendingCollectionByUserRequest,
 } from "@/protobuf/gem_pb";
 import { defineComponent, InjectionKey, provide } from "vue";
-import { Gem } from "@/interfaces";
+import { Gem, GemColor } from "@/interfaces";
 import dayjs from "dayjs";
+import { mockSelfUser } from "@/interfaces/mockData";
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
@@ -17,6 +19,26 @@ export const FETCH_GEMS_PENDING_COLLECTION: InjectionKey<(
   userId: number
 ) => Promise<Gem[]>> = Symbol("Fetch Gems Pending Collection");
 
+const protoGemColorToGemColorMapper = (
+  protoGemColor: ProtoGemColor
+): GemColor => {
+  switch (protoGemColor) {
+    case ProtoGemColor.PURPLE:
+      return GemColor.PURPLE;
+    case ProtoGemColor.PINK:
+      return GemColor.PINK;
+    case ProtoGemColor.BLUE:
+      return GemColor.BLUE;
+    case ProtoGemColor.BLACK:
+      return GemColor.BLACK;
+    case ProtoGemColor.YELLOW:
+      return GemColor.YELLOW;
+    case ProtoGemColor.GREEN:
+      return GemColor.GREEN;
+    default:
+      throw new Error("Unknown gem color received!");
+  }
+};
 const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
   return {
     id: protoGem.getId(),
@@ -34,7 +56,9 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       avatar:
         "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
     },
+    receiver: mockSelfUser,
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
+    color: protoGemColorToGemColorMapper(protoGem.getColor()),
   };
 };
 
@@ -54,10 +78,7 @@ export default defineComponent({
           .getPendingCollectionByUser(request)
           .then((resp) => resp.getGemsList().map(protoGemToGemMapper));
       } catch (err) {
-        if (err instanceof Error) {
-          return Promise.reject(err);
-        }
-        return Promise.reject(new Error("Unknown error type"));
+        return Promise.reject(err);
       }
     };
 
