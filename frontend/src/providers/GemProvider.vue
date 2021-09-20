@@ -83,7 +83,7 @@ export default defineComponent({
 
     const dropGem = async (gemMessage : GemMessage) : Promise<string> => {
       const request = new DropRequest();
-      request.setGemmessage(gemMessage);
+      request.setGemMessage(gemMessage);
 
       try {
         return await client
