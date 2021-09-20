@@ -18,7 +18,6 @@
 
 <script lang="ts">
 import { onMounted, defineComponent, inject, ref } from "vue";
-import { PROFILE_ROUTE } from "@/constants";
 import GemMap from "@/components/GemMap.vue";
 import { FETCH_GEMS_PENDING_COLLECTION } from "@/providers/GemProvider.vue";
 import { Gem } from "@/interfaces";
