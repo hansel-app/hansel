@@ -1,0 +1,41 @@
+<template>
+  <h1>Register</h1>
+  <div class="container">
+    <van-form @submit="onSubmit">
+      <van-field
+        v-model="username"
+        name="Username"
+        placeholder="Username"
+        :rules="[{ required: true, message: 'Username is required' }]"
+      />
+      <van-field
+        v-model="password"
+        type="password"
+        name="Password"
+        placeholder="Password"
+        :rules="[{ required: true, message: 'Password is required' }]"
+      />
+      <van-field
+        v-model="confirmPassword"
+        type="confirmPassword"
+        name="confirmPassword"
+        placeholder="Confirm password"
+        :rules="[{ required: true, message: 'Confirm password is required' }]"
+      />
+      <div class="button-container">
+        <van-button round block type="primary" native-type="submit" width="80%">
+          Register
+        </van-button>
+      </div>
+    </van-form>
+  </div>
+</template>
+
+<style scoped lang="less">
+.container .van-field {
+  width: 80%;
+}
+.button-container {
+  margin: 16px;
+}
+</style>

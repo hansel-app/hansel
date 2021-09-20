@@ -7,9 +7,18 @@ import "google/protobuf/timestamp.proto";
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
-  rpc GetPendingCollectionByUser (GetPendingCollectionByUserRequest) returns (GetPendingCollectionByUserResponse);
+  rpc GetPendingCollectionForUser (GetPendingCollectionForUserRequest) returns (GetPendingCollectionForUserResponse);
   rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
   // TODO: Replace placeholder methods.
+}
+
+enum GemColor {
+  PURPLE = 0;
+  PINK = 1;
+  BLUE = 2;
+  BLACK = 3;
+  YELLOW = 4;
+  GREEN = 5;
 }
 
 message Gem {
@@ -21,6 +30,7 @@ message Gem {
   google.protobuf.Timestamp created_at = 6;
   int64 receiver_id = 7;
   google.protobuf.Timestamp received_at = 8;
+  GemColor color = 9;
 }
 
 message DropRequest {
@@ -41,11 +51,9 @@ message GetResponse {
   string message = 2;
 }
 
-message GetPendingCollectionByUserRequest {
-  int64 userId = 1;
-}
+message GetPendingCollectionForUserRequest {}
 
-message GetPendingCollectionByUserResponse {
+message GetPendingCollectionForUserResponse {
   repeated Gem gems = 1;
 }
 

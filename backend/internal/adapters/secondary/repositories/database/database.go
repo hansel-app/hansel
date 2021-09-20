@@ -11,7 +11,7 @@ import (
 	"github.com/hansel-app/hansel/internal/config"
 )
 
-func NewDatabase(cfg *config.Config) (*sqlx.DB, error) {
+func New(cfg *config.Config) (*sqlx.DB, error) {
 	dsn := buildDSN(cfg)
 	db, err := sqlx.Connect("postgres", dsn)
 	if err != nil {

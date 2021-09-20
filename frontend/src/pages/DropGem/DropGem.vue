@@ -12,15 +12,9 @@
 import { defineComponent } from "vue";
 import { NavBar } from "vant";
 
-// TODO: configure eslint to not flag enums as unused vars
-
-// eslint-disable-next-line no-unused-vars
 enum DropGemStage {
-  // eslint-disable-next-line no-unused-vars
   friend,
-  // eslint-disable-next-line no-unused-vars
   media,
-  // eslint-disable-next-line no-unused-vars
   message,
 }
 
@@ -34,7 +28,7 @@ export default defineComponent({
     numStages(): number {
       return Object.keys(DropGemStage).length / 2;
     },
-    currentStageName(): String {
+    currentStageName(): string {
       return DropGemStage[this.currentStage];
     },
   },

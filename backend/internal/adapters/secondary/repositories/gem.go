@@ -19,8 +19,6 @@ func NewGemRepository(db *sqlx.DB) *gemRepository {
 	}
 }
 
-var qb = goqu.Dialect("psql")
-
 func (r *gemRepository) Get(id int64) (*gems.Gem, error) {
 	sql, _, _ := qb.From("gems").Where(goqu.C("id").Eq(id)).ToSQL()
 

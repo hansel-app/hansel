@@ -1,14 +1,14 @@
 import { SINGAPORE_CENTER } from "@/constants";
-import { hansel } from "@/interfaces";
+import { LatLng } from "@/interfaces";
 import { onMounted, onUnmounted, ref } from "vue";
 
 export function useGeolocation() {
-  const coords = ref<hansel.LatLng>(SINGAPORE_CENTER);
+  const coords = ref<LatLng>(SINGAPORE_CENTER);
 
   // check if geolocation api is supported
   const isSupported = "navigator" in window && "geolocation" in navigator;
 
-  async function getLocation(): Promise<hansel.LatLng> {
+  async function getLocation(): Promise<LatLng> {
     return new Promise((resolve, reject) => {
       if (!isSupported) {
         reject(new Error("Geolocation is not supported."));
