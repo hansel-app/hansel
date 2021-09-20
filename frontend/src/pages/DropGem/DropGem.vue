@@ -1,8 +1,10 @@
 <template>
   <NavBar v-bind:left-arrow="currentStage > 0" @click-left="prevStage" />
-  <div @SetReceiverEvent="draftGem.receiverId = $event">
-    <router-view class="select-friend" :name="currentStageName"></router-view>
-  </div>
+  <router-view
+    class="select-friend"
+    :name="currentStageName"
+    @SetReceiverEvent="setReceiverId"
+  ></router-view>
   <div>
     <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
       Next
@@ -50,6 +52,10 @@ export default defineComponent({
       if (this.currentStage > 0) {
         this.currentStage -= 1;
       }
+    },
+    setReceiverId(value: number): void {
+      this.draftGem.setReceiverId(value);
+      console.log(this.draftGem.getReceiverId());
     },
     dropMyGem() {
       console.log("called dropMyGem");

@@ -3,14 +3,8 @@
   <h3>Choose a receiver</h3>
   <Search placeholder="Search a friend" />
   <CellGroup>
-    <FriendCell
-      v-for="user in mockFriends"
-      :key="user.id"
-      :friend="user"
-      isClickable="true"
-      @onClick='$emit("SetReceiverEvent", user.id)'
-      v-model="receiverId"
-    />
+    <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user"
+    :isClickable="true" @click="setReceiver(user.id)" />
   </CellGroup>
 </template>
 
@@ -30,6 +24,12 @@ export default defineComponent({
     return {
       mockFriends,
     };
+  },
+  methods: {
+    setReceiver(id: number): void {
+      console.log(id);
+      this.$emit("SetReceiverEvent", id);
+    },
   },
 });
 </script>
