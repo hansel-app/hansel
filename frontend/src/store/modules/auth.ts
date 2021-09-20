@@ -2,6 +2,9 @@ import { Module } from "vuex";
 import { RootState } from "@/store";
 import services from "@/api/services";
 import { LoginRequest, LoginResponse } from "@/protobuf/auth_pb";
+import Cookies from 'js-cookie';
+
+const ACCESS_TOKEN_COOKIE = "access-token";
 
 export interface AuthState {
   accessToken: Nullable<string>;
@@ -9,7 +12,7 @@ export interface AuthState {
 
 const authModule: Module<AuthState, RootState> = {
   state: {
-    accessToken: null
+    accessToken: Cookies.get(ACCESS_TOKEN_COOKIE) ?? null
   },
   getters: {
     isLoggedIn(state): boolean {
@@ -19,6 +22,11 @@ const authModule: Module<AuthState, RootState> = {
   mutations: {
     setAccessToken(state, accessToken: string) {
       state.accessToken = accessToken;
+      Cookies.set(ACCESS_TOKEN_COOKIE, accessToken, {
+        expires: 7,
+        secure: true,
+        sameSite: 'strict'
+      })
     },
     clearAccessToken(state) {
       state.accessToken = null;
