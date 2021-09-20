@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
-  rpc GetPendingCollectionByUser (GetPendingCollectionByUserRequest) returns (GetPendingCollectionByUserResponse);
+  rpc GetPendingCollectionForUser (GetPendingCollectionForUserRequest) returns (GetPendingCollectionForUserResponse);
   rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
   // TODO: Replace placeholder methods.
 }
@@ -51,11 +51,9 @@ message GetResponse {
   string message = 2;
 }
 
-message GetPendingCollectionByUserRequest {
-  int64 userId = 1;
-}
+message GetPendingCollectionForUserRequest {}
 
-message GetPendingCollectionByUserResponse {
+message GetPendingCollectionForUserResponse {
   repeated Gem gems = 1;
 }
 

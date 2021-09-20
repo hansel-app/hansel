@@ -1,7 +1,7 @@
 <template>
   <h1>Login</h1>
   <div class="container">
-    <van-form @submit="onSubmit">
+    <van-form @submit="handleLogin">
       <van-field
         v-model="username"
         name="Username"
@@ -23,6 +23,35 @@
     </van-form>
   </div>
 </template>
+
+<script>
+import { defineComponent, inject } from "vue";
+import { LOGIN } from "@/providers/AuthProvider"
+import { HOME_ROUTE } from "@/constants";
+
+export default defineComponent({
+  setup() {
+    const login = inject(LOGIN, () => Promise.resolve(false));
+    return {
+      login
+    };
+  },
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    handleLogin() {
+      this.login(this.username, this.password)
+        .then(() => this.$router.push(HOME_ROUTE))
+        // TODO: Display some form of user feedback upon login failure.
+        .catch((err) => console.log(err, "Failed to log in"));
+    }
+  }
+});
+</script>
 
 <style scoped lang="less">
 .container .van-field {

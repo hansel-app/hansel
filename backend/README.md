@@ -18,9 +18,12 @@
    * Linux: `/var/run/postgresql`
    * macOS: `/tmp`
 
+   Note that if you are connecting via `localhost`, you might need to set `DB_SSLMODE=disable`.
+
    For example:
    ```
    SERVER_PORT=8000
+   SECRET_KEY=<output of `openssl rand -hex 64`>
 
    DB_HOSTNAME=/var/run/postgresql
    DB_PORT=5432
@@ -30,7 +33,8 @@
    DB_SSLMODE=
    ```
 
-   Note that if you are connecting via `localhost`, you might need to set `DB_SSLMODE=disable`.
+   The `SECRET_KEY` is used to sign and verify the JSON Web Tokens.
+   It is recommended to be sufficiently long and can be generated via `openssl rand -hex 64`.
 1. Install PostgreSQL `>= 12` by following the instructions [here](https://www.postgresql.org/download/).
 1. Create and migrate the database:
    ```sh

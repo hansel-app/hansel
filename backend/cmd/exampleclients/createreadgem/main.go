@@ -10,7 +10,7 @@ import (
 )
 
 // TODO: Remove this proof of concept. To be executed when the server is running.
-//       To run this, create a database with the same name as DB_NAME in your .env file.
+//       To run this, create a database with the same name as DB_NAME in your .env.development.local file.
 //       Then, add the 'gems' table using:
 //       CREATE TABLE gems (id BIGSERIAL PRIMARY KEY, message VARCHAR);
 func main() {

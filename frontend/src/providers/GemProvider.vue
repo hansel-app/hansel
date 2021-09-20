@@ -1,19 +1,16 @@
 <template><slot></slot></template>
 
 <script lang="ts">
-import { GemServicePromiseClient } from "@/protobuf/gem_grpc_web_pb";
 import {
   Gem as ProtoGem,
   GemColor as ProtoGemColor,
-  GetPendingCollectionByUserRequest,
+  GetPendingCollectionForUserRequest,
 } from "@/protobuf/gem_pb";
 import { defineComponent, InjectionKey, provide } from "vue";
 import { Gem, GemColor } from "@/interfaces";
 import dayjs from "dayjs";
+import services from "@/api/services";
 import { mockSelfUser } from "@/interfaces/mockData";
-
-const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
 
 export const FETCH_GEMS_PENDING_COLLECTION: InjectionKey<(
   userId: number
@@ -47,7 +44,7 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       lat: protoGem.getLatitude(),
       lng: protoGem.getLongitude(),
     },
-    createdAt: dayjs(protoGem.getCreatedAt().toDate()),
+    createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
     // TODO: replace this with actual user object
     createdBy: {
       id: 9999,
@@ -64,25 +61,21 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
 
 export default defineComponent({
   setup() {
-    const hostname = `${SERVER_URL}:${SERVER_PORT}`;
-    const client = new GemServicePromiseClient(hostname, null, null);
+    const client = services.gemsClient
 
-    const getGemsPendingCollectionByUser = async (
-      userId: number
-    ): Promise<Gem[]> => {
-      const request = new GetPendingCollectionByUserRequest();
-      request.setUserid(userId);
+    const getGemsPendingCollectionForUser = async (): Promise<Gem[]> => {
+      const request = new GetPendingCollectionForUserRequest();
 
       try {
         return await client
-          .getPendingCollectionByUser(request)
+          .getPendingCollectionForUser(request)
           .then((resp) => resp.getGemsList().map(protoGemToGemMapper));
       } catch (err) {
         return Promise.reject(err);
       }
     };
 
-    provide(FETCH_GEMS_PENDING_COLLECTION, getGemsPendingCollectionByUser);
+    provide(FETCH_GEMS_PENDING_COLLECTION, getGemsPendingCollectionForUser);
   },
 });
 </script>

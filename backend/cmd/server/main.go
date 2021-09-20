@@ -5,11 +5,10 @@ import (
 	"log"
 	"net"
 
-	"google.golang.org/grpc"
-
-	"github.com/hansel-app/hansel/internal/adapters/primary/handlers"
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
+	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/internal/config"
+	"github.com/hansel-app/hansel/internal/server"
 )
 
 func main() {
@@ -18,7 +17,7 @@ func main() {
 		log.Fatalf("failed to load config: %v", err)
 	}
 
-	db, err := database.NewDatabase(cfg)
+	db, err := database.New(cfg)
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
@@ -29,8 +28,12 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer()
-	handlers.RegisterServices(s, db)
+	jwtManager, err := auth.NewJWTManager(cfg.SecretKey, nil)
+	if err != nil {
+		log.Fatalf("failed to create JWT manager: %v", err)
+	}
+
+	s := server.New(db, jwtManager)
 	log.Printf("Starting server on port %d...", cfg.ServerPort)
 	err = s.Serve(l)
 	if err != nil {
