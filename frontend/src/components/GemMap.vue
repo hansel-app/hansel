@@ -18,14 +18,14 @@
       <CustomControl class="right-top-controls" position="RIGHT_TOP">
         <van-row>
           <van-icon
-            class="circle-icon"
+            class="circle-icon-lg"
             :name="require('@/assets/icons/compass.svg')"
             @click="centerMapOnCurrentLocation"
           />
         </van-row>
         <van-row>
           <van-icon
-            class="circle-icon"
+            class="circle-icon-lg"
             :name="require('@/assets/icons/info.svg')"
           />
         </van-row>
@@ -53,11 +53,9 @@
         <van-cell class="primary">
           <van-row v-if="gems.length > 0" justify="space-around" align="center">
             <van-col>
-              <van-button
-                round
-                plain
-                icon="arrow-left"
-                type="primary"
+              <van-icon
+                class="circle-icon-xs"
+                :name="require('@/assets/icons/chevron-left-circle.svg')"
                 @click="prevGem"
               />
             </van-col>
@@ -67,11 +65,9 @@
             </van-col>
 
             <van-col>
-              <van-button
-                round
-                plain
-                icon="arrow"
-                type="primary"
+              <van-icon
+                class="circle-icon-xs"
+                :name="require('@/assets/icons/chevron-right-circle.svg')"
                 @click="nextGem"
               />
             </van-col>
@@ -329,10 +325,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.circle-icon {
-  font-size: @circle-button-icon-size;
-}
-
 .google-map {
   width: 100%;
   height: 100vh;
