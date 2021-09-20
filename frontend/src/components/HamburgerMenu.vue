@@ -19,7 +19,7 @@
                     <van-row tabindex="1" @click="goToLogs">
                       <p>Gem logs</p>
                     </van-row>
-                    <van-row tabindex="2">
+                    <van-row tabindex="2" @click="goToAddFriends">
                       <p>Add friends</p>
                     </van-row>
                     <van-row tabindex="2" @click="goToFriendRequests">
