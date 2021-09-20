@@ -327,7 +327,7 @@ export default defineComponent({
 .popup {
   position: absolute;
   z-index: 10;
-  width: 80vw;
+  width: 90vw;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
