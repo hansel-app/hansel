@@ -33,13 +33,22 @@ message Gem {
   GemColor color = 9;
 }
 
+message GemMessage {
+  string message = 2;
+  double latitude = 3;
+  double longitude = 4;
+  int64 creator_id = 5;
+  int64 receiver_id = 7;
+  GemColor color = 9;
+}
+
 message DropRequest {
-  string message = 1;
+  GemMessage gemMessage = 1;
 }
 
 message DropResponse {
-  int64 id = 1;
-  string message = 2;
+  boolean status = 1;
+  string errorMessage = 2;
 }
 
 message GetRequest {
