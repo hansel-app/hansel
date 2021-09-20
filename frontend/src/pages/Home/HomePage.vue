@@ -2,11 +2,10 @@
   <Suspense>
     <template #default>
       <div>
-        <HamburgerMenu ref="hamburgerMenu"/>
+        <HamburgerMenu ref="hamburgerMenu" />
         <div class="container">
           <gem-map :gems="gems" />
-          <div class="profile-button">
-          </div>
+          <div class="profile-button"></div>
         </div>
       </div>
     </template>
@@ -18,12 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref } from "vue";
+import { defineComponent } from "vue";
 import GemMap from "@/components/GemMap.vue";
-import { FETCH_GEMS_PENDING_COLLECTION } from "@/providers/GemProvider.vue";
 import { Gem } from "@/interfaces";
 import { Loading } from "vant";
 import HamburgerMenu from "@/components/HamburgerMenu.vue";
+import { mapState, useStore } from "vuex";
 
 export default defineComponent({
   components: {
@@ -32,24 +31,19 @@ export default defineComponent({
     Loading,
   },
   setup() {
-    const fetchGems = inject(FETCH_GEMS_PENDING_COLLECTION, () =>
-      Promise.resolve([])
-    );
-    const gems = ref<Gem[]>([]);
-    // TODO: remove hardcoded userid
-    fetchGems(2)
-      .then((resp) => {
-        gems.value = resp;
-      })
-      // TODO: better error handling
-      .catch((err) => console.log(err, "Failed to fetch gems"));
+    const store = useStore();
 
-    return {
-      gems,
-    };
+    const fetchGems = () => store.dispatch("getGemsPendingCollectionForUser");
+    fetchGems();
+  },
+  computed: {
+    ...mapState({
+      gems: (state: any) => state.gems.gemsPendingCollection as Gem[],
+    }),
   },
 });
 </script>
+
 <style scoped lang="less">
 .container {
   position: relative;
