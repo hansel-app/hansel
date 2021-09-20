@@ -97,7 +97,6 @@ export default defineComponent({
   display: flex;
 }
 .menu {
-  border: red 1px solid;
   top: 0;
   bottom: 0;
   transition: 0.3s ease;
