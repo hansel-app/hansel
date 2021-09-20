@@ -28,7 +28,7 @@ func NewGemService(repository gems.Repository) *gemService {
 func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.DropResponse, error) {
 	gemMessage := r.GetGemMessage()
 	gem := gems.Gem{
-		// TODO: generate ID here, not sure how
+		// TODO: generate ID here, not sure how.
 		ID:         123,
 		Message:    gemMessage.GetMessage(),
 		Latitude:   gemMessage.GetLatitude(),
@@ -38,6 +38,7 @@ func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.D
 		ReceiverId: gemMessage.GetReceiverId(),
 		ReceivedAt: nil,
 		Color:      gems.GemColor(gemMessage.GetColor()),
+		Photo: gemMessage.GetPhoto(),
 	}
 	message, err := s.usecases.Drop(&gem)
 	if err != nil {

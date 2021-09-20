@@ -58,7 +58,8 @@ func (r *gemRepository) Add(gem *gems.Gem) (string, error) {
 	if err != nil {
 		return "Error", fmt.Errorf("unable to add gem: %w", err)
 	}
-
+	// Thinking if we should return id of the inserted gem here.
+	// Feel free to overwrite
 	return "Success", nil
 }
 
