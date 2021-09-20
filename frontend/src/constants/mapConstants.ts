@@ -1,7 +1,7 @@
 import { LatLng } from "@/interfaces";
 
 // Distance in km
-export const GEM_PICKUP_RADIUS_THRESHOLD = 0.01;
+export const GEM_PICKUP_RADIUS_THRESHOLD = 0.05;
 
 export const SINGAPORE_CENTER: LatLng = Object.freeze({
   lat: 1.3521,

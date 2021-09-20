@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { onMounted, defineComponent } from "vue";
 import GemMap from "@/components/GemMap.vue";
 import { Gem } from "@/interfaces";
 import { Loading } from "vant";
@@ -32,9 +32,11 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-
     const fetchGems = () => store.dispatch("getGemsPendingCollectionForUser");
-    fetchGems();
+
+    onMounted(() => {
+      fetchGems();
+    });
   },
   computed: {
     ...mapState({

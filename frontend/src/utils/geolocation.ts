@@ -1,8 +1,13 @@
 import { LatLng } from "@/interfaces";
 
+type Kilometer = number;
+
 // Adapted from https://stackoverflow.com/a/27943
 // Returns distance between 2 points (as indicated by their LatLng values) in km
-export function getDistanceFromLatLonInKm(latlng1: LatLng, latlng2: LatLng) {
+export function getDistanceFromLatLonInKm(
+  latlng1: LatLng,
+  latlng2: LatLng
+): Kilometer {
   const R = 6371; // Radius of the earth in km
   const dLat = degreesToRadian(latlng2.lat - latlng1.lat);
   const dLon = degreesToRadian(latlng2.lng - latlng1.lng);
