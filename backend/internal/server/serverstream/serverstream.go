@@ -7,7 +7,7 @@ import (
 )
 
 // ServerStreamWithContext is a grpc.ServerStream that allows its context to be modified.
-// It does so by overriding the Context() function of grpc.ServerStream.
+// It does so by overwriting the Context() function of grpc.ServerStream.
 type ServerStreamWithContext struct {
 	grpc.ServerStream
 	ctx context.Context
