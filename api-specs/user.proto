@@ -7,7 +7,7 @@ service UsersService {
 }
 
 message ProfileRequest {
-	int64 userId = 1;
+	int64 user_id = 1;
 }
 
 message ProfileResponse {
@@ -16,7 +16,7 @@ message ProfileResponse {
 }
 
 message PersonInfo {
-	string userId = 1;
+	string user_id = 1;
 	string name = 2;
 	string username = 3;
 }

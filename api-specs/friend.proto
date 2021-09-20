@@ -1,16 +1,28 @@
 syntax = "proto3";
 package friendsapi;
-option go_package = "/friendsapi";
+option go_package = "/friendsapi
 
+import "generated/user.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 service FriendService {
 	rpc Add (FriendRequest) returns (google.protobuf.Empty);
 	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
 	rpc Block (FriendRequest) returns (google.protobuf.Empty);
+	rpc GetPending (PendingRequest) returns (PendingResponse);
 }
 
 message FriendRequest {
-	int64 senderId = 1;
-	int64 receiverId = 2;
+	int64 sender_id = 1;
+	int64 receiver_id = 2;
+	google.protobuf.Timestamp created_at = 3;
+}
+
+message PendingRequest {
+	int64 user_id;
+}
+
+message PendingResponse {
+	repeated PersonInfo pending_requests = 1;
 }
