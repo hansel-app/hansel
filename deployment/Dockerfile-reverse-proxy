@@ -1,0 +1,16 @@
+# To build a Docker image from this file, run from the root directory:
+# docker build -f deployment/Dockerfile-reverse-proxy -t hansel-reverse-proxy .
+
+# Base image
+FROM envoyproxy/envoy:v1.19.1
+
+# Environment variables
+ENV APP_ROOT /reverse-proxy
+
+# Copy configuration into container
+RUN mkdir --parents $APP_ROOT
+WORKDIR $APP_ROOT
+COPY envoy .
+
+# Default command
+CMD ["sh", "-c", "/usr/local/bin/envoy -c envoy.yaml"]
