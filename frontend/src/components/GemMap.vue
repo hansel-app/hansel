@@ -183,6 +183,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(currGem.position);
       this.showGemMarkerInfoWindow(currGem);
     },
+
     prevGem() {
       console.assert(this.sortedGems.length > 0);
 
@@ -196,6 +197,7 @@ export default defineComponent({
       this.mapRef?.map?.panTo(currGem.position);
       this.showGemMarkerInfoWindow(currGem);
     },
+    
     goToDropGem() {
       this.$router.push(DROP_GEM_ROUTE);
     },

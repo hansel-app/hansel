@@ -9,16 +9,11 @@
   <CellGroup>
     <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
   </CellGroup>
-  <Button round type="primary" @click="goToAddFriends">
-    <Icon name="plus" />
-  </Button>
-  <!-- TODO: find out where to put friend requests button -->
-  <Button type="primary" @click="goToFriendRequests">friend requests</Button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Button, Icon, NavBar } from "vant";
+import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
 import AvatarHeader from "./AvatarHeader.vue";
@@ -47,9 +42,7 @@ export default defineComponent({
   },
   components: {
     AvatarHeader,
-    Button,
     FriendCell,
-    Icon,
     NavBar,
   },
 });
