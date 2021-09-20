@@ -11,6 +11,7 @@ service FriendService {
 	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
 	rpc Reject (FriendRequest) returns (google.protobuf.Empty);
 	rpc Block (FriendRequest) returns (google.protobuf.Empty);
+	rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
 }
 
 message FriendRequest {
@@ -32,4 +33,12 @@ message PendingFriend {
 	string name = 2;
 	string username = 3;
 	google.protobuf.Timestamp created_at = 4;
+}
+
+message GetFriendsRequest {
+	int64 user_id = 1;
+}
+
+message GetFriendsResponse {
+	repeated int64 friends = 1;
 }
