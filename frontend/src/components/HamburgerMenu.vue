@@ -1,5 +1,5 @@
 <template>
-    <div v-click-away="toggleMenu">
+    <div v-click-away="ClickAway">
         <div class="menu-icon" @click="toggleMenu">
               <img :src="HamburgerMenuIcon">
         </div>
@@ -17,10 +17,10 @@
                 </div>
                 <div class="links">
                     <van-row tabindex="1" @click="goToLogs">
-                        <p>Gem logs</p>
+                      <p>Gem logs</p>
                     </van-row>
-                    <van-row tabindex="2" @click="goToAddFriends">
-                        <p>Add friends</p>
+                    <van-row tabindex="2">
+                      <p>Add friends</p>
                     </van-row>
                     <van-row tabindex="2" @click="goToFriendRequests">
                         <p>Friend requests</p>
@@ -75,6 +75,11 @@ export default defineComponent({
     goToFriendRequests() {
       this.$router.push(FRIEND_REQUESTS_ROUTE);
     },
+    ClickAway() {
+      if (!this.collapsed) {
+        this.toggleMenu();
+      }
+    }
   },
 });
 
