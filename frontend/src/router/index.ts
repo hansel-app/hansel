@@ -23,7 +23,7 @@ import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
 import GemLogs from "@/pages/GemLogs/LogsList.vue";
 
-// import store from "@/store";
+import store from "@/store";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -90,11 +90,11 @@ router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, 
     next();
     return;
   }
-  // if (store.getters.isLoggedIn) {
+  if (store.getters.isLoggedIn) {
     next();
     return;
-  // }
-  // next(LOGIN_ROUTE);
+  }
+  next(LOGIN_ROUTE);
 });
 
 export default router;
