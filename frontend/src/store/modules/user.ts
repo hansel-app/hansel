@@ -1,8 +1,10 @@
 import services from "@/api/services";
-import { User, LatLng } from "@/interfaces";
+import { LatLng } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
 import {
   PersonInfo,
+  ProfileRequest,
+  ProfileResponse,
   GetFriendsRequest,
   GetFriendsResponse,
   GetPendingFriendRequestsRequest,
@@ -21,7 +23,7 @@ export interface UserState {
   // PendingFriendRequests includes PersonInfo + datetime of request.
   friendRequests: PendingFriendRequest[];
   isSendFriendRequestSuccessful: boolean;
-  self: User;
+  self: PersonInfo | undefined;
   currPosition: LatLng;
 }
 
@@ -29,19 +31,16 @@ const userModule: Module<UserState, RootState> = {
   state: {
     friends: [],
     friendRequests: [],
-    // TODO: replace hardcode
-    self: {
-      id: 100,
-      username: "maggieMee",
-      displayName: "Maggie Mee",
-      avatar: "avatarrrr",
-    },
+    self: undefined,
     isSendFriendRequestSuccessful: false,
     currPosition: SINGAPORE_CENTER,
   },
   mutations: {
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;
+    },
+    setSelfInfo(state, info: PersonInfo) {
+      state.self = info;
     },
     setFriends(state, friends: PersonInfo[]) {
       state.friends.splice(0, state.friends.length);
@@ -63,6 +62,22 @@ const userModule: Module<UserState, RootState> = {
     updateCurrentPosition({ commit }, newPosition) {
       console.log(newPosition);
       commit("setCurrPosition", newPosition);
+    },
+    getMyProfile({ commit }) {
+      const request = new ProfileRequest();
+
+      return new Promise((resolve, reject) => {
+        services.userClient
+          .getProfile(request)
+          .then((resp: ProfileResponse) => {
+            const friends: PersonInfo[] = resp.getFriendsList();
+            commit("setFriends", friends);
+            const self = resp.getInfo();
+            commit("setSelfInfo", self);
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
     },
     getFriends({ commit }) {
       const request = new GetFriendsRequest();
