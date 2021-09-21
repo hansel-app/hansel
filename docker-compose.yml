@@ -6,7 +6,4 @@ services:
     command: /usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l debug
     volumes:
       - ./envoy:/etc/envoy
-    ports:
-      - "10000:10000"
-      - "9901:9901"
     network_mode: "host"
