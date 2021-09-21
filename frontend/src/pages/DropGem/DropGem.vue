@@ -37,7 +37,7 @@
 import { defineComponent } from "vue";
 import { NavBar } from "vant";
 import { useStore } from "vuex";
-import { DropGemObject, GemColor } from "@/interfaces";
+import { GemColor } from "@/interfaces";
 
 enum DropGemStage {
   Friend,
@@ -49,11 +49,13 @@ export default defineComponent({
   components: {
     NavBar,
   },
-  data() {
+  setup() {
+    const store = useStore();
+    store.dispatch("clearDropGemFormState");
+
     return {
       currentStage: DropGemStage.Friend as DropGemStage,
-      formState: { color: GemColor.PURPLE } as DropGemObject,
-      store: useStore(),
+      store,
     };
   },
   computed: {
@@ -79,16 +81,16 @@ export default defineComponent({
       }
     },
     setReceiverId(value: number): void {
-      this.formState.receiverId = value;
+      this.store.dispatch("updateDropGemFormState", { receiverId: value });
     },
     setMessage(value: string): void {
-      this.formState.message = value;
+      this.store.dispatch("updateDropGemFormState", { message: value });
     },
     setGemColor(value: GemColor): void {
-      this.formState.color = value;
+      this.store.dispatch("updateDropGemFormState", { color: value });
     },
     dropMyGem() {
-      const dropGem = () => this.store.dispatch("dropGem", this.formState);
+      const dropGem = () => this.store.dispatch("dropGem");
       dropGem().catch((err) => console.log(err, "Failed to drop gem"));
     },
   },

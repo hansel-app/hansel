@@ -1,5 +1,5 @@
 import services from "@/api/services";
-import { DropGemOject, Gem, GemColor } from "@/interfaces";
+import { DropGemFormState, Gem, GemColor } from "@/interfaces";
 import { mockFriends, mockSelfUser } from "@/interfaces/mockData";
 import {
   DropRequest,
@@ -16,7 +16,7 @@ import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
-  droppedGemId: number | undefined;
+  dropGemFormState: DropGemFormState;
 }
 
 const protoGemColorToGemColorMapper = (
@@ -57,18 +57,26 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
   };
 };
 
+const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
+
 const gemsModule: Module<GemsState, RootState> = {
   state: {
     gemsPendingCollection: [],
-    droppedGemId: undefined,
+    dropGemFormState: initialDropGemFormState,
   },
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection.splice(0, state.gemsPendingCollection.length);
       gems.forEach((gem) => state.gemsPendingCollection.push(gem));
     },
-    setDropResponse(state, droppedGemId: number) {
-      state.droppedGemId = droppedGemId;
+    updateDropGemFormState(state, dropGemFormState: Partial<DropGemFormState>) {
+      state.dropGemFormState = {
+        ...state.dropGemFormState,
+        ...dropGemFormState,
+      };
+    },
+    clearDropGemFormState(state) {
+      state.dropGemFormState = initialDropGemFormState;
     },
   },
   actions: {
@@ -86,15 +94,22 @@ const gemsModule: Module<GemsState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    dropGem({ commit }, gem: DropGemOject) {
-      if (!gem.message || !gem.receiverId || !gem.color) {
+    dropGem({ commit }) {
+      const dropGemFormState = this.state.gems.dropGemFormState;
+      console.assert(!dropGemFormState.id, "Form state was not reset properly");
+
+      if (
+        !dropGemFormState.message ||
+        !dropGemFormState.receiverId ||
+        !dropGemFormState.color
+      ) {
         throw new Error("Missing fields when trying to drop a gem");
       }
 
       const gemMessage = new GemMessage();
-      gemMessage.setMessage(gem.message);
-      gemMessage.setReceiverId(gem.receiverId);
-      gemMessage.setColor(gem.color);
+      gemMessage.setMessage(dropGemFormState.message);
+      gemMessage.setReceiverId(dropGemFormState.receiverId);
+      gemMessage.setColor(dropGemFormState.color);
       // TODO:  populate latlng from store
 
       const request = new DropRequest();
@@ -105,7 +120,7 @@ const gemsModule: Module<GemsState, RootState> = {
           .drop(request)
           .then((resp: DropResponse) => {
             const droppedGemId: number = resp.getDroppedGemId();
-            commit("setDropResponse", droppedGemId);
+            commit("updateDropGemFormState", { id: droppedGemId });
             resolve(resp);
           })
           .catch((err) => reject(err));
