@@ -73,5 +73,19 @@ services:
       VUE_APP_GOOGLE_API_KEY: ${VUE_APP_GOOGLE_API_KEY}
       VUE_APP_GOOGLE_ANALYTICS_ID: ${VUE_APP_GOOGLE_ANALYTICS_ID}
 
+  certbot:
+    image: certbot/certbot
+    container_name: hansel-certbot
+    restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - frontend
+      - backend-proxy
+    networks:
+      - hansel-network
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
 networks:
   hansel-network:
