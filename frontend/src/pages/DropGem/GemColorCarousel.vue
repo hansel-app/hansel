@@ -7,7 +7,7 @@
     :slide-to-clicked-slide="true"
   >
     <SwiperSlide v-for="color in colors" :key="color">
-      <Button :color="color" />
+      <Button round class="gem-color-button" :color="color" />
     </SwiperSlide>
   </Swiper>
 </template>
@@ -34,3 +34,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="less">
+.gem-color-button {
+  width: 3rem;
+  height: 3rem;
+}
+</style>
