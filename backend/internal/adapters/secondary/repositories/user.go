@@ -78,12 +78,23 @@ func (r *userRepository) Remove(id int64) error {
 }
 
 func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
-	// TODO: Make this SQL statement correct
-	// add "AND status == FRIEND" + join with Users to return all the info
-	sql, _, _ := qb.From("friends").Where(goqu.Or(
-		goqu.C("requester_id").Eq(id),
-		goqu.C("receiver_id").Eq(id),
-	)).ToSQL()
+	firstSubquery := qb.
+		Select(goqu.I("users.*")).
+		From("users").
+		LeftOuterJoin(goqu.T("friends"), goqu.On(goqu.Ex{
+			"users.id": goqu.I("friends.first_user_id"),
+		})).
+		Where(goqu.I("friends.second_user_id").Eq(id))
+
+	secondSubquery := qb.
+		Select(goqu.I("users.*")).
+		From("users").
+		LeftOuterJoin(goqu.T("friends"), goqu.On(goqu.Ex{
+			"users.id": goqu.I("friends.second_user_id"),
+		})).
+		Where(goqu.I("friends.first_user_id").Eq(id))
+
+	sql, _, _ := firstSubquery.Union(secondSubquery).ToSQL()
 
 	var friends []*users.User
 	err := r.db.Select(&friends, sql)
