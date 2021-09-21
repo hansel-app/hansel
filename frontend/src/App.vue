@@ -28,7 +28,7 @@ export default defineComponent({
 }
 
 @font-face {
-  font-family: "CircularStd";
+  font-family: "CircularStd-Bold";
   src: local("CircularStd-Bold"),
     url(./assets/fonts/CircularStd-Bold.otf) format("truetype");
   font-weight: normal;

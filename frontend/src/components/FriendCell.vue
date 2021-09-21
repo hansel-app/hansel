@@ -53,10 +53,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .avatar-border {
   position: relative;
-  border-radius: 50%;
   background: linear-gradient(to right, hsla(187, 89%, 52%, 0.6), #19d8f200),
     linear-gradient(to bottom, #c27df9, #c27df900),
     linear-gradient(to top, #e43d97, #e43d9700);
@@ -70,7 +69,12 @@ export default defineComponent({
 } */
 
 .van-cell {
-  border-radius: 3em;
+  border-radius: 100em;
   width: 100%;
+}
+
+.van-cell:hover {
+  background: @purple;
+  color: white;
 }
 </style>
