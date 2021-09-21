@@ -44,6 +44,8 @@ services:
     image: ghcr.io/hansel-app/hansel-backend-proxy:latest
     container_name: hansel-backend-proxy
     restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - backend
     networks:
