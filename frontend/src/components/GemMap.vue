@@ -97,6 +97,7 @@ import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
+import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -178,13 +179,13 @@ export default defineComponent({
       const nearest = this.sortedGems[0];
       return getDistanceFromLatLonInKm(nearest.position, this.currPosition);
     },
-    shouldShowPickupButton() {
+    shouldShowPickupButton(): boolean {
       return (
-        this.nearestGemDistance &&
+        !!this.nearestGemDistance &&
         this.nearestGemDistance <= GEM_PICKUP_RADIUS_THRESHOLD
       );
     },
-    sortedGems() {
+    sortedGems(): Gem[] {
       return [...this.gems].sort((gem1, gem2) => {
         return (
           getDistanceFromLatLonInKm(gem1.position, this.currPosition) -
@@ -192,7 +193,7 @@ export default defineComponent({
         );
       });
     },
-    gemMarkerOptions() {
+    gemMarkerOptions(): GemMarkerOptions[] {
       return this.gems.map((gem) => {
         const gemImageUrl = this.getGemImageUrl(gem);
         return {
@@ -209,8 +210,8 @@ export default defineComponent({
     },
 
     getGemImageUrl(gem: Gem) {
-      console.assert(Object.values(GemColor).includes(gem.color));
-      return require(`@/assets/images/${gem.color}_64.png`);
+      const gemColorName = getEnumKeyByEnumValue(GemColor, gem.color);
+      return require(`@/assets/images/${gemColorName.toLowerCase()}_64.png`);
     },
 
     nextGem() {

@@ -16,6 +16,7 @@
 import { defineComponent, PropType } from "vue";
 import { Button } from "vant";
 import { Gem, GemColor } from "@/interfaces";
+import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 export default defineComponent({
   props: {
@@ -29,12 +30,12 @@ export default defineComponent({
   },
   computed: {
     getPoster() {
-      console.assert(Object.values(GemColor).includes(this.gem.color));
-      return require("@/assets/images/gem-found-" + this.gem.color + ".png");
+      const gemColorName = getEnumKeyByEnumValue(GemColor, this.gem.color);
+      return require(`@/assets/images/gem-found-${gemColorName.toLowerCase()}.png`);
     },
     getVideo() {
-      console.assert(Object.values(GemColor).includes(this.gem.color));
-      return require("@/assets/videos/gem-found-" + this.gem.color + ".mp4");
+      const gemColorName = getEnumKeyByEnumValue(GemColor, this.gem.color);
+      return require(`@/assets/videos/gem-found-${gemColorName.toLowerCase()}.mp4`);
     },
   },
 });

@@ -1,50 +1,48 @@
 <template>
-  <!-- TODO: make this into actual carousel -->
-  <Row>
-    <Button
-      v-for="gem in GemColor"
-      :key="gem"
-      :color="getGemColorHex(gem)"
-      @click="this.$emit('SetGemColorEvent', $event.target.value)"
-    />
-  </Row>
+  <Swiper
+    ref="swiperRef"
+    :slides-per-view="4"
+    :space-between="50"
+    :centered-slides="true"
+    :slide-to-clicked-slide="true"
+  >
+    <SwiperSlide v-for="color in colors" :key="color">
+      <Button
+        round
+        class="gem-color-button"
+        :color="color"
+        @click="this.$emit('SetGemColorEvent', $event.target.value)"
+      />
+    </SwiperSlide>
+  </Swiper>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
-import { Button, Row } from "vant";
+import { Button } from "vant";
 import { GemColor } from "@/interfaces";
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+import "swiper/swiper-bundle.css";
 
 export default defineComponent({
-  data() {
-    return {
-      GemColor,
-    };
-  },
-  methods: {
-    getGemColorHex(color) {
-      switch (color) {
-        case GemColor.BLACK:
-          return "#8d8d8d";
-        case GemColor.PURPLE:
-          return "#cdb4db";
-        case GemColor.PINK:
-          return "#ffc8dd";
-        case GemColor.BLUE:
-          return "#a2d2ff";
-        case GemColor.YELLOW:
-          return "#fffb8a";
-        case GemColor.GREEN:
-          return "#a6ffb6";
-        default:
-          return "#FFFFFF";
-      }
-    },
-  },
   components: {
     Button,
-    Row,
+    Swiper,
+    SwiperSlide,
   },
-  inheritAttrs: false,
+
+  setup() {
+    return {
+      colors: Object.values(GemColor),
+    };
+  },
 });
 </script>
+
+<style scoped lang="less">
+.gem-color-button {
+  width: 3rem;
+  height: 3rem;
+}
+</style>

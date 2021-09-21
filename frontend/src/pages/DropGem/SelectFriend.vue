@@ -2,14 +2,16 @@
   <div class="container">
     <p class="header">Drop a gem</p>
     <p class="sub-header">Choose a receiver</p>
-    <Search placeholder="Search a friend" />
+    <Search v-model="searchQuery" placeholder="Search a friend" />
     <CellGroup>
       <FriendCell
-        v-for="user in mockFriends"
-        :key="user.id"
-        :friend="user"
-        isClickable="true"
-        @click="this.$emit('SetReceiverEvent', user.id)"
+        v-for="friend in filteredFriends"
+        :key="friend.id"
+        :friend="friend"
+        :isClickable="true"
+        :shouldDisplayUsername="true"
+        :onClick="() => $emit('nextStage')"
+        @click="$emit('SetReceiverEvent', friend.id)"
       />
     </CellGroup>
   </div>
@@ -19,6 +21,7 @@
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
 import { mockFriends } from "@/interfaces/mockData";
+import { User } from "@/interfaces";
 import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
@@ -29,8 +32,25 @@ export default defineComponent({
   },
   data() {
     return {
-      mockFriends,
+      allFriends: mockFriends,
+      searchQuery: "",
     };
+  },
+  computed: {
+    filteredFriends(): User[] {
+      if (this.searchQuery.length === 0) {
+        return this.allFriends;
+      }
+      return this.allFriends.filter((friend) => {
+        const matchUsername = friend.username
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+        const matchDisplayname = friend.displayName
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+        return matchUsername || matchDisplayname;
+      });
+    },
   },
 });
 </script>
