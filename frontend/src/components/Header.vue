@@ -2,7 +2,7 @@
     <div class="page-header container">
         <van-row>
             <img id="icon-left" :src="arrowLeft">
-            <img id="icon-right" :src="cross">
+            <img id="icon-right" :src="cross" @click="goToHome">
         </van-row>
         <van-row>
             <div id="title" class="header">
@@ -16,6 +16,8 @@ import { defineComponent } from 'vue';
 import { Row } from "vant";
 import arrowLeft from "@/assets/icons/arrow-left.svg"
 import cross from "@/assets/icons/cross.svg"
+import { HOME_ROUTE } from "@/constants"
+
 
 export default defineComponent({
     setup() {
@@ -39,6 +41,12 @@ export default defineComponent({
         getIconPosition() {
             return !this.backMode? 'icon-left': 'icon-right';
         }
+    },
+    methods: {
+        goToHome() {
+            console.log('hi');
+            this.$router.replace(HOME_ROUTE);
+        },
     }
 })
 </script>
@@ -52,7 +60,9 @@ export default defineComponent({
 }
 
 #icon-right {
-    padding-left: 78%;
+    padding-left: 77%;
+    padding-right: 0;
+    margin-right: 0;
 }
 
 .hide-icon {
