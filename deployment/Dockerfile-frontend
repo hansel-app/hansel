@@ -28,7 +28,7 @@ COPY frontend .
 # Install dependencies
 RUN npm ci
 
-# Add a script to be executed every time the container starts.
+# Add a script to be executed every time the container starts
 COPY deployment/entrypoint-scripts/frontend.sh /usr/bin/
 RUN chmod +x /usr/bin/frontend.sh
 ENTRYPOINT ["frontend.sh"]

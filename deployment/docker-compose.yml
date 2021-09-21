@@ -57,22 +57,18 @@ services:
       VUE_APP_GOOGLE_API_KEY: ${VUE_APP_GOOGLE_API_KEY}
       VUE_APP_GOOGLE_ANALYTICS_ID: ${VUE_APP_GOOGLE_ANALYTICS_ID}
 
-  reverse-proxy:
-    image: hansel-reverse-proxy
-    container_name: hansel-reverse-proxy
+  backend-proxy:
+    image: hansel-backend-proxy
+    container_name: hansel-backend-proxy
     restart: always
     depends_on:
       - backend
-      - frontend
     networks:
       - hansel-network
     logging:
       driver: journald
-    ports:
-      - "10000:10000"
-      - "9901:9901"
-      - "443:443"
-      - "80:80"
+    expose:
+      - '10000'
 
 networks:
   hansel-network:

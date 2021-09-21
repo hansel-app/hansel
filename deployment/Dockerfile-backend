@@ -24,7 +24,7 @@ RUN mkdir --parents $APP_ROOT
 WORKDIR $APP_ROOT
 COPY backend .
 
-# Add a script to be executed every time the container starts.
+# Add a script to be executed every time the container starts
 COPY deployment/entrypoint-scripts/backend.sh /usr/bin/
 RUN chmod +x /usr/bin/backend.sh
 ENTRYPOINT ["backend.sh"]
