@@ -10,10 +10,16 @@
           :shouldDisplayUsername="true"
         >
           <div>
-            <van-button round type="primary" @click="acceptFriendRequest"
-              >Accept</van-button
-            >
-            <van-button round @click="declineFriendRequest">Decline</van-button>
+            <van-button id="left-button"
+              round 
+              type="primary" 
+              size="small"
+              @click="acceptFriendRequest"
+            >Accept</van-button>
+            <van-button 
+              round @click="declineFriendRequest"
+              size="small"
+            >Decline</van-button>
           </div>
         </FriendCell>
       </van-cell-group>
@@ -50,3 +56,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+#left-button {
+  margin-right: 1em;
+}
+</style>
