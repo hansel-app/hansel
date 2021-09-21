@@ -22,15 +22,15 @@ import { defineComponent } from "vue";
 import { NavBar } from "vant";
 
 enum DropGemStage {
-  friend,
-  media,
-  message,
+  Friend,
+  Media,
+  Message,
 }
 
 export default defineComponent({
   data() {
     return {
-      currentStage: DropGemStage.friend as DropGemStage,
+      currentStage: DropGemStage.Friend as DropGemStage,
     };
   },
   computed: {
@@ -41,7 +41,7 @@ export default defineComponent({
       return DropGemStage[this.currentStage];
     },
     shouldShowNextButton(): boolean {
-      return [DropGemStage.media].includes(this.currentStage);
+      return [DropGemStage.Media].includes(this.currentStage);
     },
   },
   methods: {
