@@ -64,17 +64,21 @@ func (s *userService) GetFriendRequests(
 		return nil, err
 	}
 
-	var friendsInfo []*friendsapi.FriendInfo
+	var friendRequests []*friendsapi.PendingFriendRequest
 	for _, f := range friends {
-		friendsInfo = append(friendsInfo,
-			&friendsapi.FriendInfo{
+		friendRequests = append(friendRequests,
+			&friendsapi.PendingFriendRequest{
+				Requester: &friendsapi.FriendInfo{
 				UserId:      f.ID,
 				DisplayName: f.DisplayName,
 				Username:    f.Username,
-			})
+				},
+			},
+		)
 	}
+
 	return &friendsapi.GetPendingFriendRequestsResponse{
-		Friends: friendsInfo,
+		FriendRequests: friendRequests,
 	}, nil
 }
 
@@ -103,7 +107,7 @@ func (s *userService) AcceptFriendRequest(
 		return status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
 
-	err := s.usecases.AcceptFriendRequest(r.SenderId, userId)
+	err := s.usecases.AcceptFriendRequest(r.RequesterId, userId)
 	if err != nil {
 		return err
 	}
@@ -119,7 +123,7 @@ func (s *userService) DeclineFriendRequest(
 		return status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
 
-	err := s.usecases.DeclineFriendRequest(r.SenderId, userId)
+	err := s.usecases.DeclineFriendRequest(r.RequesterId, userId)
 	if err != nil {
 		return err
 	}

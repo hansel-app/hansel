@@ -93,7 +93,6 @@ const userModule: Module<UserState, RootState> = {
         services.friendsClient
           .add(request)
           .then((resp) => {
-            // Is it possible to call getFriends here?
             commit("updateSendFriendRequestStatus", true);
             resolve(resp);
           })
@@ -101,7 +100,7 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    acceptFriendRequest({ commit },requester_id) {
+    acceptFriendRequest({ dispatch },requester_id) {
       const request = new FriendRequest();
       // Note: receiver_id (self) will be retrieved
       // from context keys in the backend
@@ -111,14 +110,15 @@ const userModule: Module<UserState, RootState> = {
         services.friendsClient
           .accept(request)
           .then((resp) => {
-            // Ditto with above, getFriends to retrieve updated list.
+            dispatch('getFriends');
+            dispatch('getFriendRequests');
             resolve(resp);
           })
           .catch((err) => reject(err));
       });
     },
 
-    declineFriendRequest({ commit }, requester_id) {
+    declineFriendRequest({ dispatch }, requester_id) {
       const request = new FriendRequest();
       // Note: receiver_id (self) will be retrieved
       // from context keys in the backend
@@ -128,6 +128,7 @@ const userModule: Module<UserState, RootState> = {
         services.friendsClient
           .decline(request)
           .then((resp) => {
+            dispatch('getFriendRequests');
             resolve(resp);
           })
           .catch((err) => reject(err));

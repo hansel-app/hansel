@@ -94,6 +94,7 @@ func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
 	return friends, nil
 }
 
+// TODO: return datetime of request as well.
 func (r *userRepository) GetFriendRequests(id int64) ([]*users.User, error) {
 	// TODO: Make this SQL statement correct
 	// make status an enum somewhere + join with Users
