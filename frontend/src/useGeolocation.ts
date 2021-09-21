@@ -1,6 +1,7 @@
 import { SINGAPORE_CENTER } from "@/constants";
 import { LatLng } from "@/interfaces";
 import { onMounted, onUnmounted, ref } from "vue";
+import { useStore } from "vuex";
 
 export function useGeolocation() {
   const coords = ref<LatLng>(SINGAPORE_CENTER);
@@ -26,13 +27,10 @@ export function useGeolocation() {
   let watcher: number | null = null;
 
   onMounted(() => {
+    const store = useStore();
     if (isSupported) {
-      watcher = navigator.geolocation.watchPosition(
-        (position) =>
-          (coords.value = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          })
+      watcher = navigator.geolocation.watchPosition((position) =>
+        store.dispatch("updateCurrentPosition", position.coords)
       );
     }
   });

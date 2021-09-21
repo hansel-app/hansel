@@ -1,5 +1,6 @@
 import services from "@/api/services";
-import { User } from "@/interfaces";
+import { User, LatLng } from "@/interfaces";
+import { SINGAPORE_CENTER } from "@/constants";
 import {
   FriendInfo,
   FriendRequest,
@@ -19,11 +20,9 @@ export interface UserState {
 
   // PendingFriendRequests includes FriendInfo + datetime of request.
   friendRequests: PendingFriendRequest[];
-  self: User;
-
-  // TODO: user's current geolocation
-
   isSendFriendRequestSuccessful: boolean;
+  self: User;
+  currPosition: LatLng;
 }
 
 const userModule: Module<UserState, RootState> = {
@@ -37,8 +36,13 @@ const userModule: Module<UserState, RootState> = {
       displayName: "Maggie Mee",
       avatar: "avatarrrr",
     },
+    isSendFriendRequestSuccessful: false,
+    currPosition: SINGAPORE_CENTER,
   },
   mutations: {
+    setCurrPosition(state, newPosition: LatLng) {
+      state.currPosition = newPosition;
+    },
     setFriends(state, friends: FriendInfo[]) {
       state.friends.splice(0, state.friends.length);
       friends.forEach((friend) => state.friends.push(friend));
@@ -54,6 +58,11 @@ const userModule: Module<UserState, RootState> = {
     },
   },
   actions: {
+    // Used an action here instead of directly committing as
+    // actions are asynchronous.
+    updateCurrentPosition({ commit }, newPosition) {
+      commit("setCurrPosition", newPosition);
+    },
     getFriends({ commit }) {
       const request = new GetFriendsRequest();
 
@@ -100,7 +109,7 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    acceptFriendRequest({ dispatch },requester_id) {
+    acceptFriendRequest({ dispatch }, requester_id) {
       const request = new FriendRequest();
       // Note: receiver_id (self) will be retrieved
       // from context keys in the backend
@@ -110,8 +119,8 @@ const userModule: Module<UserState, RootState> = {
         services.friendsClient
           .accept(request)
           .then((resp) => {
-            dispatch('getFriends');
-            dispatch('getFriendRequests');
+            dispatch("getFriends");
+            dispatch("getFriendRequests");
             resolve(resp);
           })
           .catch((err) => reject(err));
@@ -128,7 +137,7 @@ const userModule: Module<UserState, RootState> = {
         services.friendsClient
           .decline(request)
           .then((resp) => {
-            dispatch('getFriendRequests');
+            dispatch("getFriendRequests");
             resolve(resp);
           })
           .catch((err) => reject(err));

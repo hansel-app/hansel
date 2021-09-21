@@ -97,6 +97,7 @@ import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
+import { useStore } from "vuex";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -121,6 +122,7 @@ export default defineComponent({
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
     const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
+    const store = useStore();
 
     const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
       if (el) {
@@ -133,7 +135,8 @@ export default defineComponent({
       gemMarkerRefs = new Set();
     });
 
-    const { coords: currPosition, getLocation } = useGeolocation();
+    const { getLocation } = useGeolocation();
+    const currPosition = store.state.user.currPosition;
     const initPos = await getLocation();
     const shouldShowPopup = ref<boolean>(false);
 
