@@ -56,11 +56,3 @@ message GetPendingCollectionForUserRequest {}
 message GetPendingCollectionForUserResponse {
   repeated Gem gems = 1;
 }
-
-message SayHelloRequest {
-  string name = 1;
-}
-
-message SayHelloResponse {
-  string message = 1;
-}
