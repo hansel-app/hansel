@@ -1,45 +1,46 @@
 <template>
-  <div class="stack-container">
+  <vant-row>
     <p class="big-header overlay">{{ title }}</p>
-    <div class="square" />
-    <div class="semi-circle" />
-    <Image :src="getGemImageUrl" class="overlay" />
+  </vant-row>
+  <div class="stack-container">
+    <div class="semi-circle"></div>
+    <Image :src="gemImgSrc" class="overlay" />
   </div>
 </template>
-
 <script lang="ts">
-import { defineComponent } from "vue";
-import { Image } from "vant";
+import { defineComponent, PropType } from "vue";
+// import { Image } from "vant";
+import { GemColor } from "@/interfaces";
+import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 export default defineComponent({
+  // components: { Image },
   props: {
-    title: String,
-  },
-  methods: {
-    gemPath() {
-      return require("@/assets/images/blue_64.png");
+    title: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String as PropType<GemColor>,
+      required: true,
     },
   },
-  data() {
+
+  setup(props) {
+    const gemColorName = getEnumKeyByEnumValue(GemColor, props.color);
     return {
-      // TODO: replace with our own gem asset
-      placeholderGemUrl:
-        "https://images.squarespace-cdn.com/content/v1/5a773a9f8fd4d27532408347/1530563687072-GRIQPL3SZQDPZ7ZY7JEC/butt+lightened.jpg?format=1000w",
+      gemImgSrc: require(`@/assets/images/${gemColorName.toLowerCase()}_64.png`),
     };
   },
-  components: { Image },
 });
 </script>
+
 <style scoped>
 .stack-container {
   position: relative;
   height: 325px;
-}
-
-.square {
-  height: 250px;
-  width: 100%;
-  background-color: #e4bfbf;
+  z-index: -1;
+  overflow-x: hidden;
 }
 
 .overlay {
@@ -51,10 +52,9 @@ export default defineComponent({
 }
 
 .semi-circle {
-  position: absolute;
-  transform: translate(0%, -50%);
-  height: 150px;
-  width: 100%;
+  transform: translate(-25%, -50%);
+  height: 80vh;
+  width: 200vw;
   border-radius: 0 0 50% 50%;
   background-color: #e4bfbf;
 }
