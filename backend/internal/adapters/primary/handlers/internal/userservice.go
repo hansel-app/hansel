@@ -3,6 +3,10 @@ package internal
 import (
 	"context"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
 	"github.com/hansel-app/hansel/protobuf/friendsapi"
 )
@@ -22,7 +26,12 @@ func (s *userService) GetFriends(
 	c context.Context,
 	r *friendsapi.GetFriendsRequest,
 ) (*friendsapi.GetFriendsResponse, error) {
-	friends, err := s.usecases.GetFriends(r.UserId)
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	friends, err := s.usecases.GetFriends(userId)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +54,12 @@ func (s *userService) GetFriendRequests(
 	c context.Context,
 	r *friendsapi.GetPendingFriendRequestsRequest,
 ) (*friendsapi.GetPendingFriendRequestsResponse, error) {
-	friends, err := s.usecases.GetFriendRequests(r.UserId)
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+	
+	friends, err := s.usecases.GetFriendRequests(userId)
 	if err != nil {
 		return nil, err
 	}

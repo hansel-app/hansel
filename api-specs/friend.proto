@@ -37,18 +37,14 @@ message FriendInfo {
 	string username = 3;
 }
 
-message GetFriendsRequest {
-	int64 user_id = 1;
-}
+message GetFriendsRequest {}
 
 message GetFriendsResponse {
 	repeated FriendInfo friends = 1;
 }
 
 
-message GetPendingFriendRequestsRequest {
-	int64 user_id = 1;
-}
+message GetPendingFriendRequestsRequest {}
 
 message GetPendingFriendRequestsResponse {
 	repeated FriendInfo friends = 1;

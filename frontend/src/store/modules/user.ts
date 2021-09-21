@@ -47,7 +47,6 @@ const userModule: Module<UserState, RootState> = {
   actions: {
     getFriends({ commit }) {
       const request = new GetFriendsRequest();
-      request.setUserId(this.state.user.self.id);
 
       return new Promise((resolve, reject) => {
         services.friendsClient
@@ -62,7 +61,6 @@ const userModule: Module<UserState, RootState> = {
     },
     getFriendRequests({ commit }) {
       const request = new GetPendingFriendRequestsRequest();
-      request.setUserId(this.state.user.self.id);
 
       return new Promise((resolve, reject) => {
         services.friendsClient
