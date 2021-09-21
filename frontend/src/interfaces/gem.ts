@@ -13,10 +13,10 @@ export interface Gem {
 }
 
 export enum GemColor {
-  PURPLE = "purple",
-  PINK = "pink",
-  BLUE = "blue",
-  BLACK = "black",
-  YELLOW = "yellow",
-  GREEN = "green",
+  PURPLE = "#cdb4db",
+  PINK = "#ffc8dd",
+  BLUE = "#a2d2ff",
+  BLACK = "#6a6a6a",
+  YELLOW = "#fffb8a",
+  GREEN = "#a6ffb6",
 }

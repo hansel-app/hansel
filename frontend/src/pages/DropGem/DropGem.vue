@@ -5,19 +5,25 @@
     class="nav-bar"
   />
   <router-view
-    class="select-friend"
     :name="currentStageName"
+    @nextStage="nextStage"
     @SetReceiverEvent="setReceiverId"
     @SetMessageEvent="setMessage"
     @SetGemColorEvent="setGemColor"
   ></router-view>
+
   <div>
-    <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
+    <van-button
+      round
+      type="info"
+      v-if="shouldShowNextButton"
+      @click="$emit('nextStage')"
+    >
       Next
-    </button>
-    <button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
+    </van-button>
+    <van-button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
       Drop Gem
-    </button>
+    </van-button>
   </div>
 </template>
 
@@ -28,15 +34,15 @@ import { GemMessage, GemColor } from "@/protobuf/gem_pb";
 import { useStore } from "vuex";
 
 enum DropGemStage {
-  friend,
-  media,
-  message,
+  Friend,
+  Media,
+  Message,
 }
 
 export default defineComponent({
   data() {
     return {
-      currentStage: DropGemStage.friend as DropGemStage,
+      currentStage: DropGemStage.Friend as DropGemStage,
       draftGem: new GemMessage(),
       store: useStore(),
     };
@@ -47,6 +53,9 @@ export default defineComponent({
     },
     currentStageName(): string {
       return DropGemStage[this.currentStage];
+    },
+    shouldShowNextButton(): boolean {
+      return [DropGemStage.Media].includes(this.currentStage);
     },
   },
   methods: {
