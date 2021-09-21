@@ -19,6 +19,7 @@
 @gray-6: #969799;
 @gray-7: #646566;
 @gray-8: #323233;
+@text-gray: #585969;
 @red: #ee0a24;
 @blue: #1989fa;
 @orange: #ff976a;
@@ -31,6 +32,7 @@
 // Gradient Colors
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 @gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
+@gradient-blue: linear-gradient(150deg, white, #e2e9ff);
 
 // Component Colors
 @primary-color: @purple;
@@ -92,27 +94,30 @@
 
 .header {
   font-family: CircularStd;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
   text-align: left;
+  color: black;
+  line-height: 0px;
 }
 
 .sub-header {
-  font-family: CircularStd;
+  font-family: CircularStd-Bold;
   font-size: 20px;
-  font-weight: bold;
   text-align: left;
+  line-height: 0px;
 }
 
 .content {
   font-family: CircularStd;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: lighter;
   text-align: left;
 }
 
 // Preset margins
 .container {
-  margin: 32px;
+  margin: 0 32px 32px 32px;
 }
 
 //Icons
@@ -145,4 +150,18 @@
 .gm-style .gm-style-iw-c {
   padding: 0px !important;
   max-width: 80vw !important;
+}
+
+// Search component
+@search-content-background-color: white;
+
+// Background gradient
+.background-gradient {
+  background: @gradient-blue; 
+  height: 100vh;
+  position: relative;
+}
+
+.van-cell-group, .van-cell {
+  background: none;
 }

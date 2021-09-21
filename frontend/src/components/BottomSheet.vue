@@ -22,6 +22,7 @@ import { Gem } from "@/interfaces";
 import { defineComponent, PropType, ref, computed } from "vue";
 import { Row, Button } from "vant";
 import { formatDateTime } from "@/utils/date";
+import { HOME_ROUTE } from "@/constants";
 
 export default defineComponent({
   setup() {
@@ -60,7 +61,7 @@ export default defineComponent({
   },
   methods: {
     backToHome() {
-      this.$router.replace({ name: "home" });
+      this.$router.replace(HOME_ROUTE);
     },
   },
 });
