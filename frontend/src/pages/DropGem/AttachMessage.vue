@@ -16,6 +16,7 @@
 import { defineComponent } from "vue";
 import { Button, Field } from "vant";
 import GemHeader from "@/components/GemHeader.vue";
+import { HOME_ROUTE } from "@/constants";
 
 export default defineComponent({
   components: {
@@ -26,7 +27,7 @@ export default defineComponent({
   methods: {
     dropGem: function() {
       console.log("Dropping gem");
-      this.$router.replace({ name: "home" });
+      this.$router.replace(HOME_ROUTE);
     },
   },
 });

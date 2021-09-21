@@ -1,9 +1,14 @@
 <template>
   <div>
-    <Header title="Drop a gem" />
+    <Header
+      :isCloseWindow="true" 
+      title="Drop a gem" 
+    />
     <div class="container">
       <p class="sub-header">Choose a receiver</p>
-      <Searchbar placeholder="Search a friend" />
+      <Searchbar
+        placeholder="Search a friend" 
+      />
       <CellGroup>
         <FriendCell
           v-for="user in mockFriends"

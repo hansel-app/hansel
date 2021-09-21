@@ -1,8 +1,8 @@
 <template>
     <div class="page-header container">
         <van-row>
-            <img id="icon-left" :src="arrowLeft">
-            <img id="icon-right" :src="cross" @click="goToHome">
+            <img id="icon-left" :class="isBackIconDisplayed" :src="arrowLeft" @click="goBack">
+            <img id="icon-right" :class="isCrossIconDisplayed" :src="cross" @click="goToHome">
         </van-row>
         <van-row>
             <div id="title" class="header">
@@ -12,23 +12,28 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 import { Row } from "vant";
-import arrowLeft from "@/assets/icons/arrow-left.svg"
-import cross from "@/assets/icons/cross.svg"
-import { HOME_ROUTE } from "@/constants"
-
+import { HOME_ROUTE } from "@/constants";
+import arrowLeft from "@/assets/icons/arrow-left.svg";
+import cross from "@/assets/icons/cross.svg";
 
 export default defineComponent({
     setup() {
-        // return { arrowLeft, cross }
-        const backMode = true;
-        return { backMode, cross, arrowLeft };
+        return { cross, arrowLeft };
     },
     props: {
         title: {
             type: String,
             required: true,
+        },
+        isCloseWindow: {
+            type: Boolean,
+            default: () => false,
+        },
+        backLink: {
+            type: String,
+            required: false,
         }
     }, 
     components: {
@@ -38,14 +43,23 @@ export default defineComponent({
         getIcon() {
             return require("@/assets/icons/cross.svg");
         },
-        getIconPosition() {
-            return !this.backMode? 'icon-left': 'icon-right';
+        goBack() {
+            return this.$router.back();
+        },
+        isCrossIconDisplayed() {
+            return {
+                'hide-icon': !this.isCloseWindow
+            }
+        },
+        isBackIconDisplayed() {
+            return {
+                'hide-icon': this.isCloseWindow
+            }
         }
     },
     methods: {
         goToHome() {
-            console.log('hi');
-            this.$router.replace(HOME_ROUTE);
+            this.$router.push({ name: 'home'});
         },
     }
 })
@@ -60,9 +74,7 @@ export default defineComponent({
 }
 
 #icon-right {
-    padding-left: 77%;
-    padding-right: 0;
-    margin-right: 0;
+    margin-left: 19.5em;
 }
 
 .hide-icon {
