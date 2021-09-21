@@ -76,7 +76,6 @@ func (r *userRepository) Remove(id int64) error {
 	return nil
 }
 
-
 func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
 	// TODO: Make this SQL statement correct
 	// add "AND status == FRIEND" + join with Users to return all the info
@@ -93,7 +92,6 @@ func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
 
 	return friends, nil
 }
-
 
 func (r *userRepository) GetFriendRequests(id int64) ([]*users.User, error) {
 	// TODO: Make this SQL statement correct

@@ -18,7 +18,10 @@ func NewUserService(repository users.Repository) *userService {
 	}
 }
 
-func (s *userService) GetFriends(c context.Context, r *friendsapi.GetFriendsRequest) (*friendsapi.GetFriendsResponse, error) {
+func (s *userService) GetFriends(
+	c context.Context,
+	r *friendsapi.GetFriendsRequest,
+) (*friendsapi.GetFriendsResponse, error) {
 	friends, err := s.usecases.GetFriends(r.UserId)
 	if err != nil {
 		return nil, err
@@ -26,20 +29,22 @@ func (s *userService) GetFriends(c context.Context, r *friendsapi.GetFriendsRequ
 
 	var friendsInfo []*friendsapi.FriendInfo
 	for _, f := range friends {
-		friendsInfo = append(friendsInfo, 
-		&friendsapi.FriendInfo{
-			UserId: f.ID,
-			DisplayName: f.DisplayName,
-			Username: f.Username,
-		})
+		friendsInfo = append(friendsInfo,
+			&friendsapi.FriendInfo{
+				UserId:      f.ID,
+				DisplayName: f.DisplayName,
+				Username:    f.Username,
+			})
 	}
 	return &friendsapi.GetFriendsResponse{
 		Friends: friendsInfo,
 	}, nil
 }
 
-
-func (s *userService) GetFriendRequests(c context.Context, r *friendsapi.GetPendingFriendRequestsRequest) (*friendsapi.GetPendingFriendRequestsResponse, error) {
+func (s *userService) GetFriendRequests(
+	c context.Context,
+	r *friendsapi.GetPendingFriendRequestsRequest,
+) (*friendsapi.GetPendingFriendRequestsResponse, error) {
 	friends, err := s.usecases.GetFriendRequests(r.UserId)
 	if err != nil {
 		return nil, err
@@ -47,16 +52,14 @@ func (s *userService) GetFriendRequests(c context.Context, r *friendsapi.GetPend
 
 	var friendsInfo []*friendsapi.FriendInfo
 	for _, f := range friends {
-		friendsInfo = append(friendsInfo, 
-		&friendsapi.FriendInfo{
-			UserId: f.ID,
-			DisplayName: f.DisplayName,
-			Username: f.Username,
-		})
+		friendsInfo = append(friendsInfo,
+			&friendsapi.FriendInfo{
+				UserId:      f.ID,
+				DisplayName: f.DisplayName,
+				Username:    f.Username,
+			})
 	}
 	return &friendsapi.GetPendingFriendRequestsResponse{
 		Friends: friendsInfo,
 	}, nil
 }
-
-
