@@ -1,7 +1,7 @@
 <template>
-    <van-row class="header">
+    <van-row class="page-header">
         <img id="icon" :src="arrowLeft">
-        <div id="title" class="block">
+        <div id="title" class="header">
             <p>{{ title }}</p>
         </div>
     </van-row>
@@ -27,8 +27,15 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.page-header {
+    padding-top: 3em;
+}
 #icon {
-    fill: #585969;
-    padding: 0.5em;
+    padding: 1em 1em 1em 2em;
+}
+
+#title {
+    padding-bottom: 0em;
+    margin-bottom: 0em;
 }
 </style>

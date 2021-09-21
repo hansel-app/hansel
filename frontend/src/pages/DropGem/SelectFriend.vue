@@ -1,30 +1,35 @@
 <template>
-  <div class="container">
-    <p class="header">Drop a gem</p>
-    <p class="sub-header">Choose a receiver</p>
-    <Search placeholder="Search a friend" />
-    <CellGroup>
-      <FriendCell
-        v-for="user in mockFriends"
-        :key="user.id"
-        :friend="user"
-        isClickable="true"
-      />
-    </CellGroup>
+  <div class="background-gradient">
+    <Header title="Drop a gem" />
+    <div class="container">
+      <p class="sub-header">Choose a receiver</p>
+      <Searchbar placeholder="Search a friend" />
+      <CellGroup>
+        <FriendCell
+          v-for="user in mockFriends"
+          :key="user.id"
+          :friend="user"
+          isClickable="true"
+        />
+      </CellGroup>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, Search } from "vant";
+import { CellGroup } from "vant";
 import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
+import Searchbar from "@/components/Searchbar.vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
     CellGroup,
     FriendCell,
-    Search,
+    Header,
+    Searchbar,
   },
   data() {
     return {

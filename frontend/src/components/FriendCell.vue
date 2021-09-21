@@ -69,4 +69,8 @@ export default defineComponent({
 .remove-padding {
   margin-left: -20px;
 }
+
+.van-cell {
+  border-radius: 3em;
+}
 </style>

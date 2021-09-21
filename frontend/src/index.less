@@ -19,7 +19,7 @@
 @gray-6: #969799;
 @gray-7: #646566;
 @gray-8: #323233;
-@gray-header: #585969;
+@text-gray: #585969;
 @red: #ee0a24;
 @blue: #1989fa;
 @orange: #ff976a;
@@ -32,6 +32,7 @@
 // Gradient Colors
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 @gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
+@gradient-blue: linear-gradient(#e2e9ff, white);
 
 // Component Colors
 @primary-color: @purple;
@@ -93,10 +94,11 @@
 
 .header {
   font-family: CircularStd;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
   text-align: left;
-  color: @gray-header;
+  color: @text-gray;
+  line-height: 0px;
 }
 
 .sub-header {
@@ -104,6 +106,7 @@
   font-size: 20px;
   font-weight: medium;
   text-align: left;
+  color: @text-gray;
 }
 
 .content {
@@ -111,6 +114,7 @@
   font-size: 16px;
   font-weight: light;
   text-align: left;
+  color: @text-gray;
 }
 
 // Preset margins
@@ -148,4 +152,18 @@
 .gm-style .gm-style-iw-c {
   padding: 0px !important;
   max-width: 80vw !important;
+}
+
+// Search component
+@search-content-background-color: white;
+@search-action-padding: 40px;
+@search-label-padding: 40px;
+@search-input-height: 40px;
+@search-input-height:	40px;
+
+// Background gradient
+.background-gradient {
+  background: @gradient-blue; 
+  height: 100vh;
+  position: relative;
 }

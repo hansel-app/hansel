@@ -1,6 +1,8 @@
 <template>
-    <Header title="Gem logs" />
-    <Searchbar placeholder="Gem logs" />
+    <div class="background-gradient">
+        <Header title="Gem logs" />
+        <Searchbar placeholder="Search a friend" />
+    </div>
 </template>
 <script>
 import { defineComponent } from 'vue';

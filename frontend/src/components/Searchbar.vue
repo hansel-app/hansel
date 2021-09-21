@@ -1,6 +1,10 @@
 <template>
     <div class="searchbar">
-        <Search :placeholder="placeholder" />
+        <van-search
+            :placeholder="placeholder" 
+            background="none"
+            shape="round"
+        />
     </div>
 </template>
 <script>
@@ -9,7 +13,7 @@ import { Search } from "vant";
 
 export default defineComponent({
     components: {
-        Search,
+        "van-search": Search,
     },
     props: {
         placeholder: {
@@ -19,3 +23,8 @@ export default defineComponent({
     }
 })
 </script>
+<style scoped lang="less">
+.van-search {
+    margin: 1em;
+}
+</style>
