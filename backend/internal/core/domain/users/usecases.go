@@ -40,15 +40,14 @@ func (u *UseCases) GetFriendRequests(user_id int64) ([]*User, error) {
 	return u.repository.GetFriendRequests(user_id)
 }
 
-func (u *UseCases) AddFriendRequest(requester_id int64, receiver_id int64) (error) {
+func (u *UseCases) AddFriendRequest(requester_id int64, receiver_id int64) error {
 	return u.repository.AddFriendRequest(requester_id, receiver_id)
 }
 
-
-func (u *UseCases) AcceptFriendRequest(sender_id int64) (error) {
-	return u.repository.AcceptFriendRequest(sender_id)
+func (u *UseCases) AcceptFriendRequest(requester_id, receiver_id int64) error {
+	return u.repository.AcceptFriendRequest(requester_id, receiver_id)
 }
 
-func (u *UseCases) DeclineFriendRequest(sender_id int64) (error) {
-	return u.repository.DeclineFriendRequest(sender_id)
+func (u *UseCases) DeclineFriendRequest(requester_id, receiver_id int64) error {
+	return u.repository.DeclineFriendRequest(requester_id, receiver_id)
 }

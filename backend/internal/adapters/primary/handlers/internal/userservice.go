@@ -58,7 +58,7 @@ func (s *userService) GetFriendRequests(
 	if !ok {
 		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
-	
+
 	friends, err := s.usecases.GetFriendRequests(userId)
 	if err != nil {
 		return nil, err
@@ -76,4 +76,52 @@ func (s *userService) GetFriendRequests(
 	return &friendsapi.GetPendingFriendRequestsResponse{
 		Friends: friendsInfo,
 	}, nil
+}
+
+func (s *userService) AddFriendRequest(
+	c context.Context,
+	r *friendsapi.FriendRequest,
+) error {
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	err := s.usecases.AddFriendRequest(userId, r.ReceiverId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *userService) AcceptFriendRequest(
+	c context.Context,
+	r *friendsapi.FriendRequest,
+) error {
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	err := s.usecases.AcceptFriendRequest(r.SenderId, userId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *userService) DeclineFriendRequest(
+	c context.Context,
+	r *friendsapi.FriendRequest,
+) error {
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	err := s.usecases.DeclineFriendRequest(r.SenderId, userId)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -8,7 +8,7 @@ type Repository interface {
 	Remove(id int64) error
 	GetFriends(id int64) ([]*User, error)
 	GetFriendRequests(id int64) ([]*User, error)
-	AddFriendRequest(requester_id int64, receiver_id int64) (error)
-	AcceptFriendRequest(requester_id int64) (error)
-	DeclineFriendRequest(requester_id int64) (error)
+	AddFriendRequest(requester_id int64, receiver_id int64) error
+	AcceptFriendRequest(requester_id int64, receiver_id int64) error
+	DeclineFriendRequest(requester_id int64, receiver_id int64) error
 }
