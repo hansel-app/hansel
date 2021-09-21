@@ -92,10 +92,10 @@ const gemsModule: Module<GemsState, RootState> = {
       }
 
       const gemMessage = new GemMessage();
-      gemMessage
-        .setMessage(gem.message)
-        .setReceiverId(gem.receiverId)
-        .setColor(gem.color);
+      gemMessage.setMessage(gem.message);
+      gemMessage.setReceiverId(gem.receiverId);
+      gemMessage.setColor(gem.color);
+      // TODO:  populate latlng from store
 
       const request = new DropRequest();
       request.setGemMessage(gemMessage);
