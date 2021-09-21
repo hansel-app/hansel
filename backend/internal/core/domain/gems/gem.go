@@ -16,12 +16,12 @@ const (
 )
 
 type Gem struct {
-	ID         int64      `db:"id"`
+	ID         int64      `db:"id" goqu:"skipinsert"`
 	Message    string     `db:"message"`
 	Latitude   float64    `db:"latitude"`
 	Longitude  float64    `db:"longitude"`
 	CreatorId  int64      `db:"creator_id"`
-	CreatedAt  time.Time  `db:"created_at"`
+	CreatedAt  time.Time  `db:"created_at" goqu:"skipinsert"`
 	ReceiverId int64      `db:"receiver_id"`
 	ReceivedAt *time.Time `db:"received_at"`
 	Color      GemColor   `db:"color"`
