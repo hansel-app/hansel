@@ -21,6 +21,7 @@ message PersonInfo {
 	int64 user_id = 1;
 	string display_name = 2;
 	string username = 3;
+	bytes avatar = 4;
 }
 
 message PendingFriendRequest {
