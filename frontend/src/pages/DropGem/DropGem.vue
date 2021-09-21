@@ -4,6 +4,7 @@
     @click-left="prevStage"
     class="nav-bar"
   />
+
   <router-view
     :name="currentStageName"
     @next-stage="nextStage"
@@ -36,7 +37,7 @@
 import { defineComponent } from "vue";
 import { NavBar } from "vant";
 import { useStore } from "vuex";
-import { DropGemOject, GemColor } from "@/interfaces";
+import { DropGemObject, GemColor } from "@/interfaces";
 
 enum DropGemStage {
   Friend,
@@ -45,10 +46,13 @@ enum DropGemStage {
 }
 
 export default defineComponent({
+  components: {
+    NavBar,
+  },
   data() {
     return {
       currentStage: DropGemStage.Friend as DropGemStage,
-      formState: {} as DropGemOject,
+      formState: { color: GemColor.PURPLE } as DropGemObject,
       store: useStore(),
     };
   },
@@ -87,9 +91,6 @@ export default defineComponent({
       const dropGem = () => this.store.dispatch("dropGem", this.formState);
       dropGem().catch((err) => console.log(err, "Failed to drop gem"));
     },
-  },
-  components: {
-    NavBar,
   },
 });
 </script>

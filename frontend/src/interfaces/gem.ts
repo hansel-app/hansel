@@ -21,7 +21,7 @@ export enum GemColor {
   GREEN = "#a6ffb6",
 }
 
-export interface DropGemOject {
+export interface DropGemObject {
   message?: string;
   receiverId?: number;
   color?: GemColor;
