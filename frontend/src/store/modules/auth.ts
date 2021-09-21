@@ -2,7 +2,7 @@ import { Module } from "vuex";
 import { RootState } from "@/store";
 import services from "@/api/services";
 import { LoginRequest, LoginResponse } from "@/protobuf/auth_pb";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const ACCESS_TOKEN_COOKIE = "access-token";
 
@@ -12,12 +12,12 @@ export interface AuthState {
 
 const authModule: Module<AuthState, RootState> = {
   state: {
-    accessToken: Cookies.get(ACCESS_TOKEN_COOKIE) ?? null
+    accessToken: Cookies.get(ACCESS_TOKEN_COOKIE) ?? null,
   },
   getters: {
     isLoggedIn(state): boolean {
       return state.accessToken != null;
-    }
+    },
   },
   mutations: {
     setAccessToken(state, accessToken: string) {
@@ -25,16 +25,19 @@ const authModule: Module<AuthState, RootState> = {
       Cookies.set(ACCESS_TOKEN_COOKIE, accessToken, {
         expires: 7,
         secure: true,
-        sameSite: 'strict'
-      })
+        sameSite: "strict",
+      });
     },
     clearAccessToken(state) {
       state.accessToken = null;
       Cookies.remove(ACCESS_TOKEN_COOKIE);
-    }
+    },
   },
   actions: {
-    login({ commit }, payload: { username: string, password: string }) {
+    login(
+      { commit, dispatch },
+      payload: { username: string; password: string }
+    ) {
       const request = new LoginRequest();
       request.setUsername(payload.username);
       request.setPassword(payload.password);
@@ -44,16 +47,17 @@ const authModule: Module<AuthState, RootState> = {
           .login(request)
           .then((response: LoginResponse) => {
             const token = response.getAccessToken();
-            commit('setAccessToken', token);
+            commit("setAccessToken", token);
+            dispatch("getMyProfile");
             resolve(response);
           })
-          .catch(err => reject(err));
+          .catch((err) => reject(err));
       });
     },
     logout({ commit }) {
-      commit('clearAccessToken');
-    }
-  }
+      commit("clearAccessToken");
+    },
+  },
 };
 
 export default authModule;
