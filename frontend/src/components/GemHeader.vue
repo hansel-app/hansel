@@ -3,10 +3,10 @@
     <p class="big-header overlay">{{ title }}</p>
   </van-row>
   <van-row justify="center">
-    <Image :src="gemImgSrc" class="gem-image overlay" />
+    <Image class="gem-image overlay" :src="gemImgSrc" :show-loading="false" />
   </van-row>
   <div class="stack-container">
-    <div class="semi-circle" />
+    <div class="semi-circle" v-bind:style="backgroundColor" />
   </div>
 </template>
 <script lang="ts">
@@ -28,11 +28,16 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
-    const gemColorName = getEnumKeyByEnumValue(GemColor, props.color);
-    return {
-      gemImgSrc: require(`@/assets/images/${gemColorName.toLowerCase()}_2048.png`),
-    };
+  computed: {
+    gemImgSrc() {
+      const gemColorName = getEnumKeyByEnumValue(GemColor, this.color);
+      return require(`@/assets/images/${gemColorName.toLowerCase()}_2048.png`);
+    },
+    backgroundColor() {
+      return {
+        backgroundColor: this.color,
+      };
+    },
   },
 });
 </script>
