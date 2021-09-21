@@ -62,15 +62,18 @@ export default defineComponent({
   background-clip: padding-box;
   padding: 4px;
   margin-right: 12px;
+  margin-left: -4px;
+  padding-left: -4px;
+  transform: translateX(-5%);
 }
-/* 
+
 .remove-padding {
-  margin-left: -20px;
-} */
+  margin-left: -8px;
+  width: 104%;
+}
 
 .van-cell {
   border-radius: 100em;
-  width: 100%;
 }
 
 .van-cell:hover {

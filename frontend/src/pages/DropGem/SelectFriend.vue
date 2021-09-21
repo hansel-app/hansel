@@ -1,5 +1,5 @@
 <template>
-  <div class="background-gradient">
+  <div>
     <Header title="Drop a gem" />
     <div class="container">
       <p class="sub-header">Choose a receiver</p>
