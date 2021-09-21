@@ -15,10 +15,15 @@ import (
 
 // RegisterServices registers all gRPC services available with the gRPC server.
 func RegisterServices(s *grpc.Server, db *sqlx.DB, jwtManager *auth.JWTManager) {
+	gemRepository := repositories.NewGemRepository(db)
 	userRepository := repositories.NewUserRepository(db)
+
+	authService := internal.NewAuthService(userRepository, jwtManager)
+	gemService := internal.NewGemService(gemRepository)
 	userService := internal.NewUserService(userRepository)
-	authapi.RegisterAuthServiceServer(s, internal.NewAuthService(userRepository, jwtManager))
-	gemsapi.RegisterGemServiceServer(s, internal.NewGemService(repositories.NewGemRepository(db)))
-	usersapi.RegisterUserServiceServer(s, userService)
+
+	authapi.RegisterAuthServiceServer(s, authService)
 	friendsapi.RegisterFriendServiceServer(s, userService)
+	gemsapi.RegisterGemServiceServer(s, gemService)
+	usersapi.RegisterUserServiceServer(s, userService)
 }
