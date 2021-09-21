@@ -2,6 +2,7 @@
     <div class="page-header container">
         <van-row>
             <img id="icon-left" :src="arrowLeft">
+            <img id="icon-right" :src="cross">
         </van-row>
         <van-row>
             <div id="title" class="header">
@@ -14,10 +15,13 @@
 import { defineComponent } from 'vue';
 import { Row } from "vant";
 import arrowLeft from "@/assets/icons/arrow-left.svg"
+import cross from "@/assets/icons/cross.svg"
 
 export default defineComponent({
     setup() {
-        return { arrowLeft }
+        // return { arrowLeft, cross }
+        const backMode = true;
+        return { backMode, cross, arrowLeft };
     },
     props: {
         title: {
@@ -28,19 +32,30 @@ export default defineComponent({
     components: {
         "van-row": Row,
     },
+    computed: {
+        getIcon() {
+            return require("@/assets/icons/cross.svg");
+        },
+        getIconPosition() {
+            return !this.backMode? 'icon-left': 'icon-right';
+        }
+    }
 })
 </script>
 <style scoped>
 .page-header {
     padding-top: 3em;
 }
+
 #icon-left {
-    /* padding: 1em 1em 1em 2em; */
-    fill: black;
+    margin: -0.5em;
 }
 
-/* #title {
-    padding-bottom: 0em;
-    margin-bottom: 0em;
-} */
+#icon-right {
+    padding-left: 78%;
+}
+
+.hide-icon {
+    display: none;
+}
 </style>
