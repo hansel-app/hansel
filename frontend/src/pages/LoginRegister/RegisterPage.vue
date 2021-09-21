@@ -27,9 +27,26 @@
           Register
         </van-button>
       </div>
+      <span class="login-prompt" @click="goToLoginPage">
+        Already have an account? Login
+      </span>
     </van-form>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { LOGIN_ROUTE } from "@/constants";
+
+export default defineComponent({
+  methods: {
+    goToLoginPage() {
+      this.$router.push(LOGIN_ROUTE);
+    }
+  }
+})
+</script>
+
 
 <style scoped lang="less">
 .container .van-field {
@@ -37,5 +54,8 @@
 }
 .button-container {
   margin: 16px;
+}
+.login-prompt {
+  padding: 0.5em 1em;
 }
 </style>

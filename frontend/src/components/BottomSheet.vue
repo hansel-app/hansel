@@ -1,5 +1,5 @@
 <template>
-  <div class="drawer" @click="toggleBottomSheet">
+  <div class="drawer" @click="toggleBottomSheet" v-touch:swipe.top="hi">
     <div class="wrapper">
       <van-row ref="infoBox" class="message-content">
         <p>{{ gem.message }}</p>
@@ -63,6 +63,9 @@ export default defineComponent({
     backToHome() {
       this.$router.replace(HOME_ROUTE);
     },
+    hi() {
+      console.log('hi');
+    }
   },
 });
 </script>

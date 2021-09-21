@@ -1,5 +1,5 @@
 <template>
-    <div v-click-away="ClickAway">
+    <div v-click-away="clickAway" v-touch:swipe.left="clickAway">
         <div class="menu-icon" @click="toggleMenu">
               <img :src="HamburgerMenuIcon">
         </div>
@@ -75,11 +75,11 @@ export default defineComponent({
     goToFriendRequests() {
       this.$router.push(FRIEND_REQUESTS_ROUTE);
     },
-    ClickAway() {
+    clickAway() {
       if (!this.collapsed) {
         this.toggleMenu();
       }
-    }
+    },
   },
 });
 
