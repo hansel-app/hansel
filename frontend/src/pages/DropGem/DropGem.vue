@@ -6,9 +6,14 @@
   />
   <router-view class="select-friend" :name="currentStageName"></router-view>
   <div>
-    <button v-if="currentStage < numStages - 1" v-on:click="nextStage">
+    <van-button
+      round
+      type="info"
+      v-if="shouldShowNextButton"
+      @click="nextStage"
+    >
       Next
-    </button>
+    </van-button>
   </div>
 </template>
 
@@ -34,6 +39,9 @@ export default defineComponent({
     },
     currentStageName(): string {
       return DropGemStage[this.currentStage];
+    },
+    shouldShowNextButton(): boolean {
+      return [DropGemStage.media].includes(this.currentStage);
     },
   },
   methods: {
