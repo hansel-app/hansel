@@ -2,23 +2,23 @@ import services from "@/api/services";
 import { User, LatLng } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
 import {
-  FriendInfo,
-  FriendRequest,
+  PersonInfo,
   GetFriendsRequest,
   GetFriendsResponse,
   GetPendingFriendRequestsRequest,
   GetPendingFriendRequestsResponse,
   PendingFriendRequest,
-} from "@/protobuf/friend_pb";
+} from "@/protobuf/user_pb";
+import { FriendRequest } from "@/protobuf/friend_pb";
 import { RootState } from "@/store";
 import { Module } from "vuex";
 
 export interface UserState {
   // User's friends.
-  // FriendInfo includes their id, username, displayName and avatar (TODO).
-  friends: FriendInfo[];
+  // PersonInfo includes their id, username, displayName and avatar (TODO).
+  friends: PersonInfo[];
 
-  // PendingFriendRequests includes FriendInfo + datetime of request.
+  // PendingFriendRequests includes PersonInfo + datetime of request.
   friendRequests: PendingFriendRequest[];
   isSendFriendRequestSuccessful: boolean;
   self: User;
@@ -43,7 +43,7 @@ const userModule: Module<UserState, RootState> = {
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;
     },
-    setFriends(state, friends: FriendInfo[]) {
+    setFriends(state, friends: PersonInfo[]) {
       state.friends.splice(0, state.friends.length);
       friends.forEach((friend) => state.friends.push(friend));
     },
@@ -68,10 +68,10 @@ const userModule: Module<UserState, RootState> = {
       const request = new GetFriendsRequest();
 
       return new Promise((resolve, reject) => {
-        services.friendsClient
+        services.userClient
           .getFriends(request)
           .then((resp: GetFriendsResponse) => {
-            const friends: FriendInfo[] = resp.getFriendsList();
+            const friends: PersonInfo[] = resp.getFriendsList();
             commit("setFriends", friends);
             resolve(resp);
           })
@@ -82,7 +82,7 @@ const userModule: Module<UserState, RootState> = {
       const request = new GetPendingFriendRequestsRequest();
 
       return new Promise((resolve, reject) => {
-        services.friendsClient
+        services.userClient
           .getFriendRequests(request)
           .then((resp: GetPendingFriendRequestsResponse) => {
             const pendingFriends: PendingFriendRequest[] = resp.getFriendRequestsList();
