@@ -50,8 +50,8 @@ services:
       - hansel-network
     logging:
       driver: journald
-    expose:
-      - '10000'
+    ports:
+      - '10000:10000'
 
   frontend:
     image: hansel-frontend

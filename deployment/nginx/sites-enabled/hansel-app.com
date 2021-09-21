@@ -10,6 +10,8 @@
 server {
   listen 80;
   server_name hansel-app.com;
+  root /build;
+  index index.html;
 
   # Redirect HTTP to HTTPS
   # location / {
