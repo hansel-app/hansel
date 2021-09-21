@@ -75,3 +75,39 @@ func (r *userRepository) Remove(id int64) error {
 
 	return nil
 }
+
+
+func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
+	// TODO: Make this SQL statement correct
+	// add "AND status == FRIEND" + join with Users to return all the info
+	sql, _, _ := qb.From("friends").Where(goqu.Or(
+		goqu.C("requester_id").Eq(id),
+		goqu.C("receiver_id").Eq(id),
+	)).ToSQL()
+
+	var friends []*users.User
+	err := r.db.Select(&friends, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get friends for user with id %d: %w", id, err)
+	}
+
+	return friends, nil
+}
+
+
+func (r *userRepository) GetFriendRequests(id int64) ([]*users.User, error) {
+	// TODO: Make this SQL statement correct
+	// make status an enum somewhere + join with Users
+	sql, _, _ := qb.From("friends").Where(goqu.And(
+		goqu.C("receiver_id").Eq(id),
+		goqu.C("status").Eq("PENDING"),
+	)).ToSQL()
+
+	var friends []*users.User
+	err := r.db.Select(&friends, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get friend requests for user with id %d: %w", id, err)
+	}
+
+	return friends, nil
+}
