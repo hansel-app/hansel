@@ -54,6 +54,9 @@ services:
       driver: journald
     ports:
       - '10000:10000'
+    environment:
+      # Run as root user to allow accessing of certificates
+      ENVOY_UID: 0
 
   frontend:
     image: ghcr.io/hansel-app/hansel-frontend:latest
