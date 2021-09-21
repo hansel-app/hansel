@@ -8,8 +8,6 @@ service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
   rpc GetPendingCollectionForUser (GetPendingCollectionForUserRequest) returns (GetPendingCollectionForUserResponse);
-  rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
-  // TODO: Replace placeholder methods.
 }
 
 enum GemColor {

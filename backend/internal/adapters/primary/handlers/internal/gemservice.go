@@ -2,7 +2,6 @@ package internal
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -80,11 +79,5 @@ func (s *gemService) GetPendingCollectionForUser(
 
 	return &gemsapi.GetPendingCollectionForUserResponse{
 		Gems: processedGems,
-	}, nil
-}
-
-func (s *gemService) SayHello(c context.Context, r *gemsapi.SayHelloRequest) (*gemsapi.SayHelloResponse, error) {
-	return &gemsapi.SayHelloResponse{
-		Message: fmt.Sprintf("Hello, %s", r.Name),
 	}, nil
 }
