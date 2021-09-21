@@ -61,6 +61,7 @@ const userModule: Module<UserState, RootState> = {
     // Used an action here instead of directly committing as
     // actions are asynchronous.
     updateCurrentPosition({ commit }, newPosition) {
+      console.log(newPosition);
       commit("setCurrPosition", newPosition);
     },
     getFriends({ commit }) {

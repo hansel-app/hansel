@@ -92,7 +92,7 @@ import {
   GEM_PICKUP_RADIUS_THRESHOLD,
   PICKUP_GEM_ROUTE,
 } from "@/constants";
-import { Gem, GemColor } from "@/interfaces";
+import { Gem, GemColor, LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
@@ -136,8 +136,8 @@ export default defineComponent({
     });
 
     const { getLocation } = useGeolocation();
-    const currPosition = store.state.user.currPosition;
-    const initPos = await getLocation();
+    await getLocation();
+    const currPosition: LatLng = store.state.user.currPosition;
     const shouldShowPopup = ref<boolean>(false);
 
     return {
@@ -149,7 +149,7 @@ export default defineComponent({
       userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
-      mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
+      mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
     };
   },
