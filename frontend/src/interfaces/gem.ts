@@ -16,7 +16,7 @@ export enum GemColor {
   PURPLE = "#cdb4db",
   PINK = "#ffc8dd",
   BLUE = "#a2d2ff",
-  BLACK = "#080808",
+  BLACK = "#6a6a6a",
   YELLOW = "#fffb8a",
   GREEN = "#a6ffb6",
 }
