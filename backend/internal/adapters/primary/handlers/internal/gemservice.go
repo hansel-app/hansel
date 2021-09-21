@@ -25,11 +25,17 @@ func NewGemService(repository gems.Repository) *gemService {
 }
 
 func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.DropResponse, error) {
+	userID, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
 	gemMessage := r.GetGemMessage()
 	gem := gems.Gem{
 		Message:    gemMessage.GetMessage(),
 		Latitude:   gemMessage.GetLatitude(),
 		Longitude:  gemMessage.GetLongitude(),
+		CreatorId:  userID,
 		ReceiverId: gemMessage.GetReceiverId(),
 		Color:      gems.GemColor(gemMessage.GetColor()),
 		Attachment: gemMessage.GetAttachment(),
