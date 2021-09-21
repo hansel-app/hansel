@@ -1,26 +1,31 @@
-import {createWebHistory, createRouter, RouteLocationNormalized, NavigationGuardNext} from "vue-router";
+import {
+  ADD_FRIENDS_ROUTE,
+  DROP_GEM_ROUTE,
+  FRIEND_REQUESTS_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  PICKUP_GEM_ROUTE,
+  PROFILE_ROUTE,
+  REGISTER_ROUTE,
+} from "@/constants";
 import {
   AttachMedia,
   AttachMessage,
   DropGem,
   SelectFriend,
 } from "@/pages/DropGem/index";
-import { PickupGem, FoundGem, MessageDisplay } from "@/pages/PickupGem/index";
-import {
-  DROP_GEM_ROUTE,
-  ADD_FRIENDS_ROUTE,
-  FRIEND_REQUESTS_ROUTE,
-  HOME_ROUTE,
-  PROFILE_ROUTE,
-  LOGIN_ROUTE,
-  REGISTER_ROUTE,
-  PICKUP_GEM_ROUTE,
-} from "@/constants";
-import HomePage from "@/pages/Home/HomePage.vue";
-import ProfilePage from "@/pages/Profile/ProfilePage.vue";
 import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
+import HomePage from "@/pages/Home/HomePage.vue";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
+import { FoundGem, MessageDisplay, PickupGem } from "@/pages/PickupGem/index";
+import ProfilePage from "@/pages/Profile/ProfilePage.vue";
 import store from "@/store";
+import {
+  createRouter,
+  createWebHistory,
+  NavigationGuardNext,
+  RouteLocationNormalized,
+} from "vue-router";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -34,9 +39,9 @@ const router = createRouter({
         {
           path: "",
           components: {
-            friend: SelectFriend,
-            media: AttachMedia,
-            message: AttachMessage,
+            Friend: SelectFriend,
+            Media: AttachMedia,
+            Message: AttachMessage,
           },
         },
       ],
@@ -62,29 +67,35 @@ const router = createRouter({
       path: LOGIN_ROUTE,
       component: LoginPage,
       meta: {
-        isPublic: true
-      }
+        isPublic: true,
+      },
     },
     {
       path: REGISTER_ROUTE,
       component: RegisterPage,
       meta: {
-        isPublic: true
-      }
+        isPublic: true,
+      },
     },
   ],
 });
 
-router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  if (to.matched.some(record => record.meta.isPublic)) {
-    next();
-    return;
+router.beforeEach(
+  (
+    to: RouteLocationNormalized,
+    _from: RouteLocationNormalized,
+    next: NavigationGuardNext
+  ) => {
+    if (to.matched.some((record) => record.meta.isPublic)) {
+      next();
+      return;
+    }
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    next(LOGIN_ROUTE);
   }
-  if (store.getters.isLoggedIn) {
-    next();
-    return;
-  }
-  next(LOGIN_ROUTE);
-});
+);
 
 export default router;

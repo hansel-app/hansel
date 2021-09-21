@@ -4,6 +4,7 @@
     :title="friend.displayName"
     :label="shouldDisplayUsername ? '@' + friend.username : ''"
     :is-link="isClickable"
+    @click="onClick"
     class="content remove-padding"
   >
     <template #icon>
@@ -11,7 +12,7 @@
       <CircleAvatar
         :avatarUrl="placeholderAvatarUrl"
         class="avatar-border"
-        radius="1.8"
+        :radius="1.8"
       />
     </template>
     <template #right-icon>
@@ -29,10 +30,16 @@ import CircleAvatar from "./CircleAvatar.vue";
 
 export default defineComponent({
   props: {
-    friend: User,
+    friend: {
+      type: User,
+      required: true,
+    },
     isClickable: {
       type: Boolean,
       default: () => false,
+    },
+    onClick: {
+      type: Function,
     },
     shouldDisplayUsername: {
       type: Boolean,

@@ -84,7 +84,7 @@
 
 <script lang="ts">
 import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
-import { useGeolocation } from "../useGeolocation";
+import { useGeolocation } from "@/useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
   DEFAULT_MAP_CONFIG,
@@ -98,8 +98,9 @@ import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
 import { useStore } from "vuex";
+import { getEnumKeyByEnumValue } from "@/utils/enum";
 
-const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
+const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
 
 type GemMarkerOptions = Gem &
   Pick<google.maps.MarkerOptions, "map" | "position" | "icon">;
@@ -181,13 +182,13 @@ export default defineComponent({
       const nearest = this.sortedGems[0];
       return getDistanceFromLatLonInKm(nearest.position, this.currPosition);
     },
-    shouldShowPickupButton() {
+    shouldShowPickupButton(): boolean {
       return (
-        this.nearestGemDistance &&
+        !!this.nearestGemDistance &&
         this.nearestGemDistance <= GEM_PICKUP_RADIUS_THRESHOLD
       );
     },
-    sortedGems() {
+    sortedGems(): Gem[] {
       return [...this.gems].sort((gem1, gem2) => {
         return (
           getDistanceFromLatLonInKm(gem1.position, this.currPosition) -
@@ -195,7 +196,7 @@ export default defineComponent({
         );
       });
     },
-    gemMarkerOptions() {
+    gemMarkerOptions(): GemMarkerOptions[] {
       return this.gems.map((gem) => {
         const gemImageUrl = this.getGemImageUrl(gem);
         return {
@@ -212,8 +213,8 @@ export default defineComponent({
     },
 
     getGemImageUrl(gem: Gem) {
-      console.assert(Object.values(GemColor).includes(gem.color));
-      return require(`@/assets/images/${gem.color}_64.png`);
+      const gemColorName = getEnumKeyByEnumValue(GemColor, gem.color);
+      return require(`@/assets/images/${gemColorName.toLowerCase()}_64.png`);
     },
 
     nextGem() {
