@@ -6,8 +6,6 @@ on:
       - v*
     branches:
       - master
-  # For testing
-      - ian/add-deployment-cd-job
 
 env:
   REGISTRY: ghcr.io

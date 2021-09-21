@@ -18,7 +18,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
 
   backend:
-    image: hansel-backend
+    image: ghcr.io/hansel-app/hansel-backend:latest
     container_name: hansel-backend
     restart: always
     depends_on:
@@ -41,7 +41,7 @@ services:
       DB_SSLMODE: disable
 
   backend-proxy:
-    image: hansel-backend-proxy
+    image: ghcr.io/hansel-app/hansel-backend-proxy:latest
     container_name: hansel-backend-proxy
     restart: always
     depends_on:
@@ -54,7 +54,7 @@ services:
       - '10000:10000'
 
   frontend:
-    image: hansel-frontend
+    image: ghcr.io/hansel-app/hansel-frontend:latest
     container_name: hansel-frontend
     restart: always
     depends_on:
