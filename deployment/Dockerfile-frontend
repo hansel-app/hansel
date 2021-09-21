@@ -41,7 +41,7 @@ WORKDIR $APP_ROOT
 # Copy Vue build
 COPY --from=vue-build /frontend/dist .
 
-# Delete NGINX defaults (does not work if removed)
+# Delete NGINX defaults (does not work if not removed)
 RUN rm -f /etc/nginx/conf.d/* /etc/nginx/sites-enabled/*
 
 # Copy NGINX config
