@@ -23,15 +23,16 @@ func main() {
 
 	c := gemsapi.NewGemServiceClient(conn)
 
-	dropResponse, err := c.Drop(context.Background(), &gemsapi.DropRequest{Message: "Hello World!"})
+	dropResponse, err := c.Drop(context.Background(), &gemsapi.DropRequest{GemMessage: &gemsapi.GemMessage{
+		Message:    "hello!",
+		Latitude:   1.0,
+		Longitude:  1.0,
+		ReceiverId: 1,
+		Color:      gemsapi.GemColor_BLUE,
+	}})
 	if err != nil {
 		log.Fatalf("error when adding gem: %s", err)
 	}
 
-	getResponse, err := c.Get(context.Background(), &gemsapi.GetRequest{Id: dropResponse.Id})
-	if err != nil {
-		log.Fatalf("error when getting gem: %s", err)
-	}
-
-	log.Printf("Response from server: %v", getResponse)
+	log.Printf("Response from server: %v", dropResponse)
 }

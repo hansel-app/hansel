@@ -9,6 +9,7 @@
         :key="user.id"
         :friend="user"
         isClickable="true"
+        @click="this.$emit('SetReceiverEvent', user.id)"
       />
     </CellGroup>
   </div>
