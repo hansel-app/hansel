@@ -112,10 +112,10 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRelationshi
 	return friendRequests, nil
 }
 
-func (r *userRepository) AddFriendRequest(requester_id int64, receiver_id int64) error {
+func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) error {
 	sql, _, _ := qb.Insert("friends").Rows(goqu.Record{
-		"requester_id": requester_id,
-		"receiver_id":  receiver_id,
+		"requester_id": requesterID,
+		"receiver_id":  receiverID,
 		"requested_at": time.Now(),
 	}).ToSQL()
 
@@ -123,17 +123,17 @@ func (r *userRepository) AddFriendRequest(requester_id int64, receiver_id int64)
 	if err != nil {
 		return fmt.Errorf(
 			"unable to add friend request for requester with id %d and receiver with id %d: %w",
-			requester_id, receiver_id, err,
+			requesterID, receiverID, err,
 		)
 	}
 
 	return nil
 }
 
-func (r *userRepository) AcceptFriendRequest(requester_id int64, receiver_id int64) error {
+func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64) error {
 	sql, _, _ := goqu.From("friends").Where(goqu.And(
-		goqu.C("requester_id").Eq(requester_id),
-		goqu.C("receiver_id").Eq(receiver_id),
+		goqu.C("requester_id").Eq(requesterID),
+		goqu.C("receiver_id").Eq(receiverID),
 		goqu.C("status").Eq("PENDING"),
 	)).Update().Set(goqu.Record{
 		"status":        "FRIENDS",
@@ -144,17 +144,17 @@ func (r *userRepository) AcceptFriendRequest(requester_id int64, receiver_id int
 	if err != nil {
 		return fmt.Errorf(
 			"unable to decline friend request for requester with id %d and receiver with id %d: %w",
-			requester_id, receiver_id, err,
+			requesterID, receiverID, err,
 		)
 	}
 
 	return nil
 }
 
-func (r *userRepository) DeclineFriendRequest(requester_id int64, receiver_id int64) error {
+func (r *userRepository) DeclineFriendRequest(requesterID int64, receiverID int64) error {
 	sql, _, _ := goqu.From("friends").Where(goqu.And(
-		goqu.C("requester_id").Eq(requester_id),
-		goqu.C("receiver_id").Eq(receiver_id),
+		goqu.C("requester_id").Eq(requesterID),
+		goqu.C("receiver_id").Eq(receiverID),
 		goqu.C("status").Eq("PENDING"),
 	)).Delete().ToSQL()
 
@@ -162,7 +162,7 @@ func (r *userRepository) DeclineFriendRequest(requester_id int64, receiver_id in
 	if err != nil {
 		return fmt.Errorf(
 			"unable to decline friend request for requester with id %d and receiver with id %d: %w",
-			requester_id, receiver_id, err,
+			requesterID, receiverID, err,
 		)
 	}
 

@@ -32,26 +32,26 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 	return user.ID, nil
 }
 
-func (u *UseCases) Get(user_id int64) (*User, error) {
-	return u.repository.Get(user_id)
+func (u *UseCases) Get(userID int64) (*User, error) {
+	return u.repository.Get(userID)
 }
 
-func (u *UseCases) GetFriends(user_id int64) ([]*User, error) {
-	return u.repository.GetFriends(user_id)
+func (u *UseCases) GetFriends(userID int64) ([]*User, error) {
+	return u.repository.GetFriends(userID)
 }
 
-func (u *UseCases) GetFriendRequests(user_id int64) ([]*FriendRelationship, error) {
-	return u.repository.GetFriendRequests(user_id)
+func (u *UseCases) GetFriendRequests(userID int64) ([]*FriendRelationship, error) {
+	return u.repository.GetFriendRequests(userID)
 }
 
-func (u *UseCases) AddFriendRequest(requester_id int64, receiver_id int64) error {
-	return u.repository.AddFriendRequest(requester_id, receiver_id)
+func (u *UseCases) AddFriendRequest(requesterID int64, receiverID int64) error {
+	return u.repository.AddFriendRequest(requesterID, receiverID)
 }
 
-func (u *UseCases) AcceptFriendRequest(requester_id, receiver_id int64) error {
-	return u.repository.AcceptFriendRequest(requester_id, receiver_id)
+func (u *UseCases) AcceptFriendRequest(requesterID, receiverID int64) error {
+	return u.repository.AcceptFriendRequest(requesterID, receiverID)
 }
 
-func (u *UseCases) DeclineFriendRequest(requester_id, receiver_id int64) error {
-	return u.repository.DeclineFriendRequest(requester_id, receiver_id)
+func (u *UseCases) DeclineFriendRequest(requesterID, receiverID int64) error {
+	return u.repository.DeclineFriendRequest(requesterID, receiverID)
 }
