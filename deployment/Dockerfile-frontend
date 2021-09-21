@@ -1,19 +1,16 @@
 # To build a Docker image from this file, run from the root directory:
 # docker build -f deployment/Dockerfile-frontend -t hansel-frontend .
 
-# Base image
-FROM node:16.9.1
+# Intermediate base image
+FROM node:16.9.1 AS vue-build
 
 # Install Protocol Buffer compiler
 RUN apt-get update
 RUN apt-get install -y protobuf-compiler
 
-# Install simple HTTP server for serving static content
-RUN npm install -g http-server
-
 # Environment variables
 ENV API_SPECS_ROOT /api-specs
-ENV APP_ROOT /frontend
+ENV FRONTEND_ROOT /frontend
 
 # Copy API specs into container
 RUN mkdir --parents $API_SPECS_ROOT
@@ -21,20 +18,39 @@ WORKDIR $API_SPECS_ROOT
 COPY api-specs .
 
 # Copy source code into container
-RUN mkdir --parents $APP_ROOT
-WORKDIR $APP_ROOT
+RUN mkdir --parents $FRONTEND_ROOT
+WORKDIR $FRONTEND_ROOT
 COPY frontend .
 
 # Install dependencies
 RUN npm ci
 
-# Add a script to be executed every time the container starts
-COPY deployment/entrypoint-scripts/frontend.sh /usr/bin/
-RUN chmod +x /usr/bin/frontend.sh
-ENTRYPOINT ["frontend.sh"]
+# Build app
+RUN npm run build
 
-# Expose port 8080
-EXPOSE 8080
+# Base image
+FROM nginx:1.21.3
 
-# Default command
-CMD ["sh", "-c", "http-server dist"]
+# Environment variables
+ENV APP_ROOT /build
+
+# Make app directory
+RUN mkdir --parents $APP_ROOT
+WORKDIR $APP_ROOT
+
+# Copy Vue build
+COPY --from=vue-build /frontend/dist .
+
+# Delete NGINX defaults (does not work if removed)
+RUN rm -f /etc/nginx/conf.d/* /etc/nginx/sites-enabled/*
+
+# Copy NGINX config
+COPY deployment/nginx/nginx.conf /etc/nginx
+COPY deployment/nginx/sites-enabled/* /etc/nginx/sites-enabled/
+
+# Expose ports 80 and 443
+EXPOSE 80
+EXPOSE 443
+
+# Run NGINX in foreground so that Docker can track it properly
+CMD ["nginx", "-g", "daemon off;"]
