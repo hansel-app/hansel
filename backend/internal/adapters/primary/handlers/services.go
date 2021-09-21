@@ -10,12 +10,15 @@ import (
 	"github.com/hansel-app/hansel/protobuf/authapi"
 	"github.com/hansel-app/hansel/protobuf/friendsapi"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
+	"github.com/hansel-app/hansel/protobuf/usersapi"
 )
 
 // RegisterServices registers all gRPC services available with the gRPC server.
 func RegisterServices(s *grpc.Server, db *sqlx.DB, jwtManager *auth.JWTManager) {
 	userRepository := repositories.NewUserRepository(db)
+	userService := internal.NewUserService(userRepository)
 	authapi.RegisterAuthServiceServer(s, internal.NewAuthService(userRepository, jwtManager))
 	gemsapi.RegisterGemServiceServer(s, internal.NewGemService(repositories.NewGemRepository(db)))
-	friendsapi.RegisterFriendServiceServer(s, internal.NewUserService(userRepository))
+	usersapi.RegisterUserServiceServer(s, userService)
+	friendsapi.RegisterFriendServiceServer(s, userService)
 }

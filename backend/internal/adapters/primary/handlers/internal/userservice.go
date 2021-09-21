@@ -10,9 +10,11 @@ import (
 	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
 	"github.com/hansel-app/hansel/protobuf/friendsapi"
+	"github.com/hansel-app/hansel/protobuf/usersapi"
 )
 
 type userService struct {
+	usersapi.UnimplementedUserServiceServer
 	friendsapi.UnimplementedFriendServiceServer
 	usecases users.UseCases
 }
@@ -25,8 +27,8 @@ func NewUserService(repository users.Repository) *userService {
 
 func (s *userService) GetFriends(
 	c context.Context,
-	r *friendsapi.GetFriendsRequest,
-) (*friendsapi.GetFriendsResponse, error) {
+	r *usersapi.GetFriendsRequest,
+) (*usersapi.GetFriendsResponse, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
 		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
@@ -37,24 +39,24 @@ func (s *userService) GetFriends(
 		return nil, err
 	}
 
-	var friendsInfo []*friendsapi.FriendInfo
+	var friendsInfo []*usersapi.PersonInfo
 	for _, f := range friends {
 		friendsInfo = append(friendsInfo,
-			&friendsapi.FriendInfo{
+			&usersapi.PersonInfo{
 				UserId:      f.ID,
 				DisplayName: f.DisplayName,
 				Username:    f.Username,
 			})
 	}
-	return &friendsapi.GetFriendsResponse{
+	return &usersapi.GetFriendsResponse{
 		Friends: friendsInfo,
 	}, nil
 }
 
 func (s *userService) GetFriendRequests(
 	c context.Context,
-	r *friendsapi.GetPendingFriendRequestsRequest,
-) (*friendsapi.GetPendingFriendRequestsResponse, error) {
+	r *usersapi.GetPendingFriendRequestsRequest,
+) (*usersapi.GetPendingFriendRequestsResponse, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
 		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
@@ -65,11 +67,11 @@ func (s *userService) GetFriendRequests(
 		return nil, err
 	}
 
-	var friendRequests []*friendsapi.PendingFriendRequest
+	var friendRequests []*usersapi.PendingFriendRequest
 	for _, f := range requests {
 		friendRequests = append(friendRequests,
-			&friendsapi.PendingFriendRequest{
-				Requester: &friendsapi.FriendInfo{
+			&usersapi.PendingFriendRequest{
+				Requester: &usersapi.PersonInfo{
 					UserId:      f.Requester.ID,
 					DisplayName: f.Requester.DisplayName,
 					Username:    f.Requester.Username,
@@ -79,7 +81,7 @@ func (s *userService) GetFriendRequests(
 		)
 	}
 
-	return &friendsapi.GetPendingFriendRequestsResponse{
+	return &usersapi.GetPendingFriendRequestsResponse{
 		FriendRequests: friendRequests,
 	}, nil
 }
