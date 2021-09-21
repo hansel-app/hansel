@@ -7,7 +7,6 @@ import "google/protobuf/timestamp.proto";
 
 service FriendService {
 	rpc Add (FriendRequest) returns (google.protobuf.Empty);
-	rpc GetPending (PendingRequest) returns (PendingResponse);
 	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
 	rpc Reject (FriendRequest) returns (google.protobuf.Empty);
 	rpc Block (FriendRequest) returns (google.protobuf.Empty);
@@ -16,19 +15,13 @@ service FriendService {
 }
 
 message FriendRequest {
-	int64 sender_id = 1;
-	int64 receiver_id = 2;
-	google.protobuf.Timestamp created_at = 3;
+	int64 receiver_id = 1;
 }
 
-message PendingRequest {
-	FriendInfo user = 1;
-	google.protobuf.Timestamp created_at = 4;
 
-}
-
-message PendingResponse {
-	repeated FriendInfo pending_requests = 1;
+message PendingFriendRequest {
+	FriendInfo sender = 1;
+	google.protobuf.Timestamp sent_at = 2;
 }
 
 message FriendInfo {
@@ -47,5 +40,5 @@ message GetFriendsResponse {
 message GetPendingFriendRequestsRequest {}
 
 message GetPendingFriendRequestsResponse {
-	repeated FriendInfo friends = 1;
+	repeated PendingFriendRequest friendRequests = 1;
 }
