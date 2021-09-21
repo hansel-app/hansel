@@ -30,11 +30,13 @@ export default defineComponent({
   computed: {
     getPoster() {
       console.assert(Object.values(GemColor).includes(this.gem.color));
-      return require("@/assets/images/gem-found-" + this.gem.color + ".png");
+      const gemColorName = GemColor[this.gem.color];
+      return require(`@/assets/images/gem-found-${gemColorName.toLowerCase()}.png`);
     },
     getVideo() {
       console.assert(Object.values(GemColor).includes(this.gem.color));
-      return require("@/assets/videos/gem-found-" + this.gem.color + ".mp4");
+      const gemColorName = GemColor[this.gem.color];
+      return require(`@/assets/videos/gem-found-${gemColorName.toLowerCase()}.mp4`);
     },
   },
 });

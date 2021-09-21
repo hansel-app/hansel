@@ -210,7 +210,8 @@ export default defineComponent({
 
     getGemImageUrl(gem: Gem) {
       console.assert(Object.values(GemColor).includes(gem.color));
-      return require(`@/assets/images/${gem.color}_64.png`);
+      const gemColorName = GemColor[gem.color];
+      return require(`@/assets/images/${gemColorName.toLowerCase()}_64.png`);
     },
 
     nextGem() {
