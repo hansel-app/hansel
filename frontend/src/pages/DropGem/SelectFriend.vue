@@ -11,6 +11,7 @@
         :isClickable="true"
         :shouldDisplayUsername="true"
         :onClick="() => $emit('nextStage')"
+        @click="$emit('SetReceiverEvent', friend.id)"
       />
     </CellGroup>
   </div>

@@ -99,7 +99,7 @@ import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
 
-const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
+const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
 
 type GemMarkerOptions = Gem &
   Pick<google.maps.MarkerOptions, "map" | "position" | "icon">;

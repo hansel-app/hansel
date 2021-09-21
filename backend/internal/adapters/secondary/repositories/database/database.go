@@ -2,8 +2,6 @@ package database
 
 import (
 	"fmt"
-	"regexp"
-	"strings"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -17,7 +15,6 @@ func New(cfg *config.Config) (*sqlx.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
-	db.MapperFunc(camelToSnake)
 
 	return db, nil
 }
@@ -43,14 +40,4 @@ func buildDSN(cfg *config.Config) string {
 		dsn += fmt.Sprintf(" sslmode=%v", cfg.DBSSLMode)
 	}
 	return dsn
-}
-
-// From https://stackoverflow.com/a/56616250
-func camelToSnake(s string) string {
-	var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
-	var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
-
-	snake := matchFirstCap.ReplaceAllString(s, "${1}_${2}")
-	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
-	return strings.ToLower(snake)
 }

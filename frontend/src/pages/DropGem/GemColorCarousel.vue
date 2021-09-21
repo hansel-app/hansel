@@ -7,7 +7,12 @@
     :slide-to-clicked-slide="true"
   >
     <SwiperSlide v-for="color in colors" :key="color">
-      <Button round class="gem-color-button" :color="color" />
+      <Button
+        round
+        class="gem-color-button"
+        :color="color"
+        @click="this.$emit('SetGemColorEvent', $event.target.value)"
+      />
     </SwiperSlide>
   </Swiper>
 </template>

@@ -1,0 +1,7 @@
+# Generated files
+db_data/
+
+# Environment variable files
+.env
+.env.local
+.env.*.local
