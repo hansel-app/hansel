@@ -10,7 +10,7 @@
       :shouldDisplayUsername="true"
     >
       <!-- TODO: find correct add user icon -->
-      <van-icon name="user-o" @click="addFriend" />
+      <van-icon name="user-o" @click="addFriend(user.id)" />
     </FriendCell>
   </CellGroup>
 </template>
@@ -21,6 +21,7 @@ import { CellGroup, NavBar, Search } from "vant";
 import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
 import { User } from "@/interfaces";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: {
@@ -33,6 +34,7 @@ export default defineComponent({
     return {
       mockFriends,
       searchQuery: "",
+      store: useStore(),
     };
   },
   computed: {
@@ -50,8 +52,8 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    addFriend() {
-      console.log("add friend");
+    addFriend(receiver_id: number) {
+      this.store.dispatch("sendFriendRequest", receiver_id);
     },
   },
 });
