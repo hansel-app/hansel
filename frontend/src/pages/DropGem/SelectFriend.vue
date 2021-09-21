@@ -38,3 +38,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.van-cell-group {
+  background: none;
+}
+</style>

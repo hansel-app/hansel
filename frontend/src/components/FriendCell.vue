@@ -11,7 +11,7 @@
       <CircleAvatar
         :avatarUrl="placeholderAvatarUrl"
         class="avatar-border"
-        radius="1.8"
+        radius="1.5"
       />
     </template>
     <template #right-icon>
@@ -56,7 +56,6 @@ export default defineComponent({
 <style scoped>
 .avatar-border {
   position: relative;
-  border: 4px solid transparent;
   border-radius: 50%;
   background: linear-gradient(to right, hsla(187, 89%, 52%, 0.6), #19d8f200),
     linear-gradient(to bottom, #c27df9, #c27df900),
@@ -65,12 +64,13 @@ export default defineComponent({
   padding: 4px;
   margin-right: 12px;
 }
-
+/* 
 .remove-padding {
   margin-left: -20px;
-}
+} */
 
 .van-cell {
   border-radius: 3em;
+  width: 100%;
 }
 </style>

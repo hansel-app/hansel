@@ -1,7 +1,9 @@
 <template>
     <div class="background-gradient">
         <Header title="Gem logs" />
-        <Searchbar placeholder="Search a friend" />
+        <div class="container">
+            <Searchbar placeholder="Search a friend" />
+        </div>
     </div>
 </template>
 <script>

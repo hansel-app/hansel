@@ -21,7 +21,7 @@ import HomePage from "@/pages/Home/HomePage.vue";
 import ProfilePage from "@/pages/Profile/ProfilePage.vue";
 import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
-import GemLogs from "@/pages/GemLogs/FriendList.vue"
+import GemLogs from "@/pages/GemLogs/LogsList.vue"
 
 
 // import store from "@/store";

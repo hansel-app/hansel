@@ -39,7 +39,7 @@ export default defineComponent({
   font-family: "CircularStd";
   src: local("CircularStd-Medium"),
     url(./assets/fonts/CircularStd-Medium.otf) format("truetype");
-  font-weight: light;
+  font-weight: lighter;
   font-style: normal;
 }
 
@@ -47,7 +47,7 @@ export default defineComponent({
   font-family: "CircularStd";
   src: local("CircularStd-MediumItalic"),
     url(./assets/fonts/CircularStd-MediumItalic.otf) format("truetype");
-  font-weight: light;
+  font-weight: lighter;
   font-style: italic;
 }
 </style>
