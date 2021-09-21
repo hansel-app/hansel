@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/jmoiron/sqlx"
@@ -108,4 +109,23 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.User, error) {
 	}
 
 	return friends, nil
+}
+
+
+func (r *userRepository) SendFriendRequest(requester_id int64, receiver_id int64) (error) {
+	sql, _, _ := qb.Insert("friends").Rows(goqu.Record{
+		"requester_id": requester_id,
+		"receiver_id": receiver_id,
+		"datetime_of_request": time.Now(),
+	}).ToSQL()
+
+	_, err := r.db.Exec(sql)
+	if err != nil {
+		return fmt.Errorf(
+			"unable to add friend request for requester with id %d and receiver with id %d: %w", 
+			requester_id, receiver_id, err,
+		)
+	}
+
+	return nil
 }
