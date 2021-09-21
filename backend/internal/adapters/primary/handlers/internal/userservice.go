@@ -80,6 +80,7 @@ func (s *userService) GetFriends(
 				Avatar:      f.Avatar,
 			})
 	}
+
 	return &usersapi.GetFriendsResponse{
 		Friends: friendsInfo,
 	}, nil
@@ -126,15 +127,14 @@ func (s *userService) AddFriendRequest(
 ) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
-		return new(emptypb.Empty), status.Error(
-			codes.Internal, "unable to retrieve user ID from context",
-		)
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
 
 	err := s.usecases.AddFriendRequest(userId, r.ReceiverId)
 	if err != nil {
-		return new(emptypb.Empty), err
+		return nil, err
 	}
+
 	return new(emptypb.Empty), nil
 }
 
@@ -151,8 +151,9 @@ func (s *userService) AcceptFriendRequest(
 
 	err := s.usecases.AcceptFriendRequest(r.RequesterId, userId)
 	if err != nil {
-		return new(emptypb.Empty), err
+		return nil, err
 	}
+
 	return new(emptypb.Empty), nil
 }
 
@@ -162,14 +163,13 @@ func (s *userService) DeclineFriendRequest(
 ) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
-		return new(emptypb.Empty), status.Error(
-			codes.Internal, "unable to retrieve user ID from context",
-		)
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
 
 	err := s.usecases.DeclineFriendRequest(r.RequesterId, userId)
 	if err != nil {
-		return new(emptypb.Empty), err
+		return nil, err
 	}
+
 	return new(emptypb.Empty), nil
 }
