@@ -77,7 +77,7 @@ export default defineComponent({
 }
 
 .van-cell:hover {
-  background: @purple;
+  background: @primary-color;
   color: white;
 }
 </style>

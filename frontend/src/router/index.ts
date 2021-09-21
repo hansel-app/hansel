@@ -78,9 +78,6 @@ const router = createRouter({
     {
       path: GEM_LOGS_ROUTE,
       component: GemLogs,
-      meta: {
-        isPublic: true
-      }
     },
   ],
 });
