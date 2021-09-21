@@ -1,20 +1,22 @@
 <template>
-  <vant-row>
+  <van-row justify="center">
     <p class="big-header overlay">{{ title }}</p>
-  </vant-row>
+  </van-row>
+  <van-row justify="center">
+    <Image :src="gemImgSrc" class="gem-image overlay" />
+  </van-row>
   <div class="stack-container">
-    <div class="semi-circle"></div>
-    <Image :src="gemImgSrc" class="overlay" />
+    <div class="semi-circle" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-// import { Image } from "vant";
+import { Image } from "vant";
 import { GemColor } from "@/interfaces";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 export default defineComponent({
-  // components: { Image },
+  components: { Image },
   props: {
     title: {
       type: String,
@@ -29,18 +31,26 @@ export default defineComponent({
   setup(props) {
     const gemColorName = getEnumKeyByEnumValue(GemColor, props.color);
     return {
-      gemImgSrc: require(`@/assets/images/${gemColorName.toLowerCase()}_64.png`),
+      gemImgSrc: require(`@/assets/images/${gemColorName.toLowerCase()}_2048.png`),
     };
   },
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .stack-container {
   position: relative;
-  height: 325px;
+  height: 45vh;
   z-index: -1;
   overflow-x: hidden;
+
+  .semi-circle {
+    transform: translate(-25%, -50%);
+    height: 80vh;
+    width: 200vw;
+    border-radius: 0 0 50% 50%;
+    background-color: #e4bfbf;
+  }
 }
 
 .overlay {
@@ -51,16 +61,9 @@ export default defineComponent({
   margin-right: auto;
 }
 
-.semi-circle {
-  transform: translate(-25%, -50%);
-  height: 80vh;
-  width: 200vw;
-  border-radius: 0 0 50% 50%;
-  background-color: #e4bfbf;
-}
-
-.gem-display {
-  width: 100px;
-  height: 100px;
+.gem-image {
+  width: 20vh;
+  height: 20vh;
+  margin-top: 15vh;
 }
 </style>
