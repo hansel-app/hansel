@@ -31,3 +31,13 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 
 	return user.ID, nil
 }
+
+
+func (u *UseCases) GetFriends(user_id int64) ([]*User, error) {
+	return u.repository.GetFriends(user_id);
+}
+
+
+func (u *UseCases) GetFriendRequests(user_id int64) ([]*User, error) {
+	return u.repository.GetFriendRequests(user_id);
+}

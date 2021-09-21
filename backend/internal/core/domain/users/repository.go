@@ -6,4 +6,6 @@ type Repository interface {
 	Add(user *User) error
 	Update(id int64, user *User) error
 	Remove(id int64) error
+	GetFriends(id int64) ([]*User, error)
+	GetFriendRequests(id int64) ([]*User, error)
 }
