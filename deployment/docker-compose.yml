@@ -57,6 +57,9 @@ services:
     image: ghcr.io/hansel-app/hansel-frontend:latest
     container_name: hansel-frontend
     restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
     depends_on:
       - backend-proxy
     networks:
