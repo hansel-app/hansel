@@ -1,19 +1,27 @@
 import services from "@/api/services";
-import { GetFriendsRequest, GetFriendsResponse } from "@/protobuf/friend_pb";
+import {
+  FriendInfo,
+  GetFriendsRequest,
+  GetFriendsResponse,
+} from "@/protobuf/friend_pb";
 import { RootState } from "@/store";
 import { Module } from "vuex";
 
-export interface FriendsState {
-  // List of friend's ids
-  friends: number[];
+export interface UserState {
+  // User's friends.
+  // FriendInfo includes their id, username, displayName and avatar (TODO).
+  friends: FriendInfo[];
+
+  // TODO: Signed in user
+  // TODO: user's current geolocation
 }
 
-const friendsModule: Module<FriendsState, RootState> = {
+const userModule: Module<UserState, RootState> = {
   state: {
     friends: [],
   },
   mutations: {
-    setFriends(state, friends: number[]) {
+    setFriends(state, friends: FriendInfo[]) {
       state.friends.splice(0, state.friends.length);
       friends.forEach((friend) => state.friends.push(friend));
     },
@@ -26,7 +34,7 @@ const friendsModule: Module<FriendsState, RootState> = {
         services.friendsClient
           .getFriends(request)
           .then((resp: GetFriendsResponse) => {
-            const friends: number[] = resp.getFriendsList();
+            const friends: FriendInfo[] = resp.getFriendsList();
             commit("setFriends", friends);
             resolve(resp);
           })
@@ -36,4 +44,4 @@ const friendsModule: Module<FriendsState, RootState> = {
   },
 };
 
-export default friendsModule;
+export default userModule;
