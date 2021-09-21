@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 
-	addr := fmt.Sprintf("localhost:%d", cfg.ServerPort)
+	addr := fmt.Sprintf(":%d", cfg.ServerPort)
 	l, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

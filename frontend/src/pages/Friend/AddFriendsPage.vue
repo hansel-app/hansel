@@ -1,19 +1,20 @@
 <template>
-  <!-- <NavBar left-arrow @click-left="goBack" /> -->
-  <Header title="Add friends" />
-  <div class="container">
-    <Search placeholder="Search by username" />
-    <CellGroup>
-      <FriendCell
-        v-for="user in filteredUsers"
-        :key="user.id"
-        :friend="user"
-        :shouldDisplayUsername="true"
-      >
-        <!-- TODO: find correct add user icon -->
-        <van-icon name="user-o" @click="addFriend" />
-      </FriendCell>
-    </CellGroup>
+  <div class="background-gradient">
+    <Header title="Add friends" />
+    <div class="container">
+      <Search placeholder="Search by username" />
+      <CellGroup>
+        <FriendCell
+          v-for="user in filteredUsers"
+          :key="user.id"
+          :friend="user"
+          :shouldDisplayUsername="true"
+        >
+          <!-- TODO: find correct add user icon -->
+          <van-icon name="user-o" @click="addFriend" />
+        </FriendCell>
+      </CellGroup>
+    </div>
   </div>
 </template>
 

@@ -7,20 +7,19 @@
       placeholder="Enter your message"
       type="textarea"
       rows="5"
+      @input="this.$emit('SetMessageEvent', $event.target.value)"
     />
   </div>
-  <Button v-on:click="dropGem">Drop gem</Button>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { Button, Field } from "vant";
+import { Field } from "vant";
 import GemHeader from "@/components/GemHeader.vue";
 import { HOME_ROUTE } from "@/constants";
 
 export default defineComponent({
   components: {
-    Button,
     Field,
     GemHeader,
   },

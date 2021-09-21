@@ -31,15 +31,24 @@ message Gem {
   int64 receiver_id = 7;
   google.protobuf.Timestamp received_at = 8;
   GemColor color = 9;
+  bytes attachment = 10;
+}
+
+message GemMessage {
+  string message = 1;
+  double latitude = 2;
+  double longitude = 3;
+  int64 receiver_id = 4;
+  GemColor color = 5;
+  bytes attachment = 6;
 }
 
 message DropRequest {
-  string message = 1;
+  GemMessage gem_message = 1;
 }
 
 message DropResponse {
-  int64 id = 1;
-  string message = 2;
+  int64 dropped_gem_id = 1;
 }
 
 message GetRequest {

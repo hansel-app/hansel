@@ -7,9 +7,9 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Header from '@/components/Header';
-import Searchbar from '@/components/Searchbar';
+import { defineComponent } from "vue";
+import Header from '@/components/Header.vue';
+import Searchbar from '@/components/Searchbar.vue';
 
 export default defineComponent({
     components: {

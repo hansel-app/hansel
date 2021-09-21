@@ -9,13 +9,14 @@
       <Searchbar
         placeholder="Search a friend" 
       />
-      <CellGroup>
-        <FriendCell
-          v-for="user in mockFriends"
-          :key="user.id"
-          :friend="user"
-          isClickable="true"
-        />
+    <CellGroup>
+      <FriendCell
+        v-for="user in mockFriends"
+        :key="user.id"
+        :friend="user"
+        isClickable="true"
+        @click="this.$emit('SetReceiverEvent', user.id)"   
+      />
       </CellGroup>
     </div>
   </div>

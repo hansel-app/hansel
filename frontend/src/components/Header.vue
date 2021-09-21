@@ -11,10 +11,9 @@
         </van-row>
     </div>
 </template>
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import { Row } from "vant";
-import { HOME_ROUTE } from "@/constants";
 import arrowLeft from "@/assets/icons/arrow-left.svg";
 import cross from "@/assets/icons/cross.svg";
 
