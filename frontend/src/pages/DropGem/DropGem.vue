@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { NavBar } from "vant";
 import { GemMessage, GemColor } from "@/protobuf/gem_pb";
 import { useStore } from "vuex";
