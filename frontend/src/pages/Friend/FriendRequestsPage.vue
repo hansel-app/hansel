@@ -9,10 +9,12 @@
       :shouldDisplayUsername="true"
     >
       <div>
-        <van-button round type="primary" @click="acceptFriendRequest"
-          >Accept</van-button
+        <van-button round type="primary" @click="acceptFriendRequest(user.id)">
+          Accept
+        </van-button>
+        <van-button round @click="declineFriendRequest(user.id)"
+          >Decline</van-button
         >
-        <van-button round @click="declineFriendRequest">Decline</van-button>
       </div>
     </FriendCell>
   </van-cell-group>
@@ -20,10 +22,9 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import { User } from "@/interfaces";
 import { mockFriends } from "@/interfaces/mockData";
 import FriendCell from "@/components/FriendCell.vue";
-import { mapState, useStore } from "vuex";
+import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
@@ -38,21 +39,20 @@ export default defineComponent({
   data() {
     return {
       mockFriends,
-      ...mapState({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        friends: (state: any) => state.friends.friendRequests as User[],
-      })
+      store: useStore(),
     };
   },
   methods: {
     goBack() {
       this.$router.back();
     },
-    acceptFriendRequest() {
-      console.log("accept friend request");
+    acceptFriendRequest(sender_id: number) {
+      console.log("accept friend request from " + sender_id);
+      this.store.dispatch("acceptFriendRequest", sender_id);
     },
-    declineFriendRequest() {
-      console.log("decline friend request");
+    declineFriendRequest(sender_id: number) {
+      console.log("decline friend request from " + sender_id);
+      this.store.dispatch("declineFriendRequest", sender_id);
     },
   },
 });
