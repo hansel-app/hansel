@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, Ref } from "vue";
 import { NavBar } from "vant";
 import { useStore } from "vuex";
 import { GemColor } from "@/interfaces";
@@ -51,10 +51,12 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    store.dispatch("clearDropGemFormState");
+    store.commit("clearDropGemFormState");
+
+    const currentStage: Ref<DropGemStage> = ref(DropGemStage.Friend);
 
     return {
-      currentStage: DropGemStage.Friend as DropGemStage,
+      currentStage,
       store,
     };
   },
@@ -81,13 +83,13 @@ export default defineComponent({
       }
     },
     setReceiverId(value: number): void {
-      this.store.dispatch("updateDropGemFormState", { receiverId: value });
+      this.store.commit("updateDropGemFormState", { receiverId: value });
     },
     setMessage(value: string): void {
-      this.store.dispatch("updateDropGemFormState", { message: value });
+      this.store.commit("updateDropGemFormState", { message: value });
     },
     setGemColor(value: GemColor): void {
-      this.store.dispatch("updateDropGemFormState", { color: value });
+      this.store.commit("updateDropGemFormState", { color: value });
     },
     dropMyGem() {
       const dropGem = () => this.store.dispatch("dropGem");

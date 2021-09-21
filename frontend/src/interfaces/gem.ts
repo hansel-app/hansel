@@ -25,5 +25,5 @@ export interface DropGemFormState {
   id?: number;
   message?: string;
   receiverId?: number;
-  color?: GemColor;
+  color: GemColor;
 }
