@@ -16,14 +16,14 @@ const (
 )
 
 type Gem struct {
-	ID         int64
-	Message    string
-	Latitude   float64
-	Longitude  float64
-	CreatorId  int64
-	CreatedAt  time.Time
-	ReceiverId int64
-	ReceivedAt *time.Time
-	Color      GemColor
-	Photo      []byte
+	ID         int64      `db:"id"`
+	Message    string     `db:"message"`
+	Latitude   float64    `db:"latitude"`
+	Longitude  float64    `db:"longitude"`
+	CreatorId  int64      `db:"creator_id"`
+	CreatedAt  time.Time  `db:"created_at"`
+	ReceiverId int64      `db:"receiver_id"`
+	ReceivedAt *time.Time `db:"received_at"`
+	Color      GemColor   `db:"color"`
+	Photo      []byte     `db:"photo"`
 }
