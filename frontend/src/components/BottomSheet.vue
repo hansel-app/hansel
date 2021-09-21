@@ -1,5 +1,10 @@
 <template>
-  <div class="drawer" @click="toggleBottomSheet" v-touch:swipe.top="hi">
+  <div 
+    class="drawer" 
+    @click="toggleBottomSheet" 
+    v-touch:swipe.top="swipeBottomSheetUp"
+    v-touch:swipe.bottom="swipeBottomSheetDown"
+  >
     <div class="wrapper">
       <van-row ref="infoBox" class="message-content">
         <p>{{ gem.message }}</p>
@@ -63,8 +68,15 @@ export default defineComponent({
     backToHome() {
       this.$router.replace(HOME_ROUTE);
     },
-    hi() {
-      console.log('hi');
+    swipeBottomSheetDown() {
+      if (this.collapsed == false) {
+        this.collapsed = !this.collapsed;
+      }
+    },
+    swipeBottomSheetUp() {
+      if (this.collapsed == true) {
+        this.collapsed = !this.collapsed;
+      }
     }
   },
 });
