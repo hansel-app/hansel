@@ -4,13 +4,14 @@
     @click-left="prevStage"
     class="nav-bar"
   />
-  <router-view class="select-friend" :name="currentStageName"></router-view>
+  <router-view :name="currentStageName" @nextStage="nextStage"></router-view>
+
   <div>
     <van-button
       round
       type="info"
       v-if="shouldShowNextButton"
-      @click="nextStage"
+      @click="$emit('nextStage')"
     >
       Next
     </van-button>

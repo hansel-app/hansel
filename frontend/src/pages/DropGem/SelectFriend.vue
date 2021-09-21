@@ -10,6 +10,7 @@
         :friend="friend"
         :isClickable="true"
         :shouldDisplayUsername="true"
+        :onClick="() => $emit('nextStage')"
       />
     </CellGroup>
   </div>
