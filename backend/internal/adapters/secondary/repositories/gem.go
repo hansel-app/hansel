@@ -52,17 +52,14 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 }
 
 func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
-	sql, _, _ := qb.Insert("gems").Rows(gem).ToSQL()
+	sql, _, _ := qb.Insert("gems").Rows(gem).Returning("id").ToSQL()
 
-	res, err := r.db.Exec(sql)
+	var gemId int64
+	err := r.db.QueryRow(sql).Scan(&gemId)
 	if err != nil {
 		return -1, fmt.Errorf("unable to add gem: %w", err)
 	}
 
-	gemId, err := res.LastInsertId()
-	if err != nil {
-		return -1, fmt.Errorf("unable to add gem: %w", err)
-	}
 	return gemId, nil
 }
 
