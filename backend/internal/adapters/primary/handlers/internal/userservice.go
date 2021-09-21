@@ -50,7 +50,7 @@ func (s *userService) GetProfile(
 			UserId:      userInfo.ID,
 			DisplayName: userInfo.DisplayName,
 			Username:    userInfo.Username,
-			Avatar: 	 userInfo.Avatar,
+			Avatar:      userInfo.Avatar,
 		},
 		Friends: getFriendsResponse.GetFriends(),
 	}, nil
@@ -77,7 +77,7 @@ func (s *userService) GetFriends(
 				UserId:      f.ID,
 				DisplayName: f.DisplayName,
 				Username:    f.Username,
-				Avatar:		 f.Avatar,
+				Avatar:      f.Avatar,
 			})
 	}
 	return &usersapi.GetFriendsResponse{
@@ -101,14 +101,14 @@ func (s *userService) GetFriendRequests(
 
 	var friendRequests []*usersapi.PendingFriendRequest
 	for _, f := range requests {
-		requester := f.Requester;
+		requester := f.Requester
 		friendRequests = append(friendRequests,
 			&usersapi.PendingFriendRequest{
 				Requester: &usersapi.PersonInfo{
 					UserId:      requester.ID,
 					DisplayName: requester.DisplayName,
 					Username:    requester.Username,
-					Avatar: 	 requester.Avatar,
+					Avatar:      requester.Avatar,
 				},
 				SentAt: timestamppb.New(f.RequestedAt),
 			},

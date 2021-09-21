@@ -8,7 +8,7 @@ type User struct {
 	DisplayName    string
 	Email          string
 	HashedPassword string
-	Avatar 		   []byte
+	Avatar         []byte
 }
 
 type FriendRelationship struct {
