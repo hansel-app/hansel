@@ -25,6 +25,36 @@ func NewUserService(repository users.Repository) *userService {
 	}
 }
 
+
+func (s *userService) GetProfile(
+	c context.Context,
+	r *usersapi.ProfileRequest,
+) (*usersapi.ProfileResponse, error) {
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	userInfo, err := s.usecases.Get(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	getFriendsResponse, err := s.GetFriends(c, &usersapi.GetFriendsRequest{})
+	if err != nil {
+		return nil, err
+	}
+	
+	return &usersapi.ProfileResponse{
+		Info: &usersapi.PersonInfo{
+			UserId: userInfo.ID,
+			DisplayName: userInfo.DisplayName,
+			Username: userInfo.Username,
+		},
+		Friends: getFriendsResponse.GetFriends(),
+	}, nil
+}
+
 func (s *userService) GetFriends(
 	c context.Context,
 	r *usersapi.GetFriendsRequest,

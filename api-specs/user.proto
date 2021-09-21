@@ -10,9 +10,7 @@ service UserService {
 	rpc GetFriendRequests (GetPendingFriendRequestsRequest) returns (GetPendingFriendRequestsResponse);
 }
 
-message ProfileRequest {
-	int64 user_id = 1;
-}
+message ProfileRequest {}
 
 message ProfileResponse {
 	PersonInfo info = 1;
