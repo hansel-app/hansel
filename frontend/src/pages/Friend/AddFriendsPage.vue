@@ -41,9 +41,15 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
-      return mockFriends.filter((user) =>
-        user.username.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return mockFriends.filter((user) => {
+        const matchUsername = user.username
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+        const matchDisplayname = user.displayName
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+        return matchUsername || matchDisplayname;
+      });
     },
   },
   methods: {
