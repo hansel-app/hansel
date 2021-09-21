@@ -2,8 +2,8 @@ import { AuthServicePromiseClient } from "@/protobuf/auth_grpc_web_pb";
 import { GemServicePromiseClient } from "@/protobuf/gem_grpc_web_pb";
 import AuthInterceptor from "@/api/interceptors/auth";
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-const SERVER_PORT = process.env.VUE_APP_SERVER_PORT;
+const SERVER_URL = window.env.VUE_APP_SERVER_URL;
+const SERVER_PORT = window.env.VUE_APP_SERVER_PORT;
 const hostname = `${SERVER_URL}:${SERVER_PORT}`;
 
 const authInterceptor = new AuthInterceptor();
