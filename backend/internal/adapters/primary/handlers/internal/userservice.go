@@ -5,6 +5,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hansel-app/hansel/internal/contextkeys"
@@ -25,7 +26,6 @@ func NewUserService(repository users.Repository) *userService {
 	}
 }
 
-
 func (s *userService) GetProfile(
 	c context.Context,
 	r *usersapi.ProfileRequest,
@@ -44,12 +44,12 @@ func (s *userService) GetProfile(
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return &usersapi.ProfileResponse{
 		Info: &usersapi.PersonInfo{
-			UserId: userInfo.ID,
+			UserId:      userInfo.ID,
 			DisplayName: userInfo.DisplayName,
-			Username: userInfo.Username,
+			Username:    userInfo.Username,
 		},
 		Friends: getFriendsResponse.GetFriends(),
 	}, nil
@@ -119,47 +119,53 @@ func (s *userService) GetFriendRequests(
 func (s *userService) AddFriendRequest(
 	c context.Context,
 	r *friendsapi.FriendRequest,
-) error {
+) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
-		return status.Error(codes.Internal, "unable to retrieve user ID from context")
+		return new(emptypb.Empty), status.Error(
+			codes.Internal, "unable to retrieve user ID from context",
+		)
 	}
 
 	err := s.usecases.AddFriendRequest(userId, r.ReceiverId)
 	if err != nil {
-		return err
+		return new(emptypb.Empty), err
 	}
-	return nil
+	return new(emptypb.Empty), nil
 }
 
 func (s *userService) AcceptFriendRequest(
 	c context.Context,
 	r *friendsapi.FriendRequest,
-) error {
+) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
-		return status.Error(codes.Internal, "unable to retrieve user ID from context")
+		return new(emptypb.Empty), status.Error(
+			codes.Internal, "unable to retrieve user ID from context",
+		)
 	}
 
 	err := s.usecases.AcceptFriendRequest(r.RequesterId, userId)
 	if err != nil {
-		return err
+		return new(emptypb.Empty), err
 	}
-	return nil
+	return new(emptypb.Empty), nil
 }
 
 func (s *userService) DeclineFriendRequest(
 	c context.Context,
 	r *friendsapi.FriendRequest,
-) error {
+) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
-		return status.Error(codes.Internal, "unable to retrieve user ID from context")
+		return new(emptypb.Empty), status.Error(
+			codes.Internal, "unable to retrieve user ID from context",
+		)
 	}
 
 	err := s.usecases.DeclineFriendRequest(r.RequesterId, userId)
 	if err != nil {
-		return err
+		return new(emptypb.Empty), err
 	}
-	return nil
+	return new(emptypb.Empty), nil
 }

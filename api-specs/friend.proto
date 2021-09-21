@@ -6,9 +6,9 @@ import "google/protobuf/empty.proto";
 
 
 service FriendService {
-	rpc Add (FriendRequest) returns (google.protobuf.Empty);
-	rpc Accept (FriendRequest) returns (google.protobuf.Empty);
-	rpc Decline (FriendRequest) returns (google.protobuf.Empty);
+	rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+	rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+	rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
 	rpc Block (FriendRequest) returns (google.protobuf.Empty);
 
 }

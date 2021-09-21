@@ -116,7 +116,7 @@ const userModule: Module<UserState, RootState> = {
 
       return new Promise((resolve, reject) => {
         services.friendsClient
-          .add(request)
+          .addFriendRequest(request)
           .then((resp) => {
             commit("updateSendFriendRequestStatus", true);
             resolve(resp);
@@ -133,7 +133,7 @@ const userModule: Module<UserState, RootState> = {
 
       return new Promise((resolve, reject) => {
         services.friendsClient
-          .accept(request)
+          .acceptFriendRequest(request)
           .then((resp) => {
             dispatch("getFriends");
             dispatch("getFriendRequests");
@@ -151,7 +151,7 @@ const userModule: Module<UserState, RootState> = {
 
       return new Promise((resolve, reject) => {
         services.friendsClient
-          .decline(request)
+          .declineFriendRequest(request)
           .then((resp) => {
             dispatch("getFriendRequests");
             resolve(resp);

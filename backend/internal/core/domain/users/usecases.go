@@ -33,7 +33,7 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 }
 
 func (u *UseCases) Get(user_id int64) (*User, error) {
-	return u.repository.Get(user_id);
+	return u.repository.Get(user_id)
 }
 
 func (u *UseCases) GetFriends(user_id int64) ([]*User, error) {
