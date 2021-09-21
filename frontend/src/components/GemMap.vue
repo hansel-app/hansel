@@ -97,6 +97,7 @@ import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
+import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 const GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -209,8 +210,7 @@ export default defineComponent({
     },
 
     getGemImageUrl(gem: Gem) {
-      console.assert(Object.values(GemColor).includes(gem.color));
-      const gemColorName = GemColor[gem.color];
+      const gemColorName = getEnumKeyByEnumValue(GemColor, gem.color);
       return require(`@/assets/images/${gemColorName.toLowerCase()}_64.png`);
     },
 
