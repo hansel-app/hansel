@@ -1,7 +1,8 @@
 <template>
+  <!-- TODO: some onboarding screens for user to set displayName and avatar? -->
   <h1>Register</h1>
   <div class="container">
-    <van-form @submit="onSubmit">
+    <van-form @submit="register">
       <van-field
         v-model="username"
         name="Username"
@@ -30,6 +31,32 @@
     </van-form>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  data() {
+    return {
+      username: "",
+      password: "",
+      confirmPassword: "",
+    };
+  },
+  methods: {
+    register() {
+      if (this.password !== this.confirmPassword) {
+        // TODO: show some error here.
+        return;
+      }
+      this.$store.dispatch("regsiter", {
+        username: this.username,
+        password: this.password,
+      });
+    },
+  },
+});
+</script>
 
 <style scoped lang="less">
 .container .van-field {
