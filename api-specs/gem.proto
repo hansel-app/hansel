@@ -31,7 +31,7 @@ message Gem {
   int64 receiver_id = 7;
   google.protobuf.Timestamp received_at = 8;
   GemColor color = 9;
-  bytes photo = 10;
+  bytes attachment = 10;
 }
 
 message GemMessage {
@@ -40,7 +40,7 @@ message GemMessage {
   double longitude = 3;
   int64 receiver_id = 4;
   GemColor color = 5;
-  bytes photo = 6;
+  bytes attachment = 6;
 }
 
 message DropRequest {

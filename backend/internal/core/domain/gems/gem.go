@@ -25,5 +25,5 @@ type Gem struct {
 	ReceiverId int64      `db:"receiver_id"`
 	ReceivedAt *time.Time `db:"received_at"`
 	Color      GemColor   `db:"color"`
-	Photo      []byte     `db:"photo"`
+	Attachment []byte     `db:"attachment"`
 }
