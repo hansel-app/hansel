@@ -5,6 +5,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
@@ -59,20 +60,21 @@ func (s *userService) GetFriendRequests(
 		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
 
-	friends, err := s.usecases.GetFriendRequests(userId)
+	requests, err := s.usecases.GetFriendRequests(userId)
 	if err != nil {
 		return nil, err
 	}
 
 	var friendRequests []*friendsapi.PendingFriendRequest
-	for _, f := range friends {
+	for _, f := range requests {
 		friendRequests = append(friendRequests,
 			&friendsapi.PendingFriendRequest{
 				Requester: &friendsapi.FriendInfo{
-				UserId:      f.ID,
-				DisplayName: f.DisplayName,
-				Username:    f.Username,
+					UserId:      f.Requester.ID,
+					DisplayName: f.Requester.DisplayName,
+					Username:    f.Requester.Username,
 				},
+				SentAt: timestamppb.New(f.RequestedAt),
 			},
 		)
 	}

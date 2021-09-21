@@ -94,22 +94,22 @@ func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
 	return friends, nil
 }
 
-// TODO: return datetime of request as well.
-func (r *userRepository) GetFriendRequests(id int64) ([]*users.User, error) {
+func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRelationship, error) {
 	// TODO: Make this SQL statement correct
 	// make status an enum somewhere + join with Users
+	// + return datetime
 	sql, _, _ := qb.From("friends").Where(goqu.And(
 		goqu.C("receiver_id").Eq(id),
 		goqu.C("status").Eq("PENDING"),
 	)).ToSQL()
 
-	var friends []*users.User
-	err := r.db.Select(&friends, sql)
+	var friendRequests []*users.FriendRelationship
+	err := r.db.Select(&friendRequests, sql)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get friend requests for user with id %d: %w", id, err)
 	}
 
-	return friends, nil
+	return friendRequests, nil
 }
 
 func (r *userRepository) AddFriendRequest(requester_id int64, receiver_id int64) error {
