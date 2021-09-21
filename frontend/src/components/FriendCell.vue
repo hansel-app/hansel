@@ -11,7 +11,7 @@
       <CircleAvatar
         :avatarUrl="placeholderAvatarUrl"
         class="avatar-border"
-        radius="1.8"
+        :radius="1.8"
       />
     </template>
     <template #right-icon>

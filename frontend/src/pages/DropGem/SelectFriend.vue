@@ -8,7 +8,7 @@
         v-for="user in mockFriends"
         :key="user.id"
         :friend="user"
-        isClickable="true"
+        :isClickable="true"
       />
     </CellGroup>
   </div>
