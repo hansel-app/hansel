@@ -3,7 +3,7 @@ package users
 type Repository interface {
 	Get(id int64) (*User, error)
 	GetByUsername(username string) (*User, error)
-	Add(user *User) error
+	Add(user *User) (int64, error)
 	Update(id int64, user *User) error
 	Remove(id int64) error
 	GetFriends(id int64) ([]*User, error)

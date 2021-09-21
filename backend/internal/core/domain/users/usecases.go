@@ -32,6 +32,16 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 	return user.ID, nil
 }
 
+// TODO: we need user's display name and avatar as well
+func (u *UseCases) Register(username string, password string) (int64, error) {
+	// TODO: check if user with same username already exists?
+	return u.repository.Add(&User{
+		Username: username,
+		// TODO: hash
+		HashedPassword: password,
+	})
+}
+
 func (u *UseCases) Get(userID int64) (*User, error) {
 	return u.repository.Get(userID)
 }

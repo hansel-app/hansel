@@ -44,15 +44,16 @@ func (r *userRepository) GetByUsername(username string) (*users.User, error) {
 	return &user, nil
 }
 
-func (r *userRepository) Add(user *users.User) error {
-	sql, _, _ := qb.Insert("users").Rows(user).ToSQL()
+func (r *userRepository) Add(user *users.User) (int64, error) {
+	sql, _, _ := qb.Insert("users").Rows(user).Returning("id").ToSQL()
 
-	_, err := r.db.Exec(sql)
+	var userId int64
+	err := r.db.QueryRow(sql).Scan(&userId)
 	if err != nil {
-		return fmt.Errorf("unable to insert user: %w", err)
+		return -1, fmt.Errorf("unable to insert user: %w", err)
 	}
 
-	return nil
+	return userId, nil
 }
 
 func (r *userRepository) Update(id int64, user *users.User) error {
