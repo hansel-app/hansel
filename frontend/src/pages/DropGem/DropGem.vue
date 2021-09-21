@@ -6,10 +6,10 @@
   />
   <router-view
     :name="currentStageName"
-    @nextStage="nextStage"
-    @SetReceiverEvent="setReceiverId"
-    @SetMessageEvent="setMessage"
-    @SetGemColorEvent="setGemColor"
+    @next-stage="nextStage"
+    @set-receiver-event="setReceiverId"
+    @set-message-event="setMessage"
+    @set-gem-color-event="setGemColor"
   ></router-view>
 
   <van-button

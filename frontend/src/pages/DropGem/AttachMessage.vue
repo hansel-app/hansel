@@ -7,7 +7,7 @@
       placeholder="Enter your message"
       type="textarea"
       rows="5"
-      @input="this.$emit('SetMessageEvent', $event.target.value)"
+      @input="this.$emit('set-message-event', $event.target.value)"
     />
   </div>
 </template>

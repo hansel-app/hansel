@@ -18,8 +18,8 @@
         :shouldDisplayUsername="true"
         @click="
           () => {
-            $emit('SetReceiverEvent', friend.id);
-            $emit('nextStage');
+            $emit('set-receiver-event', friend.id);
+            $emit('next-stage');
           }
         "
       />
