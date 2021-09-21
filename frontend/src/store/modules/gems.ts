@@ -66,8 +66,7 @@ const gemsModule: Module<GemsState, RootState> = {
   },
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
-      state.gemsPendingCollection.splice(0, state.gemsPendingCollection.length);
-      gems.forEach((gem) => state.gemsPendingCollection.push(gem));
+      state.gemsPendingCollection = gems;
     },
     updateDropGemFormState(state, dropGemFormState: Partial<DropGemFormState>) {
       state.dropGemFormState = {
