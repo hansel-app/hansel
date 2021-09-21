@@ -71,16 +71,8 @@ export default defineComponent({
       this.draftGem.setColor(value);
     },
     dropMyGem() {
-      console.log("called dropMyGem");
       const dropGem = () => this.store.dispatch("dropGem", this.draftGem);
-      const response = ref<number>(-1);
-      console.log(this.draftGem);
-      dropGem()
-        .then((resp) => {
-          response.value = resp;
-        })
-        .catch((err) => console.log(err, "Failed to drop gem"));
-      console.log(response.value);
+      dropGem().catch((err) => console.log(err, "Failed to drop gem"));
     },
   },
   components: {

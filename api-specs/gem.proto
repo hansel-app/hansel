@@ -48,7 +48,7 @@ message DropRequest {
 }
 
 message DropResponse {
-  int64 dropped_gem_id = 2;
+  int64 dropped_gem_id = 1;
 }
 
 message GetRequest {

@@ -16,7 +16,7 @@ import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
-  droppedGemId: number;
+  droppedGemId: number | undefined;
 }
 
 const protoGemColorToGemColorMapper = (
@@ -60,7 +60,7 @@ const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
 const gemsModule: Module<GemsState, RootState> = {
   state: {
     gemsPendingCollection: [],
-    droppedGemId: -1,
+    droppedGemId: undefined,
   },
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
