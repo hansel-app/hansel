@@ -1,7 +1,11 @@
 import { Module } from "vuex";
 import { RootState } from "@/store";
 import services from "@/api/services";
-import { LoginRequest, LoginResponse } from "@/protobuf/auth_pb";
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+} from "@/protobuf/auth_pb";
 import Cookies from "js-cookie";
 
 const ACCESS_TOKEN_COOKIE = "access-token";
@@ -50,6 +54,21 @@ const authModule: Module<AuthState, RootState> = {
             commit("setAccessToken", token);
             dispatch("getMyProfile");
             resolve(response);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    register({ dispatch }, payload: { username: string; password: string }) {
+      const request = new RegisterRequest();
+      request.setUsername(payload.username);
+      request.setPassword(payload.password);
+
+      return new Promise<void>((resolve, reject) => {
+        services.authClient
+          .register(request)
+          .then(() => {
+            dispatch("login", payload);
+            resolve();
           })
           .catch((err) => reject(err));
       });
