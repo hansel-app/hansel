@@ -1,14 +1,14 @@
 import services from "@/api/services";
-import { Gem, GemColor } from "@/interfaces";
+import { DropGemOject, Gem, GemColor } from "@/interfaces";
 import { mockFriends, mockSelfUser } from "@/interfaces/mockData";
 import {
-  Gem as ProtoGem,
-  GemColor as ProtoGemColor,
-  GetPendingCollectionForUserRequest,
-  GetPendingCollectionForUserResponse,
   DropRequest,
   DropResponse,
+  Gem as ProtoGem,
+  GemColor as ProtoGemColor,
   GemMessage,
+  GetPendingCollectionForUserRequest,
+  GetPendingCollectionForUserResponse,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
 import dayjs from "dayjs";
@@ -86,9 +86,19 @@ const gemsModule: Module<GemsState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    dropGem({ commit }, gem: GemMessage) {
+    dropGem({ commit }, gem: DropGemOject) {
+      if (!gem.message || !gem.receiverId || !gem.color) {
+        throw new Error("Missing fields when trying to drop a gem");
+      }
+
+      const gemMessage = new GemMessage();
+      gemMessage
+        .setMessage(gem.message)
+        .setReceiverId(gem.receiverId)
+        .setColor(gem.color);
+
       const request = new DropRequest();
-      request.setGemMessage(gem);
+      request.setGemMessage(gemMessage);
 
       return new Promise((resolve, reject) => {
         services.gemsClient

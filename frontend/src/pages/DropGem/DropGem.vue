@@ -12,26 +12,31 @@
     @SetGemColorEvent="setGemColor"
   ></router-view>
 
-  <div>
-    <van-button
-      round
-      type="info"
-      v-if="shouldShowNextButton"
-      @click="$emit('nextStage')"
-    >
-      Next
-    </van-button>
-    <van-button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
-      Drop Gem
-    </van-button>
-  </div>
+  <van-button
+    class="form-navigation-button"
+    round
+    type="primary"
+    v-if="shouldShowNextButton"
+    @click="nextStage"
+  >
+    Next
+  </van-button>
+  <van-button
+    class="form-navigation-button"
+    round
+    type="primary"
+    v-if="currentStage === numStages - 1"
+    v-on:click="dropMyGem"
+  >
+    Drop Gem
+  </van-button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { NavBar } from "vant";
-import { GemMessage, GemColor } from "@/protobuf/gem_pb";
 import { useStore } from "vuex";
+import { DropGemOject, GemColor } from "@/interfaces";
 
 enum DropGemStage {
   Friend,
@@ -43,7 +48,7 @@ export default defineComponent({
   data() {
     return {
       currentStage: DropGemStage.Friend as DropGemStage,
-      draftGem: new GemMessage(),
+      formState: {} as DropGemOject,
       store: useStore(),
     };
   },
@@ -69,18 +74,17 @@ export default defineComponent({
         this.currentStage -= 1;
       }
     },
-    // Tried to make this inline, couldn't figure out how to pass in value.
     setReceiverId(value: number): void {
-      this.draftGem.setReceiverId(value);
+      this.formState.receiverId = value;
     },
     setMessage(value: string): void {
-      this.draftGem.setMessage(value);
+      this.formState.message = value;
     },
     setGemColor(value: GemColor): void {
-      this.draftGem.setColor(value);
+      this.formState.color = value;
     },
     dropMyGem() {
-      const dropGem = () => this.store.dispatch("dropGem", this.draftGem);
+      const dropGem = () => this.store.dispatch("dropGem", this.formState);
       dropGem().catch((err) => console.log(err, "Failed to drop gem"));
     },
   },
@@ -93,5 +97,8 @@ export default defineComponent({
 <style scoped>
 .nav-bar {
   position: absolute;
+}
+.form-navigation-button {
+  width: 80vw;
 }
 </style>
