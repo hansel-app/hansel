@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	"github.com/omeid/pgerror"
+
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
 	"github.com/hansel-app/hansel/internal/config"
 )
@@ -20,6 +22,14 @@ func main() {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 
-	db.MustExec("CREATE DATABASE " + dbName)
+	_, err = db.Exec("CREATE DATABASE " + dbName)
+	if err != nil {
+		if err := pgerror.DuplicateDatabase(err); err != nil {
+			log.Printf("Database '%s' already exists", dbName)
+			return
+		}
+		log.Fatalf("failed to create database: %v", err)
+	}
+
 	log.Printf("Successfully created database '%s'", dbName)
 }

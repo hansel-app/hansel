@@ -10,6 +10,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.10.1
+	github.com/omeid/pgerror v0.0.0-20201018020948-42c66c4d27d4
 	github.com/rubenv/sql-migrate v0.0.0-20210614095031-55d5740dbbcc
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	google.golang.org/grpc v1.40.0

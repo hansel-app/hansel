@@ -1,0 +1,64 @@
+# To build a Docker image from this file, run from the root directory:
+# docker build -f deployment/Dockerfile-frontend -t hansel-frontend .
+
+# Intermediate base image
+FROM node:16.9.1 AS vue-build
+
+# Install Protocol Buffer compiler
+RUN apt-get update
+RUN apt-get install -y protobuf-compiler
+
+# Environment variables
+ENV API_SPECS_ROOT /api-specs
+ENV FRONTEND_ROOT /frontend
+
+# Copy API specs into container
+RUN mkdir --parents $API_SPECS_ROOT
+WORKDIR $API_SPECS_ROOT
+COPY api-specs .
+
+# Copy source code into container
+RUN mkdir --parents $FRONTEND_ROOT
+WORKDIR $FRONTEND_ROOT
+COPY frontend .
+
+# Install dependencies
+RUN npm ci
+
+# Build app
+RUN npm run build
+
+# Base image
+FROM nginx:1.21.3
+
+# Environment variables
+ENV APP_ROOT /build
+
+# Make app directory
+RUN mkdir --parents $APP_ROOT
+WORKDIR $APP_ROOT
+
+# Copy Vue build
+COPY --from=vue-build /frontend/dist .
+
+# Delete NGINX defaults (does not work if not removed)
+RUN rm -f /etc/nginx/conf.d/* /etc/nginx/sites-enabled/*
+
+# Copy NGINX config
+COPY deployment/nginx/nginx.conf /etc/nginx
+COPY deployment/nginx/sites-enabled/* /etc/nginx/sites-enabled/
+
+# Copy env.template.js
+COPY deployment/env.template.js $APP_ROOT/env.template.js
+
+# Add a script to be executed every time the container starts.
+COPY deployment/entrypoint-scripts/frontend.sh /usr/bin/
+RUN chmod +x /usr/bin/frontend.sh
+ENTRYPOINT ["frontend.sh"]
+
+# Expose ports 80 and 443
+EXPOSE 80
+EXPOSE 443
+
+# Run NGINX in foreground so that Docker can track it properly
+CMD ["nginx", "-g", "daemon off;"]

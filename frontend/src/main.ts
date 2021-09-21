@@ -7,7 +7,7 @@ import VueClickAway from "vue3-click-away";
 import App from "./App.vue";
 import "./registerServiceWorker";
 
-const GOOGLE_ANALYTICS_ID = process.env.VUE_APP_GOOGLE_ANALYTICS_ID;
+const GOOGLE_ANALYTICS_ID = window.env.VUE_APP_GOOGLE_ANALYTICS_ID;
 
 // Load store before router.
 createApp(App)
