@@ -2,6 +2,7 @@ export const HOME_ROUTE = "/";
 export const DROP_GEM_ROUTE = "/drop";
 export const PICKUP_GEM_ROUTE = "/pickup";
 export const PROFILE_ROUTE = "/profile";
+export const EDIT_PROFILE_ROUTE = "/profile/edit";
 export const ADD_FRIENDS_ROUTE = "/add-friends";
 export const FRIEND_REQUESTS_ROUTE = "/friend-requests";
 export const LOGIN_ROUTE = "/login";
