@@ -6,57 +6,56 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 service UserService {
-	rpc GetProfile (ProfileRequest) returns (ProfileResponse);
-	rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
-	rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
-	rpc GetFriendRequests (GetPendingFriendRequestsRequest) returns (GetPendingFriendRequestsResponse);
-	rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
-	rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
-	rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
-	rpc Block (FriendRequest) returns (google.protobuf.Empty);
+  rpc GetProfile (ProfileRequest) returns (ProfileResponse);
+  rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
+  rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
+  rpc GetFriendRequests (GetPendingFriendRequestsRequest) returns (GetPendingFriendRequestsResponse);
+  rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
 message ProfileRequest {}
 
 message ProfileResponse {
-	User info = 1;
-	repeated User friends = 2;
+  User info = 1;
+  repeated User friends = 2;
 }
 
 message User {
-	int64 user_id = 1;
-	string display_name = 2;
-	string username = 3;
-	bytes avatar = 4;
+  int64 user_id = 1;
+  string display_name = 2;
+  string username = 3;
+  bytes avatar = 4;
 }
 
 message SearchByUsernameRequest {
-	string search_query = 1;
+  string search_query = 1;
 }
 
 message SearchByUsernameResponse {
-	repeated User users = 1;
+  repeated User users = 1;
 }
 
 message PendingFriendRequest {
-	User requester = 1;
-	google.protobuf.Timestamp sent_at = 2;
+  User requester = 1;
+  google.protobuf.Timestamp sent_at = 2;
 }
 
 message GetFriendsRequest {}
 
 message GetFriendsResponse {
-	repeated User friends = 1;
+  repeated User friends = 1;
 }
-
 
 message GetPendingFriendRequestsRequest {}
 
 message GetPendingFriendRequestsResponse {
-	repeated PendingFriendRequest friend_requests = 1;
+  repeated PendingFriendRequest friend_requests = 1;
 }
 
 message FriendRequest {
-	int64 requester_id = 1;
-	int64 receiver_id = 2;
+  int64 requester_id = 1;
+  int64 receiver_id = 2;
 }
