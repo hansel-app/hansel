@@ -5,11 +5,16 @@
     :displayName="mockSelfUser.displayName"
     :username="mockSelfUser.username"
   />
+  <CellGroup>
+    <Cell title="Edit profile" is-link />
+    <Cell title="Friends" is-link />
+  </CellGroup>
+  <Cell title="Logout" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { NavBar } from "vant";
+import { CellGroup, Cell, NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
 import AvatarHeader from "./AvatarHeader.vue";
@@ -37,6 +42,8 @@ export default defineComponent({
   },
   components: {
     AvatarHeader,
+    CellGroup,
+    Cell,
     NavBar,
   },
 });
