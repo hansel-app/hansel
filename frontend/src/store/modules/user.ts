@@ -1,19 +1,19 @@
 import services from "@/api/services";
-import { LatLng, User } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
+import { LatLng, User } from "@/interfaces";
 import {
-  User as ProtoUser,
-  GetOwnProfileResponse,
-  GetFriendsResponse,
-  GetFriendRequestsResponse,
-  PendingFriendRequest,
   FriendRequest,
+  GetFriendRequestsResponse,
+  GetFriendsResponse,
+  GetOwnProfileResponse,
+  PendingFriendRequest,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
+  User as ProtoUser,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
-import { Module } from "vuex";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { Module } from "vuex";
 
 export interface UserState {
   friends: User[];
@@ -74,7 +74,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getOwnProfile(new Empty())
           .then((resp: GetOwnProfileResponse) => {
-            const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
+            const friends: User[] = resp
+              .getFriendsList()
+              .map(protoUserToUserMapper);
             commit("setFriends", friends);
             const self = resp.getInfo();
             commit("setSelfInfo", self);
@@ -88,7 +90,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getFriends(new Empty())
           .then((resp: GetFriendsResponse) => {
-            const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
+            const friends: User[] = resp
+              .getFriendsList()
+              .map(protoUserToUserMapper);
             commit("setFriends", friends);
             resolve(resp);
           })
@@ -103,7 +107,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .searchByUsername(request)
           .then((resp: SearchByUsernameResponse) => {
-            const matchedUsers: User[] = resp.getUsersList().map(protoUserToUserMapper);
+            const matchedUsers: User[] = resp
+              .getUsersList()
+              .map(protoUserToUserMapper);
             resolve(matchedUsers);
           })
           .catch((err) => reject(err));

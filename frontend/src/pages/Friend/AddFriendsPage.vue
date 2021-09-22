@@ -17,7 +17,7 @@
           <van-icon
             :name="require('@/assets/icons/user-plus.svg')"
             size="24"
-            @click="addFriend"
+            @click="(user) => addFriend(user)"
           />
         </FriendCell>
       </CellGroup>
@@ -29,7 +29,7 @@
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
 import { User } from "@/interfaces";
-import { useStore } from "vuex";
+import { useStore, mapState } from "vuex";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
 
@@ -48,6 +48,10 @@ export default defineComponent({
     };
   },
   computed: {
+    ...mapState({
+      friends: (state: any) => state.user.friends,
+      selfUser: (state: any) => state.user.self,
+    }),
     filteredUsers(): User[] {
       if (!this.searchQuery) {
         // Don't display any users when search bar is empty.
@@ -61,14 +65,17 @@ export default defineComponent({
       this.$router.back();
     },
     handleSearch() {
+      const filterFriends = (user: User) => !this.friends.includes(user);
+      const filterSelf = (user: User) => this.selfUser.id != user.id;
+
       this.store
         .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {
-          this.users = users;
+          this.users = users.filter(filterFriends).filter(filterSelf);
         });
     },
-    addFriend(receiverId: number) {
-      this.store.dispatch("sendFriendRequest", receiverId);
+    addFriend(user: User) {
+      this.store.dispatch("sendFriendRequest", user.id);
     },
   },
 });
