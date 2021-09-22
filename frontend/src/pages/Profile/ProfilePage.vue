@@ -1,11 +1,9 @@
 <template>
   <div class="overlay bring-to-front">
     <Header />
-    <AvatarHeader
-      :avatarUrl="placeholderAvatarUrl"
-      :displayName="mockSelfUser.displayName"
-      :username="mockSelfUser.username"
-    />
+    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+    <h2>{{ mockSelfUser.displayName }}</h2>
+    <h3>{{ "@" + mockSelfUser.username }}</h3>
     <CellGroup>
       <Cell title="Edit profile" is-link @click="goToEditProfile" />
       <Cell title="Friends" is-link />
@@ -20,7 +18,7 @@ import { defineComponent } from "vue";
 import { CellGroup, Cell } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { EDIT_PROFILE_ROUTE } from "@/constants";
-import AvatarHeader from "./AvatarHeader.vue";
+import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
 
@@ -44,7 +42,7 @@ export default defineComponent({
     },
   },
   components: {
-    AvatarHeader,
+    ProfileAvatar,
     CellGroup,
     Cell,
     Header,

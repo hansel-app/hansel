@@ -1,7 +1,6 @@
 <template>
   <div class="overlay">
-    <NavBar left-arrow @click-left="goBack" />
-    <h1>Edit Profile</h1>
+    <Header title="Edit Profile" />
     <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
     <van-button class="edit-button"
       ><van-icon name="edit" size="40px"
@@ -26,10 +25,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
   data() {
@@ -50,7 +49,7 @@ export default defineComponent({
   },
   components: {
     CircleAvatar,
-    NavBar,
+    Header,
     ProfilePageBg,
   },
 });
