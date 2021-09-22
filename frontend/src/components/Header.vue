@@ -73,7 +73,8 @@ export default defineComponent({
 }
 
 #icon-right {
-    margin-left: 19.5em;
+    position: absolute;
+    right: 1.5em;
 }
 
 .hide-icon {

@@ -9,7 +9,6 @@ import { HOME_ROUTE } from "@/constants";
 export default defineComponent({
     methods: {
         goBack() {
-            console.log('backing');
             return this.$router.push(this.path);
         }
     },
