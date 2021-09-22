@@ -49,7 +49,7 @@ export default defineComponent({
         // TODO: show some error here.
         return;
       }
-      this.$store.dispatch("regsiter", {
+      this.$store.dispatch("register", {
         username: this.username,
         password: this.password,
       });
