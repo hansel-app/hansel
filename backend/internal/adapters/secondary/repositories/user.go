@@ -5,9 +5,8 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
-	"github.com/jmoiron/sqlx"
-
 	"github.com/hansel-app/hansel/internal/core/domain/users"
+	"github.com/jmoiron/sqlx"
 )
 
 type userRepository struct {

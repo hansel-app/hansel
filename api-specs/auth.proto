@@ -1,6 +1,6 @@
 syntax = "proto3";
 package authapi;
-option go_package = "github.com/hansel-app/hansel/protobuf/authapi";
+option go_package = "/authapi";
 
 service AuthService {
   rpc Login (LoginRequest) returns (LoginResponse);

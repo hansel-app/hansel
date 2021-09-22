@@ -3,10 +3,9 @@ package database
 import (
 	"fmt"
 
+	"github.com/hansel-app/hansel/internal/config"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-
-	"github.com/hansel-app/hansel/internal/config"
 )
 
 func New(cfg *config.Config) (*sqlx.DB, error) {
