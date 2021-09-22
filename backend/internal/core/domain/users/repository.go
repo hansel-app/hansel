@@ -12,4 +12,6 @@ type Repository interface {
 	AddFriendRequest(requesterID int64, receiverID int64) error
 	AcceptFriendRequest(requesterID int64, receiverID int64) error
 	DeclineFriendRequest(requesterID int64, receiverID int64) error
+	UpdateAvatar(id int64, avatar []byte) error
+	UpdateDisplayName(id int64, displayName string) error
 }

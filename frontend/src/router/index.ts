@@ -2,6 +2,7 @@ import "animate.css";
 import {
   ADD_FRIENDS_ROUTE,
   DROP_GEM_ROUTE,
+  EDIT_PROFILE_ROUTE,
   FRIEND_REQUESTS_ROUTE,
   GEM_LOGS_ROUTE,
   HOME_ROUTE,
@@ -21,7 +22,7 @@ import HomePage from "@/pages/Home/HomePage.vue";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
 import GemLogs from "@/pages/GemLogs/LogsList.vue";
 import { FoundGem, MessageDisplay, PickupGem } from "@/pages/PickupGem/index";
-import ProfilePage from "@/pages/Profile/ProfilePage.vue";
+import { EditProfilePage, ProfilePage } from "@/pages/Profile/index";
 import store from "@/store";
 
 import {
@@ -73,6 +74,7 @@ const router = createRouter({
       }
     },
     { path: PROFILE_ROUTE, component: ProfilePage },
+    { path: EDIT_PROFILE_ROUTE, component: EditProfilePage },
     { path: ADD_FRIENDS_ROUTE, component: AddFriendPage },
     { path: FRIEND_REQUESTS_ROUTE, component: FriendRequestsPage },
     {
