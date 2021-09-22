@@ -270,6 +270,7 @@ export default defineComponent({
         distance: distFromSelf,
         gemCreator: gem.createdBy,
         dropTime: gem.createdAt,
+        shouldShowPickupButton: distFromSelf <= GEM_PICKUP_RADIUS_THRESHOLD,
       });
       const el = document.createElement("div");
       const mountedApp = infoWindow.mount(el);
