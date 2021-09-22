@@ -17,7 +17,7 @@ func RegisterServices(s *grpc.Server, db *sqlx.DB, jwtManager *auth.JWTManager) 
 	userRepository := repositories.NewUserRepository(db)
 
 	authService := internal.NewAuthService(userRepository, jwtManager)
-	gemService := internal.NewGemService(gemRepository)
+	gemService := internal.NewGemService(gemRepository, userRepository)
 	userService := internal.NewUserService(userRepository)
 
 	authapi.RegisterAuthServiceServer(s, authService)
