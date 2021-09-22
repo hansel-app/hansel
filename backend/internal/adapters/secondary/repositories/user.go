@@ -193,3 +193,36 @@ func (r *userRepository) DeclineFriendRequest(requesterID int64, receiverID int6
 
 	return nil
 }
+
+func (r *userRepository) UpdateAvatar(id int64, newAvatar []byte) error {
+	// Prepared statement to handle byte parsing for avatar.
+	// More info here: https://github.com/doug-martin/goqu/issues/254
+	sql, _, _ := qb.Update("users").Prepared(true).Where(goqu.C("id").Eq(id)).Set(goqu.Record{
+		"avatar": newAvatar,
+	}).ToSQL()
+
+	stmt, err := r.db.Prepare(sql)
+	if err != nil {
+		return fmt.Errorf("failed to prepare statement: %w", err)
+	}
+
+	_, err = stmt.Exec(sql)
+	if err != nil {
+		return fmt.Errorf("unable to update avatar for user with id %d: %w", id, err)
+	}
+
+	return nil
+}
+
+func (r *userRepository) UpdateDisplayName(id int64, newDisplayName string) error {
+	sql, _, _ := qb.Update("users").Where(goqu.C("id").Eq(id)).Set(goqu.Record{
+		"display_name": newDisplayName,
+	}).ToSQL()
+
+	_, err := r.db.Exec(sql)
+	if err != nil {
+		return fmt.Errorf("unable to update display name for user with id %d: %w", id, err)
+	}
+
+	return nil
+}

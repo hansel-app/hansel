@@ -1,31 +1,40 @@
 <template>
-  <NavBar left-arrow @click-left="goBack" />
-  <h1>Edit Profile</h1>
-  <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
-  <van-button class="edit-button"
-    ><van-icon name="edit" size="40px"
-  /></van-button>
-  <van-form>
-    <van-field
-      v-model="username"
-      name="Username"
-      label="Username"
-      placeholder="username"
-    />
-    <van-field
-      v-model="displayName"
-      name="Display name"
-      label="Display name"
-      placeholder="Display name"
-    />
-  </van-form>
+  <div class="overlay">
+    <Header title="Edit Profile" />
+    <div class="avatar-container">
+      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+      <van-button class="edit-button overlay"
+        ><van-icon name="edit" size="40px"
+      /></van-button>
+    </div>
+    <van-form>
+      <van-field
+        v-model="username"
+        name="Username"
+        label="Username"
+        placeholder="username"
+        readonly
+        error-message="Username cannot be changed"
+      />
+      <van-field
+        v-model="displayName"
+        name="Display name"
+        label="Display name"
+        placeholder="Display name"
+      />
+      <van-button round type="primary" @click="editProfile"> Save </van-button>
+    </van-form>
+  </div>
+  <ProfilePageBg />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import CircleAvatar from "@/components/CircleAvatar.vue";
+import ProfileAvatar from "./ProfileAvatar.vue";
+import ProfilePageBg from "./ProfilePageBg.vue";
+import Header from "@/components/Header.vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
   data() {
@@ -37,16 +46,23 @@ export default defineComponent({
       mockFriends,
       username: mockSelfUser.username,
       displayName: mockSelfUser.displayName,
+      store: useStore(),
     };
   },
   methods: {
     goBack() {
       this.$router.back();
     },
+    editProfile() {
+      this.store.dispatch("editOwnProfile", {
+        newDisplayName: this.displayName,
+      });
+    },
   },
   components: {
-    CircleAvatar,
-    NavBar,
+    ProfileAvatar,
+    Header,
+    ProfilePageBg,
   },
 });
 </script>
@@ -54,5 +70,17 @@ export default defineComponent({
 <style scoped lang="less">
 .sub-header {
   text-align: left;
+}
+.avatar-container {
+  position: relative;
+  width: 5rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+.edit-button {
+  position: absolute;
+  bottom: 0;
 }
 </style>

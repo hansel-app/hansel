@@ -10,6 +10,7 @@ import {
   FriendRequest,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
+  EditProfileRequest,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
 import { Module } from "vuex";
@@ -74,7 +75,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getOwnProfile(new Empty())
           .then((resp: GetOwnProfileResponse) => {
-            const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
+            const friends: User[] = resp
+              .getFriendsList()
+              .map(protoUserToUserMapper);
             commit("setFriends", friends);
             const self = resp.getInfo();
             commit("setSelfInfo", self);
@@ -88,7 +91,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getFriends(new Empty())
           .then((resp: GetFriendsResponse) => {
-            const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
+            const friends: User[] = resp
+              .getFriendsList()
+              .map(protoUserToUserMapper);
             commit("setFriends", friends);
             resolve(resp);
           })
@@ -103,7 +108,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .searchByUsername(request)
           .then((resp: SearchByUsernameResponse) => {
-            const matchedUsers: User[] = resp.getUsersList().map(protoUserToUserMapper);
+            const matchedUsers: User[] = resp
+              .getUsersList()
+              .map(protoUserToUserMapper);
             resolve(matchedUsers);
           })
           .catch((err) => reject(err));
@@ -162,6 +169,28 @@ const userModule: Module<UserState, RootState> = {
           .declineFriendRequest(request)
           .then((resp) => {
             dispatch("getFriendRequests");
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
+    editOwnProfile(
+      _,
+      payload: { newDisplayName?: string; newAvatar?: string }
+    ) {
+      const request = new EditProfileRequest();
+      if (payload.newDisplayName)
+        request.setNewDisplayName(payload.newDisplayName);
+      if (payload.newAvatar) request.setNewAvatar(payload.newAvatar);
+
+      return new Promise((resolve, reject) => {
+        services.userClient
+          .editOwnProfile(request)
+          .then((resp) => {
+            // Ideally there is a separate RPC call that doesn't
+            // fetch friends here.
+            this.dispatch("getOwnProfile");
             resolve(resp);
           })
           .catch((err) => reject(err));

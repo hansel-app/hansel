@@ -12,6 +12,8 @@ export interface Gem {
   color: GemColor;
 }
 
+export type HexCode = string;
+
 export enum GemColor {
   PURPLE = "#cdb4db",
   PINK = "#ffc8dd",
