@@ -9,6 +9,7 @@
           v-for="friend in mockFriends"
           :key="friend.id"
           :friend="friend"
+          :mostRecentGemActivity="mockSingleGem"
           :isClickable="true"
         />
       </CellGroup>
@@ -17,7 +18,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mockFriends } from "@/interfaces/mockData.ts";
+import { mockFriends, mockGems } from "@/interfaces/mockData.ts";
 import Header from "@/components/Header.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import BackSwipe from "@/components/BackSwipe.vue"
@@ -35,6 +36,7 @@ export default defineComponent({
     return {
       isCloseWindow: true,
       mockFriends,
+      mockSingleGem: mockGems[0],
     };
   },
 });
