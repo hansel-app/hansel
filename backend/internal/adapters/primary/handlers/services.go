@@ -8,7 +8,6 @@ import (
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories"
 	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/protobuf/authapi"
-	"github.com/hansel-app/hansel/protobuf/friendsapi"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
 	"github.com/hansel-app/hansel/protobuf/usersapi"
 )
@@ -23,7 +22,6 @@ func RegisterServices(s *grpc.Server, db *sqlx.DB, jwtManager *auth.JWTManager) 
 	userService := internal.NewUserService(userRepository)
 
 	authapi.RegisterAuthServiceServer(s, authService)
-	friendsapi.RegisterFriendServiceServer(s, userService)
 	gemsapi.RegisterGemServiceServer(s, gemService)
 	usersapi.RegisterUserServiceServer(s, userService)
 }

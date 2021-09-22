@@ -9,9 +9,11 @@ import {
   GetFriendsResponse,
   GetPendingFriendRequestsRequest,
   GetPendingFriendRequestsResponse,
-  PendingFriendRequest, SearchByUsernameRequest, SearchByUsernameResponse,
+  PendingFriendRequest,
+  FriendRequest,
+  SearchByUsernameRequest,
+  SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
-import { FriendRequest } from "@/protobuf/friend_pb";
 import { RootState } from "@/store";
 import { Module } from "vuex";
 
@@ -133,7 +135,7 @@ const userModule: Module<UserState, RootState> = {
       request.setReceiverId(receiverId);
 
       return new Promise((resolve, reject) => {
-        services.friendsClient
+        services.userClient
           .addFriendRequest(request)
           .then((resp) => {
             commit("updateSendFriendRequestStatus", true);
@@ -148,7 +150,7 @@ const userModule: Module<UserState, RootState> = {
       request.setRequesterId(requesterId);
 
       return new Promise((resolve, reject) => {
-        services.friendsClient
+        services.userClient
           .acceptFriendRequest(request)
           .then((resp) => {
             dispatch("getFriends");
@@ -164,7 +166,7 @@ const userModule: Module<UserState, RootState> = {
       request.setRequesterId(requesterId);
 
       return new Promise((resolve, reject) => {
-        services.friendsClient
+        services.userClient
           .declineFriendRequest(request)
           .then((resp) => {
             dispatch("getFriendRequests");

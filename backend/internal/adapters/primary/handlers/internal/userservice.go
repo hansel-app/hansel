@@ -10,13 +10,11 @@ import (
 
 	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
-	"github.com/hansel-app/hansel/protobuf/friendsapi"
 	"github.com/hansel-app/hansel/protobuf/usersapi"
 )
 
 type userService struct {
 	usersapi.UnimplementedUserServiceServer
-	friendsapi.UnimplementedFriendServiceServer
 	usecases users.UseCases
 }
 
@@ -147,7 +145,7 @@ func (s *userService) GetFriendRequests(
 
 func (s *userService) AddFriendRequest(
 	c context.Context,
-	r *friendsapi.FriendRequest,
+	r *usersapi.FriendRequest,
 ) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
@@ -164,7 +162,7 @@ func (s *userService) AddFriendRequest(
 
 func (s *userService) AcceptFriendRequest(
 	c context.Context,
-	r *friendsapi.FriendRequest,
+	r *usersapi.FriendRequest,
 ) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
@@ -183,7 +181,7 @@ func (s *userService) AcceptFriendRequest(
 
 func (s *userService) DeclineFriendRequest(
 	c context.Context,
-	r *friendsapi.FriendRequest,
+	r *usersapi.FriendRequest,
 ) (*emptypb.Empty, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {

@@ -3,12 +3,17 @@ package usersapi;
 option go_package = "/usersapi";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 service UserService {
 	rpc GetProfile (ProfileRequest) returns (ProfileResponse);
 	rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
 	rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
 	rpc GetFriendRequests (GetPendingFriendRequestsRequest) returns (GetPendingFriendRequestsResponse);
+	rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+	rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+	rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+	rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
 message ProfileRequest {}
@@ -49,4 +54,9 @@ message GetPendingFriendRequestsRequest {}
 
 message GetPendingFriendRequestsResponse {
 	repeated PendingFriendRequest friend_requests = 1;
+}
+
+message FriendRequest {
+	int64 requester_id = 1;
+	int64 receiver_id = 2;
 }
