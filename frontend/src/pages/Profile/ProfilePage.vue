@@ -6,7 +6,6 @@
       :displayName="mockSelfUser.displayName"
       :username="mockSelfUser.username"
     />
-
     <CellGroup>
       <Cell title="Edit profile" is-link @click="goToEditProfile" />
       <Cell title="Friends" is-link />
