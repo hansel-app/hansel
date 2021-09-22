@@ -6,6 +6,9 @@
     :displayName="mockSelfUser.displayName"
     :username="mockSelfUser.username"
   />
+  <van-button class="edit-button"
+    ><van-icon name="edit" size="40px"
+  /></van-button>
 </template>
 
 <script lang="ts">
