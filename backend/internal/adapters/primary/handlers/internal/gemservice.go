@@ -102,12 +102,7 @@ func (s *gemService) PickUp(
 	c context.Context,
 	r *gemsapi.PickUpRequest,
 ) (*emptypb.Empty, error) {
-	userID, ok := c.Value(contextkeys.UserID).(int64)
-	if !ok {
-		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
-	}
-
-	err := s.usecases.PickUpGem(r.GetId(), userID)
+	err := s.usecases.PickUpGem(r.GetId())
 	if err != nil {
 		return nil, err
 	}

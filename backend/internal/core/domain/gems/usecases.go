@@ -22,6 +22,6 @@ func (u *UseCases) GetPendingCollectionByUser(userId int64) ([]Gem, error) {
 	return u.repository.GetPendingCollectionByUser(userId)
 }
 
-func (u *UseCases) PickUpGem(id int64, userId int64) error {
-	return u.repository.PickUpGem(id, userId)
+func (u *UseCases) PickUpGem(id int64) error {
+	return u.repository.PickUpGem(id)
 }
