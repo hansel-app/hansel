@@ -5,6 +5,7 @@ import {
   DropResponse,
   GemMessage,
   GetPendingCollectionForUserResponse,
+  GemLogs,
 } from "@/protobuf/gem_pb";
 import {
   gemColorToProtoGemColorMapper,
@@ -17,6 +18,7 @@ import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
+  gemLogs?: GemLogs;
   dropGemFormState: DropGemFormState;
 }
 
@@ -30,6 +32,9 @@ const gemsModule: Module<GemsState, RootState> = {
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
+    },
+    setGemLogs(state, gemLogs: GemLogs) {
+      state.gemLogs = gemLogs;
     },
     updateDropGemFormState(state, dropGemFormState: Partial<DropGemFormState>) {
       state.dropGemFormState = {
@@ -49,6 +54,18 @@ const gemsModule: Module<GemsState, RootState> = {
           .then((resp: GetPendingCollectionForUserResponse) => {
             const gems: Gem[] = resp.getGemsList().map(protoGemToGemMapper);
             commit("setGemsPendingCollection", gems);
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    getGemLogs({ commit }) {
+      return new Promise((resolve, reject) => {
+        services.gemsClient
+          .getGemLogs(new Empty())
+          .then((resp: GemLogs) => {
+            const gemLogs = resp.getGemLogsMap();
+            commit("setGemLogs", gemLogs);
             resolve(resp);
           })
           .catch((err) => reject(err));
