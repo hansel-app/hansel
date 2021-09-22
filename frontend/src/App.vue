@@ -1,5 +1,13 @@
 <template>
-  <router-view :key="$route.fullPath"></router-view>
+  <router-view :key="$route.fullPath" v-slot="{ Component, route }">
+    <transition
+      :enter-active-class="route.meta.enterClass"
+      :leave-active-class="route.meta.leaveClass"
+      mode="out-in"
+    >
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script>
@@ -8,7 +16,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",
 });
-</script>
+</script> 
 
 <style lang="less">
 #app {

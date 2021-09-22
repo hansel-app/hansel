@@ -5,10 +5,9 @@ const path = require("path");
 module.exports = {
   // customises settings for manifest.json
 
-  // we can plonk other vue-cli plugin options here
   publicPath: process.env.CI ? "/hansel/" : "/",
   pwa: {
-    name: "frontend",
+    name: "hansel",
     themeColor: "#4DBA87",
     msTileColor: "#000000",
     appleMobileWebAppCapable: "yes",
