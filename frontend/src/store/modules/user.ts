@@ -53,10 +53,7 @@ const userModule: Module<UserState, RootState> = {
       state.friends = friends;
     },
     setFriendRequests(state, pendingFriends: PendingFriendRequest[]) {
-      state.friends.splice(0, state.friends.length);
-      pendingFriends.forEach((friendRequest) =>
-        state.friendRequests.push(friendRequest)
-      );
+      state.friendRequests = pendingFriends;
     },
     updateSendFriendRequestStatus(state, isSuccess: boolean) {
       state.isSendFriendRequestSuccessful = isSuccess;
@@ -66,7 +63,6 @@ const userModule: Module<UserState, RootState> = {
     // Used an action here instead of directly committing as
     // actions are asynchronous.
     updateCurrentPosition({ commit }, newPosition) {
-      console.log(newPosition);
       commit("setCurrPosition", newPosition);
     },
     getOwnProfile({ commit }) {
@@ -78,8 +74,15 @@ const userModule: Module<UserState, RootState> = {
               .getFriendsList()
               .map(protoUserToUserMapper);
             commit("setFriends", friends);
+
             const self = resp.getInfo();
-            commit("setSelfInfo", self);
+            if (!self) {
+              throw new Error(
+                "Failed to retrieve information about current logged in user"
+              );
+            }
+            commit("setSelfInfo", protoUserToUserMapper(self));
+
             resolve(resp);
           })
           .catch((err) => reject(err));
