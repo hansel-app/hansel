@@ -20,6 +20,7 @@
         label="Display name"
         placeholder="Display name"
       />
+      <van-button round type="primary"> Save </van-button>
     </van-form>
   </div>
   <ProfilePageBg />
