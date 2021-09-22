@@ -16,16 +16,16 @@ service UserService {
   rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
-message GetOwnProfileResponse {
-  User info = 1;
-  repeated User friends = 2;
-}
-
 message User {
   int64 user_id = 1;
   string display_name = 2;
   string username = 3;
   bytes avatar = 4;
+}
+
+message GetOwnProfileResponse {
+  User info = 1;
+  repeated User friends = 2;
 }
 
 message SearchByUsernameRequest {
@@ -36,13 +36,13 @@ message SearchByUsernameResponse {
   repeated User users = 1;
 }
 
+message GetFriendsResponse {
+  repeated User friends = 1;
+}
+
 message PendingFriendRequest {
   User requester = 1;
   google.protobuf.Timestamp sent_at = 2;
-}
-
-message GetFriendsResponse {
-  repeated User friends = 1;
 }
 
 message GetFriendRequestsResponse {
