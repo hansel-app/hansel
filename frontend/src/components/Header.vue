@@ -2,6 +2,7 @@
     <div class="page-header container">
         <van-row>
             <img id="icon-left" :class="isBackIconDisplayed" :src="arrowLeft" @click="goBack">
+            <slot />
             <img id="icon-right" :class="isCrossIconDisplayed" :src="cross" @click="goToHome">
         </van-row>
         <van-row>
