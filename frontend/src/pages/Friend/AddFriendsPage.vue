@@ -2,7 +2,11 @@
   <div class="background-gradient">
     <Header title="Add friends" />
     <div class="container">
-      <Search placeholder="Search by username" />
+      <Search
+        placeholder="Search by username"
+        v-model="searchQuery"
+        @input="handleSearch"
+      />
       <CellGroup>
         <FriendCell
           v-for="user in filteredUsers"
@@ -21,8 +25,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
-import { mockFriends } from "@/interfaces/mockData";
 import { User } from "@/interfaces";
+import { useStore } from "vuex";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
 
@@ -35,8 +39,9 @@ export default defineComponent({
   },
   data() {
     return {
-      mockFriends,
       searchQuery: "",
+      users: [] as User[],
+      store: useStore(),
     };
   },
   computed: {
@@ -45,23 +50,21 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
-      return mockFriends.filter((user) => {
-        const matchUsername = user.username
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
-        const matchDisplayname = user.displayName
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
-        return matchUsername || matchDisplayname;
-      });
+      return this.users;
     },
   },
   methods: {
     goBack() {
       this.$router.back();
     },
-    addFriend() {
-      console.log("add friend");
+    handleSearch() {
+      this.store.dispatch("searchByUsername", this.searchQuery)
+        .then((users: User[]) => {
+          this.users = users;
+        });
+    },
+    addFriend(receiverId: number) {
+      this.store.dispatch("sendFriendRequest", receiverId);
     },
   },
 });

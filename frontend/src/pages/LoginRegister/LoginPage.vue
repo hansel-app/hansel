@@ -27,17 +27,19 @@
 <script>
 import { defineComponent } from "vue";
 import { HOME_ROUTE } from "@/constants";
+import { useStore } from "vuex";
 
 export default defineComponent({
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      store: useStore(),
     };
   },
   methods: {
     handleLogin() {
-      this.$store.dispatch('login', {
+      this.store.dispatch('login', {
         username: this.username,
         password: this.password
       }).then(() => this.$router.push(HOME_ROUTE))

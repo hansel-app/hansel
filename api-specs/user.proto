@@ -2,21 +2,54 @@ syntax = "proto3";
 package usersapi;
 option go_package = "/usersapi";
 
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
 service UserService {
-	rpc getProfile (ProfileRequest) returns (ProfileResponse);
+  rpc GetOwnProfile (google.protobuf.Empty) returns (GetOwnProfileResponse);
+  rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
+  rpc GetFriends (google.protobuf.Empty) returns (GetFriendsResponse);
+  rpc GetFriendRequests (google.protobuf.Empty) returns (GetFriendRequestsResponse);
+  rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
-message ProfileRequest {
-	int64 user_id = 1;
+message User {
+  int64 user_id = 1;
+  string display_name = 2;
+  string username = 3;
+  bytes avatar = 4;
 }
 
-message ProfileResponse {
-	PersonInfo info = 1;
-	repeated PersonInfo friends = 2;
+message GetOwnProfileResponse {
+  User info = 1;
+  repeated User friends = 2;
 }
 
-message PersonInfo {
-	string user_id = 1;
-	string name = 2;
-	string username = 3;
+message SearchByUsernameRequest {
+  string search_query = 1;
+}
+
+message SearchByUsernameResponse {
+  repeated User users = 1;
+}
+
+message GetFriendsResponse {
+  repeated User friends = 1;
+}
+
+message PendingFriendRequest {
+  User requester = 1;
+  google.protobuf.Timestamp sent_at = 2;
+}
+
+message GetFriendRequestsResponse {
+  repeated PendingFriendRequest friend_requests = 1;
+}
+
+message FriendRequest {
+  int64 requester_id = 1;
+  int64 receiver_id = 2;
 }

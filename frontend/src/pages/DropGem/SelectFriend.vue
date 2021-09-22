@@ -29,13 +29,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { CellGroup } from "vant";
-import { mockFriends } from "@/interfaces/mockData";
 import { User } from "@/interfaces";
 import FriendCell from "@/components/FriendCell.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import Header from "@/components/Header.vue";
+import { mapState, useStore } from "vuex";
 
 export default defineComponent({
   components: {
@@ -44,13 +44,23 @@ export default defineComponent({
     Header,
     Searchbar,
   },
+  setup() {
+    const store = useStore();
+    const fetchFriends = () => store.dispatch("getFriends");
+
+    onMounted(() => {
+      fetchFriends();
+    });
+  },
   data() {
     return {
-      allFriends: mockFriends,
       searchQuery: "",
     };
   },
   computed: {
+    ...mapState({
+      allFriends: (state: any) => state.user.friends as User[],
+    }),
     filteredFriends(): User[] {
       if (this.searchQuery.length === 0) {
         return this.allFriends;

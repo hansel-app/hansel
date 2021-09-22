@@ -31,3 +31,41 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 
 	return user.ID, nil
 }
+
+// TODO: we need user's display name and avatar as well
+func (u *UseCases) Register(username string, password string) (int64, error) {
+	// TODO: check if user with same username already exists?
+	return u.repository.Add(&User{
+		Username: username,
+		// TODO: hash
+		HashedPassword: password,
+	})
+}
+
+func (u *UseCases) Get(userID int64) (*User, error) {
+	return u.repository.Get(userID)
+}
+
+func (u *UseCases) SearchByUsername(searchQuery string) ([]User, error) {
+	return u.repository.SearchByUsername(searchQuery)
+}
+
+func (u *UseCases) GetFriends(userID int64) ([]*User, error) {
+	return u.repository.GetFriends(userID)
+}
+
+func (u *UseCases) GetFriendRequests(userID int64) ([]*FriendRelationship, error) {
+	return u.repository.GetFriendRequests(userID)
+}
+
+func (u *UseCases) AddFriendRequest(requesterID int64, receiverID int64) error {
+	return u.repository.AddFriendRequest(requesterID, receiverID)
+}
+
+func (u *UseCases) AcceptFriendRequest(requesterID, receiverID int64) error {
+	return u.repository.AcceptFriendRequest(requesterID, receiverID)
+}
+
+func (u *UseCases) DeclineFriendRequest(requesterID, receiverID int64) error {
+	return u.repository.DeclineFriendRequest(requesterID, receiverID)
+}
