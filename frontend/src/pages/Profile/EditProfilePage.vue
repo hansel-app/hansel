@@ -1,10 +1,12 @@
 <template>
   <div class="overlay">
     <Header title="Edit Profile" />
-    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
-    <van-button class="edit-button"
-      ><van-icon name="edit" size="40px"
-    /></van-button>
+    <div class="avatar-container">
+      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+      <van-button class="edit-button overlay"
+        ><van-icon name="edit" size="40px"
+      /></van-button>
+    </div>
     <van-form>
       <van-field
         v-model="username"
@@ -58,5 +60,17 @@ export default defineComponent({
 <style scoped lang="less">
 .sub-header {
   text-align: left;
+}
+.avatar-container {
+  position: relative;
+  width: 5rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+.edit-button {
+  position: absolute;
+  bottom: 0;
 }
 </style>
