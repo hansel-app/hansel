@@ -5,13 +5,13 @@
         <HamburgerMenu ref="hamburgerMenu" />
         <div>
           <gem-map :gems="gems" />
-          <div class="profile-button"></div>
         </div>
       </div>
     </template>
     <template #fallback>
-      <!-- TODO: add more useful loading / error message -->
-      <Loading size="24px">Loading...</Loading>
+      <van-row class="loading-container" justify="center" align="center">
+        <Loading class="loading" size="36px">Loading...</Loading>
+      </van-row>
     </template>
   </Suspense>
 </template>
@@ -47,14 +47,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.container {
-  position: relative;
-
-  .profile-button {
-    position: absolute;
-    z-index: 10;
-    top: 4px;
-    left: 4px;
-  }
+.loading-container {
+  height: 100vh;
 }
 </style>
