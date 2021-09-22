@@ -63,7 +63,7 @@ func (r *userRepository) Add(user *users.User) (int64, error) {
 	var userId int64
 	err := r.db.QueryRow(sql).Scan(&userId)
 	if err != nil {
-		return -1, fmt.Errorf("unable to insert user: %w", err)
+		return 0, fmt.Errorf("unable to insert user: %w", err)
 	}
 
 	return userId, nil
