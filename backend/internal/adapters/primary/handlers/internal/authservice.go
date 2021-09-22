@@ -39,3 +39,17 @@ func (s *authService) Login(ctx context.Context, r *authapi.LoginRequest) (*auth
 		AccessToken: token,
 	}, nil
 }
+
+func (s *authService) Register(
+	c context.Context,
+	r *authapi.RegisterRequest,
+) (*authapi.RegisterResponse, error) {
+	userId, err := s.usecases.Register(r.DisplayName, r.Username, r.Password)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &authapi.RegisterResponse{
+		UserId: userId,
+	}, nil
+}

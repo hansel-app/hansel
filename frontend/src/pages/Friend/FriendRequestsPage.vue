@@ -28,12 +28,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { mockFriends } from "@/interfaces/mockData";
+import { User } from "@/protobuf/user_pb";
 import FriendCell from "@/components/FriendCell.vue";
+import { useStore } from "vuex";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    const fetchFriendRequests = () => store.dispatch("getFriendRequests");
+
+    onMounted(() => fetchFriendRequests);
+  },
   components: {
     FriendCell,
     Header,
@@ -41,17 +49,25 @@ export default defineComponent({
   data() {
     return {
       mockFriends,
+      store: useStore(),
     };
+  },
+  computed: {
+    // TODO: replace mockFriends with this.
+    // Not sure how to update the seed haha so I'll leave it.
+    pendingFriendRequests(): User[] {
+      return this.store.state.user.friendRequests;
+    },
   },
   methods: {
     goBack() {
       this.$router.back();
     },
-    acceptFriendRequest() {
-      console.log("accept friend request");
+    acceptFriendRequest(senderId: number) {
+      this.store.dispatch("acceptFriendRequest", senderId);
     },
-    declineFriendRequest() {
-      console.log("decline friend request");
+    declineFriendRequest(senderId: number) {
+      this.store.dispatch("declineFriendRequest", senderId);
     },
   },
 });

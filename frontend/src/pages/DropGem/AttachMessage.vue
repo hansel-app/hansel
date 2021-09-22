@@ -18,7 +18,6 @@
 import { defineComponent } from "vue";
 import { Field } from "vant";
 import GemHeader from "@/components/GemHeader.vue";
-import { HOME_ROUTE } from "@/constants";
 import { GemColor } from "@/interfaces";
 import { mapState } from "vuex";
 
@@ -32,12 +31,6 @@ export default defineComponent({
     ...mapState({
       color: (state: any) => state.gems.dropGemFormState.color as GemColor,
     }),
-  },
-  methods: {
-    dropGem: function() {
-      console.log("Dropping gem");
-      this.$router.replace(HOME_ROUTE);
-    },
   },
 });
 </script>

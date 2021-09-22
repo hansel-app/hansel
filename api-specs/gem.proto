@@ -2,14 +2,13 @@ syntax = "proto3";
 package gemsapi;
 option go_package = "/gemsapi";
 
+import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
-  rpc GetPendingCollectionForUser (GetPendingCollectionForUserRequest) returns (GetPendingCollectionForUserResponse);
-  rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
-  // TODO: Replace placeholder methods.
+  rpc GetPendingCollectionForUser (google.protobuf.Empty) returns (GetPendingCollectionForUserResponse);
 }
 
 enum GemColor {
@@ -60,16 +59,6 @@ message GetResponse {
   string message = 2;
 }
 
-message GetPendingCollectionForUserRequest {}
-
 message GetPendingCollectionForUserResponse {
   repeated Gem gems = 1;
-}
-
-message SayHelloRequest {
-  string name = 1;
-}
-
-message SayHelloResponse {
-  string message = 1;
 }
