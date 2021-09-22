@@ -168,6 +168,7 @@ export default defineComponent({
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
       openedInfoWindowGem: ref<Gem | null>(null),
+      store,
     };
   },
 
@@ -316,8 +317,11 @@ export default defineComponent({
     },
 
     pickUpGem() {
-      // TODO: send RPC call to set receiver_id.
-      // Gem selected is based on this.openedInfoWindowGem
+      if (!this.openedInfoWindowGem) {
+        console.error("No gem selected for picking up");
+      }
+      this.store.dispatch("pickUpGem", { gemId: this.openedInfoWindowGem.id });
+
       this.$router.push(PICKUP_GEM_ROUTE);
     },
   },
