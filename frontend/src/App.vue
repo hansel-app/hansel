@@ -1,10 +1,10 @@
 <template>
-  <router-view :key="$route.fullPath" v-slot="{ Component, route }">
+  <router-view v-slot="{ Component, route }" :key="$route.fullPath">
     <transition
       :enter-active-class="route.meta.enterClass"
       :leave-active-class="route.meta.leaveClass"
       mode="out-in"
-    >
+     >
       <component :is="Component" />
     </transition>
   </router-view>
@@ -57,5 +57,16 @@ export default defineComponent({
     url(./assets/fonts/CircularStd-MediumItalic.otf) format("truetype");
   font-weight: lighter;
   font-style: italic;
+}
+
+.fade-enter-from,
+.fade-leave-to,
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s ease-out;
 }
 </style>

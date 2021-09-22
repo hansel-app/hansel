@@ -63,6 +63,10 @@ const router = createRouter({
           },
         },
       ],
+      meta: {
+        enterClass: 'animate__animated animate__fadeInRight',
+        leaveClass: 'animate__animated animate__fadeOutLeft',
+      }
     },
     { path: PROFILE_ROUTE, component: ProfilePage },
     { path: ADD_FRIENDS_ROUTE, component: AddFriendPage },

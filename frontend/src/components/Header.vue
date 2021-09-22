@@ -59,7 +59,7 @@ export default defineComponent({
             this.$router.push({ name: 'home'});
         },
         goBack() {
-            return this.$router.push(this.backLink);
+            this.$router.push(this.backLink);
         },
     }
 })
