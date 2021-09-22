@@ -3,6 +3,7 @@
     :friend="friend"
     :isClickable="true"
     :labelOverride="previewMessage"
+    @click="goToLogsPreview"
   />
 </template>
 
@@ -10,6 +11,7 @@
 import { defineComponent, PropType } from "vue";
 import { useStore } from "vuex";
 import { User, Gem } from "@/interfaces";
+import { GEM_LOGS_ROUTE } from "@/constants";
 import FriendCell from "@/components/FriendCell.vue";
 
 enum GemActivityPreviewMessage {
@@ -56,6 +58,11 @@ export default defineComponent({
   },
   components: {
     FriendCell,
+  },
+  methods: {
+    goToLogsPreview(): void {
+      this.$router.push(`${GEM_LOGS_ROUTE}/${this.friend.id}`);
+    },
   },
 });
 </script>
