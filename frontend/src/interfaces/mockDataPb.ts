@@ -5,10 +5,10 @@ import {
   Gem as GemPb,
   GemLogsWithFriend,
   GemColor,
-} from "@/protobuf/gem_pb.d.ts";
+} from "@/protobuf/gem_pb";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { User as UserPb } from "@/protobuf/user_pb.d.ts";
+import { User as UserPb } from "@/protobuf/user_pb";
 
 const buildGemPb = (gem: GemPb.AsObject): GemPb => {
   const gemPb = new GemPb();
