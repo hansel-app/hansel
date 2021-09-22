@@ -52,10 +52,18 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 }
 
 func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
-	sql, _, _ := qb.Insert("gems").Rows(gem).Returning("id").ToSQL()
+	// Necessary to use prepared statements here due to a bug in how goqu parses
+	// bytes (used for the gem attachments)
+	// More info here: https://github.com/doug-martin/goqu/issues/254
+	sql, args, _ := qb.Insert("gems").Prepared(true).Rows(gem).Returning("id").ToSQL()
 
 	var gemId int64
-	err := r.db.QueryRow(sql).Scan(&gemId)
+	stmt, err := r.db.Prepare(sql)
+	if err != nil {
+		return -1, fmt.Errorf("failed to prepare statement: %w", err)
+	}
+
+	err = stmt.QueryRow(args...).Scan(&gemId)
 	if err != nil {
 		return -1, fmt.Errorf("unable to add gem: %w", err)
 	}
