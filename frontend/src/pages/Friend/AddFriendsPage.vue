@@ -14,8 +14,11 @@
           :friend="user"
           :shouldDisplayUsername="true"
         >
-          <!-- TODO: find correct add user icon -->
-          <van-icon name="user-o" @click="addFriend" />
+          <van-icon
+            :name="require('@/assets/icons/user-plus.svg')"
+            size="24"
+            @click="addFriend"
+          />
         </FriendCell>
       </CellGroup>
     </div>
@@ -58,7 +61,8 @@ export default defineComponent({
       this.$router.back();
     },
     handleSearch() {
-      this.store.dispatch("searchByUsername", this.searchQuery)
+      this.store
+        .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {
           this.users = users;
         });
