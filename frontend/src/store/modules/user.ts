@@ -3,11 +3,8 @@ import { LatLng, User } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
 import {
   User as ProtoUser,
-  ProfileRequest,
   ProfileResponse,
-  GetFriendsRequest,
   GetFriendsResponse,
-  GetPendingFriendRequestsRequest,
   GetPendingFriendRequestsResponse,
   PendingFriendRequest,
   FriendRequest,
@@ -16,6 +13,7 @@ import {
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
 import { Module } from "vuex";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
 export interface UserState {
   friends: User[];
@@ -72,11 +70,9 @@ const userModule: Module<UserState, RootState> = {
       commit("setCurrPosition", newPosition);
     },
     getOwnProfile({ commit }) {
-      const request = new ProfileRequest();
-
       return new Promise((resolve, reject) => {
         services.userClient
-          .getProfile(request)
+          .getProfile(new Empty())
           .then((resp: ProfileResponse) => {
             const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
             commit("setFriends", friends);
@@ -88,11 +84,9 @@ const userModule: Module<UserState, RootState> = {
       });
     },
     getFriends({ commit }) {
-      const request = new GetFriendsRequest();
-
       return new Promise((resolve, reject) => {
         services.userClient
-          .getFriends(request)
+          .getFriends(new Empty())
           .then((resp: GetFriendsResponse) => {
             const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
             commit("setFriends", friends);
@@ -116,11 +110,9 @@ const userModule: Module<UserState, RootState> = {
       });
     },
     getFriendRequests({ commit }) {
-      const request = new GetPendingFriendRequestsRequest();
-
       return new Promise((resolve, reject) => {
         services.userClient
-          .getFriendRequests(request)
+          .getFriendRequests(new Empty())
           .then((resp: GetPendingFriendRequestsResponse) => {
             const pendingFriends: PendingFriendRequest[] = resp.getFriendRequestsList();
             commit("setFriendRequests", pendingFriends);

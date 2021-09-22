@@ -2,21 +2,19 @@ syntax = "proto3";
 package usersapi;
 option go_package = "/usersapi";
 
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 service UserService {
-  rpc GetProfile (ProfileRequest) returns (ProfileResponse);
+  rpc GetProfile (google.protobuf.Empty) returns (ProfileResponse);
   rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
-  rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
-  rpc GetFriendRequests (GetPendingFriendRequestsRequest) returns (GetPendingFriendRequestsResponse);
+  rpc GetFriends (google.protobuf.Empty) returns (GetFriendsResponse);
+  rpc GetFriendRequests (google.protobuf.Empty) returns (GetPendingFriendRequestsResponse);
   rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
-
-message ProfileRequest {}
 
 message ProfileResponse {
   User info = 1;
@@ -43,13 +41,9 @@ message PendingFriendRequest {
   google.protobuf.Timestamp sent_at = 2;
 }
 
-message GetFriendsRequest {}
-
 message GetFriendsResponse {
   repeated User friends = 1;
 }
-
-message GetPendingFriendRequestsRequest {}
 
 message GetPendingFriendRequestsResponse {
   repeated PendingFriendRequest friend_requests = 1;

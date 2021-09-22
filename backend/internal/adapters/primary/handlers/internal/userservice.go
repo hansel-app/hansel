@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -26,7 +27,7 @@ func NewUserService(repository users.Repository) *userService {
 
 func (s *userService) GetProfile(
 	c context.Context,
-	r *usersapi.ProfileRequest,
+	_ *empty.Empty,
 ) (*usersapi.ProfileResponse, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
@@ -38,7 +39,7 @@ func (s *userService) GetProfile(
 		return nil, err
 	}
 
-	getFriendsResponse, err := s.GetFriends(c, &usersapi.GetFriendsRequest{})
+	getFriendsResponse, err := s.GetFriends(c, &empty.Empty{})
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +57,7 @@ func (s *userService) GetProfile(
 
 func (s *userService) GetFriends(
 	c context.Context,
-	r *usersapi.GetFriendsRequest,
+	_ *empty.Empty,
 ) (*usersapi.GetFriendsResponse, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
@@ -110,7 +111,7 @@ func (s *userService) SearchByUsername(
 
 func (s *userService) GetFriendRequests(
 	c context.Context,
-	r *usersapi.GetPendingFriendRequestsRequest,
+	_ *empty.Empty,
 ) (*usersapi.GetPendingFriendRequestsResponse, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
