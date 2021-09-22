@@ -7,4 +7,5 @@ type Repository interface {
 	Add(gem *Gem) (int64, error)
 	Update(gem *Gem) (*Gem, error)
 	Remove(id int64) error
+	GetGemLogs(id int64) (map[int64]([]Gem), error)
 }

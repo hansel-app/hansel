@@ -79,3 +79,7 @@ func (r *gemRepository) Remove(id int64) error {
 	// TODO: Add real logic.
 	return nil
 }
+
+func (r *gemRepository) GetGemLogs(id int64) (map[int64]([]gems.Gem), error) {
+	return nil, nil
+}
