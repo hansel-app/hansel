@@ -42,6 +42,7 @@
             icon-prefix="pick-up-button-icon"
             :icon="require('@/assets/icons/chevron-right-circle.svg')"
             icon-position="right"
+            @click="pickUpGem"
           >
             Pick up
           </van-button>
@@ -104,6 +105,7 @@ import {
   DEFAULT_MAP_CONFIG,
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
+  PICKUP_GEM_ROUTE,
 } from "@/constants";
 import { Gem, GemColor, LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
@@ -312,6 +314,12 @@ export default defineComponent({
     hidePopup() {
       this.shouldShowPopup = false;
     },
+
+    pickupGem() {
+      // TODO: send RPC call to set receiver_id.
+      // Gem selected is based on this.openedInfoWindowGem
+      this.$router.push(PICKUP_GEM_ROUTE);
+    },
   },
 });
 </script>
@@ -363,6 +371,6 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   border-radius: 1rem;
   box-shadow: @shadow-medium;
-  background: @white;
+  background: @white !important;
 }
 </style>
