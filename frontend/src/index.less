@@ -157,11 +157,22 @@
 
 // Background gradient
 .background-gradient {
-  background: @gradient-blue; 
+  background: @gradient-blue;
   height: 100vh;
   position: relative;
 }
 
-.van-cell-group, .van-cell {
+.van-cell-group,
+.van-cell {
   background: none;
+}
+
+// Overlay on top of another component
+// Note component must have position: relative
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
