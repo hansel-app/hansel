@@ -35,7 +35,7 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 	return user.ID, nil
 }
 
-func (u *UseCases) Register(username string, password string) (int64, error) {
+func (u *UseCases) Register(displayName string, username string, password string) (int64, error) {
 	_, err := u.repository.GetByUsername(username)
 	if err == nil {
 		return 0, errors.New("user already exists")
@@ -47,6 +47,7 @@ func (u *UseCases) Register(username string, password string) (int64, error) {
 	}
 
 	return u.repository.Add(&User{
+		DisplayName:    displayName,
 		Username:       username,
 		HashedPassword: string(hashedPassword),
 	})

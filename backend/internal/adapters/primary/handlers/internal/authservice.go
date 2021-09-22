@@ -44,7 +44,7 @@ func (s *authService) Register(
 	c context.Context,
 	r *authapi.RegisterRequest,
 ) (*authapi.RegisterResponse, error) {
-	userId, err := s.usecases.Register(r.Username, r.Password)
+	userId, err := s.usecases.Register(r.DisplayName, r.Username, r.Password)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
