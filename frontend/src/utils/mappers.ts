@@ -1,7 +1,8 @@
-import { Gem as ProtoGem, GemColor as ProtoGemColor } from "@/protobuf/gem_pb";
+import { Gem, GemColor, User } from "@/interfaces";
 import { mockFriends, mockSelfUser } from "@/interfaces/mockData";
+import { Gem as ProtoGem, GemColor as ProtoGemColor } from "@/protobuf/gem_pb";
+import { User as ProtoUser } from "@/protobuf/user_pb";
 import dayjs from "dayjs";
-import { Gem, GemColor } from "@/interfaces";
 
 export const protoGemColorToGemColorMapper = (
   protoGemColor: ProtoGemColor
@@ -59,5 +60,14 @@ export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
     receiver: mockSelfUser,
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
+  };
+};
+
+export const protoUserToUserMapper = (protoUser: ProtoUser): User => {
+  return {
+    id: protoUser.getUserId(),
+    username: protoUser.getUsername(),
+    displayName: protoUser.getDisplayName(),
+    avatar: protoUser.getAvatar_asB64(),
   };
 };
