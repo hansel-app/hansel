@@ -26,6 +26,7 @@ export default defineComponent({
     height: 80vh;
     width: 200vw;
     border-radius: 0 0 50% 50%;
+    background-color: #e4bfbf;
     transition: background-color 1s ease;
   }
 }

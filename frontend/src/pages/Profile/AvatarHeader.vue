@@ -1,10 +1,17 @@
 <template>
-  <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
-  <h2>{{ displayName }}</h2>
-  <h4>{{ "@" + username }}</h4>
-  <CellGroup>
-    <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
-  </CellGroup>
+  <div class="overlay">
+    <van-row>
+      <CircleAvatar
+        :avatarUrl="placeholderAvatarUrl"
+        radius="5"
+        class="overlay"
+      />
+    </van-row>
+    <van-row>
+      <h2 class="overlay">{{ displayName }}</h2>
+    </van-row>
+    <h4 class="overlay">{{ "@" + username }}</h4>
+  </div>
 </template>
 
 <script lang="ts">
