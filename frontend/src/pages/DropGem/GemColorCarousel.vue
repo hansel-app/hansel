@@ -2,7 +2,7 @@
   <Swiper
     ref="swiperRef"
     :slides-per-view="4"
-    :space-between="50"
+    :space-between="25"
     :centered-slides="true"
     :slide-to-clicked-slide="true"
     @real-index-change="onRealIndexChange"
