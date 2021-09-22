@@ -41,6 +41,25 @@ const protoGemColorToGemColorMapper = (
   }
 };
 
+const gemColorToProtoGemColorMapper = (gemColor: GemColor): ProtoGemColor => {
+  switch (gemColor) {
+    case GemColor.PURPLE:
+      return ProtoGemColor.PURPLE;
+    case GemColor.PINK:
+      return ProtoGemColor.PINK;
+    case GemColor.BLUE:
+      return ProtoGemColor.BLUE;
+    case GemColor.BLACK:
+      return ProtoGemColor.BLACK;
+    case GemColor.YELLOW:
+      return ProtoGemColor.YELLOW;
+    case GemColor.GREEN:
+      return ProtoGemColor.GREEN;
+    default:
+      throw new Error("Unknown gem color received!");
+  }
+};
+
 const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
   return {
     id: protoGem.getId(),
@@ -110,7 +129,9 @@ const gemsModule: Module<GemsState, RootState> = {
       const gemMessage = new GemMessage();
       gemMessage.setMessage(dropGemFormState.message);
       gemMessage.setReceiverId(dropGemFormState.receiverId);
-      gemMessage.setColor(dropGemFormState.color);
+      gemMessage.setColor(
+        gemColorToProtoGemColorMapper(dropGemFormState.color)
+      );
       gemMessage.setAttachment(
         await blobToUint8Array(dropGemFormState.attachment)
       );

@@ -51,16 +51,9 @@ export default defineComponent({
     onSelectedColorChanged(selectedColor: GemColor) {
       this.$emit("set-gem-color-event", selectedColor);
     },
-    afterFileRead(fileListItems: UploaderFileListItem[]) {
-      if (fileListItems.length === 0) {
-        return;
-      }
-      console.assert(
-        fileListItems.length === 1,
-        "Only one attachment can be uploaded"
-      );
+    afterFileRead(fileListItem: UploaderFileListItem) {
       this.store.commit("updateDropGemFormState", {
-        attachment: fileListItems[0].file,
+        attachment: fileListItem.file,
       });
     },
   },
