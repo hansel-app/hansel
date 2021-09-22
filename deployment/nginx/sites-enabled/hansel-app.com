@@ -26,7 +26,7 @@ server {
 }
 
 server {
-  listen 443 ssl;
+  listen 443 ssl http2;
   server_name hansel-app.com;
   root /build;
   index index.html;
