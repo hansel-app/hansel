@@ -13,6 +13,8 @@
         name="Username"
         label="Username"
         placeholder="username"
+        readonly
+        error-message="Username cannot be changed"
       />
       <van-field
         v-model="displayName"
