@@ -2,7 +2,7 @@ import services from "@/api/services";
 import { LatLng, User } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
 import {
-  PersonInfo as ProtoUser,
+  User as ProtoUser,
   ProfileRequest,
   ProfileResponse,
   GetFriendsRequest,
@@ -18,7 +18,7 @@ import { Module } from "vuex";
 export interface UserState {
   friends: User[];
 
-  // PendingFriendRequests includes PersonInfo + datetime of request.
+  // PendingFriendRequests includes User + datetime of request.
   friendRequests: PendingFriendRequest[];
   isSendFriendRequestSuccessful: boolean;
   self?: User;

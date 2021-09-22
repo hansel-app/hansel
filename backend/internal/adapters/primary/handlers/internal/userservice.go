@@ -46,7 +46,7 @@ func (s *userService) GetProfile(
 	}
 
 	return &usersapi.ProfileResponse{
-		Info: &usersapi.PersonInfo{
+		Info: &usersapi.User{
 			UserId:      userInfo.ID,
 			DisplayName: userInfo.DisplayName,
 			Username:    userInfo.Username,
@@ -70,10 +70,10 @@ func (s *userService) GetFriends(
 		return nil, err
 	}
 
-	var friendsInfo []*usersapi.PersonInfo
+	var friendsInfo []*usersapi.User
 	for _, f := range friends {
 		friendsInfo = append(friendsInfo,
-			&usersapi.PersonInfo{
+			&usersapi.User{
 				UserId:      f.ID,
 				DisplayName: f.DisplayName,
 				Username:    f.Username,
@@ -95,9 +95,9 @@ func (s *userService) SearchByUsername(
 		return nil, err
 	}
 
-	matchingUsersInfo := make([]*usersapi.PersonInfo, len(matchingUsers))
+	matchingUsersInfo := make([]*usersapi.User, len(matchingUsers))
 	for i, user := range matchingUsers {
-		matchingUsersInfo[i] = &usersapi.PersonInfo{
+		matchingUsersInfo[i] = &usersapi.User{
 			UserId:      user.ID,
 			DisplayName: user.DisplayName,
 			Username:    user.Username,
@@ -129,7 +129,7 @@ func (s *userService) GetFriendRequests(
 		requester := f.Requester
 		friendRequests = append(friendRequests,
 			&usersapi.PendingFriendRequest{
-				Requester: &usersapi.PersonInfo{
+				Requester: &usersapi.User{
 					UserId:      requester.ID,
 					DisplayName: requester.DisplayName,
 					Username:    requester.Username,

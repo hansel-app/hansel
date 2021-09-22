@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
 import { mockFriends } from "@/interfaces/mockData";
-import { PersonInfo } from "@/protobuf/user_pb";
+import { User } from "@/protobuf/user_pb";
 import FriendCell from "@/components/FriendCell.vue";
 import { useStore } from "vuex";
 import Header from "@/components/Header.vue";
@@ -55,7 +55,7 @@ export default defineComponent({
   computed: {
     // TODO: replace mockFriends with this.
     // Not sure how to update the seed haha so I'll leave it.
-    pendingFriendRequests(): PersonInfo[] {
+    pendingFriendRequests(): User[] {
       return this.store.state.user.friendRequests;
     },
   },
