@@ -1,5 +1,6 @@
 <template>
   <div class="background-gradient">
+    <BackSwipe />
     <Header title="Friend requests"/>
     <div class="container">
       <van-cell-group>
@@ -9,7 +10,7 @@
           :friend="user"
           :shouldDisplayUsername="true"
         >
-          <div>
+          <div class="test">
             <van-button id="left-button"
               round 
               type="primary" 
@@ -30,11 +31,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mockFriends } from "@/interfaces/mockData";
+import BackSwipe from "@/components/BackSwipe.vue";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
+    BackSwipe,
     FriendCell,
     Header,
   },
@@ -58,6 +61,11 @@ export default defineComponent({
 </script>
 <style scoped>
 #left-button {
-  margin-right: 1em;
+  margin-right: 0.5em;
+}
+.test {
+  margin: auto 0 auto auto;
+  position:absolute;
+  right: 0;
 }
 </style>
