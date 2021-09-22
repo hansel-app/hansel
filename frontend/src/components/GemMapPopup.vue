@@ -9,7 +9,7 @@
             </span>
           </van-row>
           <van-row>
-            uncollected gems
+            uncollected gem(s)
           </van-row>
         </van-col>
 
