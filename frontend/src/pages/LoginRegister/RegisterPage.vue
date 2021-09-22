@@ -4,6 +4,12 @@
   <div class="container">
     <van-form @submit="handleRegister">
       <van-field
+        v-model="fullName"
+        name="fullName"
+        placeholder="Full name"
+        :rules="[{ required: true, message: 'Full name is required' }]"
+      />
+      <van-field
         v-model="username"
         name="Username"
         placeholder="Username"
@@ -18,7 +24,7 @@
       />
       <van-field
         v-model="confirmPassword"
-        type="confirmPassword"
+        type="password"
         name="confirmPassword"
         placeholder="Confirm password"
         :rules="[{ required: true, message: 'Confirm password is required' }]"
@@ -40,6 +46,7 @@ import { useStore } from "vuex";
 export default defineComponent({
   data() {
     return {
+      fullName: "",
       username: "",
       password: "",
       confirmPassword: "",
@@ -53,6 +60,7 @@ export default defineComponent({
         return;
       }
       this.store.dispatch("register", {
+        fullName: this.fullName,
         username: this.username,
         password: this.password,
       }).then(() => this.$router.push(HOME_ROUTE))

@@ -58,8 +58,9 @@ const authModule: Module<AuthState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    register({ dispatch }, payload: { username: string; password: string }) {
+    register({ dispatch }, payload: { displayName: string; username: string; password: string }) {
       const request = new RegisterRequest();
+      request.setDisplayName(payload.displayName);
       request.setUsername(payload.username);
       request.setPassword(payload.password);
 
