@@ -11,6 +11,7 @@ import {
   GetPendingCollectionForUserResponse,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
+import { blobToUint8Array } from "@/utils/attachment";
 import dayjs from "dayjs";
 import { Module } from "vuex";
 
@@ -93,14 +94,15 @@ const gemsModule: Module<GemsState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    dropGem({ commit }) {
+    async dropGem({ commit }) {
       const dropGemFormState = this.state.gems.dropGemFormState;
       console.assert(!dropGemFormState.id, "Form state was not reset properly");
 
       if (
         !dropGemFormState.message ||
         !dropGemFormState.receiverId ||
-        !dropGemFormState.color
+        !dropGemFormState.color ||
+        !dropGemFormState.attachment
       ) {
         throw new Error("Missing fields when trying to drop a gem");
       }
@@ -109,7 +111,12 @@ const gemsModule: Module<GemsState, RootState> = {
       gemMessage.setMessage(dropGemFormState.message);
       gemMessage.setReceiverId(dropGemFormState.receiverId);
       gemMessage.setColor(dropGemFormState.color);
+      gemMessage.setAttachment(
+        await blobToUint8Array(dropGemFormState.attachment)
+      );
       // TODO:  populate latlng from store
+      gemMessage.setLatitude(1.32);
+      gemMessage.setLongitude(1.432);
 
       const request = new DropRequest();
       request.setGemMessage(gemMessage);
