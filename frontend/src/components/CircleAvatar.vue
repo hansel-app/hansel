@@ -2,7 +2,7 @@
   <Image
     round
     :src="avatarUrl"
-    :style="dimensions"
+    v-bind:style="dimensions"
     :show-loading="showLoading"
     :show-error="showError"
   />

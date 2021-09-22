@@ -1,39 +1,47 @@
 <template>
   <div>
+    <div class="backswipe-area" v-touch:swipe.right="prevStage">
+    </div>
     <NavBar
       v-bind:left-arrow="currentStage > 0"
       @click-left="prevStage"
       class="nav-bar"
     />
+
     <router-view
       :name="currentStageName"
-      @nextStage="nextStage"
-      @SetReceiverEvent="setReceiverId"
-      @SetMessageEvent="setMessage"
-      @SetGemColorEvent="setGemColor"
+      @next-stage="nextStage"
+      @set-receiver-event="setReceiverId"
+      @set-message-event="setMessage"
+      @set-gem-color-event="setGemColor"
     ></router-view>
 
-    <div>
-      <van-button
-        round
-        type="info"
-        v-if="shouldShowNextButton"
-        @click="$emit('nextStage')"
-      >
-        Next
-      </van-button>
-      <van-button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
-        Drop Gem
-      </van-button>
-    </div>
+    <van-button
+      class="form-navigation-button"
+      round
+      type="primary"
+      v-if="shouldShowNextButton"
+      @click="nextStage"
+    >
+      Next
+    </van-button>
+    <van-button
+      class="form-navigation-button"
+      round
+      type="primary"
+      v-if="currentStage === numStages - 1"
+      v-on:click="dropMyGem"
+    >
+      Drop Gem
+    </van-button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, Ref } from "vue";
 import { NavBar } from "vant";
-import { GemMessage, GemColor } from "@/protobuf/gem_pb";
 import { useStore } from "vuex";
+import { GemColor } from "@/interfaces";
 
 enum DropGemStage {
   Friend,
@@ -42,11 +50,18 @@ enum DropGemStage {
 }
 
 export default defineComponent({
-  data() {
+  components: {
+    NavBar,
+  },
+  setup() {
+    const store = useStore();
+    store.commit("clearDropGemFormState");
+
+    const currentStage: Ref<DropGemStage> = ref(DropGemStage.Friend);
+
     return {
-      currentStage: DropGemStage.Friend as DropGemStage,
-      draftGem: new GemMessage(),
-      store: useStore(),
+      currentStage,
+      store,
     };
   },
   computed: {
@@ -71,23 +86,19 @@ export default defineComponent({
         this.currentStage -= 1;
       }
     },
-    // Tried to make this inline, couldn't figure out how to pass in value.
     setReceiverId(value: number): void {
-      this.draftGem.setReceiverId(value);
+      this.store.commit("updateDropGemFormState", { receiverId: value });
     },
     setMessage(value: string): void {
-      this.draftGem.setMessage(value);
+      this.store.commit("updateDropGemFormState", { message: value });
     },
     setGemColor(value: GemColor): void {
-      this.draftGem.setColor(value);
+      this.store.commit("updateDropGemFormState", { color: value });
     },
     dropMyGem() {
-      const dropGem = () => this.store.dispatch("dropGem", this.draftGem);
+      const dropGem = () => this.store.dispatch("dropGem");
       dropGem().catch((err) => console.log(err, "Failed to drop gem"));
     },
-  },
-  components: {
-    NavBar,
   },
 });
 </script>
@@ -95,5 +106,8 @@ export default defineComponent({
 <style scoped>
 .nav-bar {
   position: absolute;
+}
+.form-navigation-button {
+  width: 80vw;
 }
 </style>

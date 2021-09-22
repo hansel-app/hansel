@@ -20,15 +20,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style scoped>
-.backswipe-area {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    height: 100vh;
-    width: 6%;
-    z-index: 1;
-}
-</style>

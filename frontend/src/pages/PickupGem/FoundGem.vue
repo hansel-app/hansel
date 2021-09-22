@@ -7,7 +7,7 @@
       <h1>You found a gem!</h1>
     </div>
     <div id="view-button">
-      <van-button @click="$emit('nextStage')">View contents</van-button>
+      <van-button @click="$emit('next-stage')">View contents</van-button>
     </div>
   </div>
 </template>
