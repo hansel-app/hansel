@@ -1,3 +1,4 @@
+import "animate.css";
 import {
   ADD_FRIENDS_ROUTE,
   DROP_GEM_ROUTE,
@@ -83,6 +84,10 @@ const router = createRouter({
     {
       path: GEM_LOGS_ROUTE,
       component: GemLogs,
+      meta: {
+        enterClass: 'animate__animated animate__fadeInRight',
+        leaveClass: 'animate__animated animate__fadeOutLeft',
+      }
     },
   ],
 });
