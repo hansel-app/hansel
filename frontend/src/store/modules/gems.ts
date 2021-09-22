@@ -121,7 +121,7 @@ const gemsModule: Module<GemsState, RootState> = {
         !dropGemFormState.color ||
         !dropGemFormState.attachment
       ) {
-        throw new Error("Missing fields when trying to drop a gem");
+        throw new Error("Some fields are missing");
       }
 
       const gemMessage = new GemMessage();
