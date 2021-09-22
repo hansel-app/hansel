@@ -34,7 +34,7 @@
 
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
         <van-row justify="space-around" align="center">
-          <van-col>
+          <van-col v-if="gems.length > 0">
             <van-icon
               class="circle-button-icon-md prev-gem"
               :name="require('@/assets/icons/chevron-left-circle.svg')"
@@ -50,7 +50,7 @@
             />
           </van-col>
 
-          <van-col>
+          <van-col v-if="gems.length > 0">
             <van-icon
               class="circle-button-icon-md next-gem"
               :name="require('@/assets/icons/chevron-right-circle.svg')"

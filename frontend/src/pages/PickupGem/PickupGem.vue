@@ -2,7 +2,7 @@
   <router-view
     :name="currentStageName"
     :gem="gem"
-    @nextStage="nextStage"
+    @next-stage="nextStage"
   ></router-view>
 </template>
 

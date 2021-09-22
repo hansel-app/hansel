@@ -1,45 +1,62 @@
 <template>
-  <div class="stack-container">
+  <van-row justify="center">
     <p class="big-header overlay">{{ title }}</p>
-    <div class="square" />
-    <div class="semi-circle" />
-    <Image :src="getGemImageUrl" class="overlay" />
+  </van-row>
+  <van-row justify="center">
+    <Image class="gem-image overlay" :src="gemImgSrc" :show-loading="false" />
+  </van-row>
+  <div class="stack-container">
+    <div class="semi-circle" v-bind:style="backgroundColor" />
   </div>
 </template>
-
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { Image } from "vant";
+import { GemColor } from "@/interfaces";
+import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 export default defineComponent({
+  components: { Image },
   props: {
-    title: String,
-  },
-  methods: {
-    gemPath() {
-      return require("@/assets/images/blue_64.png");
+    title: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String as PropType<GemColor>,
+      required: true,
     },
   },
-  data() {
-    return {
-      // TODO: replace with our own gem asset
-      placeholderGemUrl:
-        "https://images.squarespace-cdn.com/content/v1/5a773a9f8fd4d27532408347/1530563687072-GRIQPL3SZQDPZ7ZY7JEC/butt+lightened.jpg?format=1000w",
-    };
+
+  computed: {
+    gemImgSrc() {
+      const gemColorName = getEnumKeyByEnumValue(GemColor, this.color);
+      return require(`@/assets/images/${gemColorName.toLowerCase()}_2048.png`);
+    },
+    backgroundColor() {
+      return {
+        backgroundColor: this.color,
+      };
+    },
   },
-  components: { Image },
 });
 </script>
-<style scoped>
+
+<style scoped lang="less">
 .stack-container {
   position: relative;
-  height: 325px;
-}
+  height: 45vh;
+  z-index: -1;
+  overflow-x: hidden;
 
-.square {
-  height: 250px;
-  width: 100%;
-  background-color: #e4bfbf;
+  .semi-circle {
+    transform: translate(-25%, -50%);
+    height: 80vh;
+    width: 200vw;
+    border-radius: 0 0 50% 50%;
+    background-color: #e4bfbf;
+    transition: background-color 1s ease;
+  }
 }
 
 .overlay {
@@ -50,17 +67,9 @@ export default defineComponent({
   margin-right: auto;
 }
 
-.semi-circle {
-  position: absolute;
-  transform: translate(0%, -50%);
-  height: 150px;
-  width: 100%;
-  border-radius: 0 0 50% 50%;
-  background-color: #e4bfbf;
-}
-
-.gem-display {
-  width: 100px;
-  height: 100px;
+.gem-image {
+  width: 20vh;
+  height: 20vh;
+  margin-top: 15vh;
 }
 </style>
