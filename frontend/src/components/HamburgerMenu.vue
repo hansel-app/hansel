@@ -31,7 +31,7 @@
     </div>
 </template>
 <script>
-import { PROFILE_ROUTE, ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
+import { PROFILE_ROUTE, ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE, GEM_LOGS_ROUTE } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
@@ -67,7 +67,7 @@ export default defineComponent({
       this.$router.push(PROFILE_ROUTE);
     },
     goToLogs() {
-      // TODO: the page 
+      this.$router.push(GEM_LOGS_ROUTE); 
     },
     goToAddFriends() {
       this.$router.push(ADD_FRIENDS_ROUTE);

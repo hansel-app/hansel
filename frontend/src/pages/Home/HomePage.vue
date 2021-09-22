@@ -3,7 +3,7 @@
     <template #default>
       <div>
         <HamburgerMenu ref="hamburgerMenu" />
-        <div class="container">
+        <div>
           <gem-map :gems="gems" />
           <div class="profile-button"></div>
         </div>

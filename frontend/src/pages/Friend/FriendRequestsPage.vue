@@ -1,23 +1,30 @@
 <template>
-  <van-nav-bar left-arrow @click-left="goBack" />
-  <h2>friend requests</h2>
-  <van-cell-group>
-    <FriendCell
-      v-for="user in mockFriends"
-      :key="user.id"
-      :friend="user"
-      :shouldDisplayUsername="true"
-    >
-      <div>
-        <van-button round type="primary" @click="acceptFriendRequest(user.id)">
-          Accept
-        </van-button>
-        <van-button round @click="declineFriendRequest(user.id)"
-          >Decline</van-button
+  <div class="background-gradient">
+    <Header title="Friend requests"/>
+    <div class="container">
+      <van-cell-group>
+        <FriendCell
+          v-for="user in mockFriends"
+          :key="user.id"
+          :friend="user"
+          :shouldDisplayUsername="true"
         >
-      </div>
-    </FriendCell>
-  </van-cell-group>
+          <div>
+            <van-button id="left-button"
+              round 
+              type="primary" 
+              size="small"
+              @click="acceptFriendRequest"
+            >Accept</van-button>
+            <van-button 
+              round @click="declineFriendRequest"
+              size="small"
+            >Decline</van-button>
+          </div>
+        </FriendCell>
+      </van-cell-group>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -26,6 +33,7 @@ import { mockFriends } from "@/interfaces/mockData";
 import { PersonInfo } from "@/protobuf/user_pb";
 import FriendCell from "@/components/FriendCell.vue";
 import { useStore } from "vuex";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
   setup() {
@@ -36,6 +44,7 @@ export default defineComponent({
   },
   components: {
     FriendCell,
+    Header,
   },
   data() {
     return {
@@ -65,3 +74,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+#left-button {
+  margin-right: 1em;
+}
+</style>

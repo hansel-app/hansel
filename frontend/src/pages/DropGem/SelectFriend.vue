@@ -1,8 +1,14 @@
 <template>
-  <div class="container">
-    <p class="header">Drop a gem</p>
-    <p class="sub-header">Choose a receiver</p>
-    <Search v-model="searchQuery" placeholder="Search a friend" />
+  <div>
+    <Header
+      :isCloseWindow="true" 
+      title="Drop a gem" 
+    />
+    <div class="container">
+      <p class="sub-header">Choose a receiver</p>
+      <Searchbar
+        placeholder="Search a friend" 
+      />
     <CellGroup>
       <FriendCell
         v-for="friend in filteredFriends"
@@ -10,25 +16,33 @@
         :friend="friend"
         :isClickable="true"
         :shouldDisplayUsername="true"
-        :onClick="() => $emit('nextStage')"
-        @click="$emit('SetReceiverEvent', friend.id)"
+        @click="
+          () => {
+            $emit('set-receiver-event', friend.id);
+            $emit('next-stage');
+          }
+        "
       />
     </CellGroup>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, Search } from "vant";
+import { CellGroup } from "vant";
 import { mockFriends } from "@/interfaces/mockData";
 import { User } from "@/interfaces";
 import FriendCell from "@/components/FriendCell.vue";
+import Searchbar from "@/components/Searchbar.vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
     CellGroup,
     FriendCell,
-    Search,
+    Header,
+    Searchbar,
   },
   data() {
     return {
@@ -54,3 +68,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.van-cell-group {
+  background: none;
+}
+</style>

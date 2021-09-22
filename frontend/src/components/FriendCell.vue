@@ -4,7 +4,6 @@
     :title="friend.displayName"
     :label="shouldDisplayUsername ? '@' + friend.username : ''"
     :is-link="isClickable"
-    @click="onClick"
     class="content remove-padding"
   >
     <template #icon>
@@ -12,7 +11,7 @@
       <CircleAvatar
         :avatarUrl="placeholderAvatarUrl"
         class="avatar-border"
-        :radius="1.8"
+        :radius="1.5"
       />
     </template>
     <template #right-icon>
@@ -38,9 +37,6 @@ export default defineComponent({
       type: Boolean,
       default: () => false,
     },
-    onClick: {
-      type: Function,
-    },
     shouldDisplayUsername: {
       type: Boolean,
       default: () => false,
@@ -60,20 +56,31 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .avatar-border {
   position: relative;
-  border: 4px solid transparent;
-  border-radius: 50%;
   background: linear-gradient(to right, hsla(187, 89%, 52%, 0.6), #19d8f200),
     linear-gradient(to bottom, #c27df9, #c27df900),
     linear-gradient(to top, #e43d97, #e43d9700);
   background-clip: padding-box;
   padding: 4px;
   margin-right: 12px;
+  margin-left: -4px;
+  padding-left: -4px;
+  transform: translateX(-5%);
 }
 
 .remove-padding {
-  margin-left: -20px;
+  margin-left: -8px;
+  width: 104%;
+}
+
+.van-cell {
+  border-radius: 100em;
+}
+
+.van-cell:hover {
+  background: @primary-color;
+  color: white;
 }
 </style>

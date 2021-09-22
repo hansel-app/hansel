@@ -1,33 +1,37 @@
 <template>
-  <NavBar left-arrow @click-left="goBack" />
-  <h2>Add friends</h2>
-  <Search placeholder="Search by username" v-model="searchQuery" />
-  <CellGroup>
-    <FriendCell
-      v-for="user in filteredUsers"
-      :key="user.id"
-      :friend="user"
-      :shouldDisplayUsername="true"
-    >
-      <!-- TODO: find correct add user icon -->
-      <van-icon name="user-o" @click="addFriend(user.id)" />
-    </FriendCell>
-  </CellGroup>
+  <div class="background-gradient">
+    <Header title="Add friends" />
+    <div class="container">
+      <Search placeholder="Search by username" />
+      <CellGroup>
+        <FriendCell
+          v-for="user in filteredUsers"
+          :key="user.id"
+          :friend="user"
+          :shouldDisplayUsername="true"
+        >
+          <!-- TODO: find correct add user icon -->
+          <van-icon name="user-o" @click="addFriend" />
+        </FriendCell>
+      </CellGroup>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, NavBar, Search } from "vant";
+import { CellGroup, Search } from "vant";
 import { mockFriends } from "@/interfaces/mockData";
-import FriendCell from "@/components/FriendCell.vue";
 import { User } from "@/interfaces";
 import { useStore } from "vuex";
+import FriendCell from "@/components/FriendCell.vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
     CellGroup,
     FriendCell,
-    NavBar,
+    Header,
     Search,
   },
   data() {

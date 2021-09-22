@@ -3,11 +3,11 @@ package users
 import "time"
 
 type User struct {
-	ID             int64
-	Username       string
+	ID             int64  `db:"id"`
+	Username       string `db:"username"`
 	DisplayName    string
-	Email          string
-	HashedPassword string
+	Email          string `db:"email"`
+	HashedPassword string `db:"hashed_password"`
 	Avatar         []byte
 }
 
