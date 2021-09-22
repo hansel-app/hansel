@@ -46,7 +46,7 @@ func (s *authService) Register(
 ) (*authapi.RegisterResponse, error) {
 	userId, err := s.usecases.Register(r.Username, r.Password)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "unable to register user")
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	return &authapi.RegisterResponse{

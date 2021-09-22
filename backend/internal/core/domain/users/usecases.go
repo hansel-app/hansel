@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
@@ -9,6 +10,8 @@ import (
 type UseCases struct {
 	repository Repository
 }
+
+const hashingCost = 10
 
 func NewUseCases(repository Repository) *UseCases {
 	return &UseCases{
@@ -32,13 +35,20 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 	return user.ID, nil
 }
 
-// TODO: we need user's display name and avatar as well
 func (u *UseCases) Register(username string, password string) (int64, error) {
-	// TODO: check if user with same username already exists?
+	_, err := u.repository.GetByUsername(username)
+	if err == nil {
+		return 0, errors.New("user already exists")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), hashingCost)
+	if err != nil {
+		return 0, fmt.Errorf("unable to generate hash from password: %w", err)
+	}
+
 	return u.repository.Add(&User{
-		Username: username,
-		// TODO: hash
-		HashedPassword: password,
+		Username:       username,
+		HashedPassword: string(hashedPassword),
 	})
 }
 
