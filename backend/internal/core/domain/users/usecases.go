@@ -69,3 +69,11 @@ func (u *UseCases) AcceptFriendRequest(requesterID, receiverID int64) error {
 func (u *UseCases) DeclineFriendRequest(requesterID, receiverID int64) error {
 	return u.repository.DeclineFriendRequest(requesterID, receiverID)
 }
+
+func (u *UseCases) UpdateAvatar(userID int64, newAvatar []byte) error {
+	return u.repository.UpdateAvatar(userID, newAvatar)
+}
+
+func (u *UseCases) UpdateDisplayName(userID int64, newDisplayName string) error {
+	return u.repository.UpdateDisplayName(userID, newDisplayName)
+}

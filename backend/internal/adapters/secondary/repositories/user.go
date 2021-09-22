@@ -193,3 +193,29 @@ func (r *userRepository) DeclineFriendRequest(requesterID int64, receiverID int6
 
 	return nil
 }
+
+func (r *userRepository) UpdateAvatar(id int64, newAvatar []byte) error {
+	sql, _, _ := qb.Update("users").Where(goqu.C("id").Eq(id)).Set(goqu.Record{
+		"avatar": newAvatar,
+	}).ToSQL()
+
+	_, err := r.db.Exec(sql)
+	if err != nil {
+		return fmt.Errorf("unable to update avatar for user with id %d: %w", id, err)
+	}
+
+	return nil
+}
+
+func (r *userRepository) UpdateDisplayName(id int64, newDisplayName string) error {
+	sql, _, _ := qb.Update("users").Where(goqu.C("id").Eq(id)).Set(goqu.Record{
+		"display_name": newDisplayName,
+	}).ToSQL()
+
+	_, err := r.db.Exec(sql)
+	if err != nil {
+		return fmt.Errorf("unable to update display name for user with id %d: %w", id, err)
+	}
+
+	return nil
+}
