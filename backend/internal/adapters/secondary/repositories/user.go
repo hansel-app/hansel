@@ -31,6 +31,10 @@ func (r *userRepository) Get(id int64) (*users.User, error) {
 	return &user, nil
 }
 
+func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error) {
+	return nil, nil
+}
+
 func (r *userRepository) GetByUsername(username string) (*users.User, error) {
 	sql, _, _ := qb.From("users").Where(goqu.C("username").Eq(username)).ToSQL()
 
