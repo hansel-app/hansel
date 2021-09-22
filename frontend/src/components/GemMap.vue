@@ -84,7 +84,7 @@
 
 <script lang="ts">
 import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
-import { useGeolocation } from "../useGeolocation";
+import { useGeolocation } from "@/useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
   DEFAULT_MAP_CONFIG,
@@ -92,11 +92,12 @@ import {
   GEM_PICKUP_RADIUS_THRESHOLD,
   PICKUP_GEM_ROUTE,
 } from "@/constants";
-import { Gem, GemColor } from "@/interfaces";
+import { Gem, GemColor, LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
+import { useStore } from "vuex";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
 
 const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
@@ -122,6 +123,7 @@ export default defineComponent({
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
     const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
+    const store = useStore();
 
     const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
       if (el) {
@@ -134,8 +136,9 @@ export default defineComponent({
       gemMarkerRefs = new Set();
     });
 
-    const { coords: currPosition, getLocation } = useGeolocation();
-    const initPos = await getLocation();
+    const { getLocation } = useGeolocation();
+    await getLocation();
+    const currPosition: LatLng = store.state.user.currPosition;
     const shouldShowPopup = ref<boolean>(false);
 
     return {
@@ -147,7 +150,7 @@ export default defineComponent({
       userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
-      mapConfig: { ...DEFAULT_MAP_CONFIG, center: initPos },
+      mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
     };
   },
