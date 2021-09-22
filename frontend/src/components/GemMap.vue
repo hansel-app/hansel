@@ -33,6 +33,20 @@
       </CustomControl>
 
       <CustomControl class="bottom-controls" position="BOTTOM_CENTER">
+        <van-row justify="end" v-if="shouldShowPickupGemButton">
+          <van-button
+            class="pick-up-button"
+            round
+            plain
+            type="primary"
+            icon-prefix="pick-up-button-icon"
+            :icon="require('@/assets/icons/chevron-right-circle.svg')"
+            icon-position="right"
+          >
+            Pick up
+          </van-button>
+        </van-row>
+
         <van-row justify="space-around" align="center">
           <van-col v-if="gems.length > 0">
             <van-icon
@@ -75,7 +89,7 @@
   </GoogleMap>
 
   <GemMapPopup
-    class="popup"
+    class="map-popup"
     v-show="shouldShowPopup"
     :number-gems-pending-collection="gems.length"
     :nearest-gem-distance="nearestGemDistance"
@@ -90,7 +104,6 @@ import {
   DEFAULT_MAP_CONFIG,
   DROP_GEM_ROUTE,
   GEM_PICKUP_RADIUS_THRESHOLD,
-  PICKUP_GEM_ROUTE,
 } from "@/constants";
 import { Gem, GemColor, LatLng } from "@/interfaces";
 import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
@@ -152,6 +165,7 @@ export default defineComponent({
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
+      openedInfoWindowGem: ref<Gem | null>(null),
     };
   },
 
@@ -170,6 +184,7 @@ export default defineComponent({
     gemInfoWindowCloseEvents.forEach((event) => {
       this.mapRef?.map?.addListener(event, () => {
         this.gemMarkerInfoWindowRef?.close();
+        this.openedInfoWindowGem = null;
       });
     });
   },
@@ -181,12 +196,6 @@ export default defineComponent({
       }
       const nearest = this.sortedGems[0];
       return getDistanceFromLatLonInKm(nearest.position, this.currPosition);
-    },
-    shouldShowPickupButton(): boolean {
-      return (
-        !!this.nearestGemDistance &&
-        this.nearestGemDistance <= GEM_PICKUP_RADIUS_THRESHOLD
-      );
     },
     sortedGems(): Gem[] {
       return [...this.gems].sort((gem1, gem2) => {
@@ -204,6 +213,17 @@ export default defineComponent({
           icon: gemImageUrl,
         };
       }) as GemMarkerOptions[];
+    },
+    shouldShowPickupGemButton(): boolean {
+      if (this.openedInfoWindowGem === null) {
+        return false;
+      }
+      const distToSelf = getDistanceFromLatLonInKm(
+        this.openedInfoWindowGem.position,
+        this.currPosition
+      );
+
+      return distToSelf <= GEM_PICKUP_RADIUS_THRESHOLD;
     },
   },
 
@@ -248,10 +268,6 @@ export default defineComponent({
     goToDropGem() {
       this.$router.push(DROP_GEM_ROUTE);
     },
-    goToPickupGem() {
-      // TODO: pass gem to new route
-      this.$router.push(PICKUP_GEM_ROUTE);
-    },
 
     onGemMarkerClick(markerOptions: GemMarkerOptions) {
       this.showGemMarkerInfoWindow(markerOptions);
@@ -270,7 +286,6 @@ export default defineComponent({
         distance: distFromSelf,
         gemCreator: gem.createdBy,
         dropTime: gem.createdAt,
-        shouldShowPickupButton: distFromSelf <= GEM_PICKUP_RADIUS_THRESHOLD,
       });
       const el = document.createElement("div");
       const mountedApp = infoWindow.mount(el);
@@ -287,6 +302,8 @@ export default defineComponent({
         map: this.mapRef?.map,
         shouldFocus: false,
       });
+
+      this.openedInfoWindowGem = gem;
     },
 
     showPopup() {
@@ -299,7 +316,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .google-map {
   width: 100%;
   height: 100vh;
@@ -327,9 +344,17 @@ export default defineComponent({
       margin: 0.75rem 0;
     }
   }
+
+  .pick-up-button {
+    margin-bottom: 8px;
+  }
+
+  .pick-up-button-icon {
+    display: flex;
+  }
 }
 
-.popup {
+.map-popup {
   position: absolute;
   z-index: 10;
   width: 90vw;
@@ -338,5 +363,6 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   border-radius: 1rem;
   box-shadow: @shadow-medium;
+  background: @white;
 }
 </style>
