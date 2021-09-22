@@ -5,12 +5,12 @@
   <van-row justify="center">
     <Image class="gem-image overlay" :src="gemImgSrc" :show-loading="false" />
   </van-row>
-  <SemiCircleBg :color="backgroundColor" />
+  <SemiCircleBg :color="color" />
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { Image } from "vant";
-import { GemColor } from "@/interfaces";
+import { GemColor, HexCode } from "@/interfaces";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
 import SemiCircleBg from "./SemiCircleBg.vue";
 
@@ -22,7 +22,7 @@ export default defineComponent({
       required: true,
     },
     color: {
-      type: String as PropType<GemColor>,
+      type: String as PropType<HexCode>,
       required: true,
     },
   },
@@ -31,11 +31,6 @@ export default defineComponent({
     gemImgSrc() {
       const gemColorName = getEnumKeyByEnumValue(GemColor, this.color);
       return require(`@/assets/images/${gemColorName.toLowerCase()}_2048.png`);
-    },
-    backgroundColor() {
-      return {
-        backgroundColor: this.color,
-      };
     },
   },
 });

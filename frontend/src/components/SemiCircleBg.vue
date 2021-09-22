@@ -1,6 +1,6 @@
 <template>
   <div class="stack-container">
-    <div class="semi-circle" v-bind:style="color" />
+    <div class="semi-circle" v-bind:style="{ backgroundColor: color }" />
   </div>
 </template>
 

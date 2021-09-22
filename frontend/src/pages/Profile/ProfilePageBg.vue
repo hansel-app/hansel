@@ -1,5 +1,5 @@
 <template>
-  <SemiCircleBg class="semi-circle overlay" />
+  <SemiCircleBg class="semi-circle overlay" color="#ffffff" />
   <div class="blue-gradient-bg" />
 </template>
 
