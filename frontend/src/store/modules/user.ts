@@ -9,7 +9,7 @@ import {
   GetFriendsResponse,
   GetPendingFriendRequestsRequest,
   GetPendingFriendRequestsResponse,
-  PendingFriendRequest,
+  PendingFriendRequest, SearchByUsernameRequest, SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { FriendRequest } from "@/protobuf/friend_pb";
 import { RootState } from "@/store";
@@ -95,6 +95,20 @@ const userModule: Module<UserState, RootState> = {
             const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
             commit("setFriends", friends);
             resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    searchByUsername(_, searchQuery: string) {
+      const request = new SearchByUsernameRequest();
+      request.setSearchQuery(searchQuery);
+
+      return new Promise((resolve, reject) => {
+        services.userClient
+          .searchByUsername(request)
+          .then((resp: SearchByUsernameResponse) => {
+            const matchedUsers: User[] = resp.getUsersList().map(protoUserToUserMapper);
+            resolve(matchedUsers);
           })
           .catch((err) => reject(err));
       });

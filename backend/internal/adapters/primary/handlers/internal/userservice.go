@@ -86,6 +86,30 @@ func (s *userService) GetFriends(
 	}, nil
 }
 
+func (s *userService) SearchByUsername(
+	c context.Context,
+	r *usersapi.SearchByUsernameRequest,
+) (*usersapi.SearchByUsernameResponse, error) {
+	matchingUsers, err := s.usecases.SearchByUsername(r.SearchQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	matchingUsersInfo := make([]*usersapi.PersonInfo, len(matchingUsers))
+	for i, user := range matchingUsers {
+		matchingUsersInfo[i] = &usersapi.PersonInfo{
+			UserId:      user.ID,
+			DisplayName: user.DisplayName,
+			Username:    user.Username,
+			Avatar:      user.Avatar,
+		}
+	}
+
+	return &usersapi.SearchByUsernameResponse{
+		Users: matchingUsersInfo,
+	}, nil
+}
+
 func (s *userService) GetFriendRequests(
 	c context.Context,
 	r *usersapi.GetPendingFriendRequestsRequest,

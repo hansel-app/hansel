@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 
 service UserService {
 	rpc GetProfile (ProfileRequest) returns (ProfileResponse);
+	rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
 	rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
 	rpc GetFriendRequests (GetPendingFriendRequestsRequest) returns (GetPendingFriendRequestsResponse);
 }
@@ -22,6 +23,14 @@ message PersonInfo {
 	string display_name = 2;
 	string username = 3;
 	bytes avatar = 4;
+}
+
+message SearchByUsernameRequest {
+	string search_query = 1;
+}
+
+message SearchByUsernameResponse {
+	repeated PersonInfo users = 1;
 }
 
 message PendingFriendRequest {

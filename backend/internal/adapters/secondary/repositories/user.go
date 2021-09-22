@@ -44,6 +44,19 @@ func (r *userRepository) GetByUsername(username string) (*users.User, error) {
 	return &user, nil
 }
 
+func (r *userRepository) SearchByUsername(searchQuery string) ([]users.User, error) {
+	formattedSearchQuery := fmt.Sprintf("%%%s%%", searchQuery)
+	sql, _, _ := qb.From("users").Where(goqu.C("username").ILike(formattedSearchQuery)).ToSQL()
+
+	var matchingUsers []users.User
+	err := r.db.Select(&matchingUsers, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get users with matching username: %w", err)
+	}
+
+	return matchingUsers, nil
+}
+
 func (r *userRepository) Add(user *users.User) (int64, error) {
 	sql, _, _ := qb.Insert("users").Rows(user).Returning("id").ToSQL()
 

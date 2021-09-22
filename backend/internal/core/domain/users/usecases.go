@@ -46,6 +46,10 @@ func (u *UseCases) Get(userID int64) (*User, error) {
 	return u.repository.Get(userID)
 }
 
+func (u *UseCases) SearchByUsername(searchQuery string) ([]User, error) {
+	return u.repository.SearchByUsername(searchQuery)
+}
+
 func (u *UseCases) GetFriends(userID int64) ([]*User, error) {
 	return u.repository.GetFriends(userID)
 }
