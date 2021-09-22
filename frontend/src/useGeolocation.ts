@@ -1,14 +1,13 @@
-import { SINGAPORE_CENTER } from "@/constants";
-import { LatLng } from "@/interfaces";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted } from "vue";
+import { useStore } from "vuex";
 
 export function useGeolocation() {
-  const coords = ref<LatLng>(SINGAPORE_CENTER);
+  const store = useStore();
 
   // check if geolocation api is supported
   const isSupported = "navigator" in window && "geolocation" in navigator;
 
-  async function getLocation(): Promise<LatLng> {
+  async function getLocation(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!isSupported) {
         reject(new Error("Geolocation is not supported."));
@@ -16,7 +15,11 @@ export function useGeolocation() {
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+          store.dispatch("updateCurrentPosition", {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          });
+          resolve();
         },
         (err) => reject(err)
       );
@@ -27,12 +30,11 @@ export function useGeolocation() {
 
   onMounted(() => {
     if (isSupported) {
-      watcher = navigator.geolocation.watchPosition(
-        (position) =>
-          (coords.value = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          })
+      watcher = navigator.geolocation.watchPosition((position) =>
+        store.dispatch("updateCurrentPosition", {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
       );
     }
   });
@@ -40,5 +42,5 @@ export function useGeolocation() {
     if (watcher) navigator.geolocation.clearWatch(watcher);
   });
 
-  return { coords, isSupported, getLocation };
+  return { isSupported, getLocation };
 }

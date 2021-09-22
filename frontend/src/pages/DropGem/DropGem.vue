@@ -39,9 +39,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from "vue";
-import { NavBar } from "vant";
+import { NavBar, Toast } from "vant";
 import { useStore } from "vuex";
 import { GemColor } from "@/interfaces";
+import { HOME_ROUTE } from "@/constants";
 
 enum DropGemStage {
   Friend,
@@ -97,7 +98,12 @@ export default defineComponent({
     },
     dropMyGem() {
       const dropGem = () => this.store.dispatch("dropGem");
-      dropGem().catch((err) => console.log(err, "Failed to drop gem"));
+      dropGem()
+        .then(() => {
+          Toast.success("Dropped a gem!");
+          this.$router.replace(HOME_ROUTE);
+        })
+        .catch((err) => Toast.fail(`Failed to drop gem: ${err}`));
     },
   },
 });

@@ -2,8 +2,8 @@ package internal
 
 import (
 	"context"
-	"fmt"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -64,7 +64,7 @@ func (s *gemService) Get(c context.Context, r *gemsapi.GetRequest) (*gemsapi.Get
 
 func (s *gemService) GetPendingCollectionForUser(
 	c context.Context,
-	r *gemsapi.GetPendingCollectionForUserRequest,
+	_ *empty.Empty,
 ) (*gemsapi.GetPendingCollectionForUserResponse, error) {
 	userID, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
@@ -94,11 +94,5 @@ func (s *gemService) GetPendingCollectionForUser(
 
 	return &gemsapi.GetPendingCollectionForUserResponse{
 		Gems: processedGems,
-	}, nil
-}
-
-func (s *gemService) SayHello(c context.Context, r *gemsapi.SayHelloRequest) (*gemsapi.SayHelloResponse, error) {
-	return &gemsapi.SayHelloResponse{
-		Message: fmt.Sprintf("Hello, %s", r.Name),
 	}, nil
 }

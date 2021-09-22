@@ -1,7 +1,14 @@
 <template>
+  <!-- TODO: some onboarding screens for user to set displayName and avatar? -->
   <h1>Register</h1>
   <div class="container">
-    <van-form @submit="onSubmit">
+    <van-form @submit="handleRegister">
+      <van-field
+        v-model="fullName"
+        name="fullName"
+        placeholder="Full name"
+        :rules="[{ required: true, message: 'Full name is required' }]"
+      />
       <van-field
         v-model="username"
         name="Username"
@@ -17,7 +24,7 @@
       />
       <van-field
         v-model="confirmPassword"
-        type="confirmPassword"
+        type="password"
         name="confirmPassword"
         placeholder="Confirm password"
         :rules="[{ required: true, message: 'Confirm password is required' }]"
@@ -35,19 +42,40 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { LOGIN_ROUTE } from "@/constants";
+import { defineComponent } from "vue";
+import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants";
+import { useStore } from "vuex";
 
 export default defineComponent({
+  data() {
+    return {
+      fullName: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+      store: useStore(),
+    };
+  },
   methods: {
+    handleRegister() {
+      if (this.password !== this.confirmPassword) {
+        // TODO: show some error here.
+        return;
+      }
+      this.store.dispatch("register", {
+        fullName: this.fullName,
+        username: this.username,
+        password: this.password,
+      }).then(() => this.$router.push(HOME_ROUTE))
+        // TODO: Display some form of user feedback upon registration failure.
+        .catch((err) => console.log(err, "Failed to register"));
+    },
     goToLoginPage() {
       this.$router.push(LOGIN_ROUTE);
     }
-  }
-})
+  },
+});
 </script>
-
-
 <style scoped lang="less">
 .container .van-field {
   width: 80%;

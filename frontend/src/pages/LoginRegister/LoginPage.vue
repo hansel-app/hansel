@@ -30,27 +30,31 @@
 <script>
 import { defineComponent } from "vue";
 import { HOME_ROUTE, REGISTER_ROUTE } from "@/constants";
+import { useStore } from "vuex";
+import { Toast } from "vant";
 
 export default defineComponent({
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      store: useStore(),
     };
   },
   methods: {
     handleLogin() {
-      this.$store.dispatch('login', {
-        username: this.username,
-        password: this.password
-      }).then(() => this.$router.push(HOME_ROUTE))
-        // TODO: Display some form of user feedback upon login failure.
-        .catch((err) => console.log(err, "Failed to log in"));
+      this.store
+        .dispatch("login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then(() => this.$router.push(HOME_ROUTE))
+        .catch(() => Toast.fail(`Failed to log in`));
     },
     goToRegisterPage() {
       this.$router.push(REGISTER_ROUTE);
-    }
-  }
+    },
+  },
 });
 </script>
 

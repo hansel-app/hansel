@@ -1,12 +1,14 @@
 <template>
-  <router-view v-slot="{ Component, route }" :key="$route.fullPath">
-    <transition
-      :enter-active-class="route.meta.enterClass"
-      :leave-active-class="route.meta.leaveClass"
-    >
-      <component :is="Component"></component>
-    </transition>
-  </router-view>
+  <div v-cloak>
+    <router-view v-slot="{ Component, route }" :key="$route.fullPath">
+      <transition
+        :enter-active-class="route.meta.enterClass"
+        :leave-active-class="route.meta.leaveClass"
+      >
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
+  </div>
 </template>
 
 <script>

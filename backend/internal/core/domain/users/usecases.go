@@ -1,6 +1,7 @@
 package users
 
 import (
+	"errors"
 	"fmt"
 
 	"golang.org/x/crypto/bcrypt"
@@ -9,6 +10,8 @@ import (
 type UseCases struct {
 	repository Repository
 }
+
+const hashingCost = 10
 
 func NewUseCases(repository Repository) *UseCases {
 	return &UseCases{
@@ -30,4 +33,50 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 	}
 
 	return user.ID, nil
+}
+
+func (u *UseCases) Register(displayName string, username string, password string) (int64, error) {
+	_, err := u.repository.GetByUsername(username)
+	if err == nil {
+		return 0, errors.New("user already exists")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), hashingCost)
+	if err != nil {
+		return 0, fmt.Errorf("unable to generate hash from password: %w", err)
+	}
+
+	return u.repository.Add(&User{
+		DisplayName:    displayName,
+		Username:       username,
+		HashedPassword: string(hashedPassword),
+	})
+}
+
+func (u *UseCases) Get(userID int64) (*User, error) {
+	return u.repository.Get(userID)
+}
+
+func (u *UseCases) SearchByUsername(searchQuery string) ([]User, error) {
+	return u.repository.SearchByUsername(searchQuery)
+}
+
+func (u *UseCases) GetFriends(userID int64) ([]*User, error) {
+	return u.repository.GetFriends(userID)
+}
+
+func (u *UseCases) GetFriendRequests(userID int64) ([]*FriendRelationship, error) {
+	return u.repository.GetFriendRequests(userID)
+}
+
+func (u *UseCases) AddFriendRequest(requesterID int64, receiverID int64) error {
+	return u.repository.AddFriendRequest(requesterID, receiverID)
+}
+
+func (u *UseCases) AcceptFriendRequest(requesterID, receiverID int64) error {
+	return u.repository.AcceptFriendRequest(requesterID, receiverID)
+}
+
+func (u *UseCases) DeclineFriendRequest(requesterID, receiverID int64) error {
+	return u.repository.DeclineFriendRequest(requesterID, receiverID)
 }

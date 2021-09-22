@@ -4,6 +4,7 @@ option go_package = "/authapi";
 
 service AuthService {
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
 }
 
 message LoginRequest {
@@ -13,4 +14,14 @@ message LoginRequest {
 
 message LoginResponse {
   string access_token = 1;
+}
+
+message RegisterRequest {
+  string display_name = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  int64 user_id = 1;
 }
