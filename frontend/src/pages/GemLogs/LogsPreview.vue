@@ -41,7 +41,7 @@ export default defineComponent({
     previewMessage(): string {
       const isPickedUp = this.mostRecentGemActivity.receivedAt === undefined;
       // TODO: replace hardcoded user value with this.store.user.self.id;
-      const isSelfCreator = this.mostRecentGemActivity.createdBy.id === 1;
+      const isSelfCreator = this.mostRecentGemActivity.createdBy.userId === 1;
 
       if (isSelfCreator) {
         // I created and they picked up.
@@ -61,7 +61,7 @@ export default defineComponent({
   },
   methods: {
     goToLogsPreview(): void {
-      this.$router.push(`${GEM_LOGS_ROUTE}/${this.friend.id}`);
+      this.$router.push(`${GEM_LOGS_ROUTE}/${this.friend.userId}`);
     },
   },
 });

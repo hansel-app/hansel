@@ -28,7 +28,7 @@ export interface UserState {
 
 const protoUserToUserMapper = (protoUser: ProtoUser): User => {
   return {
-    id: protoUser.getUserId(),
+    userId: protoUser.getUserId(),
     username: protoUser.getUsername(),
     displayName: protoUser.getDisplayName(),
     avatar: protoUser.getAvatar_asB64(),

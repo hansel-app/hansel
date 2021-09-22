@@ -63,7 +63,8 @@ export const mockSelfUser: UserPb = buildUserPb({
 export const mockGems: GemPb[] = [
   {
     id: 1111,
-    message: "Me gusta los camarones",
+    message:
+      "On your favourite street now, wish you were here! Sad honk noises",
     latitude: 1.2966,
     longitude: 103.7764,
     createdAt: { seconds: 0, nanos: 0 },
@@ -75,7 +76,7 @@ export const mockGems: GemPb[] = [
   },
   {
     id: 222,
-    message: "Me gusta los camarones",
+    message: "Heeeeee",
     latitude: 1.2976,
     longitude: 103.7764,
     createdAt: { seconds: 0, nanos: 0 },
@@ -87,7 +88,7 @@ export const mockGems: GemPb[] = [
   },
   {
     id: 333,
-    message: "Me gusta los camarones",
+    message: "Mochi is so cute",
     latitude: 1.2986,
     longitude: 103.7764,
     createdAt: { seconds: 0, nanos: 0 },
