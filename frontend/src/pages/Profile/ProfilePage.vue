@@ -5,10 +5,6 @@
     :displayName="mockSelfUser.displayName"
     :username="mockSelfUser.username"
   />
-  <h3 class="sub-header">Friends</h3>
-  <CellGroup>
-    <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
-  </CellGroup>
 </template>
 
 <script lang="ts">
@@ -17,7 +13,6 @@ import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
 import AvatarHeader from "./AvatarHeader.vue";
-import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
   data() {
@@ -42,7 +37,6 @@ export default defineComponent({
   },
   components: {
     AvatarHeader,
-    FriendCell,
     NavBar,
   },
 });
