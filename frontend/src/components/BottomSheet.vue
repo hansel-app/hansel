@@ -18,17 +18,17 @@
         />
         <van-row class="message-details content">
           <img :src="MapIcon" id="icon">
-          <van-col>
-            <p>eorjfoeirjfoeijrf{{ gemAddress }}</p>
+          <van-col span="19">
+            <p>{{ gemAddress }}</p>
           </van-col>
         </van-row>
         <van-row class="message-details content">
           <img :src="CalendarIcon" id="icon">
-          <van-col>
+          <van-col span="19">
             <p>{{ displayDropDateTime }}</p>
           </van-col>
         </van-row>
-        <van-button @click="backToHome">Back to map</van-button>
+        <van-button @click="backToHome">Back to map!</van-button>
       </div>
     </div>
   </div>
@@ -160,5 +160,10 @@ export default defineComponent({
 
 .van-col {
   overflow: hidden;
+  overflow-wrap: break-all;
+}
+
+.image-wrapper {
+  clear: both;
 }
 </style>
