@@ -66,7 +66,7 @@ message GetPendingCollectionForUserResponse {
 }
 
 message GemLogs {
-  map<int64, GemLogsWithFriend> gemLogs = 1;
+  map<int64, GemLogsWithFriend> gem_logs = 1;
 }
 
 message GemLogsWithFriend {
