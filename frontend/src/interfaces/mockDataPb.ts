@@ -1,14 +1,7 @@
-// Contains mock data for protobuf models
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import {
-  Gem as GemPb,
-  GemLogsWithFriend,
-  GemColor,
-} from "@/protobuf/gem_pb";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { Gem as GemPb, GemLogsWithFriend, GemColor } from "@/protobuf/gem_pb";
 import { User as UserPb } from "@/protobuf/user_pb";
+
+// Contains mock data for protobuf models
 
 const buildGemPb = (gem: GemPb.AsObject): GemPb => {
   const gemPb = new GemPb();
