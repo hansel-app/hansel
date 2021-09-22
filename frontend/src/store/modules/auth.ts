@@ -52,7 +52,7 @@ const authModule: Module<AuthState, RootState> = {
           .then((response: LoginResponse) => {
             const token = response.getAccessToken();
             commit("setAccessToken", token);
-            dispatch("getMyProfile");
+            dispatch("getOwnProfile");
             resolve(response);
           })
           .catch((err) => reject(err));

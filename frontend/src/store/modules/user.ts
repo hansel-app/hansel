@@ -1,8 +1,8 @@
 import services from "@/api/services";
-import { LatLng } from "@/interfaces";
+import { LatLng, User } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
 import {
-  PersonInfo,
+  PersonInfo as ProtoUser,
   ProfileRequest,
   ProfileResponse,
   GetFriendsRequest,
@@ -16,16 +16,23 @@ import { RootState } from "@/store";
 import { Module } from "vuex";
 
 export interface UserState {
-  // User's friends.
-  // PersonInfo includes their id, username, displayName and avatar (TODO).
-  friends: PersonInfo[];
+  friends: User[];
 
   // PendingFriendRequests includes PersonInfo + datetime of request.
   friendRequests: PendingFriendRequest[];
   isSendFriendRequestSuccessful: boolean;
-  self: PersonInfo | undefined;
+  self?: User;
   currPosition: LatLng;
 }
+
+const protoUserToUserMapper = (protoUser: ProtoUser): User => {
+  return {
+    id: protoUser.getUserId(),
+    username: protoUser.getUsername(),
+    displayName: protoUser.getDisplayName(),
+    avatar: protoUser.getAvatar_asB64(),
+  };
+};
 
 const userModule: Module<UserState, RootState> = {
   state: {
@@ -39,12 +46,11 @@ const userModule: Module<UserState, RootState> = {
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;
     },
-    setSelfInfo(state, info: PersonInfo) {
-      state.self = info;
+    setSelfInfo(state, self: User) {
+      state.self = self;
     },
-    setFriends(state, friends: PersonInfo[]) {
-      state.friends.splice(0, state.friends.length);
-      friends.forEach((friend) => state.friends.push(friend));
+    setFriends(state, friends: User[]) {
+      state.friends = friends;
     },
     setFriendRequests(state, pendingFriends: PendingFriendRequest[]) {
       state.friends.splice(0, state.friends.length);
@@ -63,14 +69,14 @@ const userModule: Module<UserState, RootState> = {
       console.log(newPosition);
       commit("setCurrPosition", newPosition);
     },
-    getMyProfile({ commit }) {
+    getOwnProfile({ commit }) {
       const request = new ProfileRequest();
 
       return new Promise((resolve, reject) => {
         services.userClient
           .getProfile(request)
           .then((resp: ProfileResponse) => {
-            const friends: PersonInfo[] = resp.getFriendsList();
+            const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
             commit("setFriends", friends);
             const self = resp.getInfo();
             commit("setSelfInfo", self);
@@ -86,7 +92,7 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getFriends(request)
           .then((resp: GetFriendsResponse) => {
-            const friends: PersonInfo[] = resp.getFriendsList();
+            const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
             commit("setFriends", friends);
             resolve(resp);
           })
