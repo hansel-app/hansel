@@ -8,7 +8,7 @@
 # 4. first matching regular expression (in order of appearance in a configuration file)
 
 server {
-  listen 80 http2;
+  listen 80;
   server_name hansel-app.com;
 
   # Redirect HTTP to HTTPS
@@ -18,7 +18,7 @@ server {
 }
 
 server {
-  listen 80 http2;
+  listen 80;
   server_name www.hansel-app.com;
 
   # Redirect www to non-www
@@ -47,7 +47,7 @@ server {
 
 # Catch-all for unrecognised requests
 server {
-  listen 80 http2 default_server;
+  listen 80 default_server;
   server_name _;
   return 444;
 }
