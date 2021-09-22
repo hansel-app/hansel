@@ -26,4 +26,5 @@ export interface DropGemFormState {
   message?: string;
   receiverId?: number;
   color: GemColor;
+  attachment?: File;
 }

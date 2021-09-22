@@ -10,9 +10,10 @@ import {
   GetPendingCollectionForUserResponse,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
+import { blobToUint8Array } from "@/utils/attachment";
 import dayjs from "dayjs";
-import { Module } from "vuex";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
@@ -35,6 +36,25 @@ const protoGemColorToGemColorMapper = (
       return GemColor.YELLOW;
     case ProtoGemColor.GREEN:
       return GemColor.GREEN;
+    default:
+      throw new Error("Unknown gem color received!");
+  }
+};
+
+const gemColorToProtoGemColorMapper = (gemColor: GemColor): ProtoGemColor => {
+  switch (gemColor) {
+    case GemColor.PURPLE:
+      return ProtoGemColor.PURPLE;
+    case GemColor.PINK:
+      return ProtoGemColor.PINK;
+    case GemColor.BLUE:
+      return ProtoGemColor.BLUE;
+    case GemColor.BLACK:
+      return ProtoGemColor.BLACK;
+    case GemColor.YELLOW:
+      return ProtoGemColor.YELLOW;
+    case GemColor.GREEN:
+      return ProtoGemColor.GREEN;
     default:
       throw new Error("Unknown gem color received!");
   }
@@ -91,14 +111,15 @@ const gemsModule: Module<GemsState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    dropGem({ commit }) {
+    async dropGem({ commit }) {
       const dropGemFormState = this.state.gems.dropGemFormState;
       console.assert(!dropGemFormState.id, "Form state was not reset properly");
 
       if (
         !dropGemFormState.message ||
         !dropGemFormState.receiverId ||
-        !dropGemFormState.color
+        !dropGemFormState.color ||
+        !dropGemFormState.attachment
       ) {
         throw new Error("Missing fields when trying to drop a gem");
       }
@@ -106,8 +127,14 @@ const gemsModule: Module<GemsState, RootState> = {
       const gemMessage = new GemMessage();
       gemMessage.setMessage(dropGemFormState.message);
       gemMessage.setReceiverId(dropGemFormState.receiverId);
-      gemMessage.setColor(dropGemFormState.color);
-      // TODO:  populate latlng from store
+      gemMessage.setColor(
+        gemColorToProtoGemColorMapper(dropGemFormState.color)
+      );
+      gemMessage.setAttachment(
+        await blobToUint8Array(dropGemFormState.attachment)
+      );
+      gemMessage.setLatitude(this.state.user.currPosition.lat);
+      gemMessage.setLongitude(this.state.user.currPosition.lng);
 
       const request = new DropRequest();
       request.setGemMessage(gemMessage);
