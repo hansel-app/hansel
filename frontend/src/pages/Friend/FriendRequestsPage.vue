@@ -10,7 +10,7 @@
           :friend="user"
           :shouldDisplayUsername="true"
         >
-          <div class="test">
+          <div class="align-right">
             <van-button id="left-button"
               round 
               type="primary" 
@@ -63,7 +63,7 @@ export default defineComponent({
 #left-button {
   margin-right: 0.5em;
 }
-.test {
+.align-right {
   margin: auto 0 auto auto;
   position:absolute;
   right: 0;
