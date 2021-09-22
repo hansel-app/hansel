@@ -319,6 +319,7 @@ export default defineComponent({
     pickUpGem() {
       if (!this.openedInfoWindowGem) {
         console.error("No gem selected for picking up");
+        return;
       }
       this.store.dispatch("pickUpGem", { gemId: this.openedInfoWindowGem.id });
 
