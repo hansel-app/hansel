@@ -24,6 +24,7 @@
         "
       />
     </CellGroup>
+    <van-button @click="() => {$emit('next-stage')}"> dummy button </van-button>
     </div>
   </div>
 </template>
