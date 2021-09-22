@@ -1,19 +1,21 @@
 <template>
-  <Suspense>
-    <template #default>
-      <div>
-        <HamburgerMenu ref="hamburgerMenu" />
+  <div>
+    <Suspense>
+      <template #default>
         <div>
-          <gem-map :gems="gems" />
-          <div class="profile-button"></div>
+          <HamburgerMenu ref="hamburgerMenu" />
+          <div>
+            <gem-map :gems="gems" />
+            <div class="profile-button"></div>
+          </div>
         </div>
-      </div>
-    </template>
-    <template #fallback>
-      <!-- TODO: add more useful loading / error message -->
-      <Loading size="24px">Loading...</Loading>
-    </template>
-  </Suspense>
+      </template>
+      <template #fallback>
+        <!-- TODO: add more useful loading / error message -->
+        <Loading size="24px">Loading...</Loading>
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <script lang="ts">

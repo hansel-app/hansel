@@ -8,8 +8,8 @@ module.exports = {
   publicPath: process.env.CI ? "/hansel/" : "/",
   pwa: {
     name: "hansel",
-    themeColor: "#4DBA87",
-    msTileColor: "#000000",
+    themeColor: "black",
+    msTileColor: "black",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
 

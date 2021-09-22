@@ -1,29 +1,31 @@
 <template>
-  <NavBar
-    v-bind:left-arrow="currentStage > 0"
-    @click-left="prevStage"
-    class="nav-bar"
-  />
-  <router-view
-    :name="currentStageName"
-    @nextStage="nextStage"
-    @SetReceiverEvent="setReceiverId"
-    @SetMessageEvent="setMessage"
-    @SetGemColorEvent="setGemColor"
-  ></router-view>
-
   <div>
-    <van-button
-      round
-      type="info"
-      v-if="shouldShowNextButton"
-      @click="$emit('nextStage')"
-    >
-      Next
-    </van-button>
-    <van-button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
-      Drop Gem
-    </van-button>
+    <NavBar
+      v-bind:left-arrow="currentStage > 0"
+      @click-left="prevStage"
+      class="nav-bar"
+    />
+    <router-view
+      :name="currentStageName"
+      @nextStage="nextStage"
+      @SetReceiverEvent="setReceiverId"
+      @SetMessageEvent="setMessage"
+      @SetGemColorEvent="setGemColor"
+    ></router-view>
+
+    <div>
+      <van-button
+        round
+        type="info"
+        v-if="shouldShowNextButton"
+        @click="$emit('nextStage')"
+      >
+        Next
+      </van-button>
+      <van-button v-if="currentStage === numStages - 1" v-on:click="dropMyGem">
+        Drop Gem
+      </van-button>
+    </div>
   </div>
 </template>
 
