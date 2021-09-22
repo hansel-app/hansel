@@ -1,7 +1,7 @@
 <template>
   <div class="overlay">
     <Header title="Edit Profile" />
-    <ProfileAvatar />
+    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
     <van-button class="edit-button"
       ><van-icon name="edit" size="40px"
     /></van-button>
