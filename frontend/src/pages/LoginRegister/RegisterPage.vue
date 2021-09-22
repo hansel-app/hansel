@@ -2,7 +2,7 @@
   <!-- TODO: some onboarding screens for user to set displayName and avatar? -->
   <h1>Register</h1>
   <div class="container">
-    <van-form @submit="register">
+    <van-form @submit="handleRegister">
       <van-field
         v-model="username"
         name="Username"
@@ -34,6 +34,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { HOME_ROUTE } from "@/constants";
+import { useStore } from "vuex";
 
 export default defineComponent({
   data() {
@@ -41,18 +43,21 @@ export default defineComponent({
       username: "",
       password: "",
       confirmPassword: "",
+      store: useStore(),
     };
   },
   methods: {
-    register() {
+    handleRegister() {
       if (this.password !== this.confirmPassword) {
         // TODO: show some error here.
         return;
       }
-      this.$store.dispatch("register", {
+      this.store.dispatch("register", {
         username: this.username,
         password: this.password,
-      });
+      }).then(() => this.$router.push(HOME_ROUTE))
+        // TODO: Display some form of user feedback upon registration failure.
+        .catch((err) => console.log(err, "Failed to register"));
     },
   },
 });
