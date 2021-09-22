@@ -95,3 +95,10 @@ func (s *gemService) GetPendingCollectionForUser(
 		Gems: processedGems,
 	}, nil
 }
+
+func (s *userService) GetGemLogs(
+	c context.Context,
+	_ *empty.Empty,
+) (*gemsapi.GemLogs, error) {
+	return nil, nil
+}
