@@ -315,7 +315,7 @@ export default defineComponent({
       this.shouldShowPopup = false;
     },
 
-    pickupGem() {
+    pickUpGem() {
       // TODO: send RPC call to set receiver_id.
       // Gem selected is based on this.openedInfoWindowGem
       this.$router.push(PICKUP_GEM_ROUTE);
