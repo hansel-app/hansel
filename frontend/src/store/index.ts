@@ -1,4 +1,3 @@
-import * as Cookies from "js-cookie";
 import { createStore, Store } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import authModule, { AuthState } from "./modules/auth";
@@ -16,14 +15,7 @@ const store: Store<RootState> = createStore({
     gems: gemsModule,
     user: userModule,
   },
-
-  plugins: [
-    createPersistedState({
-      getState: (key) => Cookies.getJSON(key),
-      setState: (key, state) =>
-        Cookies.set(key, state, { expires: 3, secure: true }),
-    }),
-  ],
+  plugins: [createPersistedState()],
 });
 
 export default store;
