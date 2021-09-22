@@ -63,13 +63,11 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    acceptFriendRequest(sender_id: number) {
-      console.log("accept friend request from " + sender_id);
-      this.store.dispatch("acceptFriendRequest", sender_id);
+    acceptFriendRequest(senderId: number) {
+      this.store.dispatch("acceptFriendRequest", senderId);
     },
-    declineFriendRequest(sender_id: number) {
-      console.log("decline friend request from " + sender_id);
-      this.store.dispatch("declineFriendRequest", sender_id);
+    declineFriendRequest(senderId: number) {
+      this.store.dispatch("declineFriendRequest", senderId);
     },
   },
 });

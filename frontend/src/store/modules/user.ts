@@ -108,11 +108,9 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    sendFriendRequest({ commit }, receiver_id) {
+    sendFriendRequest({ commit }, receiverId) {
       const request = new FriendRequest();
-      // Note: requester_id (self) will be retrieved
-      // from context keys in the backend
-      request.setReceiverId(receiver_id);
+      request.setReceiverId(receiverId);
 
       return new Promise((resolve, reject) => {
         services.friendsClient
@@ -125,11 +123,9 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    acceptFriendRequest({ dispatch }, requester_id) {
+    acceptFriendRequest({ dispatch }, requesterId) {
       const request = new FriendRequest();
-      // Note: receiver_id (self) will be retrieved
-      // from context keys in the backend
-      request.setRequesterId(requester_id);
+      request.setRequesterId(requesterId);
 
       return new Promise((resolve, reject) => {
         services.friendsClient
@@ -143,11 +139,9 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    declineFriendRequest({ dispatch }, requester_id) {
+    declineFriendRequest({ dispatch }, requesterId) {
       const request = new FriendRequest();
-      // Note: receiver_id (self) will be retrieved
-      // from context keys in the backend
-      request.setRequesterId(requester_id);
+      request.setRequesterId(requesterId);
 
       return new Promise((resolve, reject) => {
         services.friendsClient

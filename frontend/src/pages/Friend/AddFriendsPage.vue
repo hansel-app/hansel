@@ -62,8 +62,8 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    addFriend(receiver_id: number) {
-      this.store.dispatch("sendFriendRequest", receiver_id);
+    addFriend(receiverId: number) {
+      this.store.dispatch("sendFriendRequest", receiverId);
     },
   },
 });
