@@ -8,6 +8,8 @@ import {
   GemColor as ProtoGemColor,
   GemMessage,
   GetPendingCollectionForUserResponse,
+  PickUpRequest,
+  PickUpResponse,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
 import { blobToUint8Array } from "@/utils/attachment";
@@ -146,6 +148,20 @@ const gemsModule: Module<GemsState, RootState> = {
             const droppedGemId: number = resp.getDroppedGemId();
             commit("updateDropGemFormState", { id: droppedGemId });
             resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    pickUpGem(_, payload: { gemId: number }) {
+      const pickUpRequest = new PickUpRequest();
+      pickUpRequest.setId(payload.gemId);
+
+      return new Promise((resolve, reject) => {
+        services.gemsClient
+          .pickUp(pickUpRequest)
+          .then((resp: PickUpResponse) => {
+            const pickedUpGemId: number = resp.getId();
+            resolve(pickedUpGemId);
           })
           .catch((err) => reject(err));
       });
