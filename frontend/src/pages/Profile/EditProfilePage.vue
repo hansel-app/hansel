@@ -1,7 +1,7 @@
 <template>
   <div class="overlay">
     <Header title="Edit Profile" />
-    <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
+    <ProfileAvatar />
     <van-button class="edit-button"
       ><van-icon name="edit" size="40px"
     /></van-button>
@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import CircleAvatar from "@/components/CircleAvatar.vue";
+import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
 
@@ -48,7 +48,7 @@ export default defineComponent({
     },
   },
   components: {
-    CircleAvatar,
+    ProfileAvatar,
     Header,
     ProfilePageBg,
   },
