@@ -1,11 +1,7 @@
 <template>
   <NavBar left-arrow @click-left="goBack" />
   <h1>Edit Profile</h1>
-  <AvatarHeader
-    :avatarUrl="placeholderAvatarUrl"
-    :displayName="mockSelfUser.displayName"
-    :username="mockSelfUser.username"
-  />
+  <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
   <van-button class="edit-button"
     ><van-icon name="edit" size="40px"
   /></van-button>
@@ -15,7 +11,7 @@
 import { defineComponent } from "vue";
 import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import AvatarHeader from "./AvatarHeader.vue";
+import CircleAvatar from "@/components/CircleAvatar.vue";
 
 export default defineComponent({
   data() {
@@ -33,7 +29,7 @@ export default defineComponent({
     },
   },
   components: {
-    AvatarHeader,
+    CircleAvatar,
     NavBar,
   },
 });
