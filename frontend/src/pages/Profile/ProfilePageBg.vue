@@ -19,6 +19,7 @@ export default defineComponent({
   background: linear-gradient(to bottom, #c0c2e5, #e43d9700);
   height: 100vh;
   position: relative;
+  z-index: -1;
 }
 
 .semi-circle {

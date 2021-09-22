@@ -1,24 +1,27 @@
 <template>
-  <NavBar left-arrow @click-left="goBack" />
-  <h1>Edit Profile</h1>
-  <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
-  <van-button class="edit-button"
-    ><van-icon name="edit" size="40px"
-  /></van-button>
-  <van-form>
-    <van-field
-      v-model="username"
-      name="Username"
-      label="Username"
-      placeholder="username"
-    />
-    <van-field
-      v-model="displayName"
-      name="Display name"
-      label="Display name"
-      placeholder="Display name"
-    />
-  </van-form>
+  <div class="overlay">
+    <NavBar left-arrow @click-left="goBack" />
+    <h1>Edit Profile</h1>
+    <CircleAvatar :avatarUrl="placeholderAvatarUrl" radius="5" />
+    <van-button class="edit-button"
+      ><van-icon name="edit" size="40px"
+    /></van-button>
+    <van-form>
+      <van-field
+        v-model="username"
+        name="Username"
+        label="Username"
+        placeholder="username"
+      />
+      <van-field
+        v-model="displayName"
+        name="Display name"
+        label="Display name"
+        placeholder="Display name"
+      />
+    </van-form>
+  </div>
+  <ProfilePageBg />
 </template>
 
 <script lang="ts">
@@ -26,6 +29,7 @@ import { defineComponent } from "vue";
 import { NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import CircleAvatar from "@/components/CircleAvatar.vue";
+import ProfilePageBg from "./ProfilePageBg.vue";
 
 export default defineComponent({
   data() {
@@ -47,6 +51,7 @@ export default defineComponent({
   components: {
     CircleAvatar,
     NavBar,
+    ProfilePageBg,
   },
 });
 </script>
