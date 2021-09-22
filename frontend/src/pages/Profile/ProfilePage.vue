@@ -6,7 +6,7 @@
     :username="mockSelfUser.username"
   />
   <CellGroup>
-    <Cell title="Edit profile" is-link />
+    <Cell title="Edit profile" is-link @click="goToEditProfile" />
     <Cell title="Friends" is-link />
   </CellGroup>
   <Cell title="Logout" />
@@ -16,7 +16,7 @@
 import { defineComponent } from "vue";
 import { CellGroup, Cell, NavBar } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import { ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
+import { EDIT_PROFILE_ROUTE } from "@/constants";
 import AvatarHeader from "./AvatarHeader.vue";
 
 export default defineComponent({
@@ -33,11 +33,8 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    goToAddFriends() {
-      this.$router.push(ADD_FRIENDS_ROUTE);
-    },
-    goToFriendRequests() {
-      this.$router.push(FRIEND_REQUESTS_ROUTE);
+    goToEditProfile() {
+      this.$router.push(EDIT_PROFILE_ROUTE);
     },
   },
   components: {
