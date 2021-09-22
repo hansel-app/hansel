@@ -138,10 +138,10 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRelationshi
 }
 
 func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) error {
-	sql, _, _ := qb.Insert("friends").Rows(goqu.Record{
+	sql, _, _ := qb.Insert("friend_requests").Rows(goqu.Record{
 		"requester_id": requesterID,
 		"receiver_id":  receiverID,
-		"requested_at": time.Now(),
+		"created_at":   time.Now(),
 	}).ToSQL()
 
 	_, err := r.db.Exec(sql)

@@ -17,7 +17,7 @@
           <van-icon
             :name="require('@/assets/icons/user-plus.svg')"
             size="24"
-            @click="(user) => addFriend(user)"
+            @click="() => addFriend(user)"
           />
         </FriendCell>
       </CellGroup>
@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, Search } from "vant";
+import { CellGroup, Search, Toast } from "vant";
 import { User } from "@/interfaces";
 import { useStore, mapState } from "vuex";
 import FriendCell from "@/components/FriendCell.vue";
@@ -75,7 +75,17 @@ export default defineComponent({
         });
     },
     addFriend(user: User) {
-      this.store.dispatch("sendFriendRequest", user.id);
+      this.store
+        .dispatch("sendFriendRequest", user.id)
+        .then(() =>
+          Toast.success(`Successfully sent friend request to @${user.username}`)
+        )
+        .catch((err) => {
+          Toast.success(
+            `Failed to send friend request to @${user.username}. Try again later!`
+          );
+          console.error(err);
+        });
     },
   },
 });
