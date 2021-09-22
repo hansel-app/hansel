@@ -151,7 +151,7 @@ const gemsModule: Module<GemsState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    pickUpGem(_, payload: { gemId: number }) {
+    pickUpGem({ dispatch }, payload: { gemId: number }) {
       const pickUpRequest = new PickUpRequest();
       pickUpRequest.setId(payload.gemId);
 
@@ -159,6 +159,7 @@ const gemsModule: Module<GemsState, RootState> = {
         services.gemsClient
           .pickUp(pickUpRequest)
           .then((resp) => {
+            dispatch("getGemsPendingCollectionForUser");
             resolve(resp);
           })
           .catch((err) => reject(err));
