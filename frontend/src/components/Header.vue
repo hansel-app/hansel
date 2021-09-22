@@ -13,6 +13,7 @@
 </template>
 <script>
 import { defineComponent } from "vue";
+import { HOME_ROUTE } from "@/constants";
 import { Row } from "vant";
 import arrowLeft from "@/assets/icons/arrow-left.svg";
 import cross from "@/assets/icons/cross.svg";
@@ -32,7 +33,7 @@ export default defineComponent({
         },
         backLink: {
             type: String,
-            required: false,
+            default: () => HOME_ROUTE,
         }
     }, 
     components: {
@@ -41,9 +42,6 @@ export default defineComponent({
     computed: {
         getIcon() {
             return require("@/assets/icons/cross.svg");
-        },
-        goBack() {
-            return this.$router.back();
         },
         isCrossIconDisplayed() {
             return {
@@ -60,6 +58,9 @@ export default defineComponent({
         goToHome() {
             this.$router.push({ name: 'home'});
         },
+        goBack() {
+            this.$router.push(this.backLink);
+        },
     }
 })
 </script>
@@ -73,7 +74,8 @@ export default defineComponent({
 }
 
 #icon-right {
-    margin-left: 19.5em;
+    position: absolute;
+    right: 1.5em;
 }
 
 .hide-icon {

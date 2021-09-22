@@ -1,36 +1,40 @@
 <template>
-  <NavBar
-    v-bind:left-arrow="currentStage > 0"
-    @click-left="prevStage"
-    class="nav-bar"
-  />
+  <div>
+    <div class="backswipe-area" v-touch:swipe.right="prevStage">
+    </div>
+    <NavBar
+      v-bind:left-arrow="currentStage > 0"
+      @click-left="prevStage"
+      class="nav-bar"
+    />
 
-  <router-view
-    :name="currentStageName"
-    @next-stage="nextStage"
-    @set-receiver-event="setReceiverId"
-    @set-message-event="setMessage"
-    @set-gem-color-event="setGemColor"
-  ></router-view>
+    <router-view
+      :name="currentStageName"
+      @next-stage="nextStage"
+      @set-receiver-event="setReceiverId"
+      @set-message-event="setMessage"
+      @set-gem-color-event="setGemColor"
+    ></router-view>
 
-  <van-button
-    class="form-navigation-button"
-    round
-    type="primary"
-    v-if="shouldShowNextButton"
-    @click="nextStage"
-  >
-    Next
-  </van-button>
-  <van-button
-    class="form-navigation-button"
-    round
-    type="primary"
-    v-if="currentStage === numStages - 1"
-    v-on:click="dropMyGem"
-  >
-    Drop Gem
-  </van-button>
+    <van-button
+      class="form-navigation-button"
+      round
+      type="primary"
+      v-if="shouldShowNextButton"
+      @click="nextStage"
+    >
+      Next
+    </van-button>
+    <van-button
+      class="form-navigation-button"
+      round
+      type="primary"
+      v-if="currentStage === numStages - 1"
+      v-on:click="dropMyGem"
+    >
+      Drop Gem
+    </van-button>
+  </div>
 </template>
 
 <script lang="ts">

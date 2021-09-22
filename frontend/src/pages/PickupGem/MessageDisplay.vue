@@ -1,6 +1,6 @@
 <template>
   <div class="bg-container" :style="addBackground">
-    <BottomSheet :gem="gem" />
+    <BottomSheet :gem="gem"/>
   </div>
 </template>
 <script lang="ts">

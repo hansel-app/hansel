@@ -1,5 +1,6 @@
 <template>
   <div class="background-gradient">
+    <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
       <Search
@@ -26,12 +27,14 @@
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
 import { User } from "@/interfaces";
+import BackSwipe from "@/components/BackSwipe.vue";
 import { useStore } from "vuex";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
+    BackSwipe,
     CellGroup,
     FriendCell,
     Header,

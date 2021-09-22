@@ -1,3 +1,4 @@
+import "animate.css";
 import {
   ADD_FRIENDS_ROUTE,
   DROP_GEM_ROUTE,
@@ -49,6 +50,10 @@ const router = createRouter({
           },
         },
       ],
+      meta: {
+        enterClass: 'animate__animated animate__slideInRight',
+        leaveClass: 'animate__animated animate__slideOutLeft',
+      }
     },
     {
       path: PICKUP_GEM_ROUTE,
@@ -63,6 +68,10 @@ const router = createRouter({
           },
         },
       ],
+      meta: {
+        enterClass: 'animate__animated animate__slideInRight',
+        leaveClass: 'animate__animated animate__slideOutLeft',
+      }
     },
     { path: PROFILE_ROUTE, component: ProfilePage },
     { path: EDIT_PROFILE_ROUTE, component: EditProfilePage },
@@ -85,6 +94,10 @@ const router = createRouter({
     {
       path: GEM_LOGS_ROUTE,
       component: GemLogs,
+      meta: {
+        enterClass: 'animate__animated animate__fadeInRight',
+        leaveClass: 'animate__animated animate__fadeOutLeft',
+      }
     },
   ],
 });
