@@ -20,7 +20,7 @@
         label="Display name"
         placeholder="Display name"
       />
-      <van-button round type="primary"> Save </van-button>
+      <van-button round type="primary" @click="editProfile"> Save </van-button>
     </van-form>
   </div>
   <ProfilePageBg />
@@ -32,6 +32,7 @@ import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
   data() {
@@ -43,11 +44,17 @@ export default defineComponent({
       mockFriends,
       username: mockSelfUser.username,
       displayName: mockSelfUser.displayName,
+      store: useStore(),
     };
   },
   methods: {
     goBack() {
       this.$router.back();
+    },
+    editProfile() {
+      this.store.dispatch("editOwnProfile", {
+        newDisplayName: this.displayName,
+      });
     },
   },
   components: {
