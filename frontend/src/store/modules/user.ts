@@ -10,9 +10,9 @@ import {
   PendingFriendRequest,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
-  User as ProtoUser,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
+import { protoUserToUserMapper } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
@@ -25,15 +25,6 @@ export interface UserState {
   self?: User;
   currPosition: LatLng;
 }
-
-const protoUserToUserMapper = (protoUser: ProtoUser): User => {
-  return {
-    id: protoUser.getUserId(),
-    username: protoUser.getUsername(),
-    displayName: protoUser.getDisplayName(),
-    avatar: protoUser.getAvatar_asB64(),
-  };
-};
 
 const userModule: Module<UserState, RootState> = {
   state: {

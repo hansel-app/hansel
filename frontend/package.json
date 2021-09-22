@@ -11,6 +11,7 @@
     "proto": "rm -rf ./src/protobuf && mkdir ./src/protobuf && protoc --proto_path ../api-specs --js_out=import_style=commonjs,binary:./src/protobuf --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:./src/protobuf $(find ../api-specs -type f -name \"*.proto\")"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
     "google-protobuf": "^3.18.0",
@@ -27,6 +28,7 @@
     "vue-router": "^4.0.11",
     "vue3-click-away": "^1.2.1",
     "vue3-google-map": "^0.8.2",
+    "vue3-touch-events": "^4.1.0",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
   },
