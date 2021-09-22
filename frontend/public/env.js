@@ -10,6 +10,6 @@
 window.env = {
   VUE_APP_SERVER_URL: 'http://localhost',
   VUE_APP_SERVER_PORT: 10000,
-  VUE_APP_GOOGLE_API_KEY: '',
+  VUE_APP_GOOGLE_API_KEY: 'AIzaSyBQtPAxW1JqFaPHYhGcpwp_gYqEifJOrAU',
   VUE_APP_GOOGLE_ANALYTICS_ID: ''
 };

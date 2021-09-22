@@ -3,11 +3,16 @@
     <video autoplay muted :poster="getPoster" id="gem-video">
       <source :src="getVideo" type="video/mp4" />
     </video>
-    <div id="found-gem">
-      <h1>You found a gem!</h1>
+    <div id="found-gem" class="big-header">
+      You found a gem!
     </div>
     <div id="view-button">
-      <van-button @click="$emit('next-stage')">View contents</van-button>
+      <van-button 
+        @click="$emit('next-stage')"
+        size="large"
+      >
+        View contents
+      </van-button>
     </div>
   </div>
 </template>
@@ -88,5 +93,10 @@ h1 {
   font-family: CircularStd-Black;
   font-size: 3em;
   color: rgb(87, 40, 80);
+}
+
+.big-header {
+  color: black;
+  margin-top: -1em;
 }
 </style>
