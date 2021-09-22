@@ -12,8 +12,8 @@ import {
 import { RootState } from "@/store";
 import { blobToUint8Array } from "@/utils/attachment";
 import dayjs from "dayjs";
-import { Module } from "vuex";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
@@ -133,9 +133,8 @@ const gemsModule: Module<GemsState, RootState> = {
       gemMessage.setAttachment(
         await blobToUint8Array(dropGemFormState.attachment)
       );
-      // TODO:  populate latlng from store
-      gemMessage.setLatitude(1.32);
-      gemMessage.setLongitude(1.432);
+      gemMessage.setLatitude(this.state.user.currPosition.lat);
+      gemMessage.setLongitude(this.state.user.currPosition.lng);
 
       const request = new DropRequest();
       request.setGemMessage(gemMessage);
