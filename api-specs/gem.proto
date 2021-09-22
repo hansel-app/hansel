@@ -9,7 +9,7 @@ service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
   rpc GetPendingCollectionForUser (google.protobuf.Empty) returns (GetPendingCollectionForUserResponse);
-  rpc PickUp (PickUpRequest) returns (PickUpResponse);
+  rpc PickUp (PickUpRequest) returns (google.protobuf.Empty);
 }
 
 enum GemColor {
@@ -66,9 +66,4 @@ message GetPendingCollectionForUserResponse {
 
 message PickUpRequest {
   int64 id = 1;
-}
-
-message PickUpResponse {
-  int64 id = 1;
-  string message = 2;
 }

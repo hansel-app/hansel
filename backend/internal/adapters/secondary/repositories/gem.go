@@ -51,6 +51,19 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 	return gems, nil
 }
 
+func (r *gemRepository) PickUpGem(id int64, userId int64) error {
+	sql, _, _ := qb.Update("gems").Where(goqu.C("id").Eq(id)).Set(
+		goqu.Record{"receiver_id": userId},
+	).ToSQL()
+
+	_, err := r.db.Exec(sql)
+	if err != nil {
+		return fmt.Errorf("unable to pick up gem with id %d for user %d: %w", id, userId, err)
+	}
+
+	return nil
+}
+
 func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	// Necessary to use prepared statements here due to a bug in how goqu parses
 	// bytes (used for the gem attachments)

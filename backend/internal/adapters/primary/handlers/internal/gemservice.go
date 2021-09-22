@@ -6,6 +6,7 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hansel-app/hansel/internal/contextkeys"
@@ -95,4 +96,21 @@ func (s *gemService) GetPendingCollectionForUser(
 	return &gemsapi.GetPendingCollectionForUserResponse{
 		Gems: processedGems,
 	}, nil
+}
+
+func (s *gemService) PickUp(
+	c context.Context,
+	r *gemsapi.PickUpRequest,
+) (*emptypb.Empty, error) {
+	userID, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	err := s.usecases.PickUpGem(r.GetId(), userID)
+	if err != nil {
+		return nil, err
+	}
+
+	return new(emptypb.Empty), nil
 }
