@@ -49,6 +49,10 @@ const router = createRouter({
           },
         },
       ],
+      meta: {
+        enterClass: 'animate__animated animate__slideInRight',
+        leaveClass: 'animate__animated animate__slideOutLeft',
+      }
     },
     {
       path: PICKUP_GEM_ROUTE,
@@ -64,8 +68,8 @@ const router = createRouter({
         },
       ],
       meta: {
-        enterClass: 'animate__animated animate__fadeInRight',
-        leaveClass: 'animate__animated animate__fadeOutLeft',
+        enterClass: 'animate__animated animate__slideInRight',
+        leaveClass: 'animate__animated animate__slideOutLeft',
       }
     },
     { path: PROFILE_ROUTE, component: ProfilePage },
