@@ -6,17 +6,17 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 service UserService {
-  rpc GetProfile (google.protobuf.Empty) returns (ProfileResponse);
+  rpc GetOwnProfile (google.protobuf.Empty) returns (GetOwnProfileResponse);
   rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
   rpc GetFriends (google.protobuf.Empty) returns (GetFriendsResponse);
-  rpc GetFriendRequests (google.protobuf.Empty) returns (GetPendingFriendRequestsResponse);
+  rpc GetFriendRequests (google.protobuf.Empty) returns (GetFriendRequestsResponse);
   rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc Block (FriendRequest) returns (google.protobuf.Empty);
 }
 
-message ProfileResponse {
+message GetOwnProfileResponse {
   User info = 1;
   repeated User friends = 2;
 }
@@ -45,7 +45,7 @@ message GetFriendsResponse {
   repeated User friends = 1;
 }
 
-message GetPendingFriendRequestsResponse {
+message GetFriendRequestsResponse {
   repeated PendingFriendRequest friend_requests = 1;
 }
 

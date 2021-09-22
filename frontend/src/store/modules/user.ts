@@ -3,9 +3,9 @@ import { LatLng, User } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
 import {
   User as ProtoUser,
-  ProfileResponse,
+  GetOwnProfileResponse,
   GetFriendsResponse,
-  GetPendingFriendRequestsResponse,
+  GetFriendRequestsResponse,
   PendingFriendRequest,
   FriendRequest,
   SearchByUsernameRequest,
@@ -72,8 +72,8 @@ const userModule: Module<UserState, RootState> = {
     getOwnProfile({ commit }) {
       return new Promise((resolve, reject) => {
         services.userClient
-          .getProfile(new Empty())
-          .then((resp: ProfileResponse) => {
+          .getOwnProfile(new Empty())
+          .then((resp: GetOwnProfileResponse) => {
             const friends: User[] = resp.getFriendsList().map(protoUserToUserMapper);
             commit("setFriends", friends);
             const self = resp.getInfo();
@@ -113,7 +113,7 @@ const userModule: Module<UserState, RootState> = {
       return new Promise((resolve, reject) => {
         services.userClient
           .getFriendRequests(new Empty())
-          .then((resp: GetPendingFriendRequestsResponse) => {
+          .then((resp: GetFriendRequestsResponse) => {
             const pendingFriends: PendingFriendRequest[] = resp.getFriendRequestsList();
             commit("setFriendRequests", pendingFriends);
             resolve(resp);
