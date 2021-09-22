@@ -2,6 +2,7 @@ import services from "@/api/services";
 import { SINGAPORE_CENTER } from "@/constants";
 import { LatLng, User } from "@/interfaces";
 import {
+  EditProfileRequest,
   FriendRequest,
   GetFriendRequestsResponse,
   GetFriendsResponse,
@@ -171,6 +172,28 @@ const userModule: Module<UserState, RootState> = {
           .declineFriendRequest(request)
           .then((resp) => {
             dispatch("getFriendRequests");
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
+    editOwnProfile(
+      _,
+      payload: { newDisplayName?: string; newAvatar?: string }
+    ) {
+      const request = new EditProfileRequest();
+      if (payload.newDisplayName)
+        request.setNewDisplayName(payload.newDisplayName);
+      if (payload.newAvatar) request.setNewAvatar(payload.newAvatar);
+
+      return new Promise((resolve, reject) => {
+        services.userClient
+          .editOwnProfile(request)
+          .then((resp) => {
+            // Ideally there is a separate RPC call that doesn't
+            // fetch friends here.
+            this.dispatch("getOwnProfile");
             resolve(resp);
           })
           .catch((err) => reject(err));

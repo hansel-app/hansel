@@ -1,19 +1,21 @@
 <template>
-  <Suspense>
-    <template #default>
-      <div>
-        <HamburgerMenu ref="hamburgerMenu" />
+  <div>
+    <Suspense>
+      <template #default>
         <div>
-          <gem-map :gems="gems" />
+          <HamburgerMenu ref="hamburgerMenu" />
+          <div>
+            <gem-map :gems="gems" />
+          </div>
         </div>
-      </div>
-    </template>
-    <template #fallback>
-      <van-row class="loading-container" justify="center" align="center">
-        <Loading class="loading" size="36px">Loading...</Loading>
-      </van-row>
-    </template>
-  </Suspense>
+      </template>
+      <template #fallback>
+        <van-row class="loading-container" justify="center" align="center">
+          <Loading class="loading" size="36px">Loading map & stacking gems...</Loading>
+        </van-row>
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <script lang="ts">

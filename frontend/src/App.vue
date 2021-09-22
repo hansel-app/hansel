@@ -1,5 +1,14 @@
 <template>
-  <router-view :key="$route.fullPath"></router-view>
+  <div v-cloak>
+    <router-view v-slot="{ Component, route }" :key="$route.fullPath">
+      <transition
+        :enter-active-class="route.meta.enterClass"
+        :leave-active-class="route.meta.leaveClass"
+      >
+        <component :is="Component"></component>
+      </transition>
+    </router-view>
+  </div>
 </template>
 
 <script>
@@ -8,7 +17,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",
 });
-</script>
+</script> 
 
 <style lang="less">
 #app {
@@ -49,5 +58,16 @@ export default defineComponent({
     url(./assets/fonts/CircularStd-MediumItalic.otf) format("truetype");
   font-weight: lighter;
   font-style: italic;
+}
+
+.fade-enter-from,
+.fade-leave-to,
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s ease-out;
 }
 </style>
