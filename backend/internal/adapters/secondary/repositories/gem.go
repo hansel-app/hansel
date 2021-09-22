@@ -60,12 +60,12 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	var gemId int64
 	stmt, err := r.db.Prepare(sql)
 	if err != nil {
-		return -1, fmt.Errorf("failed to prepare statement: %w", err)
+		return 0, fmt.Errorf("failed to prepare statement: %w", err)
 	}
 
 	err = stmt.QueryRow(args...).Scan(&gemId)
 	if err != nil {
-		return -1, fmt.Errorf("unable to add gem: %w", err)
+		return 0, fmt.Errorf("unable to add gem: %w", err)
 	}
 
 	return gemId, nil
