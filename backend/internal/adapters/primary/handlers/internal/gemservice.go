@@ -4,13 +4,12 @@ import (
 	"context"
 
 	"github.com/golang/protobuf/ptypes/empty"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type gemService struct {

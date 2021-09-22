@@ -2,12 +2,11 @@ package server
 
 import (
 	"github.com/grpc-ecosystem/go-grpc-middleware"
-	"github.com/jmoiron/sqlx"
-	"google.golang.org/grpc"
-
 	"github.com/hansel-app/hansel/internal/adapters/primary/handlers"
 	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/internal/server/interceptors"
+	"github.com/jmoiron/sqlx"
+	"google.golang.org/grpc"
 )
 
 func New(db *sqlx.DB, jwtManager *auth.JWTManager) *grpc.Server {
