@@ -70,5 +70,6 @@ message GemLogs {
 }
 
 message GemLogsWithFriend {
+  usersapi.User friend = 1;
   repeated Gem gems = 2;
 }

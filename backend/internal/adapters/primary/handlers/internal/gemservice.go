@@ -194,8 +194,15 @@ func (s *gemService) GetGemLogs(
 			processedGems = append(processedGems, &processedGem)
 		}
 
+		friend := userInfoMap[friendId]
 		gemLogsWithFriend := gemsapi.GemLogsWithFriend{
 			Gems: processedGems,
+			Friend: &usersapi.User{
+				UserId:      friend.ID,
+				DisplayName: friend.DisplayName,
+				Username:    friend.Username,
+				Avatar:      friend.Avatar,
+			},
 		}
 		gemLogs[friendId] = &gemLogsWithFriend
 	}

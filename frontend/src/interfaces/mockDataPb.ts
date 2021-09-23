@@ -1,4 +1,4 @@
-import { Gem as GemPb, GemLogsWithFriend, GemColor } from "@/protobuf/gem_pb";
+import { Gem as GemPb, GemColor, GemLogsWithFriend } from "@/protobuf/gem_pb";
 import { User as UserPb } from "@/protobuf/user_pb";
 
 // Contains mock data for protobuf models
