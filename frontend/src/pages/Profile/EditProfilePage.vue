@@ -25,14 +25,12 @@
       <van-button round type="primary" @click="editProfile"> Save </van-button>
     </van-form>
   </div>
-  <ProfilePageBg />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import ProfileAvatar from "./ProfileAvatar.vue";
-import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
 import { PROFILE_ROUTE } from "@/constants";
@@ -64,7 +62,6 @@ export default defineComponent({
   components: {
     ProfileAvatar,
     Header,
-    ProfilePageBg,
   },
 });
 </script>
