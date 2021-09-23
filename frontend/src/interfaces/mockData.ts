@@ -3,14 +3,14 @@ import dayjs from "dayjs";
 
 export const mockFriends: User[] = [
   {
-    id: 1,
+    userId: 1,
     displayName: "Groundskeeper",
     username: "goosehater123",
     avatar:
       "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
   },
   {
-    id: 2,
+    userId: 2,
     displayName: "Wimp",
     username: "scared_of_geese",
 
@@ -18,7 +18,7 @@ export const mockFriends: User[] = [
       "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
   },
   {
-    id: 3,
+    userId: 3,
     displayName: "Goose",
     username: "goose",
 
@@ -26,7 +26,7 @@ export const mockFriends: User[] = [
       "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
   },
   {
-    id: 4,
+    userId: 4,
     displayName: "Pub owner",
     username: "abc",
 
@@ -36,7 +36,7 @@ export const mockFriends: User[] = [
 ];
 
 export const mockSelfUser: User = {
-  id: 100,
+  userId: 100,
   displayName: "Maggie Mee",
   username: "maggiemee",
   avatar:

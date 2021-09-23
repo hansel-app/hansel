@@ -57,6 +57,10 @@ func (u *UseCases) Get(userID int64) (*User, error) {
 	return u.repository.Get(userID)
 }
 
+func (u *UseCases) GetUsersByIds(userIDs []int64) (map[int64]User, error) {
+	return u.repository.GetUsersByIds(userIDs)
+}
+
 func (u *UseCases) SearchByUsername(searchQuery string) ([]User, error) {
 	return u.repository.SearchByUsername(searchQuery)
 }
@@ -79,4 +83,12 @@ func (u *UseCases) AcceptFriendRequest(requesterID, receiverID int64) error {
 
 func (u *UseCases) DeclineFriendRequest(requesterID, receiverID int64) error {
 	return u.repository.DeclineFriendRequest(requesterID, receiverID)
+}
+
+func (u *UseCases) UpdateAvatar(userID int64, newAvatar []byte) error {
+	return u.repository.UpdateAvatar(userID, newAvatar)
+}
+
+func (u *UseCases) UpdateDisplayName(userID int64, newDisplayName string) error {
+	return u.repository.UpdateDisplayName(userID, newDisplayName)
 }

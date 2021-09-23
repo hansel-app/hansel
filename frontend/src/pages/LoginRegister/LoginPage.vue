@@ -15,18 +15,21 @@
         placeholder="Password"
         :rules="[{ required: true, message: 'Password is required' }]"
       />
-      <div class="button-container">
-        <van-button round block type="primary" native-type="submit" width="80%">
+      <div class="button-container content">
+        <van-button round block type="primary" native-type="submit" size="large">
           Login
         </van-button>
       </div>
+      <span class="register" @click="goToRegisterPage">
+        Sign up
+      </span>
     </van-form>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { HOME_ROUTE } from "@/constants";
+import { HOME_ROUTE, REGISTER_ROUTE } from "@/constants";
 import { useStore } from "vuex";
 import { Toast } from "vant";
 
@@ -48,15 +51,21 @@ export default defineComponent({
         .then(() => this.$router.push(HOME_ROUTE))
         .catch(() => Toast.fail(`Failed to log in`));
     },
+    goToRegisterPage() {
+      this.$router.push(REGISTER_ROUTE);
+    },
   },
 });
 </script>
 
 <style scoped lang="less">
-.container .van-field {
+.van-field {
   width: 80%;
 }
 .button-container {
   margin: 16px;
+}
+.register {
+  padding: 0.5em 1em;
 }
 </style>

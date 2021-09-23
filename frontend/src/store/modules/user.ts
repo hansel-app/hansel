@@ -2,16 +2,17 @@ import services from "@/api/services";
 import { SINGAPORE_CENTER } from "@/constants";
 import { LatLng, User } from "@/interfaces";
 import {
+  EditProfileRequest,
   FriendRequest,
   GetFriendRequestsResponse,
   GetFriendsResponse,
   GetOwnProfileResponse,
   PendingFriendRequest,
   SearchByUsernameRequest,
-  SearchByUsernameResponse,
-  User as ProtoUser,
+  SearchByUsernameResponse
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
+import { protoUserToUserMapper } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
@@ -24,15 +25,6 @@ export interface UserState {
   self?: User;
   currPosition: LatLng;
 }
-
-const protoUserToUserMapper = (protoUser: ProtoUser): User => {
-  return {
-    id: protoUser.getUserId(),
-    username: protoUser.getUsername(),
-    displayName: protoUser.getDisplayName(),
-    avatar: protoUser.getAvatar_asB64(),
-  };
-};
 
 const userModule: Module<UserState, RootState> = {
   state: {
@@ -171,6 +163,28 @@ const userModule: Module<UserState, RootState> = {
           .declineFriendRequest(request)
           .then((resp) => {
             dispatch("getFriendRequests");
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
+    editOwnProfile(
+      _,
+      payload: { newDisplayName?: string; newAvatar?: string }
+    ) {
+      const request = new EditProfileRequest();
+      if (payload.newDisplayName)
+        request.setNewDisplayName(payload.newDisplayName);
+      if (payload.newAvatar) request.setNewAvatar(payload.newAvatar);
+
+      return new Promise((resolve, reject) => {
+        services.userClient
+          .editOwnProfile(request)
+          .then((resp) => {
+            // Ideally there is a separate RPC call that doesn't
+            // fetch friends here.
+            this.dispatch("getOwnProfile");
             resolve(resp);
           })
           .catch((err) => reject(err));

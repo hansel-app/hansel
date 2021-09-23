@@ -1,82 +1,25 @@
 import services from "@/api/services";
 import { DropGemFormState, Gem, GemColor } from "@/interfaces";
-import { mockFriends, mockSelfUser } from "@/interfaces/mockData";
 import {
   DropRequest,
-  DropResponse,
-  Gem as ProtoGem,
-  GemColor as ProtoGemColor,
-  GemMessage,
+  DropResponse, GemLogs, GemMessage,
   GetPendingCollectionForUserResponse,
-  PickUpRequest,
+  PickUpRequest
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
 import { blobToUint8Array } from "@/utils/attachment";
-import dayjs from "dayjs";
+import {
+  gemColorToProtoGemColorMapper,
+  protoGemToGemMapper
+} from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
+  gemLogs?: GemLogs;
   dropGemFormState: DropGemFormState;
 }
-
-const protoGemColorToGemColorMapper = (
-  protoGemColor: ProtoGemColor
-): GemColor => {
-  switch (protoGemColor) {
-    case ProtoGemColor.PURPLE:
-      return GemColor.PURPLE;
-    case ProtoGemColor.PINK:
-      return GemColor.PINK;
-    case ProtoGemColor.BLUE:
-      return GemColor.BLUE;
-    case ProtoGemColor.BLACK:
-      return GemColor.BLACK;
-    case ProtoGemColor.YELLOW:
-      return GemColor.YELLOW;
-    case ProtoGemColor.GREEN:
-      return GemColor.GREEN;
-    default:
-      throw new Error("Unknown gem color received!");
-  }
-};
-
-const gemColorToProtoGemColorMapper = (gemColor: GemColor): ProtoGemColor => {
-  switch (gemColor) {
-    case GemColor.PURPLE:
-      return ProtoGemColor.PURPLE;
-    case GemColor.PINK:
-      return ProtoGemColor.PINK;
-    case GemColor.BLUE:
-      return ProtoGemColor.BLUE;
-    case GemColor.BLACK:
-      return ProtoGemColor.BLACK;
-    case GemColor.YELLOW:
-      return ProtoGemColor.YELLOW;
-    case GemColor.GREEN:
-      return ProtoGemColor.GREEN;
-    default:
-      throw new Error("Unknown gem color received!");
-  }
-};
-
-const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
-  return {
-    id: protoGem.getId(),
-    message: protoGem.getMessage(),
-    position: {
-      lat: protoGem.getLatitude(),
-      lng: protoGem.getLongitude(),
-    },
-    createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
-    // TODO: replace these with actual user object
-    createdBy: mockFriends[0],
-    receiver: mockSelfUser,
-    receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
-    color: protoGemColorToGemColorMapper(protoGem.getColor()),
-  };
-};
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
 
@@ -88,6 +31,9 @@ const gemsModule: Module<GemsState, RootState> = {
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
+    },
+    setGemLogs(state, gemLogs: GemLogs) {
+      state.gemLogs = gemLogs;
     },
     updateDropGemFormState(state, dropGemFormState: Partial<DropGemFormState>) {
       state.dropGemFormState = {
@@ -107,6 +53,18 @@ const gemsModule: Module<GemsState, RootState> = {
           .then((resp: GetPendingCollectionForUserResponse) => {
             const gems: Gem[] = resp.getGemsList().map(protoGemToGemMapper);
             commit("setGemsPendingCollection", gems);
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    getGemLogs({ commit }) {
+      return new Promise((resolve, reject) => {
+        services.gemsClient
+          .getGemLogs(new Empty())
+          .then((resp: GemLogs) => {
+            const gemLogs = resp.getGemLogsMap();
+            commit("setGemLogs", gemLogs);
             resolve(resp);
           })
           .catch((err) => reject(err));

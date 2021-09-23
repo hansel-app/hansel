@@ -1,23 +1,26 @@
 <template>
-  <NavBar left-arrow @click-left="goBack" />
-  <AvatarHeader
-    :avatarUrl="placeholderAvatarUrl"
-    :displayName="mockSelfUser.displayName"
-    :username="mockSelfUser.username"
-  />
-  <h3 class="sub-header">Friends</h3>
-  <CellGroup>
-    <FriendCell v-for="user in mockFriends" :key="user.id" :friend="user" />
-  </CellGroup>
+  <div class="overlay bring-to-front">
+    <Header />
+    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+    <h2>{{ mockSelfUser.displayName }}</h2>
+    <h3>{{ "@" + mockSelfUser.username }}</h3>
+    <CellGroup>
+      <Cell title="Edit profile" is-link @click="goToEditProfile" />
+      <Cell title="Friends" is-link />
+    </CellGroup>
+    <Cell title="Logout" />
+  </div>
+  <ProfilePageBg />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { NavBar } from "vant";
+import { CellGroup, Cell } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import { ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE } from "@/constants";
-import AvatarHeader from "./AvatarHeader.vue";
-import FriendCell from "@/components/FriendCell.vue";
+import { EDIT_PROFILE_ROUTE } from "@/constants";
+import ProfileAvatar from "./ProfileAvatar.vue";
+import ProfilePageBg from "./ProfilePageBg.vue";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
   data() {
@@ -27,23 +30,23 @@ export default defineComponent({
         "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
       mockSelfUser,
       mockFriends,
+      color: "#ffffff",
     };
   },
   methods: {
     goBack() {
       this.$router.back();
     },
-    goToAddFriends() {
-      this.$router.push(ADD_FRIENDS_ROUTE);
-    },
-    goToFriendRequests() {
-      this.$router.push(FRIEND_REQUESTS_ROUTE);
+    goToEditProfile() {
+      this.$router.push(EDIT_PROFILE_ROUTE);
     },
   },
   components: {
-    AvatarHeader,
-    FriendCell,
-    NavBar,
+    ProfileAvatar,
+    CellGroup,
+    Cell,
+    Header,
+    ProfilePageBg,
   },
 });
 </script>
@@ -51,5 +54,9 @@ export default defineComponent({
 <style scoped lang="less">
 .sub-header {
   text-align: left;
+}
+
+.bring-to-front {
+  z-index: 2;
 }
 </style>

@@ -155,6 +155,9 @@
 // Search component
 @search-content-background-color: white;
 
+// Cell
+@cell-border-color: transparent;
+
 // Background gradient
 .background-gradient {
   background: @gradient-blue;
@@ -167,6 +170,26 @@
   background: none;
 }
 
+// Backswipe area
+.backswipe-area {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100vh;
+  width: 6%;
+  z-index: 1;
+}
+
+// Overlay on top of another component
+// Note component must have position: relative
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
 // Uploader
 @uploader-delete-icon-size: 20px;
 

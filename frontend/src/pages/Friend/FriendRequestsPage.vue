@@ -1,25 +1,28 @@
 <template>
   <div class="background-gradient">
-    <Header title="Friend requests"/>
+    <BackSwipe />
+    <Header title="Friend requests" />
     <div class="container">
       <van-cell-group>
         <FriendCell
           v-for="user in mockFriends"
-          :key="user.id"
+          :key="user.userId"
           :friend="user"
           :shouldDisplayUsername="true"
         >
-          <div>
-            <van-button id="left-button"
-              round 
-              type="primary" 
+          <div class="align-right">
+            <van-button
+              id="left-button"
+              round
+              type="primary"
               size="small"
               @click="acceptFriendRequest"
-            >Accept</van-button>
-            <van-button 
-              round @click="declineFriendRequest"
-              size="small"
-            >Decline</van-button>
+            >
+              Accept
+            </van-button>
+            <van-button round @click="declineFriendRequest" size="small">
+              Decline
+            </van-button>
           </div>
         </FriendCell>
       </van-cell-group>
@@ -30,6 +33,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
 import { mockFriends } from "@/interfaces/mockData";
+import BackSwipe from "@/components/BackSwipe.vue";
 import { User } from "@/protobuf/user_pb";
 import FriendCell from "@/components/FriendCell.vue";
 import { useStore } from "vuex";
@@ -43,6 +47,7 @@ export default defineComponent({
     onMounted(() => fetchFriendRequests);
   },
   components: {
+    BackSwipe,
     FriendCell,
     Header,
   },
@@ -74,6 +79,11 @@ export default defineComponent({
 </script>
 <style scoped>
 #left-button {
-  margin-right: 1em;
+  margin-right: 0.5em;
+}
+.align-right {
+  margin: auto 0 auto auto;
+  position: absolute;
+  right: 0;
 }
 </style>

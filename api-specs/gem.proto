@@ -1,15 +1,17 @@
 syntax = "proto3";
 package gemsapi;
-option go_package = "/gemsapi";
+option go_package = "github.com/hansel-app/hansel/protobuf/gemsapi";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
+import "user.proto";
 
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
   rpc GetPendingCollectionForUser (google.protobuf.Empty) returns (GetPendingCollectionForUserResponse);
   rpc PickUp (PickUpRequest) returns (google.protobuf.Empty);
+  rpc GetGemLogs (google.protobuf.Empty) returns (GemLogs);
 }
 
 enum GemColor {
@@ -26,9 +28,9 @@ message Gem {
   string message = 2;
   double latitude = 3;
   double longitude = 4;
-  int64 creator_id = 5;
+  usersapi.User creator = 5;
   google.protobuf.Timestamp created_at = 6;
-  int64 receiver_id = 7;
+  usersapi.User receiver = 7;
   google.protobuf.Timestamp received_at = 8;
   GemColor color = 9;
   bytes attachment = 10;
@@ -66,4 +68,13 @@ message GetPendingCollectionForUserResponse {
 
 message PickUpRequest {
   int64 id = 1;
+}
+
+message GemLogs {
+  map<int64, GemLogsWithFriend> gem_logs = 1;
+}
+
+message GemLogsWithFriend {
+  usersapi.User friend = 1;
+  repeated Gem gems = 2;
 }

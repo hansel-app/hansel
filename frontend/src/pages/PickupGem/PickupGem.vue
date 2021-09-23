@@ -7,8 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { mockGems } from "@/interfaces/mockData";
+import { defineComponent, PropType } from "vue";
 import { Gem } from "@/interfaces";
 
 enum PickupGemStage {
@@ -17,10 +16,11 @@ enum PickupGemStage {
 }
 
 export default defineComponent({
-  setup() {
-    // TODO: replace later~
-    const gem: Gem = mockGems[0];
-    return { gem };
+  props: {
+    gem: {
+      type: Object as PropType<Gem>,
+      required: true,
+    },
   },
   data() {
     return {

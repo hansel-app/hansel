@@ -1,6 +1,6 @@
 export interface User {
-  id: number;
+  userId: number;
   username: string;
   displayName: string;
-  avatar: string; // TODO: replace this with bytes or something?
+  avatar: string | Uint8Array; // TODO: replace this with bytes or something?
 }

@@ -1,8 +1,9 @@
 <template>
   <div class="background-gradient">
+    <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Search
+      <Searchbar
         placeholder="Search by username"
         v-model="searchQuery"
         @input="handleSearch"
@@ -10,7 +11,7 @@
       <CellGroup>
         <FriendCell
           v-for="user in filteredUsers"
-          :key="user.id"
+          :key="user.userId"
           :friend="user"
           :shouldDisplayUsername="true"
         >
@@ -28,17 +29,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CellGroup, Search, Toast } from "vant";
-import { User } from "@/interfaces";
 import { useStore, mapState } from "vuex";
+import { User } from "@/protobuf/user_pb";
+import BackSwipe from "@/components/BackSwipe.vue";
+import Searchbar from "@/components/Searchbar.vue";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
+    BackSwipe,
     CellGroup,
     FriendCell,
+    Searchbar,
     Header,
-    Search,
   },
   data() {
     return {
@@ -57,7 +61,7 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
-      return this.users;
+      return this.users as User[];
     },
   },
   methods: {
@@ -67,7 +71,6 @@ export default defineComponent({
     handleSearch() {
       const filterFriends = (user: User) => !this.friends.includes(user);
       const filterSelf = (user: User) => this.selfUser.id != user.id;
-
       this.store
         .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {

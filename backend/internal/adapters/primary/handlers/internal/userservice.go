@@ -4,14 +4,13 @@ import (
 	"context"
 
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/hansel-app/hansel/internal/contextkeys"
+	"github.com/hansel-app/hansel/internal/core/domain/users"
+	"github.com/hansel-app/hansel/protobuf/usersapi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-
-	"github.com/hansel-app/hansel/internal/contextkeys"
-	"github.com/hansel-app/hansel/internal/core/domain/users"
-	"github.com/hansel-app/hansel/protobuf/usersapi"
 )
 
 type userService struct {
@@ -192,6 +191,32 @@ func (s *userService) DeclineFriendRequest(
 	err := s.usecases.DeclineFriendRequest(r.RequesterId, userId)
 	if err != nil {
 		return nil, err
+	}
+
+	return new(emptypb.Empty), nil
+}
+
+func (s *userService) EditOwnProfile(
+	c context.Context,
+	r *usersapi.EditProfileRequest,
+) (*emptypb.Empty, error) {
+	userID, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	if r.GetNewAvatar() != nil {
+		err := s.usecases.UpdateAvatar(userID, r.GetNewAvatar())
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if r.GetNewDisplayName() != "" {
+		err := s.usecases.UpdateDisplayName(userID, r.GetNewDisplayName())
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return new(emptypb.Empty), nil

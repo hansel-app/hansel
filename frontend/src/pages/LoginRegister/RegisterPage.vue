@@ -34,13 +34,16 @@
           Register
         </van-button>
       </div>
+      <span class="login-prompt" @click="goToLoginPage">
+        Already have an account? Login
+      </span>
     </van-form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { HOME_ROUTE } from "@/constants";
+import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants";
 import { useStore } from "vuex";
 
 export default defineComponent({
@@ -67,15 +70,20 @@ export default defineComponent({
         // TODO: Display some form of user feedback upon registration failure.
         .catch((err) => console.log(err, "Failed to register"));
     },
+    goToLoginPage() {
+      this.$router.push(LOGIN_ROUTE);
+    }
   },
 });
 </script>
-
 <style scoped lang="less">
 .container .van-field {
   width: 80%;
 }
 .button-container {
   margin: 16px;
+}
+.login-prompt {
+  padding: 0.5em 1em;
 }
 </style>
