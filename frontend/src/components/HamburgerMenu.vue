@@ -21,6 +21,7 @@
                     </van-row>
                     <van-row tabindex="2" @click="goToAddFriends">
                       <p>Add friends</p>
+                      <Notification />
                     </van-row>
                     <van-row tabindex="2" @click="goToFriendRequests">
                         <p>Friend requests</p>
@@ -33,8 +34,9 @@
 <script>
 import { PROFILE_ROUTE, ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE, GEM_LOGS_ROUTE } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
-import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
+import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
+import Notification from "@/components/Notification.vue";
 import { Row } from "vant";
 
 export default defineComponent({
@@ -54,6 +56,7 @@ export default defineComponent({
   components: {
     "van-row": Row,
     CircleAvatar,
+    Notification,
   },
   data() {
     return {
