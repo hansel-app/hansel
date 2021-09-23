@@ -27,7 +27,13 @@
         type="password"
         name="confirmPassword"
         placeholder="Confirm password"
-        :rules="[{ required: true, message: 'Confirm password is required' }]"
+        :rules="[
+          { required: true, message: 'Confirm password is required' },
+          {
+            validator: validatePasswordConfirmation,
+            message: 'Passwords do not match',
+          },
+        ]"
       />
       <div class="button-container">
         <van-button round block type="primary" native-type="submit" width="80%">
@@ -58,21 +64,23 @@ export default defineComponent({
   },
   methods: {
     handleRegister() {
-      if (this.password !== this.confirmPassword) {
-        // TODO: show some error here.
-        return;
-      }
-      this.store.dispatch("register", {
-        displayName: this.fullName,
-        username: this.username,
-        password: this.password,
-      }).then(() => this.$router.push(HOME_ROUTE))
+      this.store
+        .dispatch("register", {
+          displayName: this.fullName,
+          username: this.username,
+          password: this.password,
+        })
+        .then(() => this.$router.push(HOME_ROUTE))
         // TODO: Display some form of user feedback upon registration failure.
         .catch((err) => console.log(err, "Failed to register"));
     },
     goToLoginPage() {
       this.$router.push(LOGIN_ROUTE);
-    }
+    },
+    validatePasswordConfirmation(val: string) {
+      console.log(val);
+      return val === this.password;
+    },
   },
 });
 </script>
