@@ -4,20 +4,25 @@
     <Header title="Add friends" />
     <div class="container">
       <Searchbar v-model="searchQuery" placeholder="Search by username" @input="handleSearch" />
-      <CellGroup>
-        <FriendCell
-          v-for="user in filteredUsers"
-          :key="user.userId"
-          :friend="user"
-          :shouldDisplayUsername="true"
-        >
-          <van-icon
-            :name="require('@/assets/icons/user-plus.svg')"
-            size="24"
-            @click="() => addFriend(user)"
-          />
-        </FriendCell>
-      </CellGroup>
+      <div v-if="filteredUsers.length > 0">
+        <CellGroup>
+          <FriendCell
+            v-for="user in filteredUsers"
+            :key="user.userId"
+            :friend="user"
+            :shouldDisplayUsername="true"
+          >
+            <van-icon
+              :name="require('@/assets/icons/user-plus.svg')"
+              size="24"
+              @click="() => addFriend(user)"
+            />
+          </FriendCell>
+        </CellGroup>
+      </div>
+      <div v-else-if="searchQuery.length > 0" class="feedback-message">
+        <i>No results found</i> &#x1f4a9;
+      </div>
     </div>
   </div>
 </template>
