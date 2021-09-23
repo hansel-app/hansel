@@ -30,7 +30,7 @@
 import { defineComponent } from "vue";
 import { CellGroup, Search, Toast } from "vant";
 import { useStore, mapState } from "vuex";
-import { User } from "@/protobuf/user_pb";
+import { User } from "@/interfaces";
 import BackSwipe from "@/components/BackSwipe.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import FriendCell from "@/components/FriendCell.vue";
@@ -53,8 +53,8 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      friends: (state: any) => state.user.friends,
-      selfUser: (state: any) => state.user.self,
+      friends: (state: any) => state.user.friends as User[],
+      selfUser: (state: any) => state.user.self as User,
     }),
     filteredUsers(): User[] {
       if (!this.searchQuery) {
@@ -70,7 +70,7 @@ export default defineComponent({
     },
     handleSearch() {
       const filterFriends = (user: User) => !this.friends.includes(user);
-      const filterSelf = (user: User) => this.selfUser.id != user.id;
+      const filterSelf = (user: User) => this.selfUser.userId != user.userId;
       this.store
         .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {
@@ -79,7 +79,7 @@ export default defineComponent({
     },
     addFriend(user: User) {
       this.store
-        .dispatch("sendFriendRequest", user.id)
+        .dispatch("sendFriendRequest", user.userId)
         .then(() =>
           Toast.success(`Successfully sent friend request to @${user.username}`)
         )

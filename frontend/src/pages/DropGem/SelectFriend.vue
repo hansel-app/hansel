@@ -1,30 +1,33 @@
 <template>
   <div>
-    <Header
-      :isCloseWindow="true" 
-      title="Drop a gem" 
-    />
+    <Header :isCloseWindow="true" title="Drop a gem" />
     <div class="container">
       <p class="sub-header">Choose a receiver</p>
-      <Searchbar
-        placeholder="Search a friend" 
-      />
-    <CellGroup>
-      <FriendCell
-        v-for="friend in filteredFriends"
-        :key="friend.id"
-        :friend="friend"
-        :isClickable="true"
-        :shouldDisplayUsername="true"
+      <Searchbar placeholder="Search a friend" />
+      <CellGroup>
+        <FriendCell
+          v-for="friend in filteredFriends"
+          :key="friend.userId"
+          :friend="friend"
+          :isClickable="true"
+          :shouldDisplayUsername="true"
+          @click="
+            () => {
+              $emit('set-receiver-event', friend.userId);
+              $emit('next-stage');
+            }
+          "
+        />
+      </CellGroup>
+      <van-button
         @click="
           () => {
-            $emit('set-receiver-event', friend.id);
             $emit('next-stage');
           }
         "
-      />
-    </CellGroup>
-    <van-button @click="() => {$emit('next-stage')}"> dummy button </van-button>
+      >
+        dummy button
+      </van-button>
     </div>
   </div>
 </template>
