@@ -1,4 +1,4 @@
-import { Gem, GemColor, User } from "@/interfaces";
+import { Gem, GemColor, GemLogs, GemLogsWithFriend, User } from "@/interfaces";
 import dayjs from "dayjs";
 import { placeholderBase64Avatar } from "./placeholderBase64Avatar";
 
@@ -46,6 +46,7 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: null,
     color: GemColor.PURPLE,
+    attachment: "",
   },
   {
     id: 222,
@@ -56,6 +57,7 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: null,
     color: GemColor.BLACK,
+    attachment: "",
   },
   {
     id: 333,
@@ -66,5 +68,15 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: null,
     color: GemColor.BLUE,
+    attachment: "",
   },
 ];
+
+export const mockGemLogs: GemLogs = {
+  gemLogsMap: new Map([
+    [1, { friend: mockFriends[0], gems: mockGems } as GemLogsWithFriend],
+    [2, { friend: mockFriends[1], gems: mockGems } as GemLogsWithFriend],
+    [3, { friend: mockFriends[2], gems: mockGems } as GemLogsWithFriend],
+    [4, { friend: mockFriends[3], gems: mockGems } as GemLogsWithFriend],
+  ]),
+};
