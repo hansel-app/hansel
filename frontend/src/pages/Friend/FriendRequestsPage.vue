@@ -5,9 +5,9 @@
     <div class="container">
       <van-cell-group>
         <FriendCell
-          v-for="user in mockFriends"
-          :key="user.userId"
-          :friend="user"
+          v-for="request in pendingFriendRequests"
+          :key="request.requester.userId"
+          :friend="request.requester"
           :shouldDisplayUsername="true"
         >
           <div class="align-right">
@@ -32,12 +32,11 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import { mockFriends } from "@/interfaces/mockData";
 import BackSwipe from "@/components/BackSwipe.vue";
-import { User } from "@/protobuf/user_pb";
 import FriendCell from "@/components/FriendCell.vue";
 import { useStore } from "vuex";
 import Header from "@/components/Header.vue";
+import { PendingFriendRequest } from "@/interfaces";
 
 export default defineComponent({
   setup() {
@@ -53,14 +52,11 @@ export default defineComponent({
   },
   data() {
     return {
-      mockFriends,
       store: useStore(),
     };
   },
   computed: {
-    // TODO: replace mockFriends with this.
-    // Not sure how to update the seed haha so I'll leave it.
-    pendingFriendRequests(): User[] {
+    pendingFriendRequests(): PendingFriendRequest {
       return this.store.state.user.friendRequests;
     },
   },

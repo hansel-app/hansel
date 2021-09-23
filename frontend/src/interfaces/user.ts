@@ -1,4 +1,9 @@
-import { User as ProtoUser, PendingFriendRequest as ProtoPendingFriendRequest } from "@/protobuf/user_pb";
+import { User as ProtoUser } from "@/protobuf/user_pb";
+import { Dayjs } from "dayjs";
 
 export type User = ProtoUser.AsObject;
-export type PendingFriendRequest = ProtoPendingFriendRequest.AsObject;
+
+export interface PendingFriendRequest {
+  requester: User;
+  createdAt: Dayjs;
+}

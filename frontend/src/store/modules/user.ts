@@ -1,18 +1,17 @@
 import services from "@/api/services";
 import { SINGAPORE_CENTER } from "@/constants";
-import { LatLng, User } from "@/interfaces";
+import { LatLng, PendingFriendRequest, User } from "@/interfaces";
 import {
   EditProfileRequest,
   FriendRequest,
   GetFriendRequestsResponse,
   GetFriendsResponse,
   GetOwnProfileResponse,
-  PendingFriendRequest,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
-import { protoUserToUserMapper } from "@/utils/mappers";
+import { protoPendingFriendRequestToPendingFriendRequestMapper, protoUserToUserMapper } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
@@ -120,7 +119,9 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getFriendRequests(new Empty())
           .then((resp: GetFriendRequestsResponse) => {
-            const pendingFriendRequests: PendingFriendRequest[] = resp.getFriendRequestsList();
+            const pendingFriendRequests: PendingFriendRequest[] = resp
+              .getFriendRequestsList()
+              .map(protoPendingFriendRequestToPendingFriendRequestMapper);
             commit("setFriendRequests", pendingFriendRequests);
             resolve(resp);
           })
