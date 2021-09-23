@@ -32,7 +32,20 @@ func (r *userRepository) Get(id int64) (*users.User, error) {
 }
 
 func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error) {
-	return nil, nil
+	sql, _, _ := qb.From("users").Where(goqu.I("id").In(ids)).ToSQL()
+
+	var selectedUsers []users.User
+	err := r.db.Select(&selectedUsers, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to retrieve users with ids '%s': %w", ids, err)
+	}
+
+	userMap := make(map[int64]users.User)
+	for _, user := range selectedUsers {
+		userMap[user.ID] = user
+	}
+
+	return userMap, nil
 }
 
 func (r *userRepository) GetByUsername(username string) (*users.User, error) {
