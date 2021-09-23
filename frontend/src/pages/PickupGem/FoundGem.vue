@@ -7,10 +7,7 @@
       You found a gem!
     </div>
     <div id="view-button">
-      <van-button 
-        @click="$emit('next-stage')"
-        size="large"
-      >
+      <van-button @click="$emit('next-stage')" size="large">
         View contents
       </van-button>
     </div>

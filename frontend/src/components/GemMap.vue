@@ -114,6 +114,7 @@ import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
 import { useStore } from "vuex";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
+import { Toast } from "vant";
 
 const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -321,9 +322,10 @@ export default defineComponent({
         console.error("No gem selected for picking up");
         return;
       }
-      this.store.dispatch("pickUpGem", { gemId: this.openedInfoWindowGem.id });
-
-      this.$router.push(PICKUP_GEM_ROUTE);
+      this.store
+        .dispatch("pickUpGem", { gem: this.openedInfoWindowGem })
+        .then(() => this.$router.push(PICKUP_GEM_ROUTE))
+        .catch((err) => Toast.fail(`Failed to pick up gem: ${err}`));
     },
   },
 });
