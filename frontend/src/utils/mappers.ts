@@ -93,13 +93,13 @@ export const protoGemLogToGemLogMapper = (
 ): GemLogs => {
   const gemLogs = protoGemLog.getGemLogsMap();
 
-  const mappedMap = new Map();
+  const mappedMap = new Map<number, GemLogsWithFriend>();
 
   for (const [friendId, val] of gemLogs.entries()) {
     const gemLogsWithFriends = protoGemLogWithFriendsToGemLogWithFriendsMapper(
       val
     );
-    mappedMap.set(friendId, val);
+    mappedMap.set(friendId, gemLogsWithFriends);
   }
 
   return {
