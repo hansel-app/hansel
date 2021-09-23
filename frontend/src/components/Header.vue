@@ -1,6 +1,6 @@
 <template>
   <div class="page-header container">
-    <van-row :justify="justify" :align="align">
+    <van-row :justify="justify">
       <img
         id="icon-left"
         :class="isBackIconDisplayed"
