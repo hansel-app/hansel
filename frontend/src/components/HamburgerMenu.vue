@@ -14,19 +14,35 @@
             Profile
           </CircleAvatar>
         </div>
-        <div class="links">
-          <van-row tabindex="1" @click="goToLogs">
-            <p>Gem logs</p>
-          </van-row>
-          <van-row tabindex="2" @click="goToAddFriends">
-            <p>Add friends</p>
-          </van-row>
-          <van-row tabindex="2" @click="goToFriendRequests">
-            <p>Friend requests</p>
-          </van-row>
-          <van-row tabindex="2" @click="logOut">
-            <p>Log out</p>
-          </van-row>
+        <div class="menu" :style="{ width: menuWidth }">
+          <div class="menu-contents" v-if="!collapsed">
+            <div class="avatar">
+              <CircleAvatar
+              :avatarUrl="placeholderAvatarUrl"
+              :radius="2.5"
+              @click="goToProfile"
+              >
+              Profile
+              </CircleAvatar>
+            </div>
+            <div class="links">
+              <van-row tabindex="1" @click="goToLogs">
+                <p>Gem logs</p>
+              </van-row>
+              <van-row tabindex="2" @click="goToAddFriends">
+                <p>Add friends</p>
+              </van-row>
+              <van-row tabindex="3" @click="goToFriendRequests">
+                <p>Friend requests</p>
+                <van-col v-if="requestCount > 0">
+                  <Notification :requestCount="requestCount"/>
+                </van-col>
+              </van-row>
+              <van-row tabindex="4" @click="logOut">
+                <p>Log out</p>
+              </van-row>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -41,8 +57,9 @@ import {
   LOGIN_ROUTE,
 } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
-import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
+import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
+import Notification from "@/components/Notification.vue";
 import { Row } from "vant";
 import { useStore } from "vuex";
 
@@ -50,7 +67,7 @@ export default defineComponent({
   setup() {
     const collapsed = ref(true);
     const toggleMenu = () => (collapsed.value = !collapsed.value);
-    const MENU_WIDTH_EXPANDED = 12;
+    const MENU_WIDTH_EXPANDED = 14;
     const MENU_WIDTH_COLLAPSED = 0;
     const menuWidth = computed(
       () => `${collapsed.value ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}em`
@@ -69,6 +86,13 @@ export default defineComponent({
   components: {
     "van-row": Row,
     CircleAvatar,
+    Notification,
+  },
+  props: {
+    requestCount: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -148,6 +172,7 @@ export default defineComponent({
   border-radius: 1em;
   padding: 0 1em;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .van-row:hover,
