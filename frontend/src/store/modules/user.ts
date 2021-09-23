@@ -11,7 +11,10 @@ import {
   SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
-import { protoPendingFriendRequestToPendingFriendRequestMapper, protoUserToUserMapper } from "@/utils/mappers";
+import {
+  protoPendingFriendRequestToPendingFriendRequestMapper,
+  protoUserToUserMapper,
+} from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
@@ -25,19 +28,19 @@ export interface UserState {
   currPosition: LatLng;
 }
 
-const initialState: UserState = Object.freeze({
+const initialState: UserState = {
   friends: [],
   friendRequests: [],
   self: undefined,
   isSendFriendRequestSuccessful: false,
   currPosition: SINGAPORE_CENTER,
-});
+};
 
 const userModule: Module<UserState, RootState> = {
-  state: initialState,
+  state: { ...initialState },
   mutations: {
     resetUserStore(state) {
-      Object.assign(state, initialState);
+      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
     },
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;

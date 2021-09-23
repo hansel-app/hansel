@@ -24,18 +24,18 @@ export interface GemsState {
   lastPickedUpGem?: Gem;
 }
 
-const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
-const initialState: GemsState = Object.freeze({
+const initialDropGemFormState = { color: GemColor.PURPLE };
+const initialState: GemsState = {
   gemsPendingCollection: [],
   dropGemFormState: initialDropGemFormState,
   lastPickedUpGem: undefined,
-});
+};
 
 const gemsModule: Module<GemsState, RootState> = {
-  state: initialState,
+  state: { ...initialState },
   mutations: {
     resetGemsStore(state) {
-      Object.assign(state, initialState);
+      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
     },
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
