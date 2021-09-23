@@ -66,4 +66,8 @@ export default defineComponent({
   padding-top: 2vh;
   padding-bottom: 2vh;
 }
+
+.van-row {
+  padding-top: 1vh;
+}
 </style>
