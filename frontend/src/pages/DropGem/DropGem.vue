@@ -49,6 +49,9 @@ enum DropGemStage {
   Message,
 }
 
+const NO_PHOTO_ERROR = "You must attach a photo";
+const NO_MESSAGE_ERROR = "You must write something";
+
 export default defineComponent({
   components: {
     NavBar,
@@ -77,12 +80,15 @@ export default defineComponent({
     isMediaAttached(): boolean {
       return this.store.state.gems.dropGemFormState.attachment !== undefined;
     },
+    isMessageFilled(): boolean {
+      return this.store.state.gems.dropGemFormState.message;
+    },
   },
   methods: {
     nextStage() {
       console.log(this.isMediaAttached);
       if (this.currentStage === DropGemStage.Media && !this.isMediaAttached) {
-        Toast.fail("You must attach a photo");
+        Toast.fail(NO_PHOTO_ERROR);
         return;
       }
       if (this.currentStage < this.numStages - 1) {
@@ -104,6 +110,15 @@ export default defineComponent({
       this.store.commit("updateDropGemFormState", { color: value });
     },
     dropMyGem() {
+      // Should not happen, but just in case.
+      if (!this.isMediaAttached) {
+        Toast.fail(NO_PHOTO_ERROR);
+        return;
+      }
+      if (!this.isMessageFilled) {
+        Toast.fail(NO_MESSAGE_ERROR);
+        return;
+      }
       const dropGem = () => this.store.dispatch("dropGem");
       dropGem()
         .then(() => {
