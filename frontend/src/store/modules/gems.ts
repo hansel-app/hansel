@@ -48,6 +48,7 @@ const gemsModule: Module<GemsState, RootState> = {
         ...state.dropGemFormState,
         ...dropGemFormState,
       };
+      console.log(state.dropGemFormState);
     },
     clearDropGemFormState(state) {
       state.dropGemFormState = initialDropGemFormState;

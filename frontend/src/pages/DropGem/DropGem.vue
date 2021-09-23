@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="backswipe-area" v-touch:swipe.right="prevStage">
-    </div>
+    <div class="backswipe-area" v-touch:swipe.right="prevStage"></div>
     <NavBar
       v-bind:left-arrow="currentStage > 0"
       @click-left="prevStage"
@@ -75,9 +74,17 @@ export default defineComponent({
     shouldShowNextButton(): boolean {
       return [DropGemStage.Media].includes(this.currentStage);
     },
+    isMediaAttached(): boolean {
+      return this.store.state.gems.dropGemFormState.attachment !== undefined;
+    },
   },
   methods: {
     nextStage() {
+      console.log(this.isMediaAttached);
+      if (this.currentStage === DropGemStage.Media && !this.isMediaAttached) {
+        Toast.fail("You must attach a photo");
+        return;
+      }
       if (this.currentStage < this.numStages - 1) {
         this.currentStage += 1;
       }

@@ -55,7 +55,7 @@ export default defineComponent({
       this.store.commit("updateDropGemFormState", {
         attachment: fileListItem.file,
       });
-    },
+    }
   },
 });
 </script>
