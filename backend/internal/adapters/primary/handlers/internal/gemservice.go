@@ -79,12 +79,14 @@ func (s *gemService) GetPendingCollectionForUser(
 		return nil, err
 	}
 
-	// Stores user Id. Map is used primarily as a set here
-	userIdsSet := make(map[int64]bool)
 	// Store all user ids to be retrieved as keys of the map
+	// Map is used primarily as a set here
+	userIdsSet := make(map[int64]bool)
 	for _, gem := range gems {
-		userIdsSet[gem.ID] = true
+		userIdsSet[gem.CreatorId] = true
+		userIdsSet[gem.ReceiverId] = true
 	}
+
 	// Retrieve all userIds of the map
 	userIds := make([]int64, len(userIdsSet))
 	i := 0
