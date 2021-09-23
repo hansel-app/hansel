@@ -157,6 +157,9 @@ func (s *gemService) GetGemLogs(
 	}
 
 	friendIdToGemLogsMap, err := s.usecases.GetGemLogs(userID)
+	if err != nil {
+		return nil, err
+	}
 	// Retrieve list of relevant user ids
 	userIds := make([]int64, len(friendIdToGemLogsMap))
 	i := 0
