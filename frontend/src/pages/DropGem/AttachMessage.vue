@@ -4,6 +4,7 @@
     <div class="container">
       <p class="sub-header">Attach a message!</p>
       <Field
+        v-model="message"
         class="message-input"
         placeholder="Enter your message"
         type="textarea"
@@ -16,6 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import { Field } from "vant";
 import GemHeader from "@/components/GemHeader.vue";
 import { GemColor } from "@/interfaces";
@@ -26,11 +28,19 @@ export default defineComponent({
     Field,
     GemHeader,
   },
-
+  setup() {
+    const store = useStore();
+    return {
+      store,
+    };
+  },
   computed: {
     ...mapState({
       color: (state: any) => state.gems.dropGemFormState.color as GemColor,
     }),
+    message(): string {
+      return this.store.state.gems.dropGemFormState.message;
+    },
   },
 });
 </script>
