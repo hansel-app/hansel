@@ -224,7 +224,7 @@ func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64
 	sql, _, _ := qb.
 		Insert(goqu.T("friends")).
 		Rows(goqu.Record{
-			"first_user_id": firstUserID,
+			"first_user_id":  firstUserID,
 			"second_user_id": secondUserID,
 		}).
 		ToSQL()
