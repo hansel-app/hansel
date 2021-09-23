@@ -4,6 +4,7 @@ import {
   DropRequest,
   DropResponse,
   GemLogs,
+  GemLogsWithFriend,
   GemMessage,
   GetPendingCollectionForUserResponse,
   PickUpRequest,
@@ -19,9 +20,10 @@ import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
-  gemLogs?: GemLogs;
   dropGemFormState: DropGemFormState;
   lastPickedUpGem?: Gem;
+  gemLogs?: GemLogs.AsObject;
+  selectedGemLog?: GemLogsWithFriend.AsObject;
 }
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
@@ -31,13 +33,15 @@ const gemsModule: Module<GemsState, RootState> = {
     gemsPendingCollection: [],
     dropGemFormState: initialDropGemFormState,
     lastPickedUpGem: undefined,
+    gemLogs: undefined,
+    selectedGemLog: undefined,
   },
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
     },
     setGemLogs(state, gemLogs: GemLogs) {
-      state.gemLogs = gemLogs;
+      state.gemLogs = gemLogs.toObject();
     },
     updateDropGemFormState(state, dropGemFormState: Partial<DropGemFormState>) {
       state.dropGemFormState = {
