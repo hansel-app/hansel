@@ -8,7 +8,6 @@
       <Cell title="Edit profile" is-link @click="goToEditProfile" />
       <Cell title="Friends" is-link @click="goToFriendList" />
     </CellGroup>
-    <Cell title="Logout" />
   </div>
   <ProfilePageBg />
 </template>

@@ -1,6 +1,6 @@
-import { Gem, GemColor, User } from "@/interfaces";
+import { Gem, GemColor, PendingFriendRequest, User } from "@/interfaces";
 import { Gem as ProtoGem, GemColor as ProtoGemColor } from "@/protobuf/gem_pb";
-import { User as ProtoUser } from "@/protobuf/user_pb";
+import { PendingFriendRequest as ProtoPendingFriendRequest, User as ProtoUser } from "@/protobuf/user_pb";
 import dayjs from "dayjs";
 
 export const protoGemColorToGemColorMapper = (
@@ -73,5 +73,19 @@ export const protoUserToUserMapper = (protoUser: ProtoUser): User => {
     username: protoUser.getUsername(),
     displayName: protoUser.getDisplayName(),
     avatar: protoUser.getAvatar_asB64(),
+  };
+};
+
+export const protoPendingFriendRequestToPendingFriendRequestMapper = (
+  protoPendingFriendRequest: ProtoPendingFriendRequest,
+): PendingFriendRequest => {
+  const requester = protoPendingFriendRequest.getRequester();
+  if (!requester) {
+    throw new Error("Pending friend request must have a requester");
+  }
+
+  return {
+    requester: protoUserToUserMapper(requester),
+    createdAt: dayjs(protoPendingFriendRequest.getCreatedAt()?.toDate()),
   };
 };

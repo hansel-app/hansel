@@ -7,11 +7,11 @@
       <CellGroup>
         <FriendCell
           v-for="friend in filteredFriends"
-          :key="friend.id"
+          :key="friend.userId"
           :friend="friend"
           :isClickable="true"
           :shouldDisplayUsername="true"
-          @click="handleClickWithDelay(friend.id)"
+          @click="handleClickWithDelay(friend.userId)"
         />
       </CellGroup>
     </div>
