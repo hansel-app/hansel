@@ -20,7 +20,7 @@
             >
               Accept
             </van-button>
-            <van-button round @click="declineFriendRequest" size="small">
+            <van-button round @click="declineFriendRequest(request.requester.userId)" size="small">
               Decline
             </van-button>
           </div>
@@ -67,8 +67,8 @@ export default defineComponent({
     acceptFriendRequest(requesterId: number) {
       this.store.dispatch("acceptFriendRequest", requesterId);
     },
-    declineFriendRequest(senderId: number) {
-      this.store.dispatch("declineFriendRequest", senderId);
+    declineFriendRequest(requesterId: number) {
+      this.store.dispatch("declineFriendRequest", requesterId);
     },
   },
 });
