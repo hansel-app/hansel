@@ -19,7 +19,7 @@ export default defineComponent({
   position: relative;
   height: 45vh;
   z-index: -1;
-  overflow-x: hidden;
+  overflow: hidden;
 
   .semi-circle {
     transform: translate(-25%, -50%);
