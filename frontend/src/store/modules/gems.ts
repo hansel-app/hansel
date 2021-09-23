@@ -3,16 +3,17 @@ import { DropGemFormState, Gem, GemColor } from "@/interfaces";
 import {
   DropRequest,
   DropResponse,
+  GemLogs,
   GemMessage,
   GetPendingCollectionForUserResponse,
-  GemLogs,
+  PickUpRequest,
 } from "@/protobuf/gem_pb";
+import { RootState } from "@/store";
+import { blobToUint8Array } from "@/utils/attachment";
 import {
   gemColorToProtoGemColorMapper,
   protoGemToGemMapper,
 } from "@/utils/mappers";
-import { RootState } from "@/store";
-import { blobToUint8Array } from "@/utils/attachment";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
@@ -20,6 +21,7 @@ export interface GemsState {
   gemsPendingCollection: Gem[];
   gemLogs?: GemLogs;
   dropGemFormState: DropGemFormState;
+  lastPickedUpGem?: Gem;
 }
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
@@ -28,6 +30,7 @@ const gemsModule: Module<GemsState, RootState> = {
   state: {
     gemsPendingCollection: [],
     dropGemFormState: initialDropGemFormState,
+    lastPickedUpGem: undefined,
   },
   mutations: {
     setGemsPendingCollection(state, gems: Gem[]) {
@@ -44,6 +47,9 @@ const gemsModule: Module<GemsState, RootState> = {
     },
     clearDropGemFormState(state) {
       state.dropGemFormState = initialDropGemFormState;
+    },
+    setLastPickedUpGem(state, gem: Gem) {
+      state.lastPickedUpGem = gem;
     },
   },
   actions: {
@@ -105,6 +111,21 @@ const gemsModule: Module<GemsState, RootState> = {
           .then((resp: DropResponse) => {
             const droppedGemId: number = resp.getDroppedGemId();
             commit("updateDropGemFormState", { id: droppedGemId });
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
+    pickUpGem({ commit, dispatch }, payload: { gem: Gem }) {
+      const pickUpRequest = new PickUpRequest();
+      pickUpRequest.setId(payload.gem.id);
+
+      return new Promise((resolve, reject) => {
+        services.gemsClient
+          .pickUp(pickUpRequest)
+          .then((resp) => {
+            commit("setLastPickedUpGem", payload.gem);
+            dispatch("getGemsPendingCollectionForUser");
             resolve(resp);
           })
           .catch((err) => reject(err));

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/doug-martin/goqu/v9"
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
@@ -48,6 +49,19 @@ func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, er
 	}
 
 	return gems, nil
+}
+
+func (r *gemRepository) PickUpGem(id int64) error {
+	sql, _, _ := qb.Update("gems").Where(goqu.C("id").Eq(id)).Set(
+		goqu.Record{"received_at": time.Now()},
+	).ToSQL()
+
+	_, err := r.db.Exec(sql)
+	if err != nil {
+		return fmt.Errorf("unable to pick up gem with id %d: %w", id, err)
+	}
+
+	return nil
 }
 
 func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
