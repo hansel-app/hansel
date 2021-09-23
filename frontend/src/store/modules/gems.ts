@@ -1,9 +1,15 @@
 import services from "@/api/services";
-import { DropGemFormState, Gem, GemColor } from "@/interfaces";
+import {
+  DropGemFormState,
+  Gem,
+  GemColor,
+  GemLogs,
+  GemLogsWithFriend,
+} from "@/interfaces";
 import {
   DropRequest,
   DropResponse,
-  GemLogs,
+  GemLogs as ProtoGemLogs,
   GemMessage,
   GetPendingCollectionForUserResponse,
   PickUpRequest,
@@ -12,6 +18,7 @@ import { RootState } from "@/store";
 import { blobToUint8Array } from "@/utils/attachment";
 import {
   gemColorToProtoGemColorMapper,
+  protoGemLogToGemLogMapper,
   protoGemToGemMapper,
 } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
@@ -19,9 +26,10 @@ import { Module } from "vuex";
 
 export interface GemsState {
   gemsPendingCollection: Gem[];
-  gemLogs?: GemLogs;
   dropGemFormState: DropGemFormState;
   lastPickedUpGem?: Gem;
+  gemLogs?: GemLogs;
+  selectedGemLog?: GemLogsWithFriend;
 }
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
@@ -29,10 +37,11 @@ const initialState: GemsState = Object.freeze({
   gemsPendingCollection: [],
   dropGemFormState: initialDropGemFormState,
   lastPickedUpGem: undefined,
+  gemLogs: undefined,
+  selectedGemLog: undefined,
 });
 
 const gemsModule: Module<GemsState, RootState> = {
-  state: initialState,
   mutations: {
     resetGemsStore(state) {
       Object.assign(state, initialState);
@@ -55,6 +64,9 @@ const gemsModule: Module<GemsState, RootState> = {
     setLastPickedUpGem(state, gem: Gem) {
       state.lastPickedUpGem = gem;
     },
+    setSelectedGemLog(state, gemLogWithFriend: GemLogsWithFriend) {
+      state.selectedGemLog = gemLogWithFriend;
+    },
   },
   actions: {
     getGemsPendingCollectionForUser({ commit }) {
@@ -73,10 +85,10 @@ const gemsModule: Module<GemsState, RootState> = {
       return new Promise((resolve, reject) => {
         services.gemsClient
           .getGemLogs(new Empty())
-          .then((resp: GemLogs) => {
-            const gemLogs = resp.getGemLogsMap();
+          .then((resp: ProtoGemLogs) => {
+            const gemLogs = protoGemLogToGemLogMapper(resp);
             commit("setGemLogs", gemLogs);
-            resolve(resp);
+            resolve(gemLogs);
           })
           .catch((err) => reject(err));
       });
