@@ -50,10 +50,6 @@ enum DropGemStage {
 }
 
 export default defineComponent({
-  // components: {
-  //   // NavBar,
-  //   arrowLeft,
-  // },
   setup() {
     const store = useStore();
     store.commit("clearDropGemFormState");
