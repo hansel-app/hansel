@@ -3,11 +3,7 @@
     <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Searchbar
-        placeholder="Search by username"
-        v-model="searchQuery"
-        @input="handleSearch"
-      />
+      <Searchbar placeholder="Search by username" @input="handleSearch" />
       <CellGroup>
         <FriendCell
           v-for="user in filteredUsers"
@@ -27,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { CellGroup, Toast } from "vant";
 import { useStore, mapState } from "vuex";
 import { User } from "@/interfaces";
@@ -46,7 +42,7 @@ export default defineComponent({
   },
   data() {
     return {
-      searchQuery: "",
+      searchQuery: ref(""),
       users: [] as User[],
       store: useStore(),
     };
@@ -68,7 +64,10 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    handleSearch() {
+    handleSearch(event: Event) {
+      const target = event.target as HTMLInputElement;
+      this.searchQuery = target.value;
+
       const filterFriends = (user: User) => !this.friends.includes(user);
       const filterSelf = (user: User) => this.selfUser.userId != user.userId;
       this.store
