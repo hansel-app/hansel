@@ -5,6 +5,7 @@
     :space-between="25"
     :centered-slides="true"
     :slide-to-clicked-slide="true"
+    :initial-slide="initialIndex"
     @real-index-change="onRealIndexChange"
   >
     <SwiperSlide v-for="color in colors" :key="color">
@@ -29,18 +30,22 @@ export default defineComponent({
     Swiper,
     SwiperSlide,
   },
-  setup(_, { emit }) {
+  setup() {
     const store = useStore();
-    const initialColor = store.state.gems.dropGemFormState.color;
-    emit("selected-color-changed", initialColor);
+    const initialIndex = store.state.gems.dropGemFormState.colorIndex;
 
     return {
+      store,
       colors: Object.values(GemColor),
+      initialIndex,
     };
   },
   methods: {
     onRealIndexChange(swiper: SwiperType) {
       const selectedColor: GemColor = this.colors[swiper.realIndex];
+      this.store.commit("updateDropGemFormState", {
+        colorIndex: swiper.realIndex,
+      });
       this.$emit("selected-color-changed", selectedColor);
     },
   },
