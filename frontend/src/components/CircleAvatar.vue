@@ -53,8 +53,14 @@ enum DefaultAvatars {
 }
 
 // if User has not set an avatar, use one of our placeholders.
-// Assumption is we reserve strings '1' to '5' for our placeholders haha
+// Assumption is we reserve strings '1' to '5' for our placeholders.
 const base64AvatarToPlaceholderMapper = (base64: string): string => {
+  // User has not set avatar at all, so base64 is an empty string.
+  // We give them GIRL1 in this case.
+  if (!base64) {
+    base64 = "1";
+  }
+  // User has their own avatar
   if (!(Object as any).values(DefaultAvatars).includes(base64)) {
     return base64;
   }
