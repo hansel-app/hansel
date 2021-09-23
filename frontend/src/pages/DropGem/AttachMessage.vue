@@ -9,6 +9,7 @@
         placeholder="Enter your message"
         type="textarea"
         rows="5"
+        v-model="message"
         @input="this.$emit('set-message-event', $event.target.value)"
       />
     </div>
@@ -49,5 +50,11 @@ export default defineComponent({
 <style scoped lang="less">
 .message-input {
   background-color: #e9e9e9;
+  border-radius: 2em;
+  box-shadow: @box-shadow-gradient;
+}
+.container {
+  margin-top: -10px;
+  padding-top: -20px;
 }
 </style>

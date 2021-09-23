@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import { createStore, Store } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import authModule, { AuthState } from "./modules/auth";
@@ -15,7 +16,18 @@ const store: Store<RootState> = createStore({
     gems: gemsModule,
     user: userModule,
   },
-  plugins: [createPersistedState()],
+  plugins: [
+    createPersistedState({
+      reducer: (state) => {
+        const reducer = cloneDeep(state);
+
+        // states which you don't want to persist
+        delete reducer.gems?.isGemMapFirstMount;
+
+        return reducer;
+      },
+    }),
+  ],
 });
 
 export default store;

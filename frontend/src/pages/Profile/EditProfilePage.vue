@@ -1,46 +1,39 @@
 <template>
   <div class="overlay">
-    <Header title="Edit Profile" />
-    <div class="avatar-container">
-      <ProfileAvatar :avatarUrl="self.avatar" />
-      <van-button class="edit-button overlay"
-        ><van-icon name="edit" size="40px"
-      /></van-button>
-    </div>
-    <van-form>
-      <van-field
-        v-model="username"
-        name="Username"
-        label="Username"
-        placeholder="username"
-        readonly
-        error-message="Username cannot be changed"
-      />
+    <Header title="Edit Profile" :backLink="PROFILE_ROUTE"/>
+    <van-form class="container">
+      <Uploader
+          v-model="fileList"
+          :max-count="1"
+          :preview-size="150"
+      >
+        <template #default>
+          <van-image height="150px" width="150px" :src="self.avatar"></van-image>
+        </template>
+      </Uploader>
       <van-field
         v-model="displayName"
         name="Display name"
-        label="Display name"
-        placeholder="Display name"
+        label="Name"
+        placeholder="Enter your name"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
     </van-form>
   </div>
-  <ProfilePageBg />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ProfileAvatar from "./ProfileAvatar.vue";
-import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
 import { User } from "@/interfaces/user.ts";
 import { useStore } from "vuex";
+import { PROFILE_ROUTE } from "@/constants";
+import { Uploader, UploaderFileListItem, Toast } from "vant";
 
 export default defineComponent({
-  data() {
-    return {
-      store: useStore(),
-    };
+  setup() {
+    const store = useStore();
+    return { store };
   },
   computed: {
     self(): User {
@@ -54,19 +47,36 @@ export default defineComponent({
     },
   },
   methods: {
-    goBack() {
-      this.$router.back();
-    },
     editProfile() {
-      this.store.dispatch("editOwnProfile", {
-        newDisplayName: this.displayName,
-      });
+      let updateProfile;
+
+      if(this.fileList.length != 0) {
+        updateProfile = () => this.store.dispatch("editOwnProfile", {
+          newAvatar: this.fileList[0].content,
+          newDisplayName: this.displayName,
+        });
+      } else {
+        updateProfile = () => this.store.dispatch("editOwnProfile", {
+          newDisplayName: this.displayName,
+        });
+      }
+    updateProfile().
+      then(() => {
+        Toast.success("Updated profile!");
+        this.$router.replace(PROFILE_ROUTE);
+      })
+      .catch((err) => Toast.fail(`Failed to update profile: ${err}`));
     },
   },
+  data() {
+    return {
+      PROFILE_ROUTE,
+      fileList: [] as UploaderFileListItem[],
+    };
+  },
   components: {
-    ProfileAvatar,
     Header,
-    ProfilePageBg,
+    Uploader,
   },
 });
 </script>
@@ -75,16 +85,17 @@ export default defineComponent({
 .sub-header {
   text-align: left;
 }
-.avatar-container {
-  position: relative;
-  width: 5rem;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .edit-button {
   position: absolute;
   bottom: 0;
+}
+
+.container {
+  padding-top: 2em;
+}
+
+.van-field {
+  padding: 3em 0;
 }
 </style>
