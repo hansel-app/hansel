@@ -1,38 +1,44 @@
 <template>
-    <div v-click-away="clickAway" v-touch:swipe.left="clickAway">
-        <div class="menu-icon" @click="toggleMenu">
-              <img :src="HamburgerMenuIcon">
-        </div>
-        <div class="menu" :style="{ width: menuWidth }">
-            
-            <div class="menu-contents" v-if="!collapsed">
-                <div class="avatar">
-                    <CircleAvatar
-                    :avatarUrl="placeholderAvatarUrl"
-                    :radius="2.5"
-                    @click="goToProfile"
-                    >
-                    Profile
-                    </CircleAvatar>
-                </div>
-                <div class="links">
-                    <van-row tabindex="1" @click="goToLogs">
-                      <p>Gem logs</p>
-                    </van-row>
-                    <van-row tabindex="2" @click="goToAddFriends">
-                      <p>Add friends</p>
-                    </van-row>
-                    <van-row tabindex="2" @click="goToFriendRequests">
-                        <p>Friend requests</p>
-                    </van-row>
-                </div>
-            </div>
-        </div>
+  <div v-click-away="clickAway" v-touch:swipe.left="clickAway">
+    <div class="menu-icon" @click="toggleMenu">
+      <img :src="HamburgerMenuIcon" />
     </div>
+    <div class="menu" :style="{ width: menuWidth }">
+      <div class="menu-contents" v-if="!collapsed">
+        <div class="avatar">
+          <CircleAvatar
+            :avatarUrl="mockSelfUser.avatar"
+            :radius="2.5"
+            @click="goToProfile"
+          >
+            Profile
+          </CircleAvatar>
+        </div>
+        <div class="links">
+          <van-row tabindex="1" @click="goToLogs">
+            <p>Gem logs</p>
+          </van-row>
+          <van-row tabindex="2" @click="goToAddFriends">
+            <p>Add friends</p>
+          </van-row>
+          <van-row tabindex="2" @click="goToFriendRequests">
+            <p>Friend requests</p>
+          </van-row>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
-<script>
-import { PROFILE_ROUTE, ADD_FRIENDS_ROUTE, FRIEND_REQUESTS_ROUTE, GEM_LOGS_ROUTE } from "@/constants";
+<script lang="ts">
+import {
+  PROFILE_ROUTE,
+  ADD_FRIENDS_ROUTE,
+  FRIEND_REQUESTS_ROUTE,
+  GEM_LOGS_ROUTE,
+} from "@/constants";
 import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
+import { mockSelfUser } from "@/interfaces/mockData";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import { Row } from "vant";
@@ -44,11 +50,14 @@ export default defineComponent({
     const MENU_WIDTH_EXPANDED = 12;
     const MENU_WIDTH_COLLAPSED = 0;
     const menuWidth = computed(
-        () => `${collapsed.value ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}em`
+      () => `${collapsed.value ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}em`
     );
 
-    return { 
-      collapsed, toggleMenu, menuWidth, HamburgerMenuIcon
+    return {
+      collapsed,
+      toggleMenu,
+      menuWidth,
+      HamburgerMenuIcon,
     };
   },
   components: {
@@ -56,18 +65,14 @@ export default defineComponent({
     CircleAvatar,
   },
   data() {
-    return {
-      // TODO: replace with user's own avatar
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
-    };
+    return { store: useStore(), mockSelfUser };
   },
   methods: {
     goToProfile() {
       this.$router.push(PROFILE_ROUTE);
     },
     goToLogs() {
-      this.$router.push(GEM_LOGS_ROUTE); 
+      this.$router.push(GEM_LOGS_ROUTE);
     },
     goToAddFriends() {
       this.$router.push(ADD_FRIENDS_ROUTE);
@@ -82,7 +87,6 @@ export default defineComponent({
     },
   },
 });
-
 </script>
 <style>
 :root {
@@ -91,7 +95,8 @@ export default defineComponent({
 }
 </style>
 <style scoped>
-.menu, .menu-icon {
+.menu,
+.menu-icon {
   color: white;
   background-color: var(--menu-bg-color);
 
@@ -114,8 +119,8 @@ export default defineComponent({
   background-color: var(--menu-bg-color);
   padding: 0.5em;
   border-radius: 0 0.75em 0.75em 0;
-  vertical-align:middle; 
-  text-align:center;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .menu-contents {
@@ -132,7 +137,8 @@ export default defineComponent({
   white-space: nowrap;
 }
 
-.van-row:hover, .van-row:focus {
+.van-row:hover,
+.van-row:focus {
   background-color: var(--menu-item-active);
 }
 </style>

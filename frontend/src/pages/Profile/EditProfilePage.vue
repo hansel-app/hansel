@@ -2,7 +2,7 @@
   <div class="overlay">
     <Header title="Edit Profile" />
     <div class="avatar-container">
-      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+      <ProfileAvatar :avatarUrl="mockSelfUser.avatar" />
       <van-button class="edit-button overlay"
         ><van-icon name="edit" size="40px"
       /></van-button>
@@ -39,9 +39,6 @@ import { useStore } from "vuex";
 export default defineComponent({
   data() {
     return {
-      // TODO: replace with user's own data
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
       mockSelfUser,
       mockFriends,
       username: mockSelfUser.username,

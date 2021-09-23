@@ -1,7 +1,7 @@
 <template>
   <div class="overlay bring-to-front">
     <Header />
-    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+    <ProfileAvatar :avatarUrl="mockSelfUser.avatar" />
     <h2>{{ mockSelfUser.displayName }}</h2>
     <h3>{{ "@" + mockSelfUser.username }}</h3>
     <CellGroup>
@@ -25,9 +25,6 @@ import Header from "@/components/Header.vue";
 export default defineComponent({
   data() {
     return {
-      // TODO: replace with user's own data
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
       mockSelfUser,
       mockFriends,
       color: "#ffffff",
