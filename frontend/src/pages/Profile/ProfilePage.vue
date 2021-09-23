@@ -11,7 +11,7 @@
       </div>
       <CellGroup :border="false" class="content container">
         <Cell title="Edit profile" is-link @click="goToEditProfile" />
-        <Cell title="Friends" is-link />
+        <Cell title="Friends" is-link @click="goToFriendList" />
       </CellGroup>
       <Cell class="logout" title="Logout" />
     </div>
@@ -71,7 +71,7 @@ export default defineComponent({
 
 .header {
   text-align: center !important;
-  margin: 1em 0 1em 0;
+  margin: 1.2em 0 1em 0;
 }
 
 .sub-header {
