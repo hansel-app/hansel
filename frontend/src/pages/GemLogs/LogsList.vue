@@ -6,10 +6,10 @@
       <Searchbar placeholder="Search a friend" @input="onSearchQueryInput" />
       <CellGroup>
         <LogsPreview
-          v-for="friend in state.filteredFriends"
-          :key="friend.userId"
-          :friend="friend"
-          :mostRecentGemActivity="mockSingleGem"
+          v-for="friendAndActivity in state.filteredFriendsAndActivities"
+          :key="friendAndActivity.friend.userId"
+          :friend="friendAndActivity.friend"
+          :mostRecentGemActivity="friendAndActivity.mostRecentGem"
           :isClickable="true"
         />
       </CellGroup>
@@ -25,7 +25,12 @@ import BackSwipe from "@/components/BackSwipe.vue";
 import { CellGroup } from "vant";
 
 import LogsPreview from "./LogsPreview.vue";
-import { User } from "@/interfaces";
+import { Gem, User } from "@/interfaces";
+
+interface FriendAndMostRecentGemActivity {
+  friend: User;
+  mostRecentGem: Gem;
+}
 
 export default defineComponent({
   components: {
@@ -36,19 +41,26 @@ export default defineComponent({
     CellGroup,
   },
   setup() {
-    const allFriends = mockFriends;
+    // TODO: replace mockfriends and mockGems
+    const mockSingleGem = mockGems[0];
+    const allFriends: FriendAndMostRecentGemActivity[] = mockFriends.map(
+      (friend) => {
+        return {
+          friend: friend,
+          mostRecentGem: mockSingleGem,
+        };
+      }
+    );
 
     const state = reactive({
       searchQuery: "",
       isCloseWindow: true,
-      // TODO: replace mockfriends and mockGems
-      filteredFriends: allFriends as User[],
+      filteredFriendsAndActivities: allFriends as FriendAndMostRecentGemActivity[],
     });
 
     return {
       state,
       allFriends,
-      mockSingleGem: mockGems[0],
     };
   },
   methods: {
@@ -59,19 +71,23 @@ export default defineComponent({
     },
     filterFriends() {
       if (this.state.searchQuery.length === 0) {
-        this.state.filteredFriends = this.allFriends;
+        this.state.filteredFriendsAndActivities = this.allFriends;
         return;
       }
 
-      this.state.filteredFriends = this.allFriends.filter((friend: User) => {
-        const matchUsername = friend.username
-          .toLowerCase()
-          .includes(this.state.searchQuery.toLowerCase());
-        const matchDisplayname = friend.displayName
-          .toLowerCase()
-          .includes(this.state.searchQuery.toLowerCase());
-        return matchUsername || matchDisplayname;
-      });
+      this.state.filteredFriendsAndActivities = this.allFriends.filter(
+        (friendAndGemActivity: FriendAndMostRecentGemActivity) => {
+          const friend = friendAndGemActivity.friend;
+
+          const matchUsername = friend.username
+            .toLowerCase()
+            .includes(this.state.searchQuery.toLowerCase());
+          const matchDisplayname = friend.displayName
+            .toLowerCase()
+            .includes(this.state.searchQuery.toLowerCase());
+          return matchUsername || matchDisplayname;
+        }
+      );
     },
   },
 });

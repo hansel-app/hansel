@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :backLink="GEM_LOGS_ROUTE">
+    <Header title="" :backLink="GEM_LOGS_ROUTE">
       <p>{{ friend.displayName }}</p>
       <CircleAvatar :avatarUrl="placeholderAvatarUrl" />
     </Header>
