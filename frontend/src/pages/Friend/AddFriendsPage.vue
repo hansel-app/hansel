@@ -3,7 +3,7 @@
     <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Searchbar placeholder="Search by username" @input="handleSearch" />
+      <Searchbar v-model="searchQuery" placeholder="Search by username" @input="handleSearch" />
       <CellGroup>
         <FriendCell
           v-for="user in filteredUsers"
@@ -66,10 +66,7 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    handleSearch(event: Event) {
-      const target = event.target as HTMLInputElement;
-      this.searchQuery = target.value;
-
+    handleSearch() {
       const filterFriends = (user: User) => !this.friends.includes(user);
       const filterSelf = (user: User) => this.selfUser.userId != user.userId;
       this.store
