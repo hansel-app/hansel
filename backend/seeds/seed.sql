@@ -2,7 +2,15 @@
 INSERT INTO users (username, display_name, hashed_password)
 VALUES
   ('bobby', 'Bobby Bob', '$2a$10$QRZ9dpL2JRGTK7hNG/UXF.w5tyBtGmDj2fKu8Ce4v2pYrcjGUJKtK'),
-  ('tommy', 'Tommy Tom', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe');
+  ('tommy', 'Tommy Tom', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('robby', 'Robby Rob', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('poppy', 'Poppy Pop', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('benny', 'Benny Ben', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('ronny', 'Ronny Ron', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('danny', 'Danny Dan', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('fanny', 'Fanny Fan', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('hanny', 'Hanny Han', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe'),
+  ('jenny', 'Jenny Jen', '$2a$10$j6Lj7bgLoS1nAk5304kZbu.cQLYtYhf0/Zueu.3wi5lKt/NmF/cBe');
 
 INSERT INTO gems (message, latitude, longitude, creator_id, receiver_id, color)
 VALUES
