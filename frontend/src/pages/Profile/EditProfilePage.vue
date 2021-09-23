@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import ProfileAvatar from "./ProfileAvatar.vue";
+import ProfileAvatar from "../../components/ProfileAvatar.vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
 import { PROFILE_ROUTE } from "@/constants";

@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page prof-background-gradient">
+  <div class="profile-page reverse-background-gradient">
     <div class="overlay bring-to-front container">
       <Header />
       <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
@@ -15,9 +15,7 @@
       </CellGroup>
       <Cell class="logout" title="Logout" />
     </div>
-    <div class="semicircle-bg">
-      <SemiCircleBg :color="white" />
-    </div>
+    <SemiCircleBg />
   </div>
 </template>
 
@@ -26,7 +24,7 @@ import { defineComponent } from "vue";
 import { CellGroup, Cell } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { EDIT_PROFILE_ROUTE } from "@/constants";
-import ProfileAvatar from "./ProfileAvatar.vue";
+import ProfileAvatar from "../../components/ProfileAvatar.vue";
 import Header from "@/components/Header.vue";
 import SemiCircleBg from "@/components/SemiCircleBg.vue";
 
@@ -70,7 +68,7 @@ export default defineComponent({
 
 .header {
   text-align: center !important;
-  margin: 2em 0 1em 0;
+  margin: 1em 0 1em 0;
 }
 
 .sub-header {
@@ -82,19 +80,13 @@ export default defineComponent({
 
 .logout {
   color: @red;
+  padding-bottom: 2em;
 }
 
-.profile-page {
-  overflow: hidden !important;
-}
-
-.prof-background-gradient {
+.reverse-background-gradient {
   background: linear-gradient(to bottom, #c0c2e5, #e43d9700);
   height: 100vh;
   position: relative;
   z-index: -2;
-}
-
-.semicircle-bg {
 }
 </style>
