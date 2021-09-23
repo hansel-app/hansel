@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, Search, Toast } from "vant";
+import { CellGroup, Toast } from "vant";
 import { useStore, mapState } from "vuex";
 import { User } from "@/interfaces";
 import BackSwipe from "@/components/BackSwipe.vue";

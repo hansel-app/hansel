@@ -32,6 +32,10 @@ func (r *userRepository) Get(id int64) (*users.User, error) {
 }
 
 func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error) {
+	if len(ids) == 0 {
+		return nil, fmt.Errorf("no user ids supplied")
+	}
+
 	sql, _, _ := qb.From("users").Where(goqu.I("id").In(ids)).ToSQL()
 
 	var selectedUsers []users.User
