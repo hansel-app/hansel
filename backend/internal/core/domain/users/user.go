@@ -3,7 +3,7 @@ package users
 import "time"
 
 type User struct {
-	ID             int64  `db:"id"`
+	ID             int64  `db:"id" goqu:"skipinsert"`
 	Username       string `db:"username"`
 	DisplayName    string `db:"display_name"`
 	HashedPassword string `db:"hashed_password"`
