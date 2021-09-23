@@ -7,16 +7,11 @@
       <CellGroup>
         <FriendCell
           v-for="friend in filteredFriends"
-          :key="friend.id"
+          :key="friend.userId"
           :friend="friend"
           :isClickable="true"
           :shouldDisplayUsername="true"
-          @click="
-            () => {
-              $emit('set-receiver-event', friend.id);
-              $emit('next-stage');
-            }
-          "
+          @click="handleClickWithDelay(friend.userId)"
         />
       </CellGroup>
     </div>
@@ -51,6 +46,12 @@ export default defineComponent({
     return {
       searchQuery: "",
     };
+  },
+  methods: {
+    handleClickWithDelay(id: string) {
+      this.$emit("set-receiver-event", id);
+      setTimeout(() => this.$emit("next-stage"), 200);
+    },
   },
   computed: {
     ...mapState({

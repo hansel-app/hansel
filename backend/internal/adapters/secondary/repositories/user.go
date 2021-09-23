@@ -32,6 +32,10 @@ func (r *userRepository) Get(id int64) (*users.User, error) {
 }
 
 func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error) {
+	if len(ids) == 0 {
+		return nil, fmt.Errorf("no user ids supplied")
+	}
+
 	sql, _, _ := qb.From("users").Where(goqu.I("id").In(ids)).ToSQL()
 
 	var selectedUsers []users.User
@@ -140,17 +144,47 @@ func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
 	return friends, nil
 }
 
-func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRelationship, error) {
-	// TODO: Make this SQL statement correct
-	// make status an enum somewhere + join with Users
-	// + return datetime
-	sql, _, _ := qb.From("friends").Where(goqu.And(
-		goqu.C("receiver_id").Eq(id),
-		goqu.C("status").Eq("PENDING"),
-	)).ToSQL()
+func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRequest, error) {
+	sql, _, _ := qb.
+		Select(goqu.I("users.*"), goqu.I("friend_requests.created_at")).
+		From("friend_requests").
+		LeftOuterJoin(goqu.T("users"), goqu.On(goqu.Ex{
+			"friend_requests.requester_id": goqu.I("users.id"),
+		})).
+		Where(goqu.C("receiver_id").Eq(id)).
+		ToSQL()
 
-	var friendRequests []*users.FriendRelationship
-	err := r.db.Select(&friendRequests, sql)
+	rows, err := r.db.Queryx(sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get friend requests for user with id %d: %w", id, err)
+	}
+
+	type friendRequestWithRequester struct {
+		users.FriendRequest
+		users.User
+	}
+
+	var friendRequests []*users.FriendRequest
+	for rows.Next() {
+		var result friendRequestWithRequester
+		err = rows.StructScan(&result)
+		if err != nil {
+			break
+		}
+
+		friendRequest := users.FriendRequest{
+			Requester: users.User{
+				ID:             result.ID,
+				Username:       result.Username,
+				DisplayName:    result.DisplayName,
+				Email:          result.Email,
+				HashedPassword: result.HashedPassword,
+				Avatar:         result.Avatar,
+			},
+			CreatedAt: result.CreatedAt,
+		}
+		friendRequests = append(friendRequests, &friendRequest)
+	}
 	if err != nil {
 		return nil, fmt.Errorf("unable to get friend requests for user with id %d: %w", id, err)
 	}
@@ -159,10 +193,10 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRelationshi
 }
 
 func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) error {
-	sql, _, _ := qb.Insert("friends").Rows(goqu.Record{
+	sql, _, _ := qb.Insert("friend_requests").Rows(goqu.Record{
 		"requester_id": requesterID,
 		"receiver_id":  receiverID,
-		"requested_at": time.Now(),
+		"created_at":   time.Now(),
 	}).ToSQL()
 
 	_, err := r.db.Exec(sql)
@@ -177,19 +211,36 @@ func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) e
 }
 
 func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64) error {
-	sql, _, _ := goqu.From("friends").Where(goqu.And(
-		goqu.C("requester_id").Eq(requesterID),
-		goqu.C("receiver_id").Eq(receiverID),
-		goqu.C("status").Eq("PENDING"),
-	)).Update().Set(goqu.Record{
-		"status":        "FRIENDS",
-		"friends_since": time.Now(),
-	}).ToSQL()
+	tx := r.db.MustBegin()
 
-	_, err := r.db.Exec(sql)
+	var firstUserID, secondUserID int64
+	if requesterID < receiverID {
+		firstUserID = requesterID
+		secondUserID = receiverID
+	} else {
+		firstUserID = receiverID
+		secondUserID = requesterID
+	}
+	sql, _, _ := qb.
+		Insert(goqu.T("friends")).
+		Rows(goqu.Record{
+			"first_user_id":  firstUserID,
+			"second_user_id": secondUserID,
+		}).
+		ToSQL()
+	tx.MustExec(sql)
+
+	sql, _, _ = qb.
+		From(goqu.T("friend_requests")).
+		Where(goqu.C("requester_id").Eq(requesterID), goqu.C("receiver_id").Eq(receiverID)).
+		Delete().
+		ToSQL()
+	tx.MustExec(sql)
+
+	err := tx.Commit()
 	if err != nil {
 		return fmt.Errorf(
-			"unable to decline friend request for requester with id %d and receiver with id %d: %w",
+			"unable to accept friend request for requester with id %d and receiver with id %d: %w",
 			requesterID, receiverID, err,
 		)
 	}
@@ -198,11 +249,11 @@ func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64
 }
 
 func (r *userRepository) DeclineFriendRequest(requesterID int64, receiverID int64) error {
-	sql, _, _ := goqu.From("friends").Where(goqu.And(
-		goqu.C("requester_id").Eq(requesterID),
-		goqu.C("receiver_id").Eq(receiverID),
-		goqu.C("status").Eq("PENDING"),
-	)).Delete().ToSQL()
+	sql, _, _ := qb.
+		From(goqu.T("friend_requests")).
+		Where(goqu.C("requester_id").Eq(requesterID), goqu.C("receiver_id").Eq(receiverID)).
+		Delete().
+		ToSQL()
 
 	_, err := r.db.Exec(sql)
 	if err != nil {

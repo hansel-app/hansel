@@ -32,11 +32,14 @@
               <van-row tabindex="2" @click="goToAddFriends">
                 <p>Add friends</p>
               </van-row>
-              <van-row tabindex="2" @click="goToFriendRequests">
+              <van-row tabindex="3" @click="goToFriendRequests">
                 <p>Friend requests</p>
                 <van-col v-if="requestCount > 0">
-                  <Notification :requestCount="requestCount" />
+                  <Notification :requestCount="requestCount"/>
                 </van-col>
+              </van-row>
+              <van-row tabindex="4" @click="logOut">
+                <p>Log out</p>
               </van-row>
             </div>
           </div>
@@ -45,12 +48,14 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import {
   PROFILE_ROUTE,
   ADD_FRIENDS_ROUTE,
   FRIEND_REQUESTS_ROUTE,
   GEM_LOGS_ROUTE,
+  LOGIN_ROUTE,
 } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
@@ -112,6 +117,9 @@ export default defineComponent({
       if (!this.collapsed) {
         this.toggleMenu();
       }
+    },
+    logOut() {
+      this.store.dispatch("logout").then(() => this.$router.push(LOGIN_ROUTE));
     },
   },
 });

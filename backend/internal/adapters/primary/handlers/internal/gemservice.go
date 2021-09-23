@@ -79,6 +79,11 @@ func (s *gemService) GetPendingCollectionForUser(
 	if err != nil {
 		return nil, err
 	}
+	if len(gems) == 0 {
+		return &gemsapi.GetPendingCollectionForUserResponse{
+			Gems: nil,
+		}, nil
+	}
 
 	// Store all user ids to be retrieved as keys of the map
 	// Map is used primarily as a set here
