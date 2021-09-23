@@ -63,7 +63,7 @@ export default defineComponent({
         return;
       }
       this.store.dispatch("register", {
-        fullName: this.fullName,
+        displayName: this.fullName,
         username: this.username,
         password: this.password,
       }).then(() => this.$router.push(HOME_ROUTE))
