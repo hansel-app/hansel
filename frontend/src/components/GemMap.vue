@@ -27,7 +27,7 @@
           <van-icon
             class="circle-button-icon-md"
             :name="require('@/assets/icons/info.svg')"
-            @click="showPopup"
+            @click="togglePopup"
           />
         </van-row>
       </CustomControl>
@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
+import { createApp, ref, defineComponent, PropType, watchEffect } from "vue";
 import { useGeolocation } from "@/useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
@@ -114,6 +114,7 @@ import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
 import { useStore } from "vuex";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
+import { Toast } from "vant";
 
 const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
 
@@ -136,60 +137,51 @@ export default defineComponent({
   },
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
-    let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
     const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
+    const openedInfoWindowGem = ref<Gem | null>(null);
+    const shouldShowPopup = ref<boolean>(true);
     const store = useStore();
 
-    const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
-      if (el) {
-        gemMarkerRefs.add(el);
-      }
-    };
-
-    onBeforeUpdate(() => {
-      // reset gem markers
-      gemMarkerRefs = new Set();
-    });
-
     const { getLocation } = useGeolocation();
-    await getLocation();
     const currPosition: LatLng = store.state.user.currPosition;
-    const shouldShowPopup = ref<boolean>(false);
+
+    watchEffect(
+      () => {
+        const popupCloseEvents = ["mousedown", "dragstart"];
+        popupCloseEvents.forEach((event) => {
+          mapRef?.value?.map?.addListener(event, () => {
+            shouldShowPopup.value = false;
+          });
+        });
+      },
+      {
+        flush: "post",
+      }
+    );
+
+    await getLocation();
 
     return {
       mapRef,
-      gemMarkerRefs,
       gemMarkerInfoWindowRef,
-      setGemMarkerRef,
       currPosition,
       userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
-      openedInfoWindowGem: ref<Gem | null>(null),
+      openedInfoWindowGem,
       store,
     };
   },
 
   beforeUpdate() {
-    // clear, then add event listeners to map
-    if (this.mapRef?.map) {
-      google.maps.event.clearInstanceListeners(this.mapRef?.map);
-    }
-    const popupCloseEvents = ["mousedown", "dragstart"];
-    popupCloseEvents.forEach((event) => {
-      this.mapRef?.map?.addListener(event, () => {
-        this.hidePopup();
-      });
-    });
-    const gemInfoWindowCloseEvents = ["click"];
-    gemInfoWindowCloseEvents.forEach((event) => {
-      this.mapRef?.map?.addListener(event, () => {
-        this.gemMarkerInfoWindowRef?.close();
-        this.openedInfoWindowGem = null;
-      });
-    });
+    this.gemMarkerRefs = new Set();
+  },
+  data() {
+    return {
+      gemMarkerRefs: new Set() as Set<InstanceType<typeof Marker>>,
+    };
   },
 
   computed: {
@@ -231,6 +223,11 @@ export default defineComponent({
   },
 
   methods: {
+    setGemMarkerRef(el: InstanceType<typeof Marker>) {
+      if (el) {
+        this.gemMarkerRefs.add(el);
+      }
+    },
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
     },
@@ -306,14 +303,19 @@ export default defineComponent({
         shouldFocus: false,
       });
 
+      const gemInfoWindowCloseEvents = ["click", "mousedown"];
+      gemInfoWindowCloseEvents.forEach((event) => {
+        this.mapRef?.map?.addListener(event, () => {
+          this.gemMarkerInfoWindowRef?.close();
+          this.openedInfoWindowGem = null;
+        });
+      });
+
       this.openedInfoWindowGem = gem;
     },
 
-    showPopup() {
-      this.shouldShowPopup = true;
-    },
-    hidePopup() {
-      this.shouldShowPopup = false;
+    togglePopup() {
+      this.shouldShowPopup = !this.shouldShowPopup;
     },
 
     pickUpGem() {
@@ -321,9 +323,10 @@ export default defineComponent({
         console.error("No gem selected for picking up");
         return;
       }
-      this.store.dispatch("pickUpGem", { gemId: this.openedInfoWindowGem.id });
-
-      this.$router.push(PICKUP_GEM_ROUTE);
+      this.store
+        .dispatch("pickUpGem", { gem: this.openedInfoWindowGem })
+        .then(() => this.$router.push(PICKUP_GEM_ROUTE))
+        .catch((err) => Toast.fail(`Failed to pick up gem: ${err}`));
     },
   },
 });

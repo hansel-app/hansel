@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/golang/protobuf/ptypes/empty"
-
 	"github.com/hansel-app/hansel/internal/contextkeys"
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
@@ -158,6 +157,9 @@ func (s *gemService) GetGemLogs(
 	}
 
 	friendIdToGemLogsMap, err := s.usecases.GetGemLogs(userID)
+	if err != nil {
+		return nil, err
+	}
 	// Retrieve list of relevant user ids
 	userIds := make([]int64, len(friendIdToGemLogsMap))
 	i := 0

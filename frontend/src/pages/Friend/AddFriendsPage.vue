@@ -89,6 +89,7 @@ export default defineComponent({
           );
           console.error(err);
         });
+      this.store.dispatch("sendFriendRequest", user.userId);
     },
   },
 });
