@@ -4,7 +4,6 @@
               <img :src="HamburgerMenuIcon">
         </div>
         <div class="menu" :style="{ width: menuWidth }">
-            <!-- v-if="!collapsed" -->
             <div class="menu-contents" v-if="!collapsed">
                 <div class="avatar">
                     <CircleAvatar
