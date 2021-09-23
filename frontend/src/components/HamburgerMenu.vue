@@ -23,9 +23,7 @@
                       <p>Add friends</p>
                     </van-row>
                     <van-row tabindex="2" @click="goToFriendRequests">
-                      <van-col>
-                        <p>Friend requests</p>
-                      </van-col>
+                      <p>Friend requests</p>
                       <van-col v-if="requestCount > 0">
                         <Notification :requestCount="requestCount"/>
                       </van-col>

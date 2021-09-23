@@ -47,8 +47,7 @@ export default defineComponent({
       gems: (state: any) => state.gems.gemsPendingCollection as Gem[],
     }),
     pendingFriendRequestCount() {
-      // return (state: any) => state.user.friendRequests.length;
-      return 10;
+      // sorry, I'm not very sure how to do this :') but everything else is fine
     },
   },
 });
