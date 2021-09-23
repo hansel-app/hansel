@@ -133,7 +133,7 @@ func (s *userService) GetFriendRequests(
 					Username:    requester.Username,
 					Avatar:      requester.Avatar,
 				},
-				SentAt: timestamppb.New(f.CreatedAt),
+				CreatedAt: timestamppb.New(f.CreatedAt),
 			},
 		)
 	}

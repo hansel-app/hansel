@@ -44,8 +44,7 @@ message GetFriendsResponse {
 
 message PendingFriendRequest {
   User requester = 1;
-  User receiver = 2;
-  google.protobuf.Timestamp sent_at = 3;
+  google.protobuf.Timestamp created_at = 2;
 }
 
 message GetFriendRequestsResponse {

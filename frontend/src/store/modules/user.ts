@@ -120,8 +120,8 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getFriendRequests(new Empty())
           .then((resp: GetFriendRequestsResponse) => {
-            const pendingFriends: PendingFriendRequest[] = resp.getFriendRequestsList();
-            commit("setFriendRequests", pendingFriends);
+            const pendingFriendRequests: PendingFriendRequest[] = resp.getFriendRequestsList();
+            commit("setFriendRequests", pendingFriendRequests);
             resolve(resp);
           })
           .catch((err) => reject(err));
