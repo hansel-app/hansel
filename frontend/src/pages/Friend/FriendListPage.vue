@@ -4,7 +4,7 @@
     <div class="container">
       <CellGroup>
         <FriendCell
-          v-for="friend in friends"
+          v-for="friend in sortedFriends"
           :key="friend.id"
           :friend="friend"
           :shouldDisplayUsername="true"
@@ -34,6 +34,12 @@ export default defineComponent({
     ...mapState({
       friends: (state: any) => state.user.friends as User[],
     }),
+    // Alphabetically, by displayName
+    sortedFriends(): User[] {
+      return this.friends.slice().sort((f1, f2) => {
+        return f1.displayName.localeCompare(f2.displayName);
+      });
+    },
   },
   components: {
     FriendCell,
