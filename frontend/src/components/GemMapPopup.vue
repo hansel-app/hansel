@@ -28,7 +28,7 @@
 
     <template v-else>
       <van-row>
-        Great work, you have collected all your gems!
+        You currently have no uncollected gems~
       </van-row>
     </template>
   </van-cell>

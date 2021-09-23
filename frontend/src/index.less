@@ -20,7 +20,7 @@
 @gray-7: #646566;
 @gray-8: #323233;
 @text-gray: #585969;
-@red: #ee0a24;
+@red: #af4450;
 @blue: #1989fa;
 @orange: #ff976a;
 @orange-dark: #ed6a0c;
@@ -33,6 +33,10 @@
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 @gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
 @gradient-blue: linear-gradient(150deg, white, #e2e9ff);
+@profile-gradient: linear-gradient(to right, hsla(187, 89%, 52%, 0.6), #19d8f200),
+linear-gradient(to bottom, #c27df9, #c27df900),
+linear-gradient(to top, #e43d97, #e43d9700);
+@box-shadow-gradient: -1px 1px 15px 15px rgba(103, 94, 226, 0.08);
 
 // Component Colors
 @primary-color: @purple;
@@ -88,8 +92,9 @@
 // Text styles
 .big-header {
   font-family: CircularStd;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: bold;
+  color: black;
 }
 
 .header {
@@ -110,7 +115,7 @@
 
 .content {
   font-family: CircularStd;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: lighter;
   text-align: left;
 }
@@ -196,6 +201,7 @@
 }
 // Uploader
 @uploader-delete-icon-size: 20px;
+@uploader-icon-size: 40px;
 
 // Toast
 @toast-default-width: 60vw;

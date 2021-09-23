@@ -36,7 +36,7 @@ export default defineComponent({
     margin: 1.5em 0 1em 0;
     padding: 0;
     border-radius: 10em;
-    box-shadow: -1px 1px 15px 15px rgba(103, 94, 226, 0.08);
+    box-shadow: @box-shadow-gradient;
 }
 
 #search-icon {
