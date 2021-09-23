@@ -177,7 +177,6 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRequest, er
 				ID:             result.ID,
 				Username:       result.Username,
 				DisplayName:    result.DisplayName,
-				Email:          result.Email,
 				HashedPassword: result.HashedPassword,
 				Avatar:         result.Avatar,
 			},
