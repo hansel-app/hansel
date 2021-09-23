@@ -82,8 +82,9 @@ const gemsModule: Module<GemsState, RootState> = {
       return new Promise((resolve, reject) => {
         services.gemsClient
           .getGemLogs(new Empty())
-          .then((gemLogs: ProtoGemLogs) => {
-            commit("setGemLogs", protoGemLogToGemLogMapper(gemLogs));
+          .then((resp: ProtoGemLogs) => {
+            const gemLogs = protoGemLogToGemLogMapper(resp);
+            commit("setGemLogs", gemLogs);
             resolve(gemLogs);
           })
           .catch((err) => reject(err));

@@ -17,25 +17,25 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, onMounted } from "vue";
 import Header from "@/components/Header.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import BackSwipe from "@/components/BackSwipe.vue";
 import { CellGroup } from "vant";
-
-import LogsPreview from "./LogsPreview.vue";
 import { User, Gem, GemLogs } from "@/interfaces";
-import { useStore } from "vuex";
+import { mapState, useStore } from "vuex";
+import LogsPreview from "./LogsPreview.vue";
 
 interface FriendAndMostRecentGemActivity {
   friend: User;
-  mostRecentGem: Gem | null;
+  mostRecentGem: Gem;
 }
 
-function findMostRecentGem(gemList: Gem[]): Gem | null {
-  if (gemList.length === 0) {
-    return null;
-  }
+function findMostRecentGem(gemList: Gem[]): Gem {
+  console.assert(
+    gemList.length !== 0,
+    "Friend must have at least one gem to appear in gem log"
+  );
 
   const reversedSorted = [...gemList]
     .map((gem) => {
@@ -49,6 +49,20 @@ function findMostRecentGem(gemList: Gem[]): Gem | null {
   return reversedSorted[0].gem;
 }
 
+function parseGemLogs(gemLogs: GemLogs): FriendAndMostRecentGemActivity[] {
+  const friends: FriendAndMostRecentGemActivity[] = [];
+
+  for (const gemLog of gemLogs.gemLogsMap.values()) {
+    const mostRecentGem = findMostRecentGem(gemLog.gems);
+
+    friends.push({
+      friend: gemLog.friend,
+      mostRecentGem: mostRecentGem,
+    });
+  }
+  return friends;
+}
+
 export default defineComponent({
   components: {
     Header,
@@ -58,31 +72,34 @@ export default defineComponent({
     CellGroup,
   },
   setup() {
-    const store = useStore();
-
-    const gemLogs: GemLogs = store.state.gemLogs;
-
-    const allFriends: FriendAndMostRecentGemActivity[] = [];
-
-    for (const gemLog of gemLogs.gemLogsMap.values()) {
-      const mostRecentGem = findMostRecentGem(gemLog.gems);
-
-      allFriends.push({
-        friend: gemLog.friend,
-        mostRecentGem: mostRecentGem,
-      });
-    }
-
     const state = reactive({
       searchQuery: "",
       isCloseWindow: true,
-      filteredFriendsAndActivities: allFriends as FriendAndMostRecentGemActivity[],
+      filteredFriendsAndActivities: [] as FriendAndMostRecentGemActivity[],
     });
+
+    const store = useStore();
+    const fetchGemsLogs = () => store.dispatch("getGemLogs");
+
+    onMounted(() =>
+      fetchGemsLogs().then(
+        (gemLogs) =>
+          (state.filteredFriendsAndActivities = parseGemLogs(gemLogs))
+      )
+    );
 
     return {
       state,
-      allFriends,
     };
+  },
+  computed: {
+    ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      gemLogs: (state: any) => state.gems.gemLogs as GemLogs,
+    }),
+    allFriends(): FriendAndMostRecentGemActivity[] {
+      return parseGemLogs(this.gemLogs);
+    },
   },
   methods: {
     onSearchQueryInput(event: Event) {
