@@ -76,7 +76,9 @@ export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
     },
     createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
     createdBy: protoUserToUserMapper(creator),
-    receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
+    receivedAt: protoGem.getReceivedAt()
+      ? dayjs(protoGem.getReceivedAt()?.toDate())
+      : null,
     receiver: protoUserToUserMapper(receiver),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
   };
