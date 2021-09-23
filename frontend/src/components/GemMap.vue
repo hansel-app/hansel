@@ -92,6 +92,7 @@
   <GemMapPopup
     class="map-popup"
     v-show="shouldShowPopup"
+    v-click-away="hidePopup"
     :number-gems-pending-collection="gems.length"
     :nearest-gem-distance="nearestGemDistance"
   />
@@ -316,6 +317,9 @@ export default defineComponent({
 
     togglePopup() {
       this.shouldShowPopup = !this.shouldShowPopup;
+    },
+    hidePopup() {
+      this.shouldShowPopup = false;
     },
 
     pickUpGem() {
