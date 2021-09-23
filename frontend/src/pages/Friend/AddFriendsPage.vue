@@ -53,7 +53,7 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
-      return this.users;
+      return this.users as User[];
     },
   },
   methods: {
