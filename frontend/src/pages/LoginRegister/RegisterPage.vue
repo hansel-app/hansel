@@ -51,6 +51,7 @@
 import { defineComponent } from "vue";
 import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants";
 import { useStore } from "vuex";
+import { Toast } from "vant";
 
 export default defineComponent({
   data() {
@@ -71,8 +72,11 @@ export default defineComponent({
           password: this.password,
         })
         .then(() => this.$router.push(HOME_ROUTE))
-        // TODO: Display some form of user feedback upon registration failure.
-        .catch((err) => console.log(err, "Failed to register"));
+        // TODO: maybe map some error messages to more user facing messages
+        // e.g HTTP response at 400 or 500 => Not connected to server or smth
+        .catch((err) => {
+          Toast.fail(`Failed to register: ${err.message}`);
+        });
     },
     goToLoginPage() {
       this.$router.push(LOGIN_ROUTE);

@@ -31,11 +31,6 @@ func (r *gemRepository) Get(id int64) (*gems.Gem, error) {
 	return &gem, nil
 }
 
-func (r *gemRepository) GetAllForUser(userId int64) ([]gems.Gem, error) {
-	// TODO: Add real logic.
-	return []gems.Gem{}, nil
-}
-
 func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, error) {
 	sql, _, _ := qb.From("gems").Where(
 		goqu.C("receiver_id").Eq(userId),
@@ -82,16 +77,6 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	}
 
 	return gemId, nil
-}
-
-func (r *gemRepository) Update(gem *gems.Gem) (*gems.Gem, error) {
-	// TODO: Add real logic.
-	return gem, nil
-}
-
-func (r *gemRepository) Remove(id int64) error {
-	// TODO: Add real logic.
-	return nil
 }
 
 func (r *gemRepository) GetGemLogs(userId int64) (map[int64]([]gems.Gem), error) {
