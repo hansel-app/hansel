@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <div class="overlay bring-to-front container">
+    <div class="overlay container">
       <Header />
       <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
       <div class="header">
@@ -38,7 +38,6 @@ export default defineComponent({
         "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
       mockSelfUser,
       mockFriends,
-      color: "#ffffff",
     };
   },
   methods: {
@@ -63,10 +62,6 @@ export default defineComponent({
 <style scoped lang="less">
 .sub-header {
   text-align: left;
-}
-
-.bring-to-front {
-  z-index: 2;
 }
 
 .header {

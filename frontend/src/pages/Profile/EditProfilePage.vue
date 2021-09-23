@@ -1,26 +1,18 @@
 <template>
   <div class="overlay">
     <Header title="Edit Profile" :backLink="PROFILE_ROUTE"/>
-    <div class="avatar-container">
-      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+    <!-- <div class="avatar-container">
       <van-button class="edit-button overlay"
         ><van-icon name="edit" size="40px"
       /></van-button>
-    </div>
-    <van-form>
-      <van-field
-        v-model="username"
-        name="Username"
-        label="Username"
-        placeholder="username"
-        readonly
-        error-message="Username cannot be changed"
-      />
+    </div> -->
+    <van-form class="container">
+      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
       <van-field
         v-model="displayName"
         name="Display name"
         label="Display name"
-        placeholder="Display name"
+        placeholder="Enter your name"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
     </van-form>
@@ -70,16 +62,24 @@ export default defineComponent({
 .sub-header {
   text-align: left;
 }
-.avatar-container {
-  position: relative;
-  width: 5rem;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
+// .avatar-container {
+//   position: relative;
+//   width: 5rem;
+//   left: 0;
+//   right: 0;
+//   margin-left: auto;
+//   margin-right: auto;
+// }
 .edit-button {
   position: absolute;
   bottom: 0;
+}
+
+.container {
+  padding-top: 2em;
+}
+
+.van-field {
+  padding: 3em 0;
 }
 </style>
