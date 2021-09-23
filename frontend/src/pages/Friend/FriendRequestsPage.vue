@@ -16,7 +16,7 @@
               round
               type="primary"
               size="small"
-              @click="acceptFriendRequest"
+              @click="acceptFriendRequest(request.requester.userId)"
             >
               Accept
             </van-button>
@@ -64,8 +64,8 @@ export default defineComponent({
     goBack() {
       this.$router.back();
     },
-    acceptFriendRequest(senderId: number) {
-      this.store.dispatch("acceptFriendRequest", senderId);
+    acceptFriendRequest(requesterId: number) {
+      this.store.dispatch("acceptFriendRequest", requesterId);
     },
     declineFriendRequest(senderId: number) {
       this.store.dispatch("declineFriendRequest", senderId);
