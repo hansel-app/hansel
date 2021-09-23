@@ -18,7 +18,7 @@
           <div class="menu-contents" v-if="!collapsed">
             <div class="avatar">
               <CircleAvatar
-                :avatarUrl="placeholderAvatarUrl"
+                :avatarUrl="self.avatar"
                 :radius="2.5"
                 @click="goToProfile"
               >
@@ -38,7 +38,7 @@
                   <Notification :requestCount="requestCount"/>
                 </van-col>
               </van-row>
-              <van-row tabindex="4" @click="logOut">
+              <van-row class="log-out" tabindex="4" @click="logOut">
                 <p>Log out</p>
               </van-row>
             </div>
@@ -130,7 +130,7 @@ export default defineComponent({
   --menu-item-active: #9c8be0;
 }
 </style>
-<style scoped>
+<style scoped lang="less">
 .menu,
 .menu-icon {
   color: white;
@@ -177,5 +177,10 @@ export default defineComponent({
 .van-row:hover,
 .van-row:focus {
   background-color: var(--menu-item-active);
+}
+
+.log-out {
+  margin-top: 5em;
+  color: @gray-3;
 }
 </style>

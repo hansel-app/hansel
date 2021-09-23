@@ -14,7 +14,7 @@
       <van-field
         v-model="displayName"
         name="Display name"
-        label="self.displayNammoe"
+        label="Name"
         placeholder="Enter your name"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
@@ -71,7 +71,6 @@ export default defineComponent({
   data() {
     return {
       PROFILE_ROUTE,
-      // displayName: this.self.displayName as string,
       fileList: [] as UploaderFileListItem[],
     };
   },
