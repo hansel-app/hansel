@@ -26,15 +26,6 @@ export interface UserState {
   currPosition: LatLng;
 }
 
-const protoUserToUserMapper = (protoUser: ProtoUser): User => {
-  return {
-    userId: protoUser.getUserId(),
-    username: protoUser.getUsername(),
-    displayName: protoUser.getDisplayName(),
-    avatar: protoUser.getAvatar_asB64(),
-  };
-};
-
 const userModule: Module<UserState, RootState> = {
   state: {
     friends: [],
