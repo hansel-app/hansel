@@ -27,7 +27,7 @@
           <van-icon
             class="circle-button-icon-md"
             :name="require('@/assets/icons/info.svg')"
-            @click="showPopup"
+            @click="togglePopup"
           />
         </van-row>
       </CustomControl>
@@ -98,7 +98,14 @@
 </template>
 
 <script lang="ts">
-import { createApp, ref, defineComponent, PropType, onBeforeUpdate } from "vue";
+import {
+  createApp,
+  ref,
+  defineComponent,
+  PropType,
+  onBeforeUpdate,
+  watchEffect,
+} from "vue";
 import { useGeolocation } from "@/useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
@@ -139,6 +146,8 @@ export default defineComponent({
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
     const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
+    const openedInfoWindowGem = ref<Gem | null>(null);
+    const shouldShowPopup = ref<boolean>(true);
     const store = useStore();
 
     const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
@@ -153,9 +162,23 @@ export default defineComponent({
     });
 
     const { getLocation } = useGeolocation();
-    await getLocation();
     const currPosition: LatLng = store.state.user.currPosition;
-    const shouldShowPopup = ref<boolean>(false);
+
+    watchEffect(
+      () => {
+        const popupCloseEvents = ["mousedown", "dragstart"];
+        popupCloseEvents.forEach((event) => {
+          mapRef?.value?.map?.addListener(event, () => {
+            shouldShowPopup.value = false;
+          });
+        });
+      },
+      {
+        flush: "post",
+      }
+    );
+
+    await getLocation();
 
     return {
       mapRef,
@@ -168,29 +191,9 @@ export default defineComponent({
       apiKey: GOOGLE_API_KEY,
       mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
-      openedInfoWindowGem: ref<Gem | null>(null),
+      openedInfoWindowGem,
       store,
     };
-  },
-
-  beforeUpdate() {
-    // clear, then add event listeners to map
-    if (this.mapRef?.map) {
-      google.maps.event.clearInstanceListeners(this.mapRef?.map);
-    }
-    const popupCloseEvents = ["mousedown", "dragstart"];
-    popupCloseEvents.forEach((event) => {
-      this.mapRef?.map?.addListener(event, () => {
-        this.hidePopup();
-      });
-    });
-    const gemInfoWindowCloseEvents = ["click"];
-    gemInfoWindowCloseEvents.forEach((event) => {
-      this.mapRef?.map?.addListener(event, () => {
-        this.gemMarkerInfoWindowRef?.close();
-        this.openedInfoWindowGem = null;
-      });
-    });
   },
 
   computed: {
@@ -307,14 +310,19 @@ export default defineComponent({
         shouldFocus: false,
       });
 
+      const gemInfoWindowCloseEvents = ["click", "mousedown"];
+      gemInfoWindowCloseEvents.forEach((event) => {
+        this.mapRef?.map?.addListener(event, () => {
+          this.gemMarkerInfoWindowRef?.close();
+          this.openedInfoWindowGem = null;
+        });
+      });
+
       this.openedInfoWindowGem = gem;
     },
 
-    showPopup() {
-      this.shouldShowPopup = true;
-    },
-    hidePopup() {
-      this.shouldShowPopup = false;
+    togglePopup() {
+      this.shouldShowPopup = !this.shouldShowPopup;
     },
 
     pickUpGem() {
