@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { useStore } from "vuex";
+import { mapState, useStore } from "vuex";
 import { User, Gem } from "@/interfaces";
 import { GEM_LOGS_ROUTE } from "@/constants";
 import FriendCell from "@/components/FriendCell.vue";
@@ -32,16 +32,20 @@ export default defineComponent({
       required: true,
     },
   },
-  data() {
-    return {
-      store: useStore(),
-    };
+  setup() {
+    const store = useStore();
+
+    return { store };
   },
   computed: {
+    ...mapState({
+      selfUser: (state: any) => state.user.self as User,
+    }),
     previewMessage(): string {
-      const isPickedUp = this.mostRecentGemActivity.receivedAt === undefined;
+      const isPickedUp = this.mostRecentGemActivity.receivedAt !== null;
       // TODO: replace hardcoded user value with this.store.user.self.id;
-      const isSelfCreator = this.mostRecentGemActivity.createdBy.userId === 1;
+      const isSelfCreator =
+        this.mostRecentGemActivity.createdBy.userId === this.selfUser.userId;
 
       if (isSelfCreator) {
         // I created and they picked up.
