@@ -1,28 +1,21 @@
 <template>
   <van-row :justify="justify">
-    <van-image
-      v-if="isSentBySelf || hasPickedUpGem"
-      class="gem-image"
-      :src="gem.attachment"
+    <GemMessageOpen
+      :gem="gem"
+      :gemMessageStyle="gemMessageStyle"
+      v-if="hasPickedUpGem"
     />
-  </van-row>
-  <van-row :justify="justify">
-    <p
-      v-if="isSentBySelf || hasPickedUpGem"
-      class="gem-message"
-      v-bind:style="gemMessageStyle"
-    >
-      {{ gem.message }}
-    </p>
-    <p v-else class="gem-message" v-bind:style="gemMessageStyle">
-      They dropped a gem!
-    </p>
+    <van-row v-else>
+      <GemMessageClosed :gemMessageStyle="gemMessageStyle" :gem="gem" />
+    </van-row>
   </van-row>
 </template>
 
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
 import { Gem, HexCode } from "@/interfaces";
+import GemMessageOpen from "./GemMessageOpened.vue";
+import GemMessageClosed from "./GemMessageClosed.vue";
 
 export default defineComponent({
   props: {
@@ -62,6 +55,10 @@ export default defineComponent({
       }
     },
   },
+  components: {
+    GemMessageOpen,
+    GemMessageClosed,
+  },
 });
 </script>
 
@@ -71,9 +68,5 @@ export default defineComponent({
   padding: 1em 0.5em;
   word-wrap: break-word;
   border-radius: @border-radius-lg;
-}
-
-.gem-image {
-  padding: 1em 1em;
 }
 </style>
