@@ -12,8 +12,8 @@ import (
 	"github.com/hansel-app/hansel/protobuf/usersapi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type gemService struct {
@@ -146,6 +146,7 @@ func (s *gemService) PickUp(
 	}
 
 	return new(emptypb.Empty), nil
+}
 
 func (s *gemService) GetGemLogs(
 	c context.Context,

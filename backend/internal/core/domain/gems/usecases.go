@@ -24,6 +24,7 @@ func (u *UseCases) GetPendingCollectionByUser(userId int64) ([]Gem, error) {
 
 func (u *UseCases) PickUpGem(id int64) error {
 	return u.repository.PickUpGem(id)
+}
 
 // Returns a map of friend_id to list of gem logs.
 // Not returning User object here directly to keep Gem domain independent from User domain.

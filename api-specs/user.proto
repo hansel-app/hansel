@@ -44,8 +44,8 @@ message GetFriendsResponse {
 
 message PendingFriendRequest {
   User requester = 1;
-  User receiver = 1;
-  google.protobuf.Timestamp sent_at = 2;
+  User receiver = 2;
+  google.protobuf.Timestamp sent_at = 3;
 }
 
 message GetFriendRequestsResponse {
@@ -58,7 +58,7 @@ message FriendRequest {
 }
 
 message EditProfileRequest {
-  // Using individual fields instead of User 
+  // Using individual fields instead of User
   // as user_id and username should not be mutable.
   string new_display_name = 1;
   bytes new_avatar = 2;
