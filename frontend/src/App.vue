@@ -5,7 +5,9 @@
         :enter-active-class="route.meta.enterClass"
         :leave-active-class="route.meta.leaveClass"
       >
-        <component :is="Component"></component>
+        <div>
+          <component :is="Component"></component>
+        </div>
       </transition>
     </router-view>
   </div>
