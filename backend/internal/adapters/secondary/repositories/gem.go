@@ -80,6 +80,46 @@ func (r *gemRepository) Remove(id int64) error {
 	return nil
 }
 
-func (r *gemRepository) GetGemLogs(id int64) (map[int64]([]gems.Gem), error) {
-	return nil, nil
+func (r *gemRepository) GetGemLogs(userId int64) (map[int64]([]gems.Gem), error) {
+	gemsCreatedbySelf := qb.From("gems").Where(goqu.C("creator_id").Eq(userId)))
+	gemsReceivedBySelf := qb.From("gems").Where(goqu.C("receiver_id").Eq(userId)))
+
+	sql, _, _ := gemsCreatedbySelf.Union(gemsToBeReceivedBySelf).ToSQL()
+
+	rows, err := r.db.Query(sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to add gem: %w", err)
+	}
+
+	gemMap := make(map[int64]gems.Gem)
+
+	for rows.Next() {
+		var gem gems.Gem
+		err = rows.Scan(&gem)
+		if err!= nil {
+			return nil, fmt.Errorf("Failed to scan row into gem");
+		}
+
+		if gem.CreatorId != userId && gem.ReceivedAt != userId {
+			panic("Retrieved gem must be associated to the user")
+		}
+
+		if gem.CreatorId != userId {
+			gems, ok := gemMap[gem.CreatorId]
+			if (!ok) {
+				gemMap[gem.CreatorId] = make([]gems.Gem)
+			}
+			gemMap[gem.CreatorId] = append(gems, gem)
+		}
+
+		if gem.ReceiverId != userId {
+			gems, ok := gemMap[gem.ReceiverId]
+			if !ok {
+				gemMap[gem.ReceiverId] = make([]gems.Gem)
+			}
+			gemMap[gem.ReceiverId] = append(gems, gem)
+		}
+	}
+
+	return gemMap, nil
 }
