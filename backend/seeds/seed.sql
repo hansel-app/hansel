@@ -21,3 +21,12 @@ VALUES
   ('hello tommy', 1.3109, 103.7952, 1, 2, 4),
   ('hello tommy', 1.3309, 103.8752, 1, 2, 5),
   ('hello bobby', 1.2966, 103.7764, 2, 1, 0);
+
+INSERT INTO friend_requests (requester_id, receiver_id)
+VALUES
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1),
+  (6, 1),
+  (7, 1);

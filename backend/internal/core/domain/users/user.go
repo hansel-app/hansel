@@ -11,16 +11,7 @@ type User struct {
 	Avatar         []byte `db:"avatar"`
 }
 
-type FriendRelationshipStatus int64
-
-const (
-	Pending  FriendRelationshipStatus = 0
-	Accepted FriendRelationshipStatus = 1
-)
-
-type FriendRelationship struct {
-	Requester   User
-	Receiver    User
-	RequestedAt time.Time
-	Status      FriendRelationshipStatus
+type FriendRequest struct {
+	Requester User
+	CreatedAt time.Time `db:"created_at"`
 }
