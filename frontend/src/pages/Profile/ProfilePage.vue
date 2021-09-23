@@ -1,16 +1,22 @@
 <template>
-  <div class="overlay bring-to-front">
-    <Header />
-    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
-    <h2>{{ mockSelfUser.displayName }}</h2>
-    <h3>{{ "@" + mockSelfUser.username }}</h3>
-    <CellGroup>
-      <Cell title="Edit profile" is-link @click="goToEditProfile" />
-      <Cell title="Friends" is-link />
-    </CellGroup>
-    <Cell title="Logout" />
+  <div class="profile-page">
+    <div class="overlay bring-to-front container">
+      <Header />
+      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+      <div class="header">
+        {{ mockSelfUser.displayName }}
+      </div>
+      <div class="sub-header">
+        @{{ mockSelfUser.username }}
+      </div>
+      <CellGroup :border="false" class="content">
+        <Cell title="Edit profile" is-link @click="goToEditProfile" />
+        <Cell title="Friends" is-link />
+      </CellGroup>
+      <Cell class="logout" title="Logout" />
+    </div>
+    <ProfilePageBg />
   </div>
-  <ProfilePageBg />
 </template>
 
 <script lang="ts">
@@ -58,5 +64,20 @@ export default defineComponent({
 
 .bring-to-front {
   z-index: 2;
+}
+
+.header {
+  text-align: center !important;
+  margin: 2em 0 1em 0;
+}
+
+.sub-header {
+  text-align: center !important;
+  padding-bottom: 2em;
+  color: gray;
+}
+
+.logout {
+  color: red;
 }
 </style>

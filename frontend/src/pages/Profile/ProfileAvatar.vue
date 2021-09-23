@@ -1,5 +1,5 @@
 <template>
-  <CircleAvatar :avatarUrl="avatarUrl" radius="5" class="avatar-border" />
+  <CircleAvatar :avatarUrl="avatarUrl" :radius="5" class="avatar-border" />
 </template>
 
 <script lang="ts">
