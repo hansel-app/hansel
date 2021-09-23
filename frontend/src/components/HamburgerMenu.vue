@@ -7,7 +7,7 @@
       <div class="menu-contents" v-if="!collapsed">
         <div class="avatar">
           <CircleAvatar
-            :avatarUrl="mockSelfUser.avatar"
+            :avatarUrl="self.avatar"
             :radius="2.5"
             @click="goToProfile"
           >
@@ -38,7 +38,6 @@ import {
 } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
-import { mockSelfUser } from "@/interfaces/mockData";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import { Row } from "vant";
@@ -65,7 +64,12 @@ export default defineComponent({
     CircleAvatar,
   },
   data() {
-    return { store: useStore(), mockSelfUser };
+    return { store: useStore() };
+  },
+  computed: {
+    self() {
+      return this.store.state.user.self;
+    },
   },
   methods: {
     goToProfile() {
