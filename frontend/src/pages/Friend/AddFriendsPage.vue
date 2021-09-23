@@ -28,12 +28,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, Search } from "vant";
+import { CellGroup } from "vant";
 import { useStore, mapState } from "vuex";
 import BackSwipe from "@/components/BackSwipe.vue";
-import { CellGroup } from "vant";
-import { User } from "@/protobuf/user_pb";
-import BackSwipe from "@/components/BackSwipe.vue";
+import { User } from "@/interfaces";
 import Searchbar from "@/components/Searchbar.vue";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
@@ -72,7 +70,7 @@ export default defineComponent({
     },
     handleSearch() {
       const filterFriends = (user: User) => !this.friends.includes(user);
-      const filterSelf = (user: User) => this.selfUser.id != user.id;
+      const filterSelf = (user: User) => this.selfUser.id != user.userId;
 
       this.store
         .dispatch("searchByUsername", this.searchQuery)
@@ -81,7 +79,7 @@ export default defineComponent({
         });
     },
     addFriend(user: User) {
-      this.store.dispatch("sendFriendRequest", user.id);
+      this.store.dispatch("sendFriendRequest", user.userId);
     },
   },
 });
