@@ -32,6 +32,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       friends: (state: any) => state.user.friends as User[],
     }),
     // Alphabetically, by displayName

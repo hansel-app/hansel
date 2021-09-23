@@ -1,6 +1,21 @@
-import { Gem, GemColor, PendingFriendRequest, User } from "@/interfaces";
-import { Gem as ProtoGem, GemColor as ProtoGemColor } from "@/protobuf/gem_pb";
-import { PendingFriendRequest as ProtoPendingFriendRequest, User as ProtoUser } from "@/protobuf/user_pb";
+import {
+  Gem,
+  GemColor,
+  GemLogs,
+  GemLogsWithFriend,
+  PendingFriendRequest,
+  User,
+} from "@/interfaces";
+import {
+  Gem as ProtoGem,
+  GemColor as ProtoGemColor,
+  GemLogs as ProtoGemLogs,
+  GemLogsWithFriend as ProtoGemLogsWithFriend,
+} from "@/protobuf/gem_pb";
+import {
+  PendingFriendRequest as ProtoPendingFriendRequest,
+  User as ProtoUser,
+} from "@/protobuf/user_pb";
 import dayjs from "dayjs";
 
 export const protoGemColorToGemColorMapper = (
@@ -61,9 +76,47 @@ export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
     },
     createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
     createdBy: protoUserToUserMapper(creator),
-    receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
+    receivedAt: protoGem.getReceivedAt()
+      ? dayjs(protoGem.getReceivedAt()?.toDate())
+      : null,
     receiver: protoUserToUserMapper(receiver),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
+    attachment: protoGem.getAttachment_asB64(),
+  };
+};
+
+export const protoGemLogWithFriendsToGemLogWithFriendsMapper = (
+  protoGemLogWithFriends: ProtoGemLogsWithFriend
+): GemLogsWithFriend => {
+  const protoFriend = protoGemLogWithFriends.getFriend();
+  const protoGems = protoGemLogWithFriends.getGemsList();
+
+  if (!protoFriend) {
+    throw new Error("Gem log must be associated with a friend");
+  }
+
+  return {
+    friend: protoUserToUserMapper(protoFriend),
+    gems: protoGems.map(protoGemToGemMapper),
+  };
+};
+
+export const protoGemLogToGemLogMapper = (
+  protoGemLog: ProtoGemLogs
+): GemLogs => {
+  const gemLogs = protoGemLog.getGemLogsMap();
+
+  const mappedMap = new Map<number, GemLogsWithFriend>();
+
+  for (const [friendId, val] of gemLogs.entries()) {
+    const gemLogsWithFriends = protoGemLogWithFriendsToGemLogWithFriendsMapper(
+      val
+    );
+    mappedMap.set(friendId, gemLogsWithFriends);
+  }
+
+  return {
+    gemLogsMap: mappedMap,
   };
 };
 
@@ -77,7 +130,7 @@ export const protoUserToUserMapper = (protoUser: ProtoUser): User => {
 };
 
 export const protoPendingFriendRequestToPendingFriendRequestMapper = (
-  protoPendingFriendRequest: ProtoPendingFriendRequest,
+  protoPendingFriendRequest: ProtoPendingFriendRequest
 ): PendingFriendRequest => {
   const requester = protoPendingFriendRequest.getRequester();
   if (!requester) {

@@ -1,6 +1,6 @@
 import { Gem, GemColor, User } from "@/interfaces";
-import { placeholderBase64Avatar } from "./placeholderBase64Avatar";
 import dayjs from "dayjs";
+import { placeholderBase64Avatar } from "./placeholderBase64Avatar";
 
 export const mockFriends: User[] = [
   {
@@ -13,21 +13,18 @@ export const mockFriends: User[] = [
     userId: 2,
     displayName: "Wimp",
     username: "scared_of_geese",
-
     avatar: "2",
   },
   {
     userId: 3,
     displayName: "Goose",
     username: "goose",
-
     avatar: "3",
   },
   {
     userId: 4,
     displayName: "Pub owner",
     username: "abc",
-
     avatar: "4",
   },
 ];

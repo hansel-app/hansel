@@ -100,7 +100,7 @@ func (r *gemRepository) GetGemLogs(userId int64) (map[int64]([]gems.Gem), error)
 
 	sql, _, _ := gemsCreatedbySelf.Union(gemsSentToSelf).ToSQL()
 
-	rows, err := r.db.Query(sql)
+	rows, err := r.db.Queryx(sql)
 	if err != nil {
 		return nil, fmt.Errorf("unable to add gem: %w", err)
 	}
@@ -109,9 +109,9 @@ func (r *gemRepository) GetGemLogs(userId int64) (map[int64]([]gems.Gem), error)
 
 	for rows.Next() {
 		var gem gems.Gem
-		err = rows.Scan(&gem)
+		err = rows.StructScan(&gem)
 		if err != nil {
-			return nil, fmt.Errorf("Failed to scan row into gem")
+			return nil, fmt.Errorf("Failed to scan row into gem: %s", err)
 		}
 
 		if gem.CreatorId != userId && gem.ReceiverId != userId {
