@@ -1,4 +1,3 @@
-import "animate.css";
 import {
   ADD_FRIENDS_ROUTE,
   DROP_GEM_ROUTE,
@@ -19,13 +18,13 @@ import {
   SelectFriend,
 } from "@/pages/DropGem/index";
 import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
+import { GemLogsDetailsPage, GemLogsPage } from "@/pages/GemLogs/index";
 import HomePage from "@/pages/Home/HomePage.vue";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
-import { GemLogsDetailsPage, GemLogsPage } from "@/pages/GemLogs/index";
 import { FoundGem, MessageDisplay, PickupGem } from "@/pages/PickupGem/index";
 import { EditProfilePage, ProfilePage } from "@/pages/Profile/index";
 import store from "@/store";
-
+import "animate.css";
 import {
   createRouter,
   createWebHistory,

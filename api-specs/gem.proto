@@ -27,9 +27,9 @@ message Gem {
   string message = 2;
   double latitude = 3;
   double longitude = 4;
-  int64 creator_id = 5;
+  usersapi.User creator = 5;
   google.protobuf.Timestamp created_at = 6;
-  int64 receiver_id = 7;
+  usersapi.User receiver = 7;
   google.protobuf.Timestamp received_at = 8;
   GemColor color = 9;
   bytes attachment = 10;

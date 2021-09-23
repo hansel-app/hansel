@@ -79,18 +79,52 @@ func (s *gemService) GetPendingCollectionForUser(
 		return nil, err
 	}
 
+	// Store all user ids to be retrieved as keys of the map
+	// Map is used primarily as a set here
+	userIdsSet := make(map[int64]bool)
+	for _, gem := range gems {
+		userIdsSet[gem.CreatorId] = true
+		userIdsSet[gem.ReceiverId] = true
+	}
+
+	// Retrieve all userIds of the map
+	userIds := make([]int64, len(userIdsSet))
+	i := 0
+	for k := range userIdsSet {
+		userIds[i] = k
+		i++
+	}
+
+	// retrieve all users based on keys
+	userInfoMap, err := s.usersUsecases.GetUsersByIds(userIds)
+	if err != nil {
+		return nil, err
+	}
+
 	processedGems := []*gemsapi.Gem{}
 
 	for _, gem := range gems {
+		creator := userInfoMap[gem.CreatorId]
+		receiver := userInfoMap[gem.ReceiverId]
 		processedGem := gemsapi.Gem{
-			Id:         gem.ID,
-			Message:    gem.Message,
-			Latitude:   gem.Latitude,
-			Longitude:  gem.Longitude,
-			CreatorId:  gem.CreatorId,
-			CreatedAt:  timestamppb.New(gem.CreatedAt),
-			ReceiverId: gem.ReceiverId,
-			Color:      gemsapi.GemColor(gem.Color),
+			Id:        gem.ID,
+			Message:   gem.Message,
+			Latitude:  gem.Latitude,
+			Longitude: gem.Longitude,
+			Creator: &usersapi.User{
+				UserId:      creator.ID,
+				DisplayName: creator.DisplayName,
+				Username:    creator.Username,
+				Avatar:      creator.Avatar,
+			},
+			CreatedAt: timestamppb.New(gem.CreatedAt),
+			Receiver: &usersapi.User{
+				UserId:      receiver.ID,
+				DisplayName: receiver.DisplayName,
+				Username:    receiver.Username,
+				Avatar:      receiver.Avatar,
+			},
+			Color: gemsapi.GemColor(gem.Color),
 		}
 		processedGems = append(processedGems, &processedGem)
 	}
@@ -135,15 +169,27 @@ func (s *gemService) GetGemLogs(
 		// and maybe abstract out the mappers...
 		processedGems := []*gemsapi.Gem{}
 		for _, gem := range gems {
+			creator := userInfoMap[gem.CreatorId]
+			receiver := userInfoMap[gem.ReceiverId]
 			processedGem := gemsapi.Gem{
-				Id:         gem.ID,
-				Message:    gem.Message,
-				Latitude:   gem.Latitude,
-				Longitude:  gem.Longitude,
-				CreatorId:  gem.CreatorId,
-				CreatedAt:  timestamppb.New(gem.CreatedAt),
-				ReceiverId: gem.ReceiverId,
-				Color:      gemsapi.GemColor(gem.Color),
+				Id:        gem.ID,
+				Message:   gem.Message,
+				Latitude:  gem.Latitude,
+				Longitude: gem.Longitude,
+				Creator: &usersapi.User{
+					UserId:      creator.ID,
+					DisplayName: creator.DisplayName,
+					Username:    creator.Username,
+					Avatar:      creator.Avatar,
+				},
+				CreatedAt: timestamppb.New(gem.CreatedAt),
+				Receiver: &usersapi.User{
+					UserId:      receiver.ID,
+					DisplayName: receiver.DisplayName,
+					Username:    receiver.Username,
+					Avatar:      receiver.Avatar,
+				},
+				Color: gemsapi.GemColor(gem.Color),
 			}
 			processedGems = append(processedGems, &processedGem)
 		}
