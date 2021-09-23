@@ -11,7 +11,7 @@
       <CellGroup>
         <FriendCell
           v-for="user in filteredUsers"
-          :key="user.id"
+          :key="user.userId"
           :friend="user"
           :shouldDisplayUsername="true"
         >
@@ -61,7 +61,8 @@ export default defineComponent({
       this.$router.back();
     },
     handleSearch() {
-      this.store.dispatch("searchByUsername", this.searchQuery)
+      this.store
+        .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {
           this.users = users;
         });

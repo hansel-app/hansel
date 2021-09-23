@@ -1,26 +1,28 @@
 <template>
   <div class="background-gradient">
     <BackSwipe />
-    <Header title="Friend requests"/>
+    <Header title="Friend requests" />
     <div class="container">
       <van-cell-group>
         <FriendCell
           v-for="user in mockFriends"
-          :key="user.id"
+          :key="user.userId"
           :friend="user"
           :shouldDisplayUsername="true"
         >
           <div class="align-right">
-            <van-button id="left-button"
-              round 
-              type="primary" 
+            <van-button
+              id="left-button"
+              round
+              type="primary"
               size="small"
               @click="acceptFriendRequest"
-            >Accept</van-button>
-            <van-button 
-              round @click="declineFriendRequest"
-              size="small"
-            >Decline</van-button>
+            >
+              Accept
+            </van-button>
+            <van-button round @click="declineFriendRequest" size="small">
+              Decline
+            </van-button>
           </div>
         </FriendCell>
       </van-cell-group>
@@ -81,7 +83,7 @@ export default defineComponent({
 }
 .align-right {
   margin: auto 0 auto auto;
-  position:absolute;
+  position: absolute;
   right: 0;
 }
 </style>
