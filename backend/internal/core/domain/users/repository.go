@@ -9,7 +9,7 @@ type Repository interface {
 	Update(id int64, user *User) error
 	Remove(id int64) error
 	GetFriends(id int64) ([]*User, error)
-	GetFriendRequests(id int64) ([]*FriendRelationship, error)
+	GetFriendRequests(id int64) ([]*FriendRequest, error)
 	AddFriendRequest(requesterID int64, receiverID int64) error
 	AcceptFriendRequest(requesterID int64, receiverID int64) error
 	DeclineFriendRequest(requesterID int64, receiverID int64) error

@@ -2,12 +2,12 @@
   <div class="profile-page">
     <div class="overlay container">
       <Header />
-      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+      <ProfileAvatar :avatarUrl="self.avatar" />
       <div class="header">
-        {{ mockSelfUser.displayName }}
+        {{ self.displayName }}
       </div>
       <div class="sub-header">
-        @{{ mockSelfUser.username }}
+        @{{ self.username }}
       </div>
       <CellGroup :border="false" class="content container">
         <Cell title="Edit profile" is-link @click="goToEditProfile" />
@@ -23,22 +23,25 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import { CellGroup, Cell } from "vant";
-import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import { EDIT_PROFILE_ROUTE } from "@/constants";
-import ProfileAvatar from "../../components/ProfileAvatar.vue";
+import { EDIT_PROFILE_ROUTE, FRIEND_LIST_ROUTE } from "@/constants";
+import { User } from "@/interfaces";
+import ProfileAvatar from "./ProfileAvatar.vue";
 import Header from "@/components/Header.vue";
 import SemiCircleBg from "@/components/SemiCircleBg.vue";
 
 export default defineComponent({
   data() {
     return {
-      // TODO: replace with user's own data
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
-      mockSelfUser,
-      mockFriends,
+      color: "#ffffff",
+      store: useStore(),
     };
+  },
+  computed: {
+    self(): User {
+      return this.store.state.user.self;
+    },
   },
   methods: {
     goBack() {
@@ -46,6 +49,9 @@ export default defineComponent({
     },
     goToEditProfile() {
       this.$router.push(EDIT_PROFILE_ROUTE);
+    },
+    goToFriendList() {
+      this.$router.push(FRIEND_LIST_ROUTE);
     },
   },
   components: {

@@ -11,8 +11,7 @@ type User struct {
 	Avatar         []byte `db:"avatar"`
 }
 
-type FriendRelationship struct {
-	Requester   User
-	Receiver    User
-	RequestedAt time.Time
+type FriendRequest struct {
+	Requester User
+	CreatedAt time.Time `db:"created_at"`
 }

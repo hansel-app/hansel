@@ -1,18 +1,17 @@
 import services from "@/api/services";
 import { SINGAPORE_CENTER } from "@/constants";
-import { LatLng, User } from "@/interfaces";
+import { LatLng, PendingFriendRequest, User } from "@/interfaces";
 import {
   EditProfileRequest,
   FriendRequest,
   GetFriendRequestsResponse,
   GetFriendsResponse,
   GetOwnProfileResponse,
-  PendingFriendRequest,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
-import { protoUserToUserMapper } from "@/utils/mappers";
+import { protoPendingFriendRequestToPendingFriendRequestMapper, protoUserToUserMapper } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
 
@@ -26,15 +25,20 @@ export interface UserState {
   currPosition: LatLng;
 }
 
+const initialState: UserState = Object.freeze({
+  friends: [],
+  friendRequests: [],
+  self: undefined,
+  isSendFriendRequestSuccessful: false,
+  currPosition: SINGAPORE_CENTER,
+});
+
 const userModule: Module<UserState, RootState> = {
-  state: {
-    friends: [],
-    friendRequests: [],
-    self: undefined,
-    isSendFriendRequestSuccessful: false,
-    currPosition: SINGAPORE_CENTER,
-  },
+  state: initialState,
   mutations: {
+    resetUserStore(state) {
+      Object.assign(state, initialState);
+    },
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;
     },
@@ -115,8 +119,10 @@ const userModule: Module<UserState, RootState> = {
         services.userClient
           .getFriendRequests(new Empty())
           .then((resp: GetFriendRequestsResponse) => {
-            const pendingFriends: PendingFriendRequest[] = resp.getFriendRequestsList();
-            commit("setFriendRequests", pendingFriends);
+            const pendingFriendRequests: PendingFriendRequest[] = resp
+              .getFriendRequestsList()
+              .map(protoPendingFriendRequestToPendingFriendRequestMapper);
+            commit("setFriendRequests", pendingFriendRequests);
             resolve(resp);
           })
           .catch((err) => reject(err));

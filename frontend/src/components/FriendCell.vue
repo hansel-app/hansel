@@ -9,7 +9,7 @@
     <template #icon>
       <!-- TODO: replace with user's own avatar -->
       <CircleAvatar
-        :avatarUrl="placeholderAvatarUrl"
+        :avatarUrl="friend.avatar"
         class="avatar-border"
         :radius="1.5"
       />
@@ -52,13 +52,6 @@ export default defineComponent({
       }
       return this.shouldDisplayUsername ? "@" + this.friend.username : "";
     },
-  },
-  data() {
-    return {
-      // TODO: replace with user's own avatar
-      placeholderAvatarUrl:
-        "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
-    };
   },
   components: {
     Cell,

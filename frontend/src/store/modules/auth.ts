@@ -1,12 +1,12 @@
-import { Module } from "vuex";
-import { RootState } from "@/store";
 import services from "@/api/services";
 import {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
 } from "@/protobuf/auth_pb";
+import { RootState } from "@/store";
 import Cookies from "js-cookie";
+import { Module } from "vuex";
 
 const ACCESS_TOKEN_COOKIE = "access-token";
 
@@ -58,7 +58,10 @@ const authModule: Module<AuthState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-    register({ dispatch }, payload: { displayName: string; username: string; password: string }) {
+    register(
+      { dispatch },
+      payload: { displayName: string; username: string; password: string }
+    ) {
       const request = new RegisterRequest();
       request.setDisplayName(payload.displayName);
       request.setUsername(payload.username);
@@ -76,6 +79,8 @@ const authModule: Module<AuthState, RootState> = {
     },
     logout({ commit }) {
       commit("clearAccessToken");
+      commit("resetGemsStore");
+      commit("resetUserStore");
     },
   },
 };

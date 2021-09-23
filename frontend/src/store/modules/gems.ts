@@ -25,14 +25,18 @@ export interface GemsState {
 }
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
+const initialState: GemsState = Object.freeze({
+  gemsPendingCollection: [],
+  dropGemFormState: initialDropGemFormState,
+  lastPickedUpGem: undefined,
+});
 
 const gemsModule: Module<GemsState, RootState> = {
-  state: {
-    gemsPendingCollection: [],
-    dropGemFormState: initialDropGemFormState,
-    lastPickedUpGem: undefined,
-  },
+  state: initialState,
   mutations: {
+    resetGemsStore(state) {
+      Object.assign(state, initialState);
+    },
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
     },

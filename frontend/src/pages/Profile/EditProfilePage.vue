@@ -14,7 +14,7 @@
       <van-field
         v-model="displayName"
         name="Display name"
-        label="self.displayName"
+        label="self.displayNammoe"
         placeholder="Enter your name"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
@@ -25,17 +25,26 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
+import { User } from "@/interfaces/user.ts";
 import { useStore } from "vuex";
 import { PROFILE_ROUTE } from "@/constants";
 import { Uploader, UploaderFileListItem, Toast } from "vant";
-import { User } from "@/interfaces";
 
 export default defineComponent({
   setup() {
     const store = useStore();
-    const self: User = store.state.user.self;
-    const displayName: string = self.displayName;
-    return { store, self, displayName };
+    return { store };
+  },
+  computed: {
+    self(): User {
+      return this.store.state.user.self;
+    },
+    username(): string {
+      return this.self.username;
+    },
+    displayName(): string {
+      return this.self.displayName;
+    },
   },
   methods: {
     editProfile() {
