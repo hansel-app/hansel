@@ -1,19 +1,19 @@
 <template>
   <van-row class="gem-message" :justify="justify">
-    <van-image />
-    <p>{{ message }}</p>
+    <van-image :src="gem.attachment" />
+    <p>{{ gem.message }}</p>
   </van-row>
 </template>
 
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
-import { HexCode } from "@/interfaces";
+import { Gem, HexCode } from "@/interfaces";
 
 export default defineComponent({
   props: {
     color: String as PropType<HexCode>,
-    message: {
-      type: String,
+    gem: {
+      type: Object as PropType<Gem>,
       required: true,
     },
     justify: {

@@ -24,7 +24,7 @@
     </Header>
 
     <div class="gem-messages-container">
-      <GemMessage v-for="gem in gems" :key="gem.id" :message="gem.message" />
+      <GemMessage v-for="gem in gems" :key="gem.id" :gem="gem" />
     </div>
   </div>
 </template>
