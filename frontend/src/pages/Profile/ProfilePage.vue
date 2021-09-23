@@ -9,7 +9,7 @@
       <div class="sub-header">
         @{{ mockSelfUser.username }}
       </div>
-      <CellGroup :border="false" class="content">
+      <CellGroup :border="false" class="content container">
         <Cell title="Edit profile" is-link @click="goToEditProfile" />
         <Cell title="Friends" is-link />
       </CellGroup>
@@ -78,6 +78,6 @@ export default defineComponent({
 }
 
 .logout {
-  color: red;
+  color: @red;
 }
 </style>

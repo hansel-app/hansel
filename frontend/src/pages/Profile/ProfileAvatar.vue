@@ -26,6 +26,6 @@ export default defineComponent({
     linear-gradient(to top, #e43d97, #e43d9700);
   background-clip: padding-box;
   padding: 8px;
-  transform: translateX(-5%);
+  margin-top: -10%;
 }
 </style>
