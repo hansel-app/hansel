@@ -50,7 +50,9 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       gems: (state: any) => state.gems.gemsPendingCollection as Gem[],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       friendRequests: (state: any) =>
         state.user.friendRequests as PendingFriendRequest[],
     }),

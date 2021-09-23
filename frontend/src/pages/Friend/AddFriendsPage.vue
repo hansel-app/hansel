@@ -53,7 +53,9 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       friends: (state: any) => state.user.friends,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       selfUser: (state: any) => state.user.self,
     }),
     filteredUsers(): User[] {

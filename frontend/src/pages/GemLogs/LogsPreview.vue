@@ -39,6 +39,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       selfUser: (state: any) => state.user.self as User,
     }),
     previewMessage(): string {

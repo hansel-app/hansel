@@ -56,6 +56,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       gemLog: (state: any) =>
         state.gems.selectedGemLog as GemLogsWithFriend.AsObject,
     }),

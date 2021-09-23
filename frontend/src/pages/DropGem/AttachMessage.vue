@@ -29,6 +29,7 @@ export default defineComponent({
 
   computed: {
     ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       color: (state: any) => state.gems.dropGemFormState.color as GemColor,
     }),
   },
