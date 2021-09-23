@@ -211,19 +211,36 @@ func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) e
 }
 
 func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64) error {
-	sql, _, _ := goqu.From("friends").Where(goqu.And(
-		goqu.C("requester_id").Eq(requesterID),
-		goqu.C("receiver_id").Eq(receiverID),
-		goqu.C("status").Eq("PENDING"),
-	)).Update().Set(goqu.Record{
-		"status":        "FRIENDS",
-		"friends_since": time.Now(),
-	}).ToSQL()
+	tx := r.db.MustBegin()
 
-	_, err := r.db.Exec(sql)
+	var firstUserID, secondUserID int64
+	if requesterID < receiverID {
+		firstUserID = requesterID
+		secondUserID = receiverID
+	} else {
+		firstUserID = receiverID
+		secondUserID = requesterID
+	}
+	sql, _, _ := qb.
+		Insert(goqu.T("friends")).
+		Rows(goqu.Record{
+			"first_user_id": firstUserID,
+			"second_user_id": secondUserID,
+		}).
+		ToSQL()
+	tx.MustExec(sql)
+
+	sql, _, _ = qb.
+		From(goqu.T("friend_requests")).
+		Where(goqu.C("requester_id").Eq(requesterID), goqu.C("receiver_id").Eq(receiverID)).
+		Delete().
+		ToSQL()
+	tx.MustExec(sql)
+
+	err := tx.Commit()
 	if err != nil {
 		return fmt.Errorf(
-			"unable to decline friend request for requester with id %d and receiver with id %d: %w",
+			"unable to accept friend request for requester with id %d and receiver with id %d: %w",
 			requesterID, receiverID, err,
 		)
 	}
