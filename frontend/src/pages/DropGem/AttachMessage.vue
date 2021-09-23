@@ -9,7 +9,6 @@
         placeholder="Enter your message"
         type="textarea"
         rows="5"
-        v-model="message"
         @input="this.$emit('set-message-event', $event.target.value)"
       />
     </div>
