@@ -249,11 +249,11 @@ func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64
 }
 
 func (r *userRepository) DeclineFriendRequest(requesterID int64, receiverID int64) error {
-	sql, _, _ := goqu.From("friends").Where(goqu.And(
-		goqu.C("requester_id").Eq(requesterID),
-		goqu.C("receiver_id").Eq(receiverID),
-		goqu.C("status").Eq("PENDING"),
-	)).Delete().ToSQL()
+	sql, _, _ := qb.
+		From(goqu.T("friend_requests")).
+		Where(goqu.C("requester_id").Eq(requesterID), goqu.C("receiver_id").Eq(receiverID)).
+		Delete().
+		ToSQL()
 
 	_, err := r.db.Exec(sql)
 	if err != nil {
