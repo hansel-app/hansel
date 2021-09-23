@@ -1,10 +1,10 @@
 <template>
-  <van-row
-    ><p class="gem-message" v-bind:style="gemMessageStyle">
+  <van-row :justify="start">
+    <p class="gem-message" v-bind:style="gemMessageStyle">
       They dropped a gem!
-    </p></van-row
-  ></template
->
+    </p>
+  </van-row>
+</template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
@@ -17,6 +17,10 @@ export default defineComponent({
       required: true,
     },
     gemMessageStyle: {
+      type: String,
+      required: true,
+    },
+    justify: {
       type: String,
       required: true,
     },

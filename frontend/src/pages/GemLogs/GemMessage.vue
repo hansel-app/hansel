@@ -1,12 +1,17 @@
 <template>
-  <van-row :justify="justify">
+  <van-row class="base">
     <GemMessageOpen
       :gem="gem"
       :gemMessageStyle="gemMessageStyle"
+      :justify="justify"
       v-if="hasPickedUpGem"
     />
     <van-row v-else>
-      <GemMessageClosed :gemMessageStyle="gemMessageStyle" :gem="gem" />
+      <GemMessageClosed
+        :gemMessageStyle="gemMessageStyle"
+        :gem="gem"
+        :justify="justify"
+      />
     </van-row>
   </van-row>
 </template>
