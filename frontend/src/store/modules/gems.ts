@@ -15,8 +15,8 @@ import {
   protoGemToGemMapper,
 } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import cloneDeep from "lodash/cloneDeep";
 import { Module } from "vuex";
-
 export interface GemsState {
   gemsPendingCollection: Gem[];
   gemLogs?: GemLogs;
@@ -32,10 +32,10 @@ const initialState: GemsState = {
 };
 
 const gemsModule: Module<GemsState, RootState> = {
-  state: { ...initialState },
+  state: cloneDeep(initialState),
   mutations: {
     resetGemsStore(state) {
-      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+      Object.assign(state, cloneDeep(initialState));
     },
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;

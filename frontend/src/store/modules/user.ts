@@ -16,6 +16,7 @@ import {
   protoUserToUserMapper,
 } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import cloneDeep from "lodash.clonedeep";
 import { Module } from "vuex";
 
 export interface UserState {
@@ -37,10 +38,10 @@ const initialState: UserState = {
 };
 
 const userModule: Module<UserState, RootState> = {
-  state: { ...initialState },
+  state: cloneDeep(initialState),
   mutations: {
     resetUserStore(state) {
-      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+      Object.assign(state, cloneDeep(initialState));
     },
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;
