@@ -7,7 +7,7 @@
       <div class="menu-contents" v-if="!collapsed">
         <div class="avatar">
           <CircleAvatar
-            :avatarUrl="placeholderAvatarUrl"
+            :avatarUrl="self.avatar"
             :radius="2.5"
             @click="goToProfile"
           >
@@ -18,11 +18,11 @@
           <div class="menu-contents" v-if="!collapsed">
             <div class="avatar">
               <CircleAvatar
-              :avatarUrl="placeholderAvatarUrl"
-              :radius="2.5"
-              @click="goToProfile"
+                :avatarUrl="placeholderAvatarUrl"
+                :radius="2.5"
+                @click="goToProfile"
               >
-              Profile
+                Profile
               </CircleAvatar>
             </div>
             <div class="links">
@@ -48,7 +48,8 @@
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
 import {
   PROFILE_ROUTE,
   ADD_FRIENDS_ROUTE,
@@ -57,11 +58,11 @@ import {
   LOGIN_ROUTE,
 } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import Notification from "@/components/Notification.vue";
 import { Row } from "vant";
-import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
@@ -73,14 +74,11 @@ export default defineComponent({
       () => `${collapsed.value ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}em`
     );
 
-    const store = useStore();
-
     return {
       collapsed,
       toggleMenu,
       menuWidth,
       HamburgerMenuIcon,
-      store,
     };
   },
   components: {
@@ -95,11 +93,12 @@ export default defineComponent({
     },
   },
   data() {
-    return {
-      // TODO: replace with user's own avatar
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
-    };
+    return { store: useStore() };
+  },
+  computed: {
+    self() {
+      return this.store.state.user.self;
+    },
   },
   methods: {
     goToProfile() {

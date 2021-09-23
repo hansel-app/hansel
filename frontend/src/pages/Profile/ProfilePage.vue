@@ -1,12 +1,12 @@
 <template>
   <div class="overlay bring-to-front">
     <Header />
-    <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
-    <h2>{{ mockSelfUser.displayName }}</h2>
-    <h3>{{ "@" + mockSelfUser.username }}</h3>
+    <ProfileAvatar :avatarUrl="self.avatar" />
+    <h2>{{ self.displayName }}</h2>
+    <h3>{{ "@" + self.username }}</h3>
     <CellGroup>
       <Cell title="Edit profile" is-link @click="goToEditProfile" />
-      <Cell title="Friends" is-link />
+      <Cell title="Friends" is-link @click="goToFriendList" />
     </CellGroup>
   </div>
   <ProfilePageBg />
@@ -14,9 +14,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import { CellGroup, Cell } from "vant";
-import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import { EDIT_PROFILE_ROUTE } from "@/constants";
+import { EDIT_PROFILE_ROUTE, FRIEND_LIST_ROUTE } from "@/constants";
+import { User } from "@/interfaces";
 import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
@@ -24,13 +25,14 @@ import Header from "@/components/Header.vue";
 export default defineComponent({
   data() {
     return {
-      // TODO: replace with user's own data
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
-      mockSelfUser,
-      mockFriends,
       color: "#ffffff",
+      store: useStore(),
     };
+  },
+  computed: {
+    self(): User {
+      return this.store.state.user.self;
+    },
   },
   methods: {
     goBack() {
@@ -38,6 +40,9 @@ export default defineComponent({
     },
     goToEditProfile() {
       this.$router.push(EDIT_PROFILE_ROUTE);
+    },
+    goToFriendList() {
+      this.$router.push(FRIEND_LIST_ROUTE);
     },
   },
   components: {

@@ -1,7 +1,13 @@
-import { User as ProtoUser } from "@/protobuf/user_pb";
 import { Dayjs } from "dayjs";
 
-export type User = ProtoUser.AsObject;
+export type Base64String = string;
+
+export interface User {
+  userId: number;
+  username: string;
+  displayName: string;
+  avatar: Base64String;
+}
 
 export interface PendingFriendRequest {
   requester: User;

@@ -3,6 +3,7 @@ import {
   DROP_GEM_ROUTE,
   EDIT_PROFILE_ROUTE,
   FRIEND_REQUESTS_ROUTE,
+  FRIEND_LIST_ROUTE,
   GEM_LOGS_DETAILS_ROUTE,
   GEM_LOGS_ROUTE,
   HOME_ROUTE,
@@ -17,7 +18,11 @@ import {
   DropGem,
   SelectFriend,
 } from "@/pages/DropGem/index";
-import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
+import {
+  AddFriendPage,
+  FriendRequestsPage,
+  FriendListPage,
+} from "@/pages/Friend";
 import { GemLogsDetailsPage, GemLogsPage } from "@/pages/GemLogs/index";
 import HomePage from "@/pages/Home/HomePage.vue";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
@@ -77,6 +82,7 @@ const router = createRouter({
     { path: EDIT_PROFILE_ROUTE, component: EditProfilePage },
     { path: ADD_FRIENDS_ROUTE, component: AddFriendPage },
     { path: FRIEND_REQUESTS_ROUTE, component: FriendRequestsPage },
+    { path: FRIEND_LIST_ROUTE, component: FriendListPage },
     {
       path: LOGIN_ROUTE,
       component: LoginPage,
