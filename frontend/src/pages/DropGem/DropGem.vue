@@ -119,6 +119,7 @@ export default defineComponent({
         Toast.fail(NO_MESSAGE_ERROR);
         return;
       }
+      Toast.loading({ message: "Loading...", duration: 0 });
       const dropGem = () => this.store.dispatch("dropGem");
       dropGem()
         .then(() => {
