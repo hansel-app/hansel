@@ -98,14 +98,7 @@
 </template>
 
 <script lang="ts">
-import {
-  createApp,
-  ref,
-  defineComponent,
-  PropType,
-  onBeforeUpdate,
-  watchEffect,
-} from "vue";
+import { createApp, ref, defineComponent, PropType, watchEffect } from "vue";
 import { useGeolocation } from "@/useGeolocation";
 import { GoogleMap, Marker, CustomControl } from "vue3-google-map";
 import {
@@ -144,22 +137,10 @@ export default defineComponent({
   },
   async setup() {
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
-    let gemMarkerRefs: Set<InstanceType<typeof Marker>> = new Set();
     const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
     const openedInfoWindowGem = ref<Gem | null>(null);
     const shouldShowPopup = ref<boolean>(true);
     const store = useStore();
-
-    const setGemMarkerRef = (el: InstanceType<typeof Marker>) => {
-      if (el) {
-        gemMarkerRefs.add(el);
-      }
-    };
-
-    onBeforeUpdate(() => {
-      // reset gem markers
-      gemMarkerRefs = new Set();
-    });
 
     const { getLocation } = useGeolocation();
     const currPosition: LatLng = store.state.user.currPosition;
@@ -182,9 +163,7 @@ export default defineComponent({
 
     return {
       mapRef,
-      gemMarkerRefs,
       gemMarkerInfoWindowRef,
-      setGemMarkerRef,
       currPosition,
       userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
@@ -193,6 +172,15 @@ export default defineComponent({
       shouldShowPopup,
       openedInfoWindowGem,
       store,
+    };
+  },
+
+  beforeUpdate() {
+    this.gemMarkerRefs = new Set();
+  },
+  data() {
+    return {
+      gemMarkerRefs: new Set() as Set<InstanceType<typeof Marker>>,
     };
   },
 
@@ -235,6 +223,11 @@ export default defineComponent({
   },
 
   methods: {
+    setGemMarkerRef(el: InstanceType<typeof Marker>) {
+      if (el) {
+        this.gemMarkerRefs.add(el);
+      }
+    },
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
     },
