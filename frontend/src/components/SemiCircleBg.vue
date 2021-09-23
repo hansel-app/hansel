@@ -17,16 +17,16 @@ export default defineComponent({
 <style scoped lang="less">
 .stack-container {
   position: relative;
-  height: 45vh;
+  height: 55vh;
   z-index: -1;
   overflow: hidden;
 
   .semi-circle {
-    transform: translate(-25%, -50%);
-    height: 80vh;
-    width: 200vw;
+    transform: translate(-29%, -50%);
+    height: 100vh;
+    width: 240vw;
     border-radius: 0 0 50% 50%;
-    background-color: #e4bfbf;
+    background-color: white;
     transition: background-color 1s ease;
   }
 }

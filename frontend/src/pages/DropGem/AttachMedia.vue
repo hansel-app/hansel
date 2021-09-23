@@ -67,4 +67,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.container {
+  padding-top: 1em;
+}
+
+.van-uploader {
+  padding-top: 1em;
+}
+</style>

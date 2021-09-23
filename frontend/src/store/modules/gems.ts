@@ -25,6 +25,7 @@ import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import cloneDeep from "lodash/cloneDeep";
 import { Module } from "vuex";
 export interface GemsState {
+  isGemMapFirstMount?: boolean;
   gemsPendingCollection: Gem[];
   dropGemFormState: DropGemFormState;
   lastPickedUpGem?: Gem;
@@ -34,6 +35,7 @@ export interface GemsState {
 
 const initialDropGemFormState = { color: GemColor.PURPLE };
 const initialState: GemsState = {
+  isGemMapFirstMount: true,
   gemsPendingCollection: [],
   dropGemFormState: initialDropGemFormState,
   lastPickedUpGem: undefined,
@@ -46,6 +48,9 @@ const gemsModule: Module<GemsState, RootState> = {
   mutations: {
     resetGemsStore(state) {
       Object.assign(state, cloneDeep(initialState));
+    },
+    setIsGemMapFirstMount(state, isFirstMount: boolean) {
+      state.isGemMapFirstMount = isFirstMount;
     },
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
