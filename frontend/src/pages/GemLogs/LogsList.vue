@@ -18,18 +18,35 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import { mockFriends, mockGems } from "@/interfaces/mockData";
+import { mockGems } from "@/interfaces/mockData";
 import Header from "@/components/Header.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import BackSwipe from "@/components/BackSwipe.vue";
 import { CellGroup } from "vant";
 
 import LogsPreview from "./LogsPreview.vue";
-import { Gem, User } from "@/interfaces";
+import { User, Gem, GemLogs, GemLogsWithFriend } from "@/interfaces";
 
 interface FriendAndMostRecentGemActivity {
   friend: User;
   mostRecentGem: Gem;
+}
+
+function findMostRecentGem(gemList: Gem[]): Gem | null {
+  if (gemList.length === 0) {
+    return null;
+  }
+
+  const reversedSorted = [...gemList]
+    .map((gem) => {
+      return {
+        gem: gem,
+        lastUpdated: gem.receivedAt || gem.createdAt,
+      };
+    })
+    .sort((a, b) => b.lastUpdated.diff(a.lastUpdated));
+
+  return reversedSorted[0].gem;
 }
 
 export default defineComponent({
@@ -41,13 +58,17 @@ export default defineComponent({
     CellGroup,
   },
   setup() {
-    // TODO: replace mockfriends and mockGems
-    const mockSingleGem = mockGems[0];
-    const allFriends: FriendAndMostRecentGemActivity[] = mockFriends.map(
-      (friend) => {
+    const store = useStore();
+
+    const gemLogs: GemLogs = store.state.gemLogs;
+
+    const allFriends: FriendAndMostRecentGemActivity[] = gemLogs.gemLogsMap.map(
+      ([_, gemLog]: [number, GemLogsWithFriend]) => {
+        const mostRecentGem = findMostRecentGem(gemLog.gems);
+
         return {
-          friend: friend,
-          mostRecentGem: mockSingleGem,
+          friend: gemLog.friend,
+          mostRecentGem: mostRecentGem,
         };
       }
     );
