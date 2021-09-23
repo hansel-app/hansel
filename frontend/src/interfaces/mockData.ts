@@ -7,28 +7,28 @@ export const mockFriends: User[] = [
     userId: 1,
     displayName: "Groundskeeper",
     username: "goosehater123",
-    avatar: placeholderBase64Avatar,
+    avatar: '1',
   },
   {
     userId: 2,
     displayName: "Wimp",
     username: "scared_of_geese",
 
-    avatar: placeholderBase64Avatar,
+    avatar: '2',
   },
   {
     userId: 3,
     displayName: "Goose",
     username: "goose",
 
-    avatar: placeholderBase64Avatar,
+    avatar: '3',
   },
   {
     userId: 4,
     displayName: "Pub owner",
     username: "abc",
 
-    avatar: placeholderBase64Avatar,
+    avatar: '4',
   },
 ];
 
