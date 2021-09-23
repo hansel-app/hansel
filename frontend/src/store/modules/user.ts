@@ -1,20 +1,20 @@
 import services from "@/api/services";
-import { LatLng, User } from "@/interfaces";
 import { SINGAPORE_CENTER } from "@/constants";
+import { LatLng, User } from "@/interfaces";
 import {
-  User as ProtoUser,
-  GetOwnProfileResponse,
-  GetFriendsResponse,
-  GetFriendRequestsResponse,
-  PendingFriendRequest,
+  EditProfileRequest,
   FriendRequest,
+  GetFriendRequestsResponse,
+  GetFriendsResponse,
+  GetOwnProfileResponse,
+  PendingFriendRequest,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
-  EditProfileRequest,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
-import { Module } from "vuex";
+import { protoUserToUserMapper } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { Module } from "vuex";
 
 export interface UserState {
   friends: User[];
@@ -25,15 +25,6 @@ export interface UserState {
   self?: User;
   currPosition: LatLng;
 }
-
-const protoUserToUserMapper = (protoUser: ProtoUser): User => {
-  return {
-    userId: protoUser.getUserId(),
-    username: protoUser.getUsername(),
-    displayName: protoUser.getDisplayName(),
-    avatar: protoUser.getAvatar_asB64(),
-  };
-};
 
 const userModule: Module<UserState, RootState> = {
   state: {
