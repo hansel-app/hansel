@@ -39,4 +39,9 @@ export default defineComponent({
 .message-input {
   background-color: #e9e9e9;
 }
+.container {
+  margin-top: -10px;
+  padding-top: -20px;
+  border: 1px red solid;
+}
 </style>

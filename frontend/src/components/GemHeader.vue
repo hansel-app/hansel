@@ -38,24 +38,12 @@ export default defineComponent({
 
 <style scoped lang="less">
 .stack-container {
-  position: relative;
-  height: 45vh;
-  z-index: -1;
-  overflow-x: hidden;
-
-  .semi-circle {
-    transform: translate(-25%, -50%);
-    height: 80vh;
-    width: 200vw;
-    border-radius: 0 0 50% 50%;
-    background-color: #e4bfbf;
-    transition: background-color 1s ease;
-  }
+  height: 55vh;
 }
 
 .gem-image {
-  width: 20vh;
-  height: 20vh;
-  margin-top: 15vh;
+  width: 28vh;
+  height: 28vh;
+  margin-top: 16vh;
 }
 </style>
