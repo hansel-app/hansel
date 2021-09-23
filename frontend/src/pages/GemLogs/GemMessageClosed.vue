@@ -4,6 +4,7 @@
       v-if="isSentBySelf"
       class="gem-message"
       v-bind:style="gemMessageStyle"
+      center
     >
       <template #right-icon>
         <van-icon
@@ -17,7 +18,7 @@
         <p>{{ gemLocation }}</p>
       </template>
     </van-cell>
-    <van-cell v-else class="gem-message" v-bind:style="gemMessageStyle">
+    <van-cell v-else class="gem-message" v-bind:style="gemMessageStyle" center>
       <template #icon>
         <van-icon
           class="gem-icon"
