@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { useStore } from "vuex";
-import { User, Gem } from "@/interfaces";
+import { mapState, useStore } from "vuex";
+import { User, Gem, GemLogsWithFriend } from "@/interfaces";
 import { GEM_LOGS_ROUTE } from "@/constants";
 import FriendCell from "@/components/FriendCell.vue";
 
@@ -31,17 +31,26 @@ export default defineComponent({
       type: Object as PropType<Gem>,
       required: true,
     },
+    gemLogsWithFriend: {
+      type: Object as PropType<GemLogsWithFriend>,
+      required: true,
+    },
   },
-  data() {
-    return {
-      store: useStore(),
-    };
+  setup() {
+    const store = useStore();
+
+    return { store };
   },
   computed: {
+    ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      selfUser: (state: any) => state.user.self as User,
+    }),
     previewMessage(): string {
-      const isPickedUp = this.mostRecentGemActivity.receivedAt === undefined;
+      const isPickedUp = this.mostRecentGemActivity.receivedAt !== null;
       // TODO: replace hardcoded user value with this.store.user.self.id;
-      const isSelfCreator = this.mostRecentGemActivity.createdBy.userId === 1;
+      const isSelfCreator =
+        this.mostRecentGemActivity.createdBy.userId === this.selfUser.userId;
 
       if (isSelfCreator) {
         // I created and they picked up.
@@ -61,6 +70,7 @@ export default defineComponent({
   },
   methods: {
     goToLogsPreview(): void {
+      this.store.commit("setSelectedGemLog", this.gemLogsWithFriend);
       this.$router.push(`${GEM_LOGS_ROUTE}/${this.friend.userId}`);
     },
   },

@@ -41,6 +41,7 @@ func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.D
 		Longitude:  gemMessage.GetLongitude(),
 		CreatorId:  userID,
 		ReceiverId: gemMessage.GetReceiverId(),
+		ReceivedAt: nil,
 		Color:      gems.GemColor(gemMessage.GetColor()),
 		Attachment: gemMessage.GetAttachment(),
 	}
@@ -130,7 +131,8 @@ func (s *gemService) GetPendingCollectionForUser(
 				Username:    receiver.Username,
 				Avatar:      receiver.Avatar,
 			},
-			Color: gemsapi.GemColor(gem.Color),
+			ReceivedAt: nil,
+			Color:      gemsapi.GemColor(gem.Color),
 		}
 		processedGems = append(processedGems, &processedGem)
 	}
@@ -185,9 +187,16 @@ func (s *gemService) GetGemLogs(
 		// TODO: maybe abstract out this method of processing gems
 		// and maybe abstract out the mappers...
 		processedGems := []*gemsapi.Gem{}
+
 		for _, gem := range gems {
 			creator := userInfoMap[gem.CreatorId]
 			receiver := userInfoMap[gem.ReceiverId]
+
+			var receivedAt *timestamppb.Timestamp
+			if gem.ReceivedAt != nil {
+				receivedAt = timestamppb.New(*gem.ReceivedAt)
+			}
+
 			processedGem := gemsapi.Gem{
 				Id:        gem.ID,
 				Message:   gem.Message,
@@ -206,7 +215,8 @@ func (s *gemService) GetGemLogs(
 					Username:    receiver.Username,
 					Avatar:      receiver.Avatar,
 				},
-				Color: gemsapi.GemColor(gem.Color),
+				ReceivedAt: receivedAt,
+				Color:      gemsapi.GemColor(gem.Color),
 			}
 			processedGems = append(processedGems, &processedGem)
 		}
