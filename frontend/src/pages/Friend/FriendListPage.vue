@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background-gradient">
     <Header title="Friends" :backLink="PROFILE_ROUTE" />
     <div class="container">
       <CellGroup>
