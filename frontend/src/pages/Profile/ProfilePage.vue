@@ -27,7 +27,7 @@ import { useStore } from "vuex";
 import { CellGroup, Cell } from "vant";
 import { EDIT_PROFILE_ROUTE, FRIEND_LIST_ROUTE } from "@/constants";
 import { User } from "@/interfaces";
-import ProfileAvatar from "./ProfileAvatar.vue";
+import ProfileAvatar from "@/components/ProfileAvatar.vue";
 import Header from "@/components/Header.vue";
 import SemiCircleBg from "@/components/SemiCircleBg.vue";
 
