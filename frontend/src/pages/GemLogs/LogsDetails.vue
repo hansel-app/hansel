@@ -15,6 +15,7 @@ import { GEM_LOGS_ROUTE } from "@/constants";
 import { Gem, GemLogsWithFriend } from "@/protobuf/gem_pb";
 import { User } from "@/interfaces/user";
 import { mockGemLogsWithFriend } from "@/interfaces/mockDataPb";
+import { protoUserToUserMapper } from "@/utils/mappers";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import Header from "@/components/Header.vue";
 import GemMessage from "./GemMessage.vue";
@@ -43,7 +44,7 @@ export default defineComponent({
     },
     friend(): User {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return this.gemLogs.getFriend()!.toObject();
+      return protoUserToUserMapper(this.gemLogs.getFriend()!);
     },
   },
 });

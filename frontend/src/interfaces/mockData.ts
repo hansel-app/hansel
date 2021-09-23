@@ -1,4 +1,5 @@
 import { Gem, GemColor, User } from "@/interfaces";
+import { placeholderBase64Avatar } from "./placeholderBase64Avatar";
 import dayjs from "dayjs";
 
 export const mockFriends: User[] = [
@@ -6,32 +7,28 @@ export const mockFriends: User[] = [
     userId: 1,
     displayName: "Groundskeeper",
     username: "goosehater123",
-    avatar:
-      "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
+    avatar: placeholderBase64Avatar,
   },
   {
     userId: 2,
     displayName: "Wimp",
     username: "scared_of_geese",
 
-    avatar:
-      "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
+    avatar: placeholderBase64Avatar,
   },
   {
     userId: 3,
     displayName: "Goose",
     username: "goose",
 
-    avatar:
-      "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
+    avatar: placeholderBase64Avatar,
   },
   {
     userId: 4,
     displayName: "Pub owner",
     username: "abc",
 
-    avatar:
-      "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
+    avatar: placeholderBase64Avatar,
   },
 ];
 
@@ -39,8 +36,7 @@ export const mockSelfUser: User = {
   userId: 100,
   displayName: "Maggie Mee",
   username: "maggiemee",
-  avatar:
-    "https://cdn.mos.cms.futurecdn.net/JycrJzD5tvbGHWgjtPrRZY-970-80.jpg.webp",
+  avatar: placeholderBase64Avatar,
 };
 
 export const mockGems: Gem[] = [
