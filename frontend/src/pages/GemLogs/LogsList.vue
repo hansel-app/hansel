@@ -22,6 +22,7 @@ import { mockFriends, mockGems } from "@/interfaces/mockData.ts";
 import Header from "@/components/Header.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import BackSwipe from "@/components/BackSwipe.vue";
+import { CellGroup } from "vant";
 
 import LogsPreview from "./LogsPreview.vue";
 
@@ -31,6 +32,7 @@ export default defineComponent({
     Searchbar,
     LogsPreview,
     BackSwipe,
+    CellGroup,
   },
   data() {
     return {
