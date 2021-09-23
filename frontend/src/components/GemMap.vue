@@ -18,14 +18,14 @@
       <CustomControl class="right-top-controls" position="RIGHT_TOP">
         <van-row>
           <van-icon
-            class="circle-button-icon-md"
+            class="circle-button-icon-md filter-to-primary-color"
             :name="require('@/assets/icons/compass.svg')"
             @click="centerMapOnCurrentLocation"
           />
         </van-row>
         <van-row>
           <van-icon
-            class="circle-button-icon-md"
+            class="circle-button-icon-md filter-to-primary-color"
             :name="require('@/assets/icons/info.svg')"
             @click="togglePopup"
           />
@@ -51,8 +51,9 @@
         <van-row justify="space-around" align="center">
           <van-col v-if="gems.length > 0">
             <van-icon
-              class="circle-button-icon-md prev-gem"
+              class="circle-button-icon-md prev-gem filter-to-primary-color"
               :name="require('@/assets/icons/chevron-left-circle.svg')"
+              color="@primary-color"
               @click="() => prevGem()"
             />
           </van-col>
@@ -67,7 +68,7 @@
 
           <van-col v-if="gems.length > 0">
             <van-icon
-              class="circle-button-icon-md next-gem"
+              class="circle-button-icon-md next-gem filter-to-primary-color"
               :name="require('@/assets/icons/chevron-right-circle.svg')"
               @click="() => nextGem()"
             />
@@ -384,5 +385,11 @@ export default defineComponent({
   border-radius: 1rem;
   box-shadow: @shadow-medium;
   background: @white !important;
+}
+
+// HSV of og blue color (226, 100, 45)
+// HSV of desired primary color purple (252, 57, 68)
+.filter-to-primary-color {
+  filter: hue-rotate(26deg);
 }
 </style>
