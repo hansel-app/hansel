@@ -32,12 +32,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { GEM_LOGS_ROUTE } from "@/constants";
-import { Gem, GemLogsWithFriend } from "@/protobuf/gem_pb";
-import { User } from "@/protobuf/user_pb";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import Header from "@/components/Header.vue";
 import GemMessage from "./GemMessage.vue";
 import { mapState, useStore } from "vuex";
+import { Gem, GemLogsWithFriend, User } from "@/interfaces";
 
 export default defineComponent({
   components: {
@@ -57,13 +56,12 @@ export default defineComponent({
   computed: {
     ...mapState({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      gemLog: (state: any) =>
-        state.gems.selectedGemLog as GemLogsWithFriend.AsObject,
+      gemLog: (state: any) => state.gems.selectedGemLog as GemLogsWithFriend,
     }),
-    gems(): Gem.AsObject[] {
-      return this.gemLog.gemsList;
+    gems(): Gem[] {
+      return this.gemLog.gems;
     },
-    friend(): User.AsObject {
+    friend(): User {
       console.assert(
         this.gemLog.friend !== undefined,
         "Friend must be associated with a gem log"
