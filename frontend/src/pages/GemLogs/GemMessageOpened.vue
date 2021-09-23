@@ -1,6 +1,8 @@
 <template>
   <van-row :justify="justify">
-    <van-image class="gem-image" :src="gem.attachment" />
+    <van-row :justify="justify">
+      <van-image class="gem-image" :src="gem.attachment" radius="1em" />
+    </van-row>
     <p class="gem-message" v-bind:style="gemMessageStyle">
       {{ gem.message }}
     </p>
@@ -46,7 +48,9 @@ export default defineComponent({
 
 <style scoped lang="less">
 .gem-image {
-  padding: 1em 1em;
+  max-width: 200px;
+  max-height: 200px;
+  margin: auto;
 }
 
 .gem-message {
