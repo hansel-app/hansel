@@ -64,6 +64,9 @@ const gemsModule: Module<GemsState, RootState> = {
     setLastPickedUpGem(state, gem: Gem) {
       state.lastPickedUpGem = gem;
     },
+    setSelectedGemLog(state, gemLogWithFriend: GemLogsWithFriend) {
+      state.selectedGemLog = gemLogWithFriend;
+    },
   },
   actions: {
     getGemsPendingCollectionForUser({ commit }) {

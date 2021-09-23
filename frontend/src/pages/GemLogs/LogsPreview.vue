@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { mapState, useStore } from "vuex";
-import { User, Gem } from "@/interfaces";
+import { User, Gem, GemLogsWithFriend } from "@/interfaces";
 import { GEM_LOGS_ROUTE } from "@/constants";
 import FriendCell from "@/components/FriendCell.vue";
 
@@ -29,6 +29,10 @@ export default defineComponent({
     },
     mostRecentGemActivity: {
       type: Object as PropType<Gem>,
+      required: true,
+    },
+    gemLogsWithFriend: {
+      type: Object as PropType<GemLogsWithFriend>,
       required: true,
     },
   },
@@ -66,6 +70,7 @@ export default defineComponent({
   },
   methods: {
     goToLogsPreview(): void {
+      this.store.commit("setSelectedGemLog", this.gemLogsWithFriend);
       this.$router.push(`${GEM_LOGS_ROUTE}/${this.friend.userId}`);
     },
   },

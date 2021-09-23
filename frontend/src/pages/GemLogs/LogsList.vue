@@ -10,6 +10,9 @@
           :key="friendAndActivity.friend.userId"
           :friend="friendAndActivity.friend"
           :mostRecentGemActivity="friendAndActivity.mostRecentGem"
+          :gemLogsWithFriend="
+            gemLogs.gemLogsMap.get(friendAndActivity.friend.userId)
+          "
           :isClickable="true"
         />
       </CellGroup>
