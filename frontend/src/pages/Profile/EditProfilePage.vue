@@ -1,6 +1,6 @@
 <template>
   <div class="overlay">
-    <Header title="Edit Profile" />
+    <Header title="Edit Profile" :backLink="PROFILE_ROUTE"/>
     <div class="avatar-container">
       <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
       <van-button class="edit-button overlay"
@@ -35,10 +35,12 @@ import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
+import { PROFILE_ROUTE } from "@/constants";
 
 export default defineComponent({
   data() {
     return {
+      PROFILE_ROUTE,
       // TODO: replace with user's own data
       placeholderAvatarUrl:
         "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
