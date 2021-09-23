@@ -1,9 +1,22 @@
 <template>
   <van-row :justify="justify">
-    <van-image class="gem-image" :src="gem.attachment" />
+    <van-image
+      v-if="isSentBySelf || hasPickedUpGem"
+      class="gem-image"
+      :src="gem.attachment"
+    />
   </van-row>
   <van-row :justify="justify">
-    <p class="gem-message" v-bind:style="gemMessageStyle">{{ gem.message }}</p>
+    <p
+      v-if="isSentBySelf || hasPickedUpGem"
+      class="gem-message"
+      v-bind:style="gemMessageStyle"
+    >
+      {{ gem.message }}
+    </p>
+    <p v-else class="gem-message" v-bind:style="gemMessageStyle">
+      They dropped a gem!
+    </p>
   </van-row>
 </template>
 
@@ -24,6 +37,9 @@ export default defineComponent({
     },
   },
   computed: {
+    hasPickedUpGem() {
+      return this.gem.receivedAt !== null;
+    },
     justify(): "start" | "end" {
       if (this.isSentBySelf) {
         return "end";
