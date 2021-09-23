@@ -3,29 +3,34 @@
     <BackSwipe />
     <Header title="Friend requests" />
     <div class="container">
-      <van-cell-group>
-        <FriendCell
-          v-for="request in pendingFriendRequests"
-          :key="request.requester.userId"
-          :friend="request.requester"
-          :shouldDisplayUsername="true"
-        >
-          <div class="align-right">
-            <van-button
-              id="left-button"
-              round
-              type="primary"
-              size="small"
-              @click="acceptFriendRequest(request.requester.userId)"
-            >
-              Accept
-            </van-button>
-            <van-button round @click="declineFriendRequest(request.requester.userId)" size="small">
-              Decline
-            </van-button>
-          </div>
-        </FriendCell>
-      </van-cell-group>
+      <div v-if="pendingFriendRequests.length > 0">
+        <van-cell-group>
+          <FriendCell
+            v-for="request in pendingFriendRequests"
+            :key="request.requester.userId"
+            :friend="request.requester"
+            :shouldDisplayUsername="true"
+          >
+            <div class="align-right">
+              <van-button
+                id="left-button"
+                round
+                type="primary"
+                size="small"
+                @click="acceptFriendRequest(request.requester.userId)"
+              >
+                Accept
+              </van-button>
+              <van-button round @click="declineFriendRequest(request.requester.userId)" size="small">
+                Decline
+              </van-button>
+            </div>
+          </FriendCell>
+        </van-cell-group>
+      </div>
+      <div v-else>
+        <i>You have no pending requests</i> &#x1f4a9;
+      </div>
     </div>
   </div>
 </template>
