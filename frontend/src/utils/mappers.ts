@@ -1,5 +1,10 @@
-import { Gem, GemColor, User } from "@/interfaces";
-import { Gem as ProtoGem, GemColor as ProtoGemColor } from "@/protobuf/gem_pb";
+import { Gem, GemColor, GemLogs, GemLogsWithFriend, User } from "@/interfaces";
+import {
+  Gem as ProtoGem,
+  GemColor as ProtoGemColor,
+  GemLogs as ProtoGemLogs,
+  GemLogsWithFriend as ProtoGemLogsWithFriend,
+} from "@/protobuf/gem_pb";
 import { User as ProtoUser } from "@/protobuf/user_pb";
 import dayjs from "dayjs";
 
@@ -64,6 +69,41 @@ export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
     receiver: protoUserToUserMapper(receiver),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
+  };
+};
+
+export const protoGemLogWithFriendsToGemLogWithFriendsMapper = (
+  protoGemLogWithFriends: ProtoGemLogsWithFriend
+): GemLogsWithFriend => {
+  const protoFriend = protoGemLogWithFriends.getFriend();
+  const protoGems = protoGemLogWithFriends.getGemsList();
+
+  if (!protoFriend) {
+    throw new Error("Gem log must be associated with a friend");
+  }
+
+  return {
+    friend: protoUserToUserMapper(protoFriend),
+    gems: protoGems.map(protoGemToGemMapper),
+  };
+};
+
+export const protoGemLogToGemLogMapper = (
+  protoGemLog: ProtoGemLogs
+): GemLogs => {
+  const gemLogs = protoGemLog.getGemLogsMap();
+
+  const mappedMap = new Map();
+
+  for (const [friendId, val] of gemLogs.entries()) {
+    const gemLogsWithFriends = protoGemLogWithFriendsToGemLogWithFriendsMapper(
+      val
+    );
+    mappedMap.set(friendId, val);
+  }
+
+  return {
+    gemLogsMap: mappedMap,
   };
 };
 
