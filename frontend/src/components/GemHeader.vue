@@ -12,7 +12,7 @@ import { defineComponent, PropType } from "vue";
 import { Image } from "vant";
 import { GemColor, HexCode } from "@/interfaces";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
-import SemiCircleBg from "./SemiCircleBg.vue";
+import SemiCircleBg from "@/components/SemiCircleBg.vue";
 
 export default defineComponent({
   components: { SemiCircleBg, Image },

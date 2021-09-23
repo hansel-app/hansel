@@ -1,5 +1,6 @@
 <template>
   <div class="profile-page">
+    <SemiCircleBg :color="white" />
     <div class="overlay bring-to-front container">
       <Header />
       <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
@@ -15,7 +16,7 @@
       </CellGroup>
       <Cell class="logout" title="Logout" />
     </div>
-    <ProfilePageBg />
+    <!-- <ProfilePageBg /> -->
   </div>
 </template>
 
@@ -25,8 +26,9 @@ import { CellGroup, Cell } from "vant";
 import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { EDIT_PROFILE_ROUTE } from "@/constants";
 import ProfileAvatar from "./ProfileAvatar.vue";
-import ProfilePageBg from "./ProfilePageBg.vue";
+// import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
+import SemiCircleBg from "@/components/SemiCircleBg.vue";
 
 export default defineComponent({
   data() {
@@ -52,7 +54,8 @@ export default defineComponent({
     CellGroup,
     Cell,
     Header,
-    ProfilePageBg,
+    SemiCircleBg
+    // ProfilePageBg,
   },
 });
 </script>
@@ -75,9 +78,29 @@ export default defineComponent({
   text-align: center !important;
   padding-bottom: 2em;
   color: gray;
+  font-weight: lighter !important;
 }
 
 .logout {
   color: @red;
+}
+
+.stack-container {
+  position: relative;
+  height: 45vh;
+  z-index: -1;
+  overflow-x: hidden;
+
+  .semi-circle {
+    transform: translate(-25%, -50%);
+    height: 80vh;
+    width: 200vw;
+    border-radius: 0 0 50% 50%;
+    background-color: #e4bfbf;
+    transition: background-color 1s ease;
+  }
+}
+.profile-page {
+  overflow: hidden !important;
 }
 </style>

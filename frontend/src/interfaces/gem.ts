@@ -15,12 +15,12 @@ export interface Gem {
 export type HexCode = string;
 
 export enum GemColor {
-  PURPLE = "#cdb4db",
+  PURPLE = "#BC88B8",
   PINK = "#ffc8dd",
-  BLUE = "#a2d2ff",
-  BLACK = "#6a6a6a",
-  YELLOW = "#fffb8a",
-  GREEN = "#a6ffb6",
+  BLUE = "#99CEE0",
+  BLACK = "#8B8B8B",
+  YELLOW = "#F0D072",
+  GREEN = "#99BC88",
 }
 
 export interface DropGemFormState {
