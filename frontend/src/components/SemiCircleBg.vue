@@ -17,7 +17,7 @@ export default defineComponent({
 <style scoped lang="less">
 .stack-container {
   position: relative;
-  height: 70vh;
+  height: 55vh;
   z-index: -1;
   overflow-x: hidden;
 

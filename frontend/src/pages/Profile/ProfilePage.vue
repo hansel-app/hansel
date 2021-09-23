@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page reverse-background-gradient">
+  <div class="profile-page">
     <div class="overlay bring-to-front container">
       <Header />
       <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
@@ -15,7 +15,9 @@
       </CellGroup>
       <Cell class="logout" title="Logout" />
     </div>
-    <SemiCircleBg />
+    <div class="reverse-background-gradient">
+      <SemiCircleBg />
+    </div>
   </div>
 </template>
 
@@ -44,6 +46,7 @@ export default defineComponent({
       this.$router.back();
     },
     goToEditProfile() {
+      console.log('hi');
       this.$router.push(EDIT_PROFILE_ROUTE);
     },
   },
@@ -81,6 +84,10 @@ export default defineComponent({
 .logout {
   color: @red;
   padding-bottom: 2em;
+}
+
+.stack-container {
+  z-index: -1;
 }
 
 .reverse-background-gradient {
