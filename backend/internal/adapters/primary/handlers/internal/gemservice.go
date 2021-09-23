@@ -11,6 +11,7 @@ import (
 	"github.com/hansel-app/hansel/protobuf/usersapi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -134,6 +135,18 @@ func (s *gemService) GetPendingCollectionForUser(
 	}, nil
 }
 
+func (s *gemService) PickUp(
+	c context.Context,
+	r *gemsapi.PickUpRequest,
+) (*emptypb.Empty, error) {
+	err := s.usecases.PickUpGem(r.GetId())
+	if err != nil {
+		return nil, err
+	}
+
+	return new(emptypb.Empty), nil
+}
+
 func (s *gemService) GetGemLogs(
 	c context.Context,
 	_ *empty.Empty,
@@ -147,7 +160,6 @@ func (s *gemService) GetGemLogs(
 	if err != nil {
 		return nil, err
 	}
-
 	// Retrieve list of relevant user ids
 	userIds := make([]int64, len(friendIdToGemLogsMap))
 	i := 0

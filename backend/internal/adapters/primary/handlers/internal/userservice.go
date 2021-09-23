@@ -24,7 +24,7 @@ func NewUserService(repository users.Repository) *userService {
 	}
 }
 
-func (s *userService) GetProfile(
+func (s *userService) GetOwnProfile(
 	c context.Context,
 	_ *empty.Empty,
 ) (*usersapi.GetOwnProfileResponse, error) {

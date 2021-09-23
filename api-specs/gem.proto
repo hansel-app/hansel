@@ -10,6 +10,7 @@ service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
   rpc Get (GetRequest) returns (GetResponse);
   rpc GetPendingCollectionForUser (google.protobuf.Empty) returns (GetPendingCollectionForUserResponse);
+  rpc PickUp (PickUpRequest) returns (google.protobuf.Empty);
   rpc GetGemLogs (google.protobuf.Empty) returns (GemLogs);
 }
 
@@ -63,6 +64,10 @@ message GetResponse {
 
 message GetPendingCollectionForUserResponse {
   repeated Gem gems = 1;
+}
+
+message PickUpRequest {
+  int64 id = 1;
 }
 
 message GemLogs {

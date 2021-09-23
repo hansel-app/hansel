@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
 import { Gem } from "@/interfaces";
+import { mapState } from "vuex";
 
 enum PickupGemStage {
   FoundGem,
@@ -16,18 +17,15 @@ enum PickupGemStage {
 }
 
 export default defineComponent({
-  props: {
-    gem: {
-      type: Object as PropType<Gem>,
-      required: true,
-    },
-  },
   data() {
     return {
       currentStage: PickupGemStage.FoundGem as PickupGemStage,
     };
   },
   computed: {
+    ...mapState({
+      gem: (state: any) => state.gems.lastPickedUpGem as Gem,
+    }),
     currentStageName(): string {
       return PickupGemStage[this.currentStage];
     },
