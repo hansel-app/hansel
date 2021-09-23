@@ -126,7 +126,9 @@ export default defineComponent({
           Toast.success("Dropped a gem!");
           this.$router.replace(HOME_ROUTE);
         })
-        .catch((err) => Toast.fail(`Failed to drop gem: ${err}`));
+        .catch((err) => Toast.fail(`Failed to drop gem: ${err.message}`));
+        // TODO: maybe map some error messages to more user facing messages
+        // e.g HTTP response at 400 or 500 => Not connected to server or smth
     },
   },
 });

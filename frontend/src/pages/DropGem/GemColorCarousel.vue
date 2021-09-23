@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import { Button } from "vant";
 import { GemColor } from "@/interfaces";
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -28,7 +29,11 @@ export default defineComponent({
     Swiper,
     SwiperSlide,
   },
-  setup() {
+  setup(_, { emit }) {
+    const store = useStore();
+    const initialColor = store.state.gems.dropGemFormState.color;
+    emit("selected-color-changed", initialColor);
+
     return {
       colors: Object.values(GemColor),
     };
