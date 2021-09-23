@@ -119,7 +119,7 @@ export default defineComponent({
         Toast.fail(NO_MESSAGE_ERROR);
         return;
       }
-      Toast.loading({ message: "Loading...", duration: 0 });
+      Toast.loading({ message: "Loading...", duration: 0, forbidClick: true });
       const dropGem = () => this.store.dispatch("dropGem");
       dropGem()
         .then(() => {
@@ -127,8 +127,8 @@ export default defineComponent({
           this.$router.replace(HOME_ROUTE);
         })
         .catch((err) => Toast.fail(`Failed to drop gem: ${err.message}`));
-        // TODO: maybe map some error messages to more user facing messages
-        // e.g HTTP response at 400 or 500 => Not connected to server or smth
+      // TODO: maybe map some error messages to more user facing messages
+      // e.g HTTP response at 400 or 500 => Not connected to server or smth
     },
   },
 });
