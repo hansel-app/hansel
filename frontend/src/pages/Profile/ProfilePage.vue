@@ -6,7 +6,7 @@
     <h3>{{ "@" + self.username }}</h3>
     <CellGroup>
       <Cell title="Edit profile" is-link @click="goToEditProfile" />
-      <Cell title="Friends" is-link />
+      <Cell title="Friends" is-link @click="goToFriendList" />
     </CellGroup>
     <Cell title="Logout" />
   </div>
@@ -17,7 +17,7 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import { CellGroup, Cell } from "vant";
-import { EDIT_PROFILE_ROUTE } from "@/constants";
+import { EDIT_PROFILE_ROUTE, FRIEND_LIST_ROUTE } from "@/constants";
 import { User } from "@/interfaces";
 import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
@@ -41,6 +41,9 @@ export default defineComponent({
     },
     goToEditProfile() {
       this.$router.push(EDIT_PROFILE_ROUTE);
+    },
+    goToFriendList() {
+      this.$router.push(FRIEND_LIST_ROUTE);
     },
   },
   components: {
