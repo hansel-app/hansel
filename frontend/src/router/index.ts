@@ -126,8 +126,7 @@ router.beforeEach(
       next();
       return;
     }
-    next();
-    // next(LOGIN_ROUTE);
+    next(LOGIN_ROUTE);
   }
 );
 
