@@ -90,10 +90,4 @@ export default defineComponent({
   z-index: -1;
 }
 
-.reverse-background-gradient {
-  background: linear-gradient(to bottom, #c0c2e5, #e43d9700);
-  height: 100vh;
-  position: relative;
-  z-index: -2;
-}
 </style>
