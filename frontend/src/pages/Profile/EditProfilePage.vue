@@ -8,6 +8,9 @@
     </div> -->
     <van-form class="container">
       <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
+      <van-uploader>
+        <van-button round icon="edit"></van-button>
+      </van-uploader>
       <van-field
         v-model="displayName"
         name="Display name"
@@ -62,14 +65,7 @@ export default defineComponent({
 .sub-header {
   text-align: left;
 }
-// .avatar-container {
-//   position: relative;
-//   width: 5rem;
-//   left: 0;
-//   right: 0;
-//   margin-left: auto;
-//   margin-right: auto;
-// }
+
 .edit-button {
   position: absolute;
   bottom: 0;
