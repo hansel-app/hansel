@@ -3,7 +3,7 @@
     <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Search
+      <Searchbar
         placeholder="Search by username"
         v-model="searchQuery"
         @input="handleSearch"
@@ -25,9 +25,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { CellGroup, Search } from "vant";
-import { User } from "@/interfaces";
+import { CellGroup } from "vant";
+import { User } from "@/protobuf/user_pb";
 import BackSwipe from "@/components/BackSwipe.vue";
+import Searchbar from "@/components/Searchbar.vue";
 import { useStore } from "vuex";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
@@ -37,8 +38,8 @@ export default defineComponent({
     BackSwipe,
     CellGroup,
     FriendCell,
+    Searchbar,
     Header,
-    Search,
   },
   data() {
     return {
