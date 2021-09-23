@@ -8,3 +8,4 @@ export const FRIEND_REQUESTS_ROUTE = "/friend-requests";
 export const LOGIN_ROUTE = "/login";
 export const REGISTER_ROUTE = "/register";
 export const GEM_LOGS_ROUTE = "/logs";
+export const GEM_LOGS_DETAILS_ROUTE = "/logs/:id";

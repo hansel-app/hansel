@@ -2,7 +2,7 @@
   <Cell
     center
     :title="friend.displayName"
-    :label="shouldDisplayUsername ? '@' + friend.username : ''"
+    :label="label"
     :is-link="isClickable"
     class="content remove-padding"
   >
@@ -40,6 +40,17 @@ export default defineComponent({
     shouldDisplayUsername: {
       type: Boolean,
       default: () => false,
+    },
+    labelOverride: {
+      type: String,
+    },
+  },
+  computed: {
+    label() {
+      if (this.labelOverride) {
+        return this.labelOverride;
+      }
+      return this.shouldDisplayUsername ? "@" + this.friend.username : "";
     },
   },
   data() {

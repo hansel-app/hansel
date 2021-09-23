@@ -3,14 +3,13 @@ package interceptors
 import (
 	"context"
 
+	"github.com/hansel-app/hansel/internal/auth"
+	"github.com/hansel-app/hansel/internal/contextkeys"
+	"github.com/hansel-app/hansel/internal/server/serverstream"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
-
-	"github.com/hansel-app/hansel/internal/auth"
-	"github.com/hansel-app/hansel/internal/contextkeys"
-	"github.com/hansel-app/hansel/internal/server/serverstream"
 )
 
 type AuthInterceptor struct {

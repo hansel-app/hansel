@@ -1,5 +1,4 @@
 import { Gem, GemColor, User } from "@/interfaces";
-import { mockFriends, mockSelfUser } from "@/interfaces/mockData";
 import { Gem as ProtoGem, GemColor as ProtoGemColor } from "@/protobuf/gem_pb";
 import { User as ProtoUser } from "@/protobuf/user_pb";
 import dayjs from "dayjs";
@@ -47,6 +46,12 @@ export const gemColorToProtoGemColorMapper = (
 };
 
 export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
+  const creator = protoGem.getCreator();
+  const receiver = protoGem.getReceiver();
+  if (!creator || !receiver) {
+    throw new Error("Gem must have a creator and receiver");
+  }
+
   return {
     id: protoGem.getId(),
     message: protoGem.getMessage(),
@@ -55,17 +60,16 @@ export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       lng: protoGem.getLongitude(),
     },
     createdAt: dayjs(protoGem.getCreatedAt()?.toDate()),
-    // TODO: replace these with actual user object
-    createdBy: mockFriends[0],
-    receiver: mockSelfUser,
+    createdBy: protoUserToUserMapper(creator),
     receivedAt: dayjs(protoGem.getReceivedAt()?.toDate()),
+    receiver: protoUserToUserMapper(receiver),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
   };
 };
 
 export const protoUserToUserMapper = (protoUser: ProtoUser): User => {
   return {
-    id: protoUser.getUserId(),
+    userId: protoUser.getUserId(),
     username: protoUser.getUsername(),
     displayName: protoUser.getDisplayName(),
     avatar: protoUser.getAvatar_asB64(),

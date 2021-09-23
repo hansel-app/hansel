@@ -3,10 +3,9 @@ package main
 import (
 	"log"
 
-	"github.com/rubenv/sql-migrate"
-
 	"github.com/hansel-app/hansel/internal/adapters/secondary/repositories/database"
 	"github.com/hansel-app/hansel/internal/config"
+	"github.com/rubenv/sql-migrate"
 )
 
 func main() {
