@@ -1,7 +1,10 @@
 import { onMounted, onUnmounted } from "vue";
 import { useStore } from "vuex";
 
-export function useGeolocation() {
+export function useGeolocation(): {
+  isSupported: boolean;
+  getLocation: () => Promise<void>;
+} {
   const store = useStore();
 
   // check if geolocation api is supported

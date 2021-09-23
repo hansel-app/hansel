@@ -45,10 +45,7 @@ const userModule: Module<UserState, RootState> = {
       state.friends = friends;
     },
     setFriendRequests(state, pendingFriends: PendingFriendRequest[]) {
-      state.friends.splice(0, state.friends.length);
-      pendingFriends.forEach((friendRequest) =>
-        state.friendRequests.push(friendRequest)
-      );
+      state.friendRequests = pendingFriends;
     },
     updateSendFriendRequestStatus(state, isSuccess: boolean) {
       state.isSendFriendRequestSuccessful = isSuccess;
