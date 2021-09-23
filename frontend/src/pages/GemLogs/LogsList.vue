@@ -18,18 +18,18 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import { mockGems } from "@/interfaces/mockData";
 import Header from "@/components/Header.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import BackSwipe from "@/components/BackSwipe.vue";
 import { CellGroup } from "vant";
 
 import LogsPreview from "./LogsPreview.vue";
-import { User, Gem, GemLogs, GemLogsWithFriend } from "@/interfaces";
+import { User, Gem, GemLogs } from "@/interfaces";
+import { useStore } from "vuex";
 
 interface FriendAndMostRecentGemActivity {
   friend: User;
-  mostRecentGem: Gem;
+  mostRecentGem: Gem | null;
 }
 
 function findMostRecentGem(gemList: Gem[]): Gem | null {
@@ -62,16 +62,16 @@ export default defineComponent({
 
     const gemLogs: GemLogs = store.state.gemLogs;
 
-    const allFriends: FriendAndMostRecentGemActivity[] = gemLogs.gemLogsMap.map(
-      ([_, gemLog]: [number, GemLogsWithFriend]) => {
-        const mostRecentGem = findMostRecentGem(gemLog.gems);
+    const allFriends: FriendAndMostRecentGemActivity[] = [];
 
-        return {
-          friend: gemLog.friend,
-          mostRecentGem: mostRecentGem,
-        };
-      }
-    );
+    for (const gemLog of gemLogs.gemLogsMap.values()) {
+      const mostRecentGem = findMostRecentGem(gemLog.gems);
+
+      allFriends.push({
+        friend: gemLog.friend,
+        mostRecentGem: mostRecentGem,
+      });
+    }
 
     const state = reactive({
       searchQuery: "",
