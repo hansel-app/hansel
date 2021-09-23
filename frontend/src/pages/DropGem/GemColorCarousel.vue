@@ -5,6 +5,7 @@
     :space-between="25"
     :centered-slides="true"
     :slide-to-clicked-slide="true"
+    :initial-slide="initialIndex"
     @real-index-change="onRealIndexChange"
   >
     <SwiperSlide v-for="color in colors" :key="color">
@@ -15,6 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import { Button } from "vant";
 import { GemColor } from "@/interfaces";
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -29,13 +31,21 @@ export default defineComponent({
     SwiperSlide,
   },
   setup() {
+    const store = useStore();
+    const initialIndex = store.state.gems.dropGemFormState.colorIndex;
+
     return {
+      store,
       colors: Object.values(GemColor),
+      initialIndex,
     };
   },
   methods: {
     onRealIndexChange(swiper: SwiperType) {
       const selectedColor: GemColor = this.colors[swiper.realIndex];
+      this.store.commit("updateDropGemFormState", {
+        colorIndex: swiper.realIndex,
+      });
       this.$emit("selected-color-changed", selectedColor);
     },
   },
