@@ -53,7 +53,7 @@ func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error
 }
 
 func (r *userRepository) GetByUsername(username string) (*users.User, error) {
-	sql, _, _ := qb.From("users").Where(goqu.C("username").Eq(username)).ToSQL()
+	sql, _, _ := qb.From(goqu.T("users")).Where(goqu.C("username").Eq(username)).ToSQL()
 
 	var user users.User
 	err := r.db.Get(&user, sql)
@@ -78,7 +78,7 @@ func (r *userRepository) SearchByUsername(searchQuery string) ([]users.User, err
 }
 
 func (r *userRepository) Add(user *users.User) (int64, error) {
-	sql, args, _ := qb.Insert("user").Prepared(true).Rows(user).Returning("id").ToSQL()
+	sql, args, _ := qb.Insert(goqu.T("users")).Prepared(true).Rows(user).Returning("id").ToSQL()
 
 	var userId int64
 	stmt, err := r.db.Prepare(sql)
@@ -177,7 +177,6 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRequest, er
 				ID:             result.ID,
 				Username:       result.Username,
 				DisplayName:    result.DisplayName,
-				Email:          result.Email,
 				HashedPassword: result.HashedPassword,
 				Avatar:         result.Avatar,
 			},

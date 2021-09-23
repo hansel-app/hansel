@@ -57,7 +57,7 @@ func (i *AuthInterceptor) Stream() grpc.StreamServerInterceptor {
 	}
 }
 
-var publicMethods = []string{"/authapi.AuthService/Login"}
+var publicMethods = []string{"/authapi.AuthService/Login", "/authapi.AuthService/Register"}
 
 func (i *AuthInterceptor) authorize(ctx context.Context, method string) (context.Context, error) {
 	for _, publicMethod := range publicMethods {
