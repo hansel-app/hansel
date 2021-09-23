@@ -1,29 +1,19 @@
 <template>
   <div>
-    <Header
-      :isCloseWindow="true" 
-      title="Drop a gem" 
-    />
+    <Header :isCloseWindow="true" title="Drop a gem" />
     <div class="container">
       <p class="sub-header">Choose a receiver</p>
-      <Searchbar
-        placeholder="Search a friend" 
-      />
-    <CellGroup>
-      <FriendCell
-        v-for="friend in filteredFriends"
-        :key="friend.id"
-        :friend="friend"
-        :isClickable="true"
-        :shouldDisplayUsername="true"
-        @click="
-          () => {
-            $emit('set-receiver-event', friend.id);
-            $emit('next-stage');
-          }
-        "
-      />
-    </CellGroup>
+      <Searchbar placeholder="Search a friend" />
+      <CellGroup>
+        <FriendCell
+          v-for="friend in filteredFriends"
+          :key="friend.id"
+          :friend="friend"
+          :isClickable="true"
+          :shouldDisplayUsername="true"
+          @click="handleClickWithDelay(friend.id)"
+        />
+      </CellGroup>
     </div>
   </div>
 </template>
@@ -56,6 +46,12 @@ export default defineComponent({
     return {
       searchQuery: "",
     };
+  },
+  methods: {
+    handleClickWithDelay(id: string) {
+      this.$emit("set-receiver-event", id);
+      setTimeout(() => this.$emit("next-stage"), 200);
+    },
   },
   computed: {
     ...mapState({
