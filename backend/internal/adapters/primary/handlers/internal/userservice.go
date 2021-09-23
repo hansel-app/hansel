@@ -4,14 +4,13 @@ import (
 	"context"
 
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/hansel-app/hansel/internal/contextkeys"
+	"github.com/hansel-app/hansel/internal/core/domain/users"
+	"github.com/hansel-app/hansel/protobuf/usersapi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-
-	"github.com/hansel-app/hansel/internal/contextkeys"
-	"github.com/hansel-app/hansel/internal/core/domain/users"
-	"github.com/hansel-app/hansel/protobuf/usersapi"
 )
 
 type userService struct {

@@ -3,6 +3,7 @@ import {
   DROP_GEM_ROUTE,
   EDIT_PROFILE_ROUTE,
   FRIEND_REQUESTS_ROUTE,
+  GEM_LOGS_DETAILS_ROUTE,
   GEM_LOGS_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
@@ -17,7 +18,7 @@ import {
   SelectFriend,
 } from "@/pages/DropGem/index";
 import { AddFriendPage, FriendRequestsPage } from "@/pages/Friend";
-import GemLogs from "@/pages/GemLogs/LogsList.vue";
+import { GemLogsDetailsPage, GemLogsPage } from "@/pages/GemLogs/index";
 import HomePage from "@/pages/Home/HomePage.vue";
 import { LoginPage, RegisterPage } from "@/pages/LoginRegister";
 import { FoundGem, MessageDisplay, PickupGem } from "@/pages/PickupGem/index";
@@ -92,11 +93,15 @@ const router = createRouter({
     },
     {
       path: GEM_LOGS_ROUTE,
-      component: GemLogs,
+      component: GemLogsPage,
       meta: {
         enterClass: "animate__animated animate__fadeInRight",
         leaveClass: "animate__animated animate__fadeOutLeft",
       },
+    },
+    {
+      path: GEM_LOGS_DETAILS_ROUTE,
+      component: GemLogsDetailsPage,
     },
   ],
 });

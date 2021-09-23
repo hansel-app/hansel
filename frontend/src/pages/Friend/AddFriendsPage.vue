@@ -3,7 +3,7 @@
     <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Search
+      <Searchbar
         placeholder="Search by username"
         v-model="searchQuery"
         @input="handleSearch"
@@ -11,7 +11,7 @@
       <CellGroup>
         <FriendCell
           v-for="user in filteredUsers"
-          :key="user.id"
+          :key="user.userId"
           :friend="user"
           :shouldDisplayUsername="true"
         >
@@ -29,9 +29,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CellGroup, Search } from "vant";
-import { User } from "@/interfaces";
 import { useStore, mapState } from "vuex";
 import BackSwipe from "@/components/BackSwipe.vue";
+import { CellGroup } from "vant";
+import { User } from "@/protobuf/user_pb";
+import BackSwipe from "@/components/BackSwipe.vue";
+import Searchbar from "@/components/Searchbar.vue";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
 
@@ -40,8 +43,8 @@ export default defineComponent({
     BackSwipe,
     CellGroup,
     FriendCell,
+    Searchbar,
     Header,
-    Search,
   },
   data() {
     return {
@@ -60,7 +63,7 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
-      return this.users;
+      return this.users as User[];
     },
   },
   methods: {

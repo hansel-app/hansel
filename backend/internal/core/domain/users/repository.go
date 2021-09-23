@@ -2,6 +2,7 @@ package users
 
 type Repository interface {
 	Get(id int64) (*User, error)
+	GetUsersByIds(ids []int64) (map[int64]User, error)
 	GetByUsername(username string) (*User, error)
 	SearchByUsername(searchQuery string) ([]User, error)
 	Add(user *User) (int64, error)

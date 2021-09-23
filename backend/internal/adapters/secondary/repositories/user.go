@@ -5,9 +5,8 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
-	"github.com/jmoiron/sqlx"
-
 	"github.com/hansel-app/hansel/internal/core/domain/users"
+	"github.com/jmoiron/sqlx"
 )
 
 type userRepository struct {
@@ -30,6 +29,23 @@ func (r *userRepository) Get(id int64) (*users.User, error) {
 	}
 
 	return &user, nil
+}
+
+func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error) {
+	sql, _, _ := qb.From("users").Where(goqu.I("id").In(ids)).ToSQL()
+
+	var selectedUsers []users.User
+	err := r.db.Select(&selectedUsers, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to retrieve users with ids '%v': %w", ids, err)
+	}
+
+	userMap := make(map[int64]users.User)
+	for _, user := range selectedUsers {
+		userMap[user.ID] = user
+	}
+
+	return userMap, nil
 }
 
 func (r *userRepository) GetByUsername(username string) (*users.User, error) {

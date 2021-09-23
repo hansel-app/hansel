@@ -4,9 +4,8 @@ import (
 	"context"
 	"log"
 
-	"google.golang.org/grpc"
-
 	"github.com/hansel-app/hansel/protobuf/gemsapi"
+	"google.golang.org/grpc"
 )
 
 // TODO: Remove this proof of concept. To be executed when the server is running.

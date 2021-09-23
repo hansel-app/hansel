@@ -3,12 +3,11 @@ package internal
 import (
 	"context"
 
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"github.com/hansel-app/hansel/internal/auth"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
 	"github.com/hansel-app/hansel/protobuf/authapi"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type authService struct {
