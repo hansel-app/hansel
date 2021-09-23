@@ -45,7 +45,6 @@ export default defineComponent({
       this.$router.back();
     },
     goToEditProfile() {
-      console.log('hi');
       this.$router.push(EDIT_PROFILE_ROUTE);
     },
   },

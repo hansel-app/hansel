@@ -1,20 +1,20 @@
 <template>
   <div class="overlay">
     <Header title="Edit Profile" :backLink="PROFILE_ROUTE"/>
-    <!-- <div class="avatar-container">
-      <van-button class="edit-button overlay"
-        ><van-icon name="edit" size="40px"
-      /></van-button>
-    </div> -->
     <van-form class="container">
-      <ProfileAvatar :avatarUrl="placeholderAvatarUrl" />
-      <van-uploader>
-        <van-button round icon="edit"></van-button>
-      </van-uploader>
+      <Uploader
+          v-model="fileList"
+          :max-count="1"
+          :preview-size="150"
+      >
+        <template #default>
+          <van-image height="150px" width="150px" :src="self.avatar"></van-image>
+        </template>
+      </Uploader>
       <van-field
         v-model="displayName"
         name="Display name"
-        label="Display name"
+        label="self.displayName"
         placeholder="Enter your name"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
@@ -24,39 +24,51 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
-import ProfileAvatar from "../../components/ProfileAvatar.vue";
 import Header from "@/components/Header.vue";
 import { useStore } from "vuex";
 import { PROFILE_ROUTE } from "@/constants";
+import { Uploader, UploaderFileListItem, Toast } from "vant";
+import { User } from "@/interfaces";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    const self: User = store.state.user.self;
+    const displayName: string = self.displayName;
+    return { store, self, displayName };
+  },
+  methods: {
+    editProfile() {
+      let updateProfile;
+
+      if(this.fileList.length != 0) {
+        updateProfile = () => this.store.dispatch("editOwnProfile", {
+          newAvatar: this.fileList[0].content,
+          newDisplayName: this.displayName,
+        });
+      } else {
+        updateProfile = () => this.store.dispatch("editOwnProfile", {
+          newDisplayName: this.displayName,
+        });
+      }
+    updateProfile().
+      then(() => {
+        Toast.success("Updated profile!");
+        this.$router.replace(PROFILE_ROUTE);
+      })
+      .catch((err) => Toast.fail(`Failed to update profile: ${err}`));
+    },
+  },
   data() {
     return {
       PROFILE_ROUTE,
-      // TODO: replace with user's own data
-      placeholderAvatarUrl:
-        "https://media.istockphoto.com/vectors/happy-young-woman-watching-into-rounded-frame-isolated-on-white-3d-vector-id1296058958?b=1&k=20&m=1296058958&s=170667a&w=0&h=6m2FU2hKv6emHjNtdNSqBJR1uMq64smptqwDAZNo6bg=",
-      mockSelfUser,
-      mockFriends,
-      username: mockSelfUser.username,
-      displayName: mockSelfUser.displayName,
-      store: useStore(),
+      // displayName: this.self.displayName as string,
+      fileList: [] as UploaderFileListItem[],
     };
   },
-  methods: {
-    goBack() {
-      this.$router.back();
-    },
-    editProfile() {
-      this.store.dispatch("editOwnProfile", {
-        newDisplayName: this.displayName,
-      });
-    },
-  },
   components: {
-    ProfileAvatar,
     Header,
+    Uploader,
   },
 });
 </script>
