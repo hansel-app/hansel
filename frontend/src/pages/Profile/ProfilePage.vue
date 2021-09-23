@@ -1,9 +1,9 @@
 <template>
   <div class="overlay bring-to-front">
     <Header />
-    <ProfileAvatar :avatarUrl="mockSelfUser.avatar" />
-    <h2>{{ mockSelfUser.displayName }}</h2>
-    <h3>{{ "@" + mockSelfUser.username }}</h3>
+    <ProfileAvatar :avatarUrl="self.avatar" />
+    <h2>{{ self.displayName }}</h2>
+    <h3>{{ "@" + self.username }}</h3>
     <CellGroup>
       <Cell title="Edit profile" is-link @click="goToEditProfile" />
       <Cell title="Friends" is-link />
@@ -15,9 +15,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "vuex";
 import { CellGroup, Cell } from "vant";
-import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { EDIT_PROFILE_ROUTE } from "@/constants";
+import { User } from "@/interfaces";
 import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
@@ -25,10 +26,14 @@ import Header from "@/components/Header.vue";
 export default defineComponent({
   data() {
     return {
-      mockSelfUser,
-      mockFriends,
       color: "#ffffff",
+      store: useStore(),
     };
+  },
+  computed: {
+    self(): User {
+      return this.store.state.user.self;
+    },
   },
   methods: {
     goBack() {
