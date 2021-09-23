@@ -1,16 +1,26 @@
 <template>
-    <div class="page-header container">
-        <van-row>
-            <img id="icon-left" :class="isBackIconDisplayed" :src="arrowLeft" @click="goBack">
-            <slot />
-            <img id="icon-right" :class="isCrossIconDisplayed" :src="cross" @click="goToHome">
-        </van-row>
-        <van-row>
-            <div id="title" class="header">
-                <p>{{ title }}</p>
-            </div>
-        </van-row>
-    </div>
+  <div class="page-header container">
+    <van-row :justify="justify">
+      <img
+        id="icon-left"
+        :class="isBackIconDisplayed"
+        :src="arrowLeft"
+        @click="goBack"
+      />
+      <slot />
+      <img
+        id="icon-right"
+        :class="isCrossIconDisplayed"
+        :src="cross"
+        @click="goToHome"
+      />
+    </van-row>
+    <van-row>
+      <div id="title" class="header">
+        <p>{{ title }}</p>
+      </div>
+    </van-row>
+  </div>
 </template>
 <script>
 import { defineComponent } from "vue";
@@ -20,66 +30,79 @@ import arrowLeft from "@/assets/icons/arrow-left.svg";
 import cross from "@/assets/icons/cross.svg";
 
 export default defineComponent({
-    setup() {
-        return { cross, arrowLeft };
+  setup() {
+    return { cross, arrowLeft };
+  },
+  props: {
+    title: {
+      type: String,
+      required: true,
     },
-    props: {
-        title: {
-            type: String,
-            required: true,
-        },
-        isCloseWindow: {
-            type: Boolean,
-            default: () => false,
-        },
-        backLink: {
-            type: String,
-            default: () => HOME_ROUTE,
-        }
-    }, 
-    components: {
-        "van-row": Row,
+    isCloseWindow: {
+      type: Boolean,
+      default: () => false,
     },
-    computed: {
-        getIcon() {
-            return require("@/assets/icons/cross.svg");
-        },
-        isCrossIconDisplayed() {
-            return {
-                'hide-icon': !this.isCloseWindow
-            }
-        },
-        isBackIconDisplayed() {
-            return {
-                'hide-icon': this.isCloseWindow
-            }
-        }
+    backLink: {
+      type: String,
+      default: () => HOME_ROUTE,
     },
-    methods: {
-        goToHome() {
-            this.$router.push({ name: 'home'});
-        },
-        goBack() {
-            this.$router.push(this.backLink);
-        },
-    }
-})
+    justify: {
+      type: String,
+      default: () => "start",
+      validator(val) {
+        return [
+          "start",
+          "end",
+          "center",
+          "space-around",
+          "space-between",
+        ].includes(val);
+      },
+    },
+  },
+  components: {
+    "van-row": Row,
+  },
+  computed: {
+    getIcon() {
+      return require("@/assets/icons/cross.svg");
+    },
+    isCrossIconDisplayed() {
+      return {
+        "hide-icon": !this.isCloseWindow,
+      };
+    },
+    isBackIconDisplayed() {
+      return {
+        "hide-icon": this.isCloseWindow,
+      };
+    },
+  },
+  methods: {
+    goToHome() {
+      this.$router.push({ name: "home" });
+    },
+    goBack() {
+      this.$router.push(this.backLink);
+    },
+  },
+});
 </script>
 <style scoped>
 .page-header {
-    padding-top: 3em;
+  padding-top: 3em;
 }
 
 #icon-left {
-    margin: -0.5em;
+  margin: -0.5em;
 }
 
 #icon-right {
-    position: absolute;
-    right: 1.5em;
+  position: absolute;
+  right: 1.5em;
 }
 
 .hide-icon {
-    display: none;
+  display: none;
 }
 </style>
