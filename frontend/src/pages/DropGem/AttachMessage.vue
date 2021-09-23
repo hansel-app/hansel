@@ -8,6 +8,7 @@
         placeholder="Enter your message"
         type="textarea"
         rows="5"
+        v-model="message"
         @input="this.$emit('set-message-event', $event.target.value)"
       />
     </div>
@@ -26,7 +27,11 @@ export default defineComponent({
     Field,
     GemHeader,
   },
-
+  data() {
+    return {
+      message: "",
+    };
+  },
   computed: {
     ...mapState({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
