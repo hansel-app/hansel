@@ -141,8 +141,10 @@ export default defineComponent({
     const mapRef = ref<InstanceType<typeof GoogleMap> | null>(null);
     const gemMarkerInfoWindowRef = ref<google.maps.InfoWindow | null>(null);
     const openedInfoWindowGem = ref<Gem | null>(null);
-    const shouldShowPopup = ref<boolean>(true);
     const store = useStore();
+    const isGemMapFirstMount = store.state.gems.isGemMapFirstMount;
+
+    const shouldShowPopup = ref<boolean>(isGemMapFirstMount);
 
     const { getLocation } = useGeolocation();
     const currPosition: LatLng = store.state.user.currPosition;
@@ -163,6 +165,7 @@ export default defineComponent({
 
     await getLocation();
 
+    store.commit("setIsGemMapFirstMount", false);
     return {
       mapRef,
       gemMarkerInfoWindowRef,

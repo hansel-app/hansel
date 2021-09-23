@@ -2,12 +2,9 @@
   <div>
     <div class="backswipe-area" v-touch:swipe.right="prevStage">
     </div>
-    <NavBar
-      v-bind:left-arrow="currentStage > 0"
-      @click-left="prevStage"
-      class="nav-bar"
-    />
-
+    <div v-if="currentStage > 0">
+      <img id="icon-left" @click="prevStage" :src="arrowLeft">
+    </div>
     <router-view
       :name="currentStageName"
       @next-stage="nextStage"
@@ -39,10 +36,12 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from "vue";
-import { NavBar, Toast } from "vant";
+import { Toast } from "vant";
 import { useStore } from "vuex";
 import { GemColor } from "@/interfaces";
 import { HOME_ROUTE } from "@/constants";
+import arrowLeft from "@/assets/icons/arrow-left.svg";
+
 
 enum DropGemStage {
   Friend,
@@ -51,9 +50,6 @@ enum DropGemStage {
 }
 
 export default defineComponent({
-  components: {
-    NavBar,
-  },
   setup() {
     const store = useStore();
     store.commit("clearDropGemFormState");
@@ -63,6 +59,7 @@ export default defineComponent({
     return {
       currentStage,
       store,
+      arrowLeft,
     };
   },
   computed: {
@@ -115,5 +112,11 @@ export default defineComponent({
 }
 .form-navigation-button {
   width: 80vw;
+}
+#icon-left {
+  position: absolute;
+  left: 1em;
+  top: 2.8em;
+  z-index: 1;
 }
 </style>

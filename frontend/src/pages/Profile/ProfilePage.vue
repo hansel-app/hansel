@@ -1,15 +1,24 @@
 <template>
-  <div class="overlay bring-to-front">
-    <Header />
-    <ProfileAvatar :avatarUrl="self.avatar" />
-    <h2>{{ self.displayName }}</h2>
-    <h3>{{ "@" + self.username }}</h3>
-    <CellGroup>
-      <Cell title="Edit profile" is-link @click="goToEditProfile" />
-      <Cell title="Friends" is-link @click="goToFriendList" />
-    </CellGroup>
+  <div class="profile-page">
+    <div class="overlay container">
+      <Header />
+      <ProfileAvatar :avatarUrl="self.avatar" />
+      <div class="header">
+        {{ self.displayName }}
+      </div>
+      <div class="sub-header">
+        @{{ self.username }}
+      </div>
+      <CellGroup :border="false" class="content container">
+        <Cell title="Edit profile" is-link @click="goToEditProfile" />
+        <Cell title="Friends" is-link @click="goToFriendList" />
+      </CellGroup>
+      <Cell class="logout" title="Logout" />
+    </div>
+    <div class="reverse-background-gradient">
+      <SemiCircleBg />
+    </div>
   </div>
-  <ProfilePageBg />
 </template>
 
 <script lang="ts">
@@ -18,9 +27,9 @@ import { useStore } from "vuex";
 import { CellGroup, Cell } from "vant";
 import { EDIT_PROFILE_ROUTE, FRIEND_LIST_ROUTE } from "@/constants";
 import { User } from "@/interfaces";
-import ProfileAvatar from "./ProfileAvatar.vue";
-import ProfilePageBg from "./ProfilePageBg.vue";
+import ProfileAvatar from "@/components/ProfileAvatar.vue";
 import Header from "@/components/Header.vue";
+import SemiCircleBg from "@/components/SemiCircleBg.vue";
 
 export default defineComponent({
   data() {
@@ -50,7 +59,7 @@ export default defineComponent({
     CellGroup,
     Cell,
     Header,
-    ProfilePageBg,
+    SemiCircleBg,
   },
 });
 </script>
@@ -60,7 +69,31 @@ export default defineComponent({
   text-align: left;
 }
 
-.bring-to-front {
-  z-index: 2;
+.header {
+  text-align: center !important;
+  margin: 1.2em 0 1em 0;
+}
+
+.sub-header {
+  text-align: center !important;
+  padding-bottom: 4em;
+  color: gray;
+  font-weight: lighter !important;
+}
+
+.logout {
+  color: @red;
+  padding-bottom: 2em;
+}
+
+.stack-container {
+  z-index: -1;
+}
+
+.reverse-background-gradient {
+  background: linear-gradient(to bottom, #c0c2e5, #e43d9700);
+  height: 100vh;
+  position: relative;
+  z-index: -2;
 }
 </style>
