@@ -58,7 +58,7 @@ const base64AvatarToPlaceholderMapper = (base64: string): string => {
   // User has not set avatar at all, so base64 is an empty string.
   // We give them GIRL1 in this case.
   if (!base64) {
-    base64 = "1";
+    return "1";
   }
   // User has their own avatar
   if (!(Object as any).values(DefaultAvatars).includes(base64)) {
