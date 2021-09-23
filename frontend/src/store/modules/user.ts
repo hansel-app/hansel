@@ -9,7 +9,7 @@ import {
   GetOwnProfileResponse,
   PendingFriendRequest,
   SearchByUsernameRequest,
-  SearchByUsernameResponse
+  SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
 import { protoUserToUserMapper } from "@/utils/mappers";
@@ -26,15 +26,20 @@ export interface UserState {
   currPosition: LatLng;
 }
 
+const initialState: UserState = Object.freeze({
+  friends: [],
+  friendRequests: [],
+  self: undefined,
+  isSendFriendRequestSuccessful: false,
+  currPosition: SINGAPORE_CENTER,
+});
+
 const userModule: Module<UserState, RootState> = {
-  state: {
-    friends: [],
-    friendRequests: [],
-    self: undefined,
-    isSendFriendRequestSuccessful: false,
-    currPosition: SINGAPORE_CENTER,
-  },
+  state: initialState,
   mutations: {
+    resetUserStore(state) {
+      Object.assign(state, initialState);
+    },
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;
     },

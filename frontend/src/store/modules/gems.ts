@@ -6,13 +6,13 @@ import {
   GemLogs,
   GemMessage,
   GetPendingCollectionForUserResponse,
-  PickUpRequest
+  PickUpRequest,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
 import { blobToUint8Array } from "@/utils/attachment";
 import {
   gemColorToProtoGemColorMapper,
-  protoGemToGemMapper
+  protoGemToGemMapper,
 } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { Module } from "vuex";
@@ -25,14 +25,18 @@ export interface GemsState {
 }
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
+const initialState: GemsState = Object.freeze({
+  gemsPendingCollection: [],
+  dropGemFormState: initialDropGemFormState,
+  lastPickedUpGem: undefined,
+});
 
 const gemsModule: Module<GemsState, RootState> = {
-  state: {
-    gemsPendingCollection: [],
-    dropGemFormState: initialDropGemFormState,
-    lastPickedUpGem: undefined,
-  },
+  state: initialState,
   mutations: {
+    resetGemsStore(state) {
+      Object.assign(state, initialState);
+    },
     setGemsPendingCollection(state, gems: Gem[]) {
       state.gemsPendingCollection = gems;
     },
