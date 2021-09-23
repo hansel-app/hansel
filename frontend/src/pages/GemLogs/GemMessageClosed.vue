@@ -1,15 +1,35 @@
 <template>
   <van-row :justify="justify" class="fill-width">
-    <p v-if="isSentBySelf" class="gem-message" v-bind:style="gemMessageStyle">
-      New gem!
-      {{ gemLocation }}
-      <van-icon class="gem-icon" :name="getGemImageUrl" @click="goToDropGem" />
-    </p>
-    <p v-else class="gem-message" v-bind:style="gemMessageStyle">
-      <van-icon class="gem-icon" :name="getGemImageUrl" @click="goToDropGem" />
-      New gem!
-      {{ gemLocation }}
-    </p>
+    <van-cell
+      v-if="isSentBySelf"
+      class="gem-message"
+      v-bind:style="gemMessageStyle"
+    >
+      <template #right-icon>
+        <van-icon
+          class="gem-icon"
+          :name="getGemImageUrl"
+          @click="goToDropGem"
+        />
+      </template>
+      <template #title>
+        <p>New gem!</p>
+        <p>{{ gemLocation }}</p>
+      </template>
+    </van-cell>
+    <van-cell v-else class="gem-message" v-bind:style="gemMessageStyle">
+      <template #icon>
+        <van-icon
+          class="gem-icon"
+          :name="getGemImageUrl"
+          @click="goToDropGem"
+        />
+      </template>
+      <template #title>
+        <p>New gem!</p>
+        <p>{{ gemLocation }}</p>
+      </template>
+    </van-cell>
   </van-row>
 </template>
 
