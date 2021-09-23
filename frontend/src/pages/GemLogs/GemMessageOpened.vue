@@ -1,13 +1,9 @@
 <template>
   <van-row :justify="justify">
-    <van-row :justify="justify">
-      <van-image class="gem-image" :src="gem.attachment" />
-    </van-row>
-    <van-row :justify="justify">
-      <p class="gem-message" v-bind:style="gemMessageStyle">
-        {{ gem.message }}
-      </p>
-    </van-row>
+    <van-image class="gem-image" :src="gem.attachment" />
+    <p class="gem-message" v-bind:style="gemMessageStyle">
+      {{ gem.message }}
+    </p>
   </van-row>
   <p class="open-message">{{ openMessage }}</p>
 </template>

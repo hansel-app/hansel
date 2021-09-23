@@ -1,5 +1,5 @@
 <template>
-  <van-row :justify="start">
+  <van-row :justify="justify" class="fill-width">
     <p class="gem-message" v-bind:style="gemMessageStyle">
       They dropped a gem!
     </p>
@@ -28,11 +28,15 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .gem-message {
   width: 70%;
   padding: 1em 0.5em;
   word-wrap: break-word;
   border-radius: @border-radius-lg;
+}
+
+.fill-width {
+  width: 100%;
 }
 </style>
