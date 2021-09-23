@@ -18,7 +18,6 @@
           <div class="menu-contents" v-if="!collapsed">
             <div class="avatar">
               <CircleAvatar
-                :avatarUrl="placeholderAvatarUrl"
                 :radius="2.5"
                 @click="goToProfile"
               >
