@@ -37,7 +37,7 @@ func (r *userRepository) GetUsersByIds(ids []int64) (map[int64]users.User, error
 	var selectedUsers []users.User
 	err := r.db.Select(&selectedUsers, sql)
 	if err != nil {
-		return nil, fmt.Errorf("unable to retrieve users with ids '%s': %w", ids, err)
+		return nil, fmt.Errorf("unable to retrieve users with ids '%v': %w", ids, err)
 	}
 
 	userMap := make(map[int64]users.User)
