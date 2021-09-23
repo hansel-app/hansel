@@ -9,7 +9,7 @@
       </p>
     </van-row>
   </van-row>
-  <p class="open-message">Groundskeeper opened your gem!</p>
+  <p class="open-message">{{ openMessage }}</p>
 </template>
 
 <script lang="ts">
@@ -27,7 +27,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    // "start" | "end"
+    // "start" | "end" sorry I made this weaker typing again haha
     justify: {
       type: String,
       required: true,
@@ -37,7 +37,14 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {},
+  computed: {
+    openMessage(): string {
+      const creator = this.gem.createdBy;
+      if (this.isSentBySelf) {
+        return `${creator.displayName} opened your gem!`;
+      } else return `You opened ${creator.displayName}'s gem!`;
+    },
+  },
 });
 </script>
 
