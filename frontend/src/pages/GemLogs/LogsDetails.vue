@@ -24,7 +24,12 @@
     </Header>
 
     <div class="gem-messages-container">
-      <GemMessage v-for="gem in gems" :key="gem.id" :gem="gem" />
+      <GemMessage
+        v-for="gemAndIsSentBySelf in gemsAndIsSentBySelf"
+        :key="gemAndIsSentBySelf.gem.id"
+        :gem="gemAndIsSentBySelf.gem"
+        :isSentBySelf="gemAndIsSentBySelf.isSentBySelf"
+      />
     </div>
   </div>
 </template>
@@ -57,9 +62,15 @@ export default defineComponent({
     ...mapState({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       gemLog: (state: any) => state.gems.selectedGemLog as GemLogsWithFriend,
+      selfUser: (state: any) => state.user.self as User,
     }),
-    gems(): Gem[] {
-      return this.gemLog.gems;
+    gemsAndIsSentBySelf(): { gem: Gem; isSentBySelf: boolean }[] {
+      return this.gemLog.gems.map((gem) => {
+        return {
+          gem: gem,
+          isSentBySelf: gem.createdBy.userId === this.selfUser.userId,
+        };
+      });
     },
     friend(): User {
       console.assert(

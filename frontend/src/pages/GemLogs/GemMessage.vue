@@ -1,8 +1,11 @@
 <template>
-  <van-row class="gem-message" :justify="justify">
+  <van-row :justify="justify">
     <van-image :src="gem.attachment" />
+  </van-row>
+  <van-row class="gem-message" :justify="justify">
     <p>{{ gem.message }}</p>
   </van-row>
+  {{ isSentBySelf ? "ME" : "YOU" }}
 </template>
 
 <script lang="ts">
@@ -16,6 +19,10 @@ export default defineComponent({
       type: Object as PropType<Gem>,
       required: true,
     },
+    isSentBySelf: {
+      type: Boolean,
+      required: true,
+    },
     justify: {
       type: String,
       default: () => "start",
@@ -27,8 +34,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
-.gem-message {
-  width: 70%;
-}
-</style>
+<style scoped lang="less"></style>
