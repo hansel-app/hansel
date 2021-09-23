@@ -35,12 +35,17 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    return { store };
+    const storedFileListItem =
+      store.state.gems.dropGemFormState.attachmentFileListItem;
+
+    return { store, storedFileListItem };
   },
   data() {
-    return {
-      fileList: [] as UploaderFileListItem[],
-    };
+    const fileList = [] as UploaderFileListItem[];
+    if (this.storedFileListItem !== undefined) {
+      fileList.push(this.storedFileListItem as UploaderFileListItem);
+    }
+    return { fileList };
   },
   computed: {
     ...mapState({
@@ -53,9 +58,10 @@ export default defineComponent({
     },
     afterFileRead(fileListItem: UploaderFileListItem) {
       this.store.commit("updateDropGemFormState", {
+        attachmentFileListItem: fileListItem,
         attachment: fileListItem.file,
       });
-    }
+    },
   },
 });
 </script>
