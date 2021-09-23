@@ -2,7 +2,7 @@
   <div class="overlay">
     <Header title="Edit Profile" />
     <div class="avatar-container">
-      <ProfileAvatar :avatarUrl="mockSelfUser.avatar" />
+      <ProfileAvatar :avatarUrl="self.avatar" />
       <van-button class="edit-button overlay"
         ><van-icon name="edit" size="40px"
       /></van-button>
@@ -30,21 +30,28 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import ProfileAvatar from "./ProfileAvatar.vue";
 import ProfilePageBg from "./ProfilePageBg.vue";
 import Header from "@/components/Header.vue";
+import { User } from "@/interfaces/user.ts";
 import { useStore } from "vuex";
 
 export default defineComponent({
   data() {
     return {
-      mockSelfUser,
-      mockFriends,
-      username: mockSelfUser.username,
-      displayName: mockSelfUser.displayName,
       store: useStore(),
     };
+  },
+  computed: {
+    self(): User {
+      return this.store.state.user.self;
+    },
+    username(): string {
+      return this.self.username;
+    },
+    displayName(): string {
+      return this.self.displayName;
+    },
   },
   methods: {
     goBack() {
