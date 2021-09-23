@@ -12,6 +12,7 @@
       :gemMessageStyle="gemMessageStyle"
       :gem="gem"
       :justify="justify"
+      :isSentBySelf="isSentBySelf"
     />
   </van-row>
 </template>

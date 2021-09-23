@@ -1,7 +1,20 @@
 <template>
   <van-row :justify="justify" class="fill-width">
-    <p class="gem-message" v-bind:style="gemMessageStyle">
-      They dropped a gem!
+    <p v-if="isSentBySelf" class="gem-message" v-bind:style="gemMessageStyle">
+      New gem!
+      <van-icon
+        class="circle-button-icon-sm"
+        :name="require('@/assets/images/purple_64.png')"
+        @click="goToDropGem"
+      />
+    </p>
+    <p v-else class="gem-message" v-bind:style="gemMessageStyle">
+      <van-icon
+        class="circle-button-icon-sm"
+        :name="require('@/assets/images/purple_64.png')"
+        @click="goToDropGem"
+      />
+      New gem!
     </p>
   </van-row>
 </template>
@@ -22,6 +35,10 @@ export default defineComponent({
     },
     justify: {
       type: String,
+      required: true,
+    },
+    isSentBySelf: {
+      type: Boolean,
       required: true,
     },
   },
