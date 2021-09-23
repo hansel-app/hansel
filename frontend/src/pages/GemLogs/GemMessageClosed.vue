@@ -2,11 +2,13 @@
   <van-row :justify="justify" class="fill-width">
     <p v-if="isSentBySelf" class="gem-message" v-bind:style="gemMessageStyle">
       New gem!
+      {{ gemLocation }}
       <van-icon class="gem-icon" :name="getGemImageUrl" @click="goToDropGem" />
     </p>
     <p v-else class="gem-message" v-bind:style="gemMessageStyle">
       <van-icon class="gem-icon" :name="getGemImageUrl" @click="goToDropGem" />
       New gem!
+      {{ gemLocation }}
     </p>
   </van-row>
 </template>
@@ -15,6 +17,7 @@
 import { defineComponent, PropType } from "vue";
 import { Gem, GemColor } from "@/interfaces";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
+import { getLocationNameFromLatLng } from "@/utils/geolocation";
 
 export default defineComponent({
   props: {
@@ -34,6 +37,16 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+  },
+  mounted() {
+    getLocationNameFromLatLng(this.gem.position).then(
+      (address) => (this.gemLocation = address)
+    );
+  },
+  data() {
+    return {
+      gemLocation: "" as string,
+    };
   },
   computed: {
     getGemImageUrl(): string {
