@@ -135,7 +135,5 @@ func (r *gemRepository) GetGemLogs(userId int64) (map[int64]([]gems.Gem), error)
 		}
 	}
 
-	fmt.Printf("%v", gemMap)
-
 	return gemMap, nil
 }
