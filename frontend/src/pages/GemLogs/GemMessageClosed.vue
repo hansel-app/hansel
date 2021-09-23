@@ -3,14 +3,14 @@
     <p v-if="isSentBySelf" class="gem-message" v-bind:style="gemMessageStyle">
       New gem!
       <van-icon
-        class="circle-button-icon-sm"
+        class="gem-icon"
         :name="require('@/assets/images/purple_64.png')"
         @click="goToDropGem"
       />
     </p>
     <p v-else class="gem-message" v-bind:style="gemMessageStyle">
       <van-icon
-        class="circle-button-icon-sm"
+        class="gem-icon"
         :name="require('@/assets/images/purple_64.png')"
         @click="goToDropGem"
       />
@@ -55,5 +55,9 @@ export default defineComponent({
 
 .fill-width {
   width: 100%;
+}
+
+.gem-icon {
+  font-size: @circle-button-icon-size-sm;
 }
 </style>
