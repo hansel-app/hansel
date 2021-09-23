@@ -86,7 +86,6 @@ export default defineComponent({
   },
   methods: {
     nextStage() {
-      console.log(this.isMediaAttached);
       if (this.currentStage === DropGemStage.Media && !this.isMediaAttached) {
         Toast.fail(NO_PHOTO_ERROR);
         return;
