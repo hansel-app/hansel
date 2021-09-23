@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HamburgerMenu ref="hamburgerMenu" />
+    <HamburgerMenu ref="hamburgerMenu" :requestCount="pendingFriendRequestCount"/>
     <Suspense>
       <template #default>
         <div>
@@ -35,15 +35,21 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const fetchGems = () => store.dispatch("getGemsPendingCollectionForUser");
+    const fetchFriendRequests = () => store.dispatch("getFriendRequests");
 
     onMounted(() => {
       fetchGems();
+      fetchFriendRequests();
     });
   },
   computed: {
     ...mapState({
       gems: (state: any) => state.gems.gemsPendingCollection as Gem[],
     }),
+    pendingFriendRequestCount() {
+      // return (state: any) => state.user.friendRequests.length;
+      return 10;
+    },
   },
 });
 </script>
