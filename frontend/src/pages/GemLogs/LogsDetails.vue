@@ -1,8 +1,26 @@
 <template>
   <div>
-    <Header title="" :backLink="GEM_LOGS_ROUTE">
-      <p>{{ friend.displayName }}</p>
-      <CircleAvatar :avatarUrl="placeholderAvatarUrl" />
+    <Header
+      justify="space-between"
+      class="log-details-header"
+      title=""
+      :backLink="GEM_LOGS_ROUTE"
+    >
+      <van-col class="friend-name-container">
+        <van-row class="friend-name">
+          <p>{{ friend.displayName }}</p>
+        </van-row>
+        <van-row class="friend-name">
+          <p>@{{ friend.username }}</p>
+        </van-row>
+      </van-col>
+      <van-col>
+        <CircleAvatar
+          class="friend-avatar"
+          :avatarUrl="placeholderAvatarUrl"
+          :radius="2.5"
+        />
+      </van-col>
     </Header>
 
     <GemMessage v-for="gem in gems" :key="gem.id" :message="gem.getMessage()" />
@@ -49,3 +67,12 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="less">
+.friend-name-container {
+  width: 50vw;
+  .friend-name {
+    height: 2rem;
+  }
+}
+</style>
