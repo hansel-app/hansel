@@ -81,6 +81,7 @@ export const protoGemToGemMapper = (protoGem: ProtoGem): Gem => {
       : null,
     receiver: protoUserToUserMapper(receiver),
     color: protoGemColorToGemColorMapper(protoGem.getColor()),
+    attachment: protoGem.getAttachment_asB64(),
   };
 };
 

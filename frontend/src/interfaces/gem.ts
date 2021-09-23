@@ -1,4 +1,4 @@
-import { LatLng, User } from "@/interfaces";
+import { Base64String, LatLng, User } from "@/interfaces";
 import { Dayjs } from "dayjs";
 
 export interface Gem {
@@ -10,6 +10,7 @@ export interface Gem {
   receiver: User;
   receivedAt: Dayjs | null;
   color: GemColor;
+  attachment: Base64String;
 }
 
 export type HexCode = string;
