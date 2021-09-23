@@ -1,10 +1,15 @@
 import services from "@/api/services";
-import { DropGemFormState, Gem, GemColor } from "@/interfaces";
+import {
+  DropGemFormState,
+  Gem,
+  GemColor,
+  GemLogs,
+  GemLogsWithFriend,
+} from "@/interfaces";
 import {
   DropRequest,
   DropResponse,
-  GemLogs,
-  GemLogsWithFriend,
+  GemLogs as ProtoGemLogs,
   GemMessage,
   GetPendingCollectionForUserResponse,
   PickUpRequest,
@@ -13,6 +18,7 @@ import { RootState } from "@/store";
 import { blobToUint8Array } from "@/utils/attachment";
 import {
   gemColorToProtoGemColorMapper,
+  protoGemLogToGemLogMapper,
   protoGemToGemMapper,
 } from "@/utils/mappers";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
@@ -22,8 +28,8 @@ export interface GemsState {
   gemsPendingCollection: Gem[];
   dropGemFormState: DropGemFormState;
   lastPickedUpGem?: Gem;
-  gemLogs?: GemLogs.AsObject;
-  selectedGemLog?: GemLogsWithFriend.AsObject;
+  gemLogs?: GemLogs;
+  selectedGemLog?: GemLogsWithFriend;
 }
 
 const initialDropGemFormState = Object.freeze({ color: GemColor.PURPLE });
@@ -41,7 +47,7 @@ const gemsModule: Module<GemsState, RootState> = {
       state.gemsPendingCollection = gems;
     },
     setGemLogs(state, gemLogs: GemLogs) {
-      state.gemLogs = gemLogs.toObject();
+      state.gemLogs = gemLogs;
     },
     updateDropGemFormState(state, dropGemFormState: Partial<DropGemFormState>) {
       state.dropGemFormState = {
@@ -73,10 +79,9 @@ const gemsModule: Module<GemsState, RootState> = {
       return new Promise((resolve, reject) => {
         services.gemsClient
           .getGemLogs(new Empty())
-          .then((resp: GemLogs) => {
-            const gemLogs = resp.getGemLogsMap();
-            commit("setGemLogs", gemLogs);
-            resolve(resp);
+          .then((gemLogs: ProtoGemLogs) => {
+            commit("setGemLogs", protoGemLogToGemLogMapper(gemLogs));
+            resolve(gemLogs);
           })
           .catch((err) => reject(err));
       });

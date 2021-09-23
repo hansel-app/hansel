@@ -30,3 +30,12 @@ export interface DropGemFormState {
   color: GemColor;
   attachment?: File;
 }
+
+export interface GemLogsWithFriend {
+  friend: User;
+  gems: Gem[];
+}
+
+export interface GemLogs {
+  gemLogsMap: Map<number, GemLogsWithFriend>;
+}
