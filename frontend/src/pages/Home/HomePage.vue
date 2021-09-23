@@ -1,9 +1,9 @@
 <template>
   <div>
+    <HamburgerMenu ref="hamburgerMenu" />
     <Suspense>
       <template #default>
         <div>
-          <HamburgerMenu ref="hamburgerMenu" />
           <div>
             <gem-map :gems="gems" />
           </div>
