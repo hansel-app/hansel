@@ -1,11 +1,10 @@
 <template>
   <van-row :justify="justify">
-    <van-image :src="gem.attachment" />
+    <van-image class="gem-image" :src="gem.attachment" />
   </van-row>
-  <van-row class="gem-message" :justify="justify">
-    <p>{{ gem.message }}</p>
+  <van-row :justify="justify">
+    <p class="gem-message" v-bind:style="gemMessageStyle">{{ gem.message }}</p>
   </van-row>
-  {{ isSentBySelf ? "ME" : "YOU" }}
 </template>
 
 <script lang="ts">
@@ -23,15 +22,42 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    justify: {
-      type: String,
-      default: () => "start",
-      validator(val: string) {
-        return ["start", "end"].includes(val);
-      },
+  },
+  computed: {
+    justify(): "start" | "end" {
+      if (this.isSentBySelf) {
+        return "end";
+      } else {
+        return "start";
+      }
+    },
+    gemMessageStyle() {
+      if (this.isSentBySelf) {
+        return {
+          backgroundColor: "#585969",
+          color: "white",
+          textAlign: "end",
+        };
+      } else {
+        return {
+          backgroundColor: "#f7f8fa",
+          textAlign: "start",
+        };
+      }
     },
   },
 });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.gem-message {
+  width: 70%;
+  padding: 1em 0.5em;
+  word-wrap: break-word;
+  border-radius: @border-radius-lg;
+}
+
+.gem-image {
+  padding: 1em 1em;
+}
+</style>
