@@ -4,7 +4,7 @@
     <div class="container">
       <p class="sub-header">Attach a message!</p>
       <Field
-        v-model="message"
+        :modelValue="message"
         class="message-input"
         placeholder="Enter your message"
         type="textarea"
