@@ -4,19 +4,20 @@
       :placeholder="placeholder"
       :modelValue="modelValue"
       v-on:input="updateSearchQuery($event.target.value)"
+      @clear="updateSearchQuery('')"
       background="none"
       shape="round"
     >
       <template v-slot:left-icon>
-        <img id="search-icon" :src="SearchIcon">
+        <img id="search-icon" :src="SearchIcon" />
       </template>
     </van-search>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import { Search } from "vant";
-import SearchIcon from "@/assets/icons/search-icon.svg"
+import SearchIcon from "@/assets/icons/search-icon.svg";
 
 export default defineComponent({
   setup() {
@@ -35,13 +36,13 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
   methods: {
     updateSearchQuery(searchQuery: string) {
-      this.$emit('update:modelValue', searchQuery);
-    }
+      this.$emit("update:modelValue", searchQuery);
+    },
   },
-})
+});
 </script>
 <style scoped lang="less">
 .van-search {
@@ -55,5 +56,4 @@ export default defineComponent({
   padding-right: 1em;
   vertical-align: middle;
 }
-
 </style>
