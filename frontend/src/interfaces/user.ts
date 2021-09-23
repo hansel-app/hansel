@@ -1,6 +1,3 @@
-export interface User {
-  userId: number;
-  username: string;
-  displayName: string;
-  avatar: string | Uint8Array; // TODO: replace this with bytes or something?
-}
+import { User as ProtoUser } from "@/protobuf/user_pb";
+
+export type User = ProtoUser.AsObject;
