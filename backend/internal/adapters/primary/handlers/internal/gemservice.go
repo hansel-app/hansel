@@ -151,10 +151,12 @@ func (s *gemService) GetGemLogs(
 	// Retrieve list of relevant user ids
 	userIds := make([]int64, len(friendIdToGemLogsMap))
 	i := 0
-	for id := range friendIdToGemLogsMap {
-		userIds[i] = id
+	for friendId := range friendIdToGemLogsMap {
+		userIds[i] = friendId
 		i++
 	}
+	// Retrieve user information about self as well
+	userIds = append(userIds, userID)
 
 	userInfoMap, err := s.usersUsecases.GetUsersByIds(userIds)
 	if err != nil {
@@ -162,9 +164,7 @@ func (s *gemService) GetGemLogs(
 	}
 
 	gemLogs := make(map[int64]*gemsapi.GemLogsWithFriend)
-	for id, gems := range friendIdToGemLogsMap {
-		f := userInfoMap[id]
-
+	for friendId, gems := range friendIdToGemLogsMap {
 		// TODO: maybe abstract out this method of processing gems
 		// and maybe abstract out the mappers...
 		processedGems := []*gemsapi.Gem{}
@@ -195,15 +195,9 @@ func (s *gemService) GetGemLogs(
 		}
 
 		gemLogsWithFriend := gemsapi.GemLogsWithFriend{
-			Friend: &usersapi.User{
-				UserId:      f.ID,
-				DisplayName: f.DisplayName,
-				Username:    f.Username,
-				Avatar:      f.Avatar,
-			},
 			Gems: processedGems,
 		}
-		gemLogs[id] = &gemLogsWithFriend
+		gemLogs[friendId] = &gemLogsWithFriend
 	}
 
 	return &gemsapi.GemLogs{
