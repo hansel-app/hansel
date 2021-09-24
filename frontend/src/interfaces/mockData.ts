@@ -58,7 +58,6 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: dayjs(),
     color: GemColor.PURPLE,
-    attachment: "",
     attachment: utownBase64,
   },
   {
