@@ -30,12 +30,13 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { CellGroup, Toast } from "vant";
-import { useStore, mapState } from "vuex";
+import { mapState, useStore } from "vuex";
 import { User } from "@/interfaces";
 import BackSwipe from "@/components/BackSwipe.vue";
 import Searchbar from "@/components/Searchbar.vue";
 import FriendCell from "@/components/FriendCell.vue";
 import Header from "@/components/Header.vue";
+import { AddFriendRequestResponse, AddFriendRequestStatus } from "@/protobuf/user_pb";
 
 export default defineComponent({
   components: {
@@ -83,9 +84,16 @@ export default defineComponent({
     addFriend(user: User) {
       this.store
         .dispatch("sendFriendRequest", user.userId)
-        .then(() =>
-          Toast.success(`Successfully sent friend request to @${user.username}`)
-        )
+        .then((resp: AddFriendRequestResponse) => {
+          const status = resp.getStatus();
+          if (status == AddFriendRequestStatus.SENT_FRIEND_REQUEST) {
+            Toast.success(`Successfully sent friend request to @${user.username}`);
+          } else if (status == AddFriendRequestStatus.ADDED_AS_FRIEND) {
+            Toast.success(`Successfully added @${user.username} as friend`);
+          } else {
+            console.error(`Invalid status: ${status}`);
+          }
+        })
         .catch((err) => {
           Toast.fail(
             `Failed to send friend request to @${user.username}. Try again later!`
