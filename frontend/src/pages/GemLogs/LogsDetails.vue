@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="overlay">
+    <div class="overlay remove-margin">
       <Header
         justify="space-between"
         class="log-details-header"
@@ -112,12 +112,17 @@ export default defineComponent({
 }
 
 .header {
-  height: 22vh;
+  height: 18vh;
   background-color: white;
 }
 
 .log-details-header {
   height: 12vh;
 }
+
+.remove-margin {
+  margin-top: -5vh;
+}
+
 
 </style>
