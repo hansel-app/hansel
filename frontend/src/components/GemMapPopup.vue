@@ -1,6 +1,6 @@
 <template>
   <van-cell>
-    <template #value v-if="!navigator?.onLine">
+    <template #value v-if="navigator && !navigator.onLine">
       <van-row>
         You are offline. Some functionalities may be unavailable.
       </van-row>
