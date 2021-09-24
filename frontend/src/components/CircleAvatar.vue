@@ -36,7 +36,7 @@ export default defineComponent({
       };
     },
     src() {
-      return base64AvatarToPlaceholderMapper(this.avatarUrl);
+      return getImgSrc(this.avatarUrl);
     },
   },
   components: {
@@ -54,16 +54,18 @@ enum DefaultAvatars {
 
 // if User has not set an avatar, use one of our placeholders.
 // Assumption is we reserve strings '1' to '5' for our placeholders.
-const base64AvatarToPlaceholderMapper = (base64: string): string => {
-  // User has not set avatar at all, so base64 is an empty string.
-  // We give them GIRL1 in this case.
+const getImgSrc = (base64: string): string => {
   if (!base64) {
-    base64 = "1";
+    // User has not set avatar at all, so base64 is an empty string.
+    // We give them GIRL1 in this case.
+    return require(`@/assets/avatars/avatar1.png`);
   }
   // User has their own avatar
-  if (!(Object as any).values(DefaultAvatars).includes(base64)) {
-    return base64;
+  else if (!Object.values(DefaultAvatars).includes(base64 as DefaultAvatars)) {
+    return `data:image/png;base64,${base64}`;
+  } else {
+    // User has an avatar matching one of our placeholders
+    return require(`@/assets/avatars/avatar${base64}.png`);
   }
-  return require(`@/assets/avatars/avatar${base64}.png`);
 };
 </script>
