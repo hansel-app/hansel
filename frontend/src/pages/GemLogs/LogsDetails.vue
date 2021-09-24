@@ -112,7 +112,7 @@ export default defineComponent({
 }
 
 .header {
-  height: 18vh;
+  height: 16vh;
   background-color: white;
 }
 
