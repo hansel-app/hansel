@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -242,9 +243,16 @@ func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64
 		Where(goqu.C("requester_id").Eq(requesterID), goqu.C("receiver_id").Eq(receiverID)).
 		Delete().
 		ToSQL()
-	_, err = tx.Exec(sql)
+	res, err := tx.Exec(sql)
 	if err != nil {
 		return fmt.Errorf(errorMsg, err)
+	}
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return errors.New("unable to get rows affected")
+	}
+	if rowsAffected == 0 {
+		return errors.New("unable to accept non-existent friend request")
 	}
 
 	err = tx.Commit()
