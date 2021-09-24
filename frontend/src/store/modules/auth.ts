@@ -13,11 +13,13 @@ import { Module } from "vuex";
 const ACCESS_TOKEN_COOKIE = "access-token";
 
 export interface AuthState {
+  shouldShowTutorial: boolean;
   accessToken: Nullable<string>;
 }
 
 const authModule: Module<AuthState, RootState> = {
   state: {
+    shouldShowTutorial: false,
     accessToken: Cookies.get(ACCESS_TOKEN_COOKIE) ?? null,
   },
   getters: {
@@ -26,6 +28,9 @@ const authModule: Module<AuthState, RootState> = {
     },
   },
   mutations: {
+    setShouldShowTutorial(state, shouldShowTutorial: boolean) {
+      state.shouldShowTutorial = shouldShowTutorial;
+    },
     setAccessToken(state, accessToken: string) {
       state.accessToken = accessToken;
       Cookies.set(ACCESS_TOKEN_COOKIE, accessToken, {
@@ -61,7 +66,7 @@ const authModule: Module<AuthState, RootState> = {
       });
     },
     register(
-      { dispatch },
+      { commit, dispatch },
       payload: { displayName: string; username: string; password: string }
     ) {
       const request = new RegisterRequest();
@@ -69,11 +74,14 @@ const authModule: Module<AuthState, RootState> = {
       request.setUsername(payload.username);
       request.setPassword(payload.password);
 
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>((reject) => {
         services.authClient
           .register(request)
           .then(() => {
-            dispatch("login", payload).then(() => resolve());
+            const promise1 = commit("setShouldShowTutorial", true);
+            const promise2 = dispatch("login", payload);
+
+            return Promise.all([promise1, promise2]);
           })
           .catch((err) => reject(err));
       });
