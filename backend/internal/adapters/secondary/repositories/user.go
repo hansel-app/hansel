@@ -79,6 +79,8 @@ func (r *userRepository) SearchByUsername(searchQuery string) ([]users.User, err
 }
 
 func (r *userRepository) Add(user *users.User) (int64, error) {
+	errorMsg := fmt.Sprintf("unable to insert user: %%w")
+
 	tx := r.db.MustBegin()
 
 	sql, args, _ := qb.Insert(goqu.T("users")).Prepared(true).Rows(user).Returning("id").ToSQL()
@@ -91,7 +93,7 @@ func (r *userRepository) Add(user *users.User) (int64, error) {
 
 	err = stmt.QueryRow(args...).Scan(&userId)
 	if err != nil {
-		return 0, fmt.Errorf("unable to insert user: %w", err)
+		return 0, fmt.Errorf(errorMsg, err)
 	}
 
 	// Newly registered users are automatically friends with Gretel
@@ -111,12 +113,15 @@ func (r *userRepository) Add(user *users.User) (int64, error) {
 			"second_user_id": secondUserID,
 		}).
 		ToSQL()
-	tx.Exec(sql)
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		return 0, fmt.Errorf(errorMsg, err)
+	}
 
 	err = tx.Commit()
-
 	if err != nil {
-		return 0, fmt.Errorf("unable to add new user: %w", err)
+		return 0, fmt.Errorf(errorMsg, err)
 	}
 
 	return userId, nil
