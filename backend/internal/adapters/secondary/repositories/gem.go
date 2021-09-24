@@ -84,7 +84,6 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	// Recursive call; ensure that Gretel doesn't continuously send gems
 	// to herself
 	if shouldGretelSendGem {
-		// TODO: improve message phrasing and add attachment
 		gretelGem := &gems.Gem{
 			Message:    "Congrats, you just sent your first gem!",
 			Latitude:   gem.Latitude,
@@ -93,7 +92,7 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 			ReceiverId: gem.CreatorId,
 			ReceivedAt: nil,
 			Color:      gems.Purple,
-			Attachment: nil,
+			Attachment: constants.GretelGemAttachment,
 		}
 
 		_, err := r.Add(gretelGem)

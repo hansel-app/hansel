@@ -39,7 +39,7 @@ func main() {
 	gretelAvatarPath := filepath.Join("assets", "gretel-avatar.png")
 	imageBytes, ioErr := ioutil.ReadFile(filepath.Clean(gretelAvatarPath))
 	if ioErr != nil {
-		log.Fatalf("failed to read gretel avatar file: %v", err)
+		log.Fatalf("failed to read gretel avatar file: %v", ioErr)
 	}
 
 	var qb = goqu.Dialect("postgres")
