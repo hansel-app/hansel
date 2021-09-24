@@ -80,8 +80,8 @@ export const mockGems: Gem[] = [
     createdBy: mockFriends[0],
     receiver: mockSelfUser,
     receivedAt: null,
-    color: GemColor.BLUE,
-    attachment: "",
+    color: GemColor.PINK,
+    attachment: utownBase64,
   },
 ];
 
