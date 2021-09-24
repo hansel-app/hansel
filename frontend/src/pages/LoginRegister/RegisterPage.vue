@@ -1,8 +1,9 @@
 <template>
-  <div class="background-gradient">
-    <div class="drawer">
-      <h1>Register</h1>
-      <div class="container">
+  <div class="background-gradient-saturated base flex">
+    <div class="center">
+      <WelcomeGem :gemColor="GemColor.PINK" />
+      <div class="drawer">
+        <h1>Register</h1>
         <van-form @submit="handleRegister">
           <van-field
             v-model="fullName"
@@ -64,6 +65,8 @@ import { defineComponent } from "vue";
 import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants";
 import { useStore } from "vuex";
 import { Toast } from "vant";
+import { GemColor } from "@/interfaces";
+import WelcomeGem from "./WelcomeGem.vue";
 
 export default defineComponent({
   data() {
@@ -73,7 +76,11 @@ export default defineComponent({
       password: "",
       confirmPassword: "",
       store: useStore(),
+      GemColor,
     };
+  },
+  components: {
+    WelcomeGem,
   },
   methods: {
     handleRegister() {
@@ -108,8 +115,8 @@ export default defineComponent({
 
 .drawer {
   color: black;
-  background-color: rgba(255, 255, 255, 0.473);
-  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
   border-radius: 2em 2em 2em 2em;
 
   float: left;
@@ -121,11 +128,19 @@ export default defineComponent({
 
   transition: max-height 0.3s;
 
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
+  margin: 0 32px 32px 32px;
+  padding-bottom: 48px;
+  margin-top: 12px;
+}
 
-  margin-right: 5vw;
-  margin-left: 5vw;
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+.center {
+  position: absolute;
+  margin: auto;
+  top: 5%;
 }
 </style>
