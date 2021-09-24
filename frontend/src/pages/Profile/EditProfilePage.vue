@@ -19,6 +19,7 @@
         name="Display name"
         label="Name"
         placeholder="Enter your name"
+        :rules="[charCountValidator]"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
     </van-form>
@@ -77,6 +78,12 @@ export default defineComponent({
     return {
       PROFILE_ROUTE,
       fileList: [] as UploaderFileListItem[],
+      charCountValidator: {
+        validator: (val: string) => {
+          return val.length >= 4 && val.length <= 16;
+        },
+        message: `Must be between ${4} to ${16} characters`,
+      },
     };
   },
   components: {
