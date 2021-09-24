@@ -7,6 +7,8 @@ import {
 import { RootState } from "@/store";
 import Cookies from "js-cookie";
 import { Module } from "vuex";
+import router from "@/router";
+import { LOGIN_ROUTE } from "@/constants";
 
 const ACCESS_TOKEN_COOKIE = "access-token";
 
@@ -79,8 +81,10 @@ const authModule: Module<AuthState, RootState> = {
     },
     logout({ commit }) {
       commit("clearAccessToken");
-      commit("resetGemsStore");
-      commit("resetUserStore");
+      router.push(LOGIN_ROUTE).then(() => {
+        commit("resetGemsStore");
+        commit("resetUserStore");
+      });
     },
   },
 };

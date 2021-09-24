@@ -11,6 +11,7 @@ import {
   SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
+import { blobToUint8Array } from "@/utils/attachment";
 import {
   protoPendingFriendRequestToPendingFriendRequestMapper,
   protoUserToUserMapper,
@@ -179,14 +180,15 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    editOwnProfile(
+    async editOwnProfile(
       _,
-      payload: { newDisplayName?: string; newAvatar?: string }
+      payload: { newDisplayName?: string; newAvatar?: File }
     ) {
       const request = new EditProfileRequest();
       if (payload.newDisplayName)
         request.setNewDisplayName(payload.newDisplayName);
-      if (payload.newAvatar) request.setNewAvatar(payload.newAvatar);
+      if (payload.newAvatar)
+        request.setNewAvatar(await blobToUint8Array(payload.newAvatar));
 
       return new Promise((resolve, reject) => {
         services.userClient
