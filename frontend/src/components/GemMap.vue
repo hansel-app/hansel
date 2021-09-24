@@ -61,8 +61,9 @@
           <van-col>
             <van-icon
               class="circle-button-icon-lg"
-              :name="require('@/assets/images/purple_64.png')"
+              :name="require('@/assets/images/drop-gem-button.png')"
               @click="goToDropGem"
+              size="100"
             />
           </van-col>
 
@@ -242,6 +243,12 @@ export default defineComponent({
     },
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
+      Toast.loading({
+        duration: 2000,
+        forbidClick: true,
+        loadingType: 'spinner',
+        message: 'Centering map to your location',
+      });
     },
 
     getGemImageUrl(gem: Gem) {
