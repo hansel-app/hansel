@@ -13,13 +13,11 @@ import { Module } from "vuex";
 const ACCESS_TOKEN_COOKIE = "access-token";
 
 export interface AuthState {
-  shouldShowTutorial: boolean;
   accessToken: Nullable<string>;
 }
 
 const authModule: Module<AuthState, RootState> = {
   state: {
-    shouldShowTutorial: false,
     accessToken: Cookies.get(ACCESS_TOKEN_COOKIE) ?? null,
   },
   getters: {
@@ -28,9 +26,6 @@ const authModule: Module<AuthState, RootState> = {
     },
   },
   mutations: {
-    setShouldShowTutorial(state, shouldShowTutorial: boolean) {
-      state.shouldShowTutorial = shouldShowTutorial;
-    },
     setAccessToken(state, accessToken: string) {
       state.accessToken = accessToken;
       Cookies.set(ACCESS_TOKEN_COOKIE, accessToken, {
@@ -74,14 +69,12 @@ const authModule: Module<AuthState, RootState> = {
       request.setUsername(payload.username);
       request.setPassword(payload.password);
 
-      return new Promise<void>((reject) => {
+      return new Promise<void>((resolve, reject) => {
         services.authClient
           .register(request)
           .then(() => {
-            const promise1 = commit("setShouldShowTutorial", true);
-            const promise2 = dispatch("login", payload);
-
-            return Promise.all([promise1, promise2]);
+            commit("setShouldShowTutorial", true);
+            dispatch("login", payload).then(() => resolve());
           })
           .catch((err) => reject(err));
       });
