@@ -8,37 +8,122 @@ export const SINGAPORE_CENTER: LatLng = Object.freeze({
   lng: 103.8198,
 });
 
-// copy-pasted from https://snazzymaps.com/style/61/blue-essence
+// copy-pasted from https://snazzymaps.com/style/104349/pastel-cold
 const mapStyles: google.maps.MapTypeStyle[] = [
   {
-    featureType: "landscape.natural",
+    featureType: "administrative",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#53608f",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.country",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        saturation: "22",
+      },
+      {
+        lightness: "7",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.neighborhood",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#53608f",
+      },
+      {
+        lightness: "24",
+      },
+    ],
+  },
+  {
+    featureType: "landscape",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#53608f",
+      },
+    ],
+  },
+  {
+    featureType: "landscape.man_made",
     elementType: "geometry.fill",
     stylers: [
       {
-        color: "#e0efef",
+        color: "#e9ecf5",
+      },
+    ],
+  },
+  {
+    featureType: "landscape.man_made",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#edeff3",
       },
       {
-        visibility: "on",
+        lightness: "-6",
       },
     ],
   },
   {
     featureType: "poi",
-    elementType: "geometry.fill",
+    elementType: "all",
     stylers: [
       {
-        color: "#c0e8e8",
+        saturation: "32",
       },
       {
-        hue: "#1900ff",
+        color: "#e3e5ed",
       },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text.stroke",
+    stylers: [
       {
-        visibility: "on",
+        color: "#ffffff",
+      },
+    ],
+  },
+  {
+    featureType: "poi.attraction",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },
   {
     featureType: "poi.business",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.government",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.medical",
+    elementType: "all",
     stylers: [
       {
         visibility: "off",
@@ -47,7 +132,43 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
   {
     featureType: "poi.park",
-    elementType: "labels.text",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#c0deab",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#919ab7",
+      },
+    ],
+  },
+  {
+    featureType: "poi.place_of_worship",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.school",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.sports_complex",
+    elementType: "all",
     stylers: [
       {
         visibility: "off",
@@ -56,37 +177,163 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
   {
     featureType: "road",
-    elementType: "geometry",
+    elementType: "all",
     stylers: [
       {
-        lightness: 100,
+        visibility: "on",
       },
       {
-        visibility: "simplified",
+        saturation: "-11",
       },
     ],
   },
   {
     featureType: "road",
-    elementType: "labels",
+    elementType: "geometry.stroke",
     stylers: [
       {
-        visibility: "off",
+        visibility: "on",
       },
     ],
   },
   {
-    featureType: "road.arterial",
-    elementType: "labels",
+    featureType: "road",
+    elementType: "labels.text.fill",
     stylers: [
       {
-        visibility: "off",
+        saturation: "0",
+      },
+      {
+        lightness: "0",
+      },
+      {
+        color: "#919ab7",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        saturation: "-24",
+      },
+      {
+        visibility: "on",
+      },
+      {
+        hue: "#e9ff00",
+      },
+      {
+        lightness: "16",
       },
     ],
   },
   {
     featureType: "road.highway",
-    elementType: "labels",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: "0",
+      },
+      {
+        lightness: "0",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#d8cafb",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#b296f8",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        saturation: "55",
+      },
+      {
+        lightness: "0",
+      },
+      {
+        weight: "1",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway.controlled_access",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "on",
+      },
+      {
+        saturation: "0",
+      },
+      {
+        lightness: "16",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway.controlled_access",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#b296f8",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway.controlled_access",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#865bf4",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway.controlled_access",
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "on",
+      },
+      {
+        lightness: "0",
+      },
+      {
+        saturation: "-17",
+      },
+      {
+        hue: "#5c00ff",
+      },
+      {
+        weight: "1.00",
+      },
+      {
+        gamma: "1.00",
+      },
+    ],
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "labels.icon",
     stylers: [
       {
         visibility: "off",
@@ -95,18 +342,34 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
   {
     featureType: "road.local",
+    elementType: "geometry.fill",
     stylers: [
       {
-        visibility: "off",
+        color: "#ffffff",
       },
     ],
   },
   {
-    featureType: "transit.line",
-    elementType: "geometry",
+    featureType: "transit.station",
+    elementType: "geometry.fill",
     stylers: [
       {
-        lightness: 700,
+        visibility: "on",
+      },
+      {
+        hue: "#0000ff",
+      },
+      {
+        saturation: "20",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#e4e5ff",
       },
       {
         visibility: "on",
@@ -115,9 +378,22 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
   {
     featureType: "water",
+    elementType: "geometry.fill",
     stylers: [
       {
-        color: "#7dcdcd",
+        color: "#a8e0ff",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#7ba8ff",
+      },
+      {
+        visibility: "off",
       },
     ],
   },
