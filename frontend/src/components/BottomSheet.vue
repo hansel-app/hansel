@@ -70,7 +70,6 @@ export default defineComponent({
   mounted() {
     getLocationNameFromLatLng(this.gem.position).then(
       (locationName: string) => {
-        console.log(locationName);
         this.gemAddress = locationName;
       }
     );
