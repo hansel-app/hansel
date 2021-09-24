@@ -85,7 +85,8 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	// to herself
 	if shouldGretelSendGem {
 		gretelGem := &gems.Gem{
-			Message:    "Congrats, you just sent your first gem! You can view our exchange in the gem logs at any time. Have fun!",
+			Message:    "Congrats, you just sent your first gem! You can view 
+							our exchange in the gem logs at any time. Have fun!",
 			Latitude:   gem.Latitude,
 			Longitude:  gem.Longitude,
 			CreatorId:  constants.GretelUserId,
