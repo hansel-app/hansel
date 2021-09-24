@@ -19,6 +19,7 @@
         name="Display name"
         label="Name"
         placeholder="Enter your name"
+        :rules="[charCountValidator]"
       />
       <van-button round type="primary" @click="editProfile"> Save </van-button>
     </van-form>
@@ -28,7 +29,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
-import { User } from "@/interfaces/user.ts";
 import { useStore } from "vuex";
 import { PROFILE_ROUTE } from "@/constants";
 import { Uploader, UploaderFileListItem, Toast } from "vant";
@@ -36,18 +36,9 @@ import { Uploader, UploaderFileListItem, Toast } from "vant";
 export default defineComponent({
   setup() {
     const store = useStore();
-    return { store };
-  },
-  computed: {
-    self(): User {
-      return this.store.state.user.self;
-    },
-    username(): string {
-      return this.self.username;
-    },
-    displayName(): string {
-      return this.self.displayName;
-    },
+    const self = store.state.user.self;
+    const initialDisplayName = self.displayName;
+    return { store, self, initialDisplayName };
   },
   methods: {
     editProfile() {
@@ -77,6 +68,13 @@ export default defineComponent({
     return {
       PROFILE_ROUTE,
       fileList: [] as UploaderFileListItem[],
+      displayName: this.initialDisplayName,
+      charCountValidator: {
+        validator: (val: string) => {
+          return val.length >= 4 && val.length <= 16;
+        },
+        message: "Must be between 4 to 16 characters",
+      },
     };
   },
   components: {

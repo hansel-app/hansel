@@ -9,20 +9,29 @@
             v-model="fullName"
             name="fullName"
             placeholder="Full name"
-            :rules="[{ required: true, message: 'Full name is required' }]"
+            :rules="[
+              { required: true, message: 'Full name is required' },
+              charCountValidator,
+            ]"
           />
           <van-field
             v-model="username"
             name="Username"
             placeholder="Username"
-            :rules="[{ required: true, message: 'Username is required' }]"
+            :rules="[
+              { required: true, message: 'Username is required' },
+              charCountValidator,
+            ]"
           />
           <van-field
             v-model="password"
             type="password"
             name="Password"
             placeholder="Password"
-            :rules="[{ required: true, message: 'Password is required' }]"
+            :rules="[
+              { required: true, message: 'Password is required' },
+              charCountValidator,
+            ]"
           />
           <van-field
             v-model="confirmPassword"
@@ -35,6 +44,7 @@
                 validator: validatePasswordConfirmation,
                 message: 'Passwords do not match',
               },
+              charCountValidator,
             ]"
           />
           <div class="button-container">
@@ -77,6 +87,12 @@ export default defineComponent({
       confirmPassword: "",
       store: useStore(),
       GemColor,
+      charCountValidator: {
+        validator: (val: string) => {
+          return val.length >= 4 && val.length <= 16;
+        },
+        message: "Must be between 4 to 16 characters",
+      },
     };
   },
   components: {

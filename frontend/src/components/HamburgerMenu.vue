@@ -48,7 +48,7 @@ import { useStore } from "vuex";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import HamburgerMenuIcon from "@/assets/icons/menu-hamburger.svg";
 import Notification from "@/components/Notification.vue";
-import { Row } from "vant";
+import { Toast, Row } from "vant";
 
 export default defineComponent({
   setup() {
@@ -105,7 +105,10 @@ export default defineComponent({
       }
     },
     logOut() {
-      this.store.dispatch("logout");
+      Toast.loading("Logging out...");
+      setTimeout(() => {
+        this.store.dispatch("logout");
+      }, 2000);
     },
   },
 });

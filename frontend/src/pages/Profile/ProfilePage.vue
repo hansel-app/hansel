@@ -11,7 +11,6 @@
         <Cell title="Edit profile" is-link @click="goToEditProfile" />
         <Cell title="Friends" is-link @click="goToFriendList" />
       </CellGroup>
-      <Cell class="logout" title="Logout" />
     </div>
     <div class="reverse-background-gradient">
       <SemiCircleBg />
@@ -77,10 +76,5 @@ export default defineComponent({
   padding-bottom: 4em;
   color: gray;
   font-weight: lighter !important;
-}
-
-.logout {
-  color: @red;
-  padding-bottom: 2em;
 }
 </style>
