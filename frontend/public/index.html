@@ -9,9 +9,16 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
     />
 
+    <link rel="apple-touch-icon" href="/ios/180.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="<%= BASE_URL %>img/icons/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= BASE_URL %>img/icons/apple-touch-icon-180x180.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="<%= BASE_URL %>img/icons/apple-touch-icon-167x167.png" />
+
     <meta name="theme-color" content="#5f4bae" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
 
     <meta name="description" content="Hansel keeps you connected with your friends, closes the physical distance and helps to create shared memories even when you have missed each other at a place, all while maintaining a touch of novelty and surprise in your conversations.">
@@ -33,7 +40,42 @@
     <link rel="preconnect" href="https://www.google-analytics.com" />
 
     <!-- iOS start up splash screen -->
-    <link rel="apple-touch-startup-image" href="<%= BASE_URL %>splash-screen.png">
+      <!-- iPhone Xs Max (1242px x 2688px) -->
+      <link rel="apple-touch-startup-image"
+      media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+      href="/2688x.png" />
+      <!-- iPhone Xr (828px x 1792px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="/1792x.png" />
+      <!-- iPhone X, Xs (1125px x 2436px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        href="/2436x.png" />
+      <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+        href="/2208x.png">
+      <!-- iPhone 8, 7, 6s, 6 (750px x 1334px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="/1334x.png" />
+      <!-- iPad Pro 12.9" (2048px x 2732px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="/2732x.png" />
+      <!-- iPad Pro 11” (1668px x 2388px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="/2388x.png" />
+      <!-- iPad Pro 10.5" (1668px x 2224px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="/2224x.png" />
+      <!-- iPad Mini, Air (1536px x 2048px) -->
+      <link rel="apple-touch-startup-image"
+        media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="/2048x.png" />
 
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
