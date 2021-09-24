@@ -2,6 +2,13 @@ package users
 
 import "time"
 
+type AddFriendRequestStatus int64
+
+const (
+	SentFriendRequest AddFriendRequestStatus = 0
+	AddedAsFriend     AddFriendRequestStatus = 1
+)
+
 type User struct {
 	ID             int64  `db:"id" goqu:"skipinsert"`
 	Username       string `db:"username"`
