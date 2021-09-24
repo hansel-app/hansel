@@ -7,7 +7,9 @@ With our busy and fast-paced lifestyle, it is difficult for us to meet up with f
 It is especially frustrating when you are even visiting the same places as your friends, but your paths do not cross because of conflicting schedules.
 For example, with most lessons being carried out online, many students who do not stay on campus find that their friends do not turn up for classes on the same day as they do. 
 
-Moreover, the immediacy of social media and messaging apps also mean that conversations are no longer something we actively anticipate or look forward to.
+Moreover, the immediacy of social media and messaging apps also mean that conversations are no longer something we actively anticipate or look forward to. 
+
+Introducing... Hansel!
 
 <p align="center">
    <img src="frontend/public/img/icons/android-chrome-192x192.png">
@@ -23,6 +25,15 @@ After it is dropped, its location will be displayed on the receiver’s map and 
 After collecting and viewing the media package, the gem is then saved to be viewed again later if they wish.
 
 Try Hansel [now](https://hansel-app.com/)!
+
+## Team
+
+| Member      | Role |
+| ----------- | ----------- |
+| Cai Jia Lin (A0205575A) | Full stack, UI, documentation |
+| Ian Yong Yew Chuang (A0135451M) | Full stack, deployment, documentation |
+| Sebastian Toh Shi Jian (A0196545R) | Full stack, deployment, documentation |
+| Wu Weiming (A0210627N) | Frontend, UI, documentation |
 
 ## Getting Started
 
