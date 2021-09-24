@@ -72,8 +72,6 @@ export default defineComponent({
           password: this.password,
         })
         .then(() => this.$router.push(HOME_ROUTE))
-        // TODO: maybe map some error messages to more user facing messages
-        // e.g HTTP response at 400 or 500 => Not connected to server or smth
         .catch((err) => Toast.fail(`Failed to register: ${err.message}`));
     },
     goToLoginPage() {
