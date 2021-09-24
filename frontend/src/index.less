@@ -33,6 +33,7 @@
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 @gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
 @gradient-blue: linear-gradient(150deg, white, #e2e9ff);
+@gradient-blue-saturated: linear-gradient(150deg, white, #a5adfa);
 @profile-gradient: linear-gradient(
     to right,
     hsla(187, 89%, 52%, 0.6),
@@ -172,9 +173,15 @@
 // Cell
 @cell-border-color: transparent;
 
-// Background gradient
+// Background gradients
 .background-gradient {
   background: @gradient-blue;
+  height: 100vh;
+  position: relative;
+}
+
+.background-gradient-saturated {
+  background: @gradient-blue-saturated;
   height: 100vh;
   position: relative;
 }

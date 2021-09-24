@@ -1,49 +1,62 @@
 <template>
-  <!-- TODO: some onboarding screens for user to set displayName and avatar? -->
-  <h1>Register</h1>
-  <div class="container">
-    <van-form @submit="handleRegister">
-      <van-field
-        v-model="fullName"
-        name="fullName"
-        placeholder="Full name"
-        :rules="[{ required: true, message: 'Full name is required' }]"
-      />
-      <van-field
-        v-model="username"
-        name="Username"
-        placeholder="Username"
-        :rules="[{ required: true, message: 'Username is required' }]"
-      />
-      <van-field
-        v-model="password"
-        type="password"
-        name="Password"
-        placeholder="Password"
-        :rules="[{ required: true, message: 'Password is required' }]"
-      />
-      <van-field
-        v-model="confirmPassword"
-        type="password"
-        name="confirmPassword"
-        placeholder="Confirm password"
-        :rules="[
-          { required: true, message: 'Confirm password is required' },
-          {
-            validator: validatePasswordConfirmation,
-            message: 'Passwords do not match',
-          },
-        ]"
-      />
-      <div class="button-container">
-        <van-button round block type="primary" native-type="submit" width="80%">
-          Register
-        </van-button>
+  <div class="background-gradient-saturated base flex">
+    <div class="center">
+      <WelcomeGem :gemColor="GemColor.PINK" />
+      <div class="drawer">
+        <h1>Register</h1>
+        <van-form @submit="handleRegister">
+          <van-field
+            v-model="fullName"
+            name="fullName"
+            placeholder="Full name"
+            :rules="[{ required: true, message: 'Full name is required' }]"
+          />
+          <van-field
+            v-model="username"
+            name="Username"
+            placeholder="Username"
+            :rules="[{ required: true, message: 'Username is required' }]"
+          />
+          <van-field
+            v-model="password"
+            type="password"
+            name="Password"
+            placeholder="Password"
+            :rules="[{ required: true, message: 'Password is required' }]"
+          />
+          <van-field
+            v-model="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            :rules="[
+              { required: true, message: 'Confirm password is required' },
+              {
+                validator: validatePasswordConfirmation,
+                message: 'Passwords do not match',
+              },
+            ]"
+          />
+          <div class="button-container">
+            <van-button
+              round
+              block
+              type="primary"
+              native-type="submit"
+              width="80%"
+            >
+              Register
+            </van-button>
+          </div>
+          <span>
+            Already have an account?
+          </span>
+          <span class="login-prompt" @click="goToLoginPage">
+            Login
+          </span>
+        </van-form>
       </div>
-      <span class="login-prompt" @click="goToLoginPage">
-        Already have an account? Login
-      </span>
-    </van-form>
+    </div>
   </div>
 </template>
 
@@ -52,6 +65,8 @@ import { defineComponent } from "vue";
 import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants";
 import { useStore } from "vuex";
 import { Toast } from "vant";
+import { GemColor } from "@/interfaces";
+import WelcomeGem from "./WelcomeGem.vue";
 
 export default defineComponent({
   data() {
@@ -61,7 +76,11 @@ export default defineComponent({
       password: "",
       confirmPassword: "",
       store: useStore(),
+      GemColor,
     };
+  },
+  components: {
+    WelcomeGem,
   },
   methods: {
     handleRegister() {
@@ -91,6 +110,37 @@ export default defineComponent({
   margin: 16px;
 }
 .login-prompt {
-  padding: 0.5em 1em;
+  color: @primary-color;
+}
+
+.drawer {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 2em 2em 2em 2em;
+
+  float: left;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  padding: 0.5em;
+
+  transition: max-height 0.3s;
+
+  margin: 0 32px 32px 32px;
+  padding-bottom: 48px;
+  margin-top: 12px;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+.center {
+  position: absolute;
+  margin: auto;
+  top: 5%;
 }
 </style>
