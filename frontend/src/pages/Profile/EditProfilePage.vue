@@ -7,7 +7,9 @@
           <van-image
             height="150px"
             width="150px"
-            :src="self.avatar"
+            :src="`data:image/png;base64,${self.avatar}`"
+            round
+            fit="cover"
           ></van-image>
         </template>
       </Uploader>
