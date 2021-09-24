@@ -69,6 +69,10 @@ func (u *UseCases) GetFriends(userID int64) ([]*User, error) {
 	return u.repository.GetFriends(userID)
 }
 
+func (u *UseCases) GetPendingFriends(userID int64) ([]*User, error) {
+	return u.repository.GetPendingFriends(userID)
+}
+
 func (u *UseCases) GetFriendRequests(userID int64) ([]*FriendRequest, error) {
 	return u.repository.GetFriendRequests(userID)
 }

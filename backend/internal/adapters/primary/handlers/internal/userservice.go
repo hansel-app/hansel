@@ -84,6 +84,36 @@ func (s *userService) GetFriends(
 	}, nil
 }
 
+func (s *userService) GetPendingFriends(
+	c context.Context,
+	_ *empty.Empty,
+) (*usersapi.GetPendingFriendsResponse, error) {
+	userId, ok := c.Value(contextkeys.UserID).(int64)
+	if !ok {
+		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
+	}
+
+	pendingFriends, err := s.usecases.GetPendingFriends(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	var friendsInfo []*usersapi.User
+	for _, p := range pendingFriends {
+		friendsInfo = append(friendsInfo,
+			&usersapi.User{
+				UserId:      p.ID,
+				DisplayName: p.DisplayName,
+				Username:    p.Username,
+				Avatar:      p.Avatar,
+			})
+	}
+
+	return &usersapi.GetPendingFriendsResponse{
+		PendingFriends: friendsInfo,
+	}, nil
+}
+
 func (s *userService) SearchByUsername(
 	c context.Context,
 	r *usersapi.SearchByUsernameRequest,
