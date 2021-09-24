@@ -79,7 +79,7 @@ func (r *userRepository) SearchByUsername(searchQuery string) ([]users.User, err
 }
 
 func (r *userRepository) Add(user *users.User) (int64, error) {
-	errorMsg := fmt.Sprintf("unable to insert user: %%w")
+	errorMsg := "unable to insert user: %w"
 
 	tx := r.db.MustBegin()
 
