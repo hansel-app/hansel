@@ -31,6 +31,8 @@ server {
   root /build;
   index index.html;
 
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
   ssl_certificate /etc/letsencrypt/live/hansel-app.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/hansel-app.com/privkey.pem;
   include /etc/letsencrypt/options-ssl-nginx.conf;
