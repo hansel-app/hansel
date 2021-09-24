@@ -133,6 +133,7 @@
 //Icons
 @circle-button-icon-size-lg: 7em;
 @circle-button-icon-size-md: 5em;
+@circle-button-icon-size-sm: 3em;
 @circle-button-icon-size-xs: 2.5em;
 .circle-button-icon-lg {
   font-size: @circle-button-icon-size-lg;
@@ -172,18 +173,24 @@
 // Cell
 @cell-border-color: transparent;
 
-// Background gradient
+// Background gradients
 .background-gradient {
   background: @gradient-blue;
   height: 100vh;
   position: relative;
 }
 
-// Background gradient
 .background-gradient-saturated {
   background: @gradient-blue-saturated;
   height: 100vh;
   position: relative;
+}
+
+.reverse-background-gradient {
+  background: linear-gradient(to bottom, #c0c2e5, #e43d9700);
+  height: 100vh;
+  position: relative;
+  z-index: -2;
 }
 
 .van-cell-group,
@@ -211,6 +218,13 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+// Use this on the parent of the component
+// you want to overlay.
+.base {
+  position: relative;
+}
+
 // Uploader
 @uploader-delete-icon-size: 20px;
 @uploader-icon-size: 40px;
