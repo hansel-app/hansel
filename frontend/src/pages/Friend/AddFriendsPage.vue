@@ -93,6 +93,7 @@ export default defineComponent({
           } else {
             console.error(`Invalid status: ${status}`);
           }
+          this.handleSearch();
         })
         .catch((err) => {
           Toast.fail(
