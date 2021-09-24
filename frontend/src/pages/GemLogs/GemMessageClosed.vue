@@ -1,5 +1,5 @@
 <template>
-  <van-row :justify="justify" class="fill-width">
+  <van-row :justify="justify" class="fill-width gem-message-closed">
     <van-cell
       v-if="isSentBySelf"
       class="gem-message"
@@ -14,8 +14,10 @@
         />
       </template>
       <template #title>
-        <p>New gem!</p>
-        <p>{{ gemLocation }}</p>
+        <van-col class="text">
+          <p class="content new-gem-text">New gem!</p>
+          <p class="address-text">{{ gemLocation }}</p>
+        </van-col>
       </template>
     </van-cell>
     <van-cell v-else class="gem-message" v-bind:style="gemMessageStyle" center>
@@ -27,8 +29,10 @@
         />
       </template>
       <template #title>
-        <p>New gem!</p>
-        <p>{{ gemLocation }}</p>
+        <van-col class="text">
+          <p class="content new-gem-text">New gem!</p>
+          <p class="address-text">{{ gemLocation }}</p>
+        </van-col>
       </template>
     </van-cell>
   </van-row>
@@ -92,5 +96,25 @@ export default defineComponent({
 
 .gem-icon {
   font-size: @circle-button-icon-size-sm;
+}
+
+.gem-message-closed {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.text {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.new-gem-text {
+  height: 1rem;
+  margin-top: -0.5vh;
+  text-align: right;
+}
+
+.address-text {
+  font-size: @font-size-md;
+  height: 2rem;
 }
 </style>

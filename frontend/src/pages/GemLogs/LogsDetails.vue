@@ -112,12 +112,12 @@ export default defineComponent({
 }
 
 .header {
-  height: 25vh;
+  height: 22vh;
   background-color: white;
 }
 
 .log-details-header {
-  height: 15vh;
+  height: 12vh;
 }
 
 </style>
