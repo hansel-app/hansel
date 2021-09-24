@@ -1,7 +1,7 @@
 <template>
-  <div 
-    class="drawer" 
-    @click="toggleBottomSheet" 
+  <div
+    class="drawer"
+    @click="toggleBottomSheet"
     v-touch:swipe.top="swipeBottomSheetUp"
     v-touch:swipe.bottom="swipeBottomSheetDown"
   >
@@ -11,19 +11,19 @@
       </van-row>
       <div v-if="!collapsed">
         <FriendCell
-        :key="friend.id"
-        :friend="friend"
-        :isClickable="true"
-        :shouldDisplayUsername="true"
+          :key="friend.id"
+          :friend="friend"
+          :isClickable="true"
+          :shouldDisplayUsername="true"
         />
         <van-row class="message-details content">
-          <img :src="MapIcon" id="icon">
+          <img :src="MapIcon" id="icon" />
           <van-col span="19">
             <p>{{ gemAddress }}</p>
           </van-col>
         </van-row>
         <van-row class="message-details content">
-          <img :src="CalendarIcon" id="icon">
+          <img :src="CalendarIcon" id="icon" />
           <van-col span="19">
             <p>{{ displayDropDateTime }}</p>
           </van-col>
@@ -39,13 +39,11 @@ import { Gem, User } from "@/interfaces";
 import { defineComponent, PropType, ref, computed } from "vue";
 import { Row, Button } from "vant";
 import { formatDateTime } from "@/utils/date";
+import { getLocationNameFromLatLng } from "@/utils/geolocation";
 import { HOME_ROUTE } from "@/constants";
 import CalendarIcon from "@/assets/icons/calendar.svg";
 import MapIcon from "@/assets/icons/map.svg";
-import FriendCell from "@/components/FriendCell.vue"
-import axios from "axios";
-
-const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
+import FriendCell from "@/components/FriendCell.vue";
 
 export default defineComponent({
   setup() {
@@ -69,11 +67,12 @@ export default defineComponent({
       MapIcon,
     };
   },
-  mounted () {
-    axios
-      .get(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + this.gem.position.lat + ',' + this.gem.position.lng + '&key=' + GOOGLE_API_KEY)
-      .then(response => (this.gemAddress = response.data.results[1].formatted_address));
+  mounted() {
+    getLocationNameFromLatLng(this.gem.position).then(
+      (locationName: string) => {
+        this.gemAddress = locationName;
+      }
+    );
   },
   components: {
     "van-button": Button,
@@ -84,12 +83,12 @@ export default defineComponent({
     gem: {
       type: Object as PropType<Gem>,
       required: true,
-    }
+    },
   },
   data() {
-    return { 
+    return {
       friend: this.gem.createdBy as User,
-      gemAddress: null,
+      gemAddress: "" as string,
     };
   },
   computed: {
