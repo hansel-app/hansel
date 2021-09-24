@@ -67,12 +67,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="less">
-.gem-message {
-  width: 70%;
-  padding: 1em 0.5em;
-  word-wrap: break-word;
-  border-radius: @border-radius-lg;
-}
-</style>

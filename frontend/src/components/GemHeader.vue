@@ -37,10 +37,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.stack-container {
-  height: 55vh;
-}
-
 .gem-image {
   width: 28vh;
   height: 28vh;

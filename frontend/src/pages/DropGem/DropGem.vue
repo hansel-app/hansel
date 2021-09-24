@@ -128,9 +128,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.nav-bar {
-  position: absolute;
-}
 .form-navigation-button {
   width: 80vw;
 }

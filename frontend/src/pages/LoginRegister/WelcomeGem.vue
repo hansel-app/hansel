@@ -22,9 +22,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="less">
-.welcome-gem {
-  font-size: @circle-button-icon-size-lg;
-}
-</style>

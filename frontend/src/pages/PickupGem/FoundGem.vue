@@ -86,12 +86,6 @@ export default defineComponent({
   transform: translateX(-50%);
 }
 
-h1 {
-  font-family: CircularStd-Black;
-  font-size: 3em;
-  color: rgb(87, 40, 80);
-}
-
 .big-header {
   color: black;
   margin-top: -1em;
