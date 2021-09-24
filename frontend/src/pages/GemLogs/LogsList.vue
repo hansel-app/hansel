@@ -3,7 +3,7 @@
     <BackSwipe />
     <Header title="Gem logs" />
     <div class="container">
-      <Searchbar placeholder="Search a friend" @input="onSearchQueryInput" />
+      <Searchbar v-model="searchQuery" placeholder="Search a friend" @input="filterFriends" />
       <CellGroup>
         <LogsPreview
           v-for="friendAndActivity in state.filteredFriendsAndActivities"
@@ -76,7 +76,6 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
-      searchQuery: "",
       isCloseWindow: true,
       filteredFriendsAndActivities: [] as FriendAndMostRecentGemActivity[],
     });
@@ -95,6 +94,11 @@ export default defineComponent({
       state,
     };
   },
+  data() {
+    return {
+      searchQuery: "",
+    };
+  },
   computed: {
     ...mapState({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,13 +109,8 @@ export default defineComponent({
     },
   },
   methods: {
-    onSearchQueryInput(event: Event) {
-      const target = event.target as HTMLInputElement;
-      this.state.searchQuery = target.value;
-      this.filterFriends();
-    },
     filterFriends() {
-      if (this.state.searchQuery.length === 0) {
+      if (this.searchQuery.length === 0) {
         this.state.filteredFriendsAndActivities = this.allFriends;
         return;
       }
@@ -122,10 +121,10 @@ export default defineComponent({
 
           const matchUsername = friend.username
             .toLowerCase()
-            .includes(this.state.searchQuery.toLowerCase());
+            .includes(this.searchQuery.toLowerCase());
           const matchDisplayname = friend.displayName
             .toLowerCase()
-            .includes(this.state.searchQuery.toLowerCase());
+            .includes(this.searchQuery.toLowerCase());
           return matchUsername || matchDisplayname;
         }
       );

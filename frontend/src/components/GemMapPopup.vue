@@ -1,6 +1,6 @@
 <template>
   <van-cell>
-    <template v-if="numberGemsPendingCollection > 0">
+    <template #value v-if="numberGemsPendingCollection > 0">
       <van-row>
         <van-col span="12">
           <van-row>
@@ -26,7 +26,7 @@
       </van-row>
     </template>
 
-    <template v-else>
+    <template #value v-else>
       <van-row>
         You currently have no uncollected gems~
       </van-row>

@@ -48,7 +48,6 @@ export default defineComponent({
     }),
     previewMessage(): string {
       const isPickedUp = this.mostRecentGemActivity.receivedAt !== null;
-      // TODO: replace hardcoded user value with this.store.user.self.id;
       const isSelfCreator =
         this.mostRecentGemActivity.createdBy.userId === this.selfUser.userId;
 

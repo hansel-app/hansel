@@ -1,7 +1,7 @@
 <template>
   <div class="profile-page">
     <div class="overlay container">
-      <Header />
+      <Header title=""/>
       <ProfileAvatar :avatarUrl="self.avatar" />
       <div class="header">
         {{ self.displayName }}

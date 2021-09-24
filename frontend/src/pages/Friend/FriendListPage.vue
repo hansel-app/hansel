@@ -2,14 +2,19 @@
   <div class="background-gradient">
     <Header title="Friends" :backLink="PROFILE_ROUTE" />
     <div class="container">
-      <CellGroup>
-        <FriendCell
-          v-for="friend in sortedFriends"
-          :key="friend.id"
-          :friend="friend"
-          :shouldDisplayUsername="true"
-        />
-      </CellGroup>
+      <div v-if="sortedFriends.length > 0">
+        <CellGroup>
+          <FriendCell
+            v-for="friend in sortedFriends"
+            :key="friend.id"
+            :friend="friend"
+            :shouldDisplayUsername="true"
+          />
+        </CellGroup>
+      </div>
+      <div v-else>
+        <i>You have not added any friends yet!</i> &#x1f4a9;
+      </div>
     </div>
   </div>
 </template>
