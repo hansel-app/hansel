@@ -1,6 +1,7 @@
 <template>
   <Swiper
     ref="swiperRef"
+    class="gem-color-carousel"
     :slides-per-view="4"
     :space-between="25"
     :centered-slides="true"
@@ -56,5 +57,10 @@ export default defineComponent({
 .gem-color-button {
   width: 3rem;
   height: 3rem;
+}
+
+.gem-color-carousel {
+  margin-top: -2vh;
+  margin-bottom: -1vh;
 }
 </style>

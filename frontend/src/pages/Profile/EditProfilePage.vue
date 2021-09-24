@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay">
+  <div class="overlay background-gradient">
     <Header title="Edit Profile" :backLink="PROFILE_ROUTE" />
     <van-form class="container">
       <Uploader v-model="fileList" :max-count="1" :preview-size="150">
@@ -7,8 +7,11 @@
           <van-image
             height="150px"
             width="150px"
-            :src="self.avatar"
-          ></van-image>
+            :src="`data:image/png;base64,${self.avatar}`"
+            round
+            fit="cover"
+          >
+          </van-image>
         </template>
       </Uploader>
       <van-field
@@ -84,10 +87,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.container {
-  padding-top: 2em;
-}
-
 .van-field {
   padding: 3em 0;
 }

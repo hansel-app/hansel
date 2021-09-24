@@ -9,7 +9,7 @@
         <Uploader
           v-model="fileList"
           :max-count="1"
-          :preview-size="150"
+          :preview-size="100"
           :after-read="afterFileRead"
         >
         </Uploader>
@@ -73,6 +73,6 @@ export default defineComponent({
 }
 
 .van-uploader {
-  padding-top: 1em;
+  padding-top: 0.5em;
 }
 </style>
