@@ -1,49 +1,58 @@
 <template>
-  <!-- TODO: some onboarding screens for user to set displayName and avatar? -->
-  <h1>Register</h1>
-  <div class="container">
-    <van-form @submit="handleRegister">
-      <van-field
-        v-model="fullName"
-        name="fullName"
-        placeholder="Full name"
-        :rules="[{ required: true, message: 'Full name is required' }]"
-      />
-      <van-field
-        v-model="username"
-        name="Username"
-        placeholder="Username"
-        :rules="[{ required: true, message: 'Username is required' }]"
-      />
-      <van-field
-        v-model="password"
-        type="password"
-        name="Password"
-        placeholder="Password"
-        :rules="[{ required: true, message: 'Password is required' }]"
-      />
-      <van-field
-        v-model="confirmPassword"
-        type="password"
-        name="confirmPassword"
-        placeholder="Confirm password"
-        :rules="[
-          { required: true, message: 'Confirm password is required' },
-          {
-            validator: validatePasswordConfirmation,
-            message: 'Passwords do not match',
-          },
-        ]"
-      />
-      <div class="button-container">
-        <van-button round block type="primary" native-type="submit" width="80%">
-          Register
-        </van-button>
+  <div class="background-gradient">
+    <div class="drawer">
+      <h1>Register</h1>
+      <div class="container">
+        <van-form @submit="handleRegister">
+          <van-field
+            v-model="fullName"
+            name="fullName"
+            placeholder="Full name"
+            :rules="[{ required: true, message: 'Full name is required' }]"
+          />
+          <van-field
+            v-model="username"
+            name="Username"
+            placeholder="Username"
+            :rules="[{ required: true, message: 'Username is required' }]"
+          />
+          <van-field
+            v-model="password"
+            type="password"
+            name="Password"
+            placeholder="Password"
+            :rules="[{ required: true, message: 'Password is required' }]"
+          />
+          <van-field
+            v-model="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            :rules="[
+              { required: true, message: 'Confirm password is required' },
+              {
+                validator: validatePasswordConfirmation,
+                message: 'Passwords do not match',
+              },
+            ]"
+          />
+          <div class="button-container">
+            <van-button
+              round
+              block
+              type="primary"
+              native-type="submit"
+              width="80%"
+            >
+              Register
+            </van-button>
+          </div>
+          <span class="login-prompt" @click="goToLoginPage">
+            Already have an account? Login
+          </span>
+        </van-form>
       </div>
-      <span class="login-prompt" @click="goToLoginPage">
-        Already have an account? Login
-      </span>
-    </van-form>
+    </div>
   </div>
 </template>
 
@@ -92,5 +101,28 @@ export default defineComponent({
 }
 .login-prompt {
   padding: 0.5em 1em;
+}
+
+.drawer {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.473);
+  backdrop-filter: blur(5px);
+  border-radius: 2em 2em 2em 2em;
+
+  float: left;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  padding: 0.5em;
+
+  transition: max-height 0.3s;
+
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+
+  margin-right: 5vw;
+  margin-left: 5vw;
 }
 </style>
