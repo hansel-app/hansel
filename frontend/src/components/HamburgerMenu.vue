@@ -55,7 +55,6 @@ import {
   ADD_FRIENDS_ROUTE,
   FRIEND_REQUESTS_ROUTE,
   GEM_LOGS_ROUTE,
-  LOGIN_ROUTE,
 } from "@/constants";
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
@@ -119,7 +118,7 @@ export default defineComponent({
       }
     },
     logOut() {
-      this.store.dispatch("logout").then(() => this.$router.push(LOGIN_ROUTE));
+      this.store.dispatch("logout");
     },
   },
 });
