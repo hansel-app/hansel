@@ -178,6 +178,25 @@ func (r *userRepository) GetFriends(id int64) ([]*users.User, error) {
 	return friends, nil
 }
 
+func (r *userRepository) GetPendingFriends(id int64) ([]*users.User, error) {
+	sql, _, _ := qb.
+		Select(goqu.I("users.*")).
+		From("users").
+		LeftOuterJoin(goqu.T("friend_requests"), goqu.On(goqu.Ex{
+			"users.id": goqu.I("friend_requests.receiver_id"),
+		})).
+		Where(goqu.I("friend_requests.requester_id").Eq(id)).
+		ToSQL()
+
+	var pendingFriends []*users.User
+	err := r.db.Select(&pendingFriends, sql)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get pending friends for user with id %d: %w", id, err)
+	}
+
+	return pendingFriends, nil
+}
+
 func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRequest, error) {
 	sql, _, _ := qb.
 		Select(goqu.I("users.*"), goqu.I("friend_requests.created_at")).

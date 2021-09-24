@@ -9,6 +9,7 @@ service UserService {
   rpc GetOwnProfile (google.protobuf.Empty) returns (GetOwnProfileResponse);
   rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
   rpc GetFriends (google.protobuf.Empty) returns (GetFriendsResponse);
+  rpc GetPendingFriends (google.protobuf.Empty) returns (GetPendingFriendsResponse);
   rpc GetFriendRequests (google.protobuf.Empty) returns (GetFriendRequestsResponse);
   rpc AddFriendRequest (FriendRequest) returns (AddFriendRequestResponse);
   rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
@@ -39,6 +40,10 @@ message SearchByUsernameResponse {
 
 message GetFriendsResponse {
   repeated User friends = 1;
+}
+
+message GetPendingFriendsResponse {
+  repeated User pending_friends = 1;
 }
 
 message PendingFriendRequest {

@@ -8,6 +8,7 @@ import {
   GetFriendRequestsResponse,
   GetFriendsResponse,
   GetOwnProfileResponse,
+  GetPendingFriendsResponse,
   SearchByUsernameRequest,
   SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
@@ -24,6 +25,7 @@ import { Module } from "vuex";
 export interface UserState {
   shouldShowTutorial: boolean;
   friends: User[];
+  pendingFriends: User[];
 
   // PendingFriendRequests includes User + datetime of request.
   friendRequests: PendingFriendRequest[];
@@ -34,6 +36,7 @@ export interface UserState {
 const initialState: UserState = {
   shouldShowTutorial: false,
   friends: [],
+  pendingFriends: [],
   friendRequests: [],
   self: undefined,
   currPosition: SINGAPORE_CENTER,
@@ -56,6 +59,9 @@ const userModule: Module<UserState, RootState> = {
     },
     setFriends(state, friends: User[]) {
       state.friends = friends;
+    },
+    setPendingFriends(state, pendingFriends: User[]) {
+      state.pendingFriends = pendingFriends;
     },
     setFriendRequests(state, pendingFriends: PendingFriendRequest[]) {
       state.friendRequests = pendingFriends;
@@ -104,6 +110,20 @@ const userModule: Module<UserState, RootState> = {
           .catch((err) => reject(err));
       });
     },
+    getPendingFriends({ commit }) {
+      return new Promise((resolve, reject) => {
+        services.userClient
+          .getPendingFriends(new Empty())
+          .then((resp: GetPendingFriendsResponse) => {
+            const pendingFriends: User[] = resp
+              .getPendingFriendsList()
+              .map(protoUserToUserMapper);
+            commit("setPendingFriends", pendingFriends);
+            resolve(resp);
+          })
+          .catch((err) => reject(err));
+      });
+    },
     searchByUsername(_, searchQuery: string) {
       const request = new SearchByUsernameRequest();
       request.setSearchQuery(searchQuery);
@@ -134,7 +154,6 @@ const userModule: Module<UserState, RootState> = {
           .catch((err) => reject(err));
       });
     },
-
     sendFriendRequest({ dispatch }, receiverId) {
       const request = new FriendRequest();
       request.setReceiverId(receiverId);
@@ -144,6 +163,7 @@ const userModule: Module<UserState, RootState> = {
           .addFriendRequest(request)
           .then((resp: AddFriendRequestResponse) => {
             dispatch("getFriends");
+            dispatch("getPendingFriends");
             dispatch("getFriendRequests");
             resolve(resp);
           })
@@ -160,6 +180,7 @@ const userModule: Module<UserState, RootState> = {
           .acceptFriendRequest(request)
           .then((resp) => {
             dispatch("getFriends");
+            dispatch("getPendingFriends");
             dispatch("getFriendRequests");
             resolve(resp);
           })

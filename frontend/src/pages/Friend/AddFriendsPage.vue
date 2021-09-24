@@ -3,7 +3,7 @@
     <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Searchbar v-model="searchQuery" placeholder="Search by username" @input="handleSearch" />
+      <Searchbar v-model="searchQuery" placeholder="Search by username" />
       <div v-if="filteredUsers.length > 0">
         <CellGroup>
           <FriendCell
@@ -58,6 +58,8 @@ export default defineComponent({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       friends: (state: any) => state.user.friends as User[],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pendingFriends: (state: any) => state.user.pendingFriends as User[],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       selfUser: (state: any) => state.user.self as User,
     }),
     filteredUsers(): User[] {
@@ -65,6 +67,7 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
+      this.handleSearch();
       return this.users as User[];
     },
   },
@@ -74,11 +77,12 @@ export default defineComponent({
     },
     handleSearch() {
       const filterFriends = (user: User) => !this.friends.map(x => x.userId).includes(user.userId);
+      const filterPendingFriends = (user: User) => !this.pendingFriends.map(x => x.userId).includes(user.userId);
       const filterSelf = (user: User) => this.selfUser.userId != user.userId;
       this.store
         .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {
-          this.users = users.filter(filterFriends).filter(filterSelf);
+          this.users = users.filter(filterFriends).filter(filterPendingFriends).filter(filterSelf);
         });
     },
     addFriend(user: User) {
