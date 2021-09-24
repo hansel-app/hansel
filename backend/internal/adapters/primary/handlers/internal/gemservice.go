@@ -206,6 +206,7 @@ func (s *gemService) GetGemLogs(
 				},
 				ReceivedAt: receivedAt,
 				Color:      gemsapi.GemColor(gem.Color),
+				Attachment: gem.Attachment,
 			}
 			processedGems = append(processedGems, &processedGem)
 		}
