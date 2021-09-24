@@ -91,7 +91,7 @@ export default defineComponent({
         validator: (val: string) => {
           return val.length >= 4 && val.length <= 16;
         },
-        message: `Must be between ${4} to ${16} characters`,
+        message: "Must be between 4 to 16 characters",
       },
     };
   },
