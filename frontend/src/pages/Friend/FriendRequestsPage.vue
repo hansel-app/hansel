@@ -42,6 +42,7 @@ import FriendCell from "@/components/FriendCell.vue";
 import { useStore } from "vuex";
 import Header from "@/components/Header.vue";
 import { PendingFriendRequest } from "@/interfaces";
+import { Toast } from "vant";
 
 export default defineComponent({
   setup() {
@@ -70,10 +71,20 @@ export default defineComponent({
       this.$router.back();
     },
     acceptFriendRequest(requesterId: number) {
-      this.store.dispatch("acceptFriendRequest", requesterId);
+      const acceptRequest = () => this.store.dispatch("acceptFriendRequest", requesterId);
+      acceptRequest()
+        .then(() => {
+          Toast.success("Friend request accepted!");
+        })
+        .catch((err) => Toast.fail(`Failed to accept request: ${err.message}`));
     },
     declineFriendRequest(requesterId: number) {
-      this.store.dispatch("declineFriendRequest", requesterId);
+      const declineRequest = () => this.store.dispatch("declineFriendRequest", requesterId);
+      declineRequest()
+        .then(() => {
+          Toast.success("Friend request declined!");
+        })
+        .catch((err) => Toast.fail(`Failed to decline request: ${err.message}`));
     },
   },
 });
