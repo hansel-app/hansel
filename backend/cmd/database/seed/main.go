@@ -49,7 +49,7 @@ func main() {
 
 	stmt, err := db.Prepare(sql)
 	if err != nil {
-		log.Fatalf("failed to prepare statement: %w", err)
+		log.Fatalf("failed to prepare statement: %v", err)
 	}
 	_, err = stmt.Exec(args...)
 
