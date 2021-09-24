@@ -244,10 +244,10 @@ export default defineComponent({
     centerMapOnCurrentLocation() {
       this.mapRef?.map?.panTo(this.currPosition);
       Toast.loading({
-        duration: 2000,
+        duration: 1000,
         forbidClick: true,
-        loadingType: 'spinner',
-        message: 'Centering map to your location',
+        loadingType: "spinner",
+        message: "Centering map to your location",
       });
     },
 
