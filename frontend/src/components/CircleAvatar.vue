@@ -1,6 +1,7 @@
 <template>
   <Image
     round
+    fit="cover"
     :src="src"
     v-bind:style="dimensions"
     :show-loading="showLoading"
