@@ -10,7 +10,8 @@
             :src="`data:image/png;base64,${self.avatar}`"
             round
             fit="cover"
-          ></van-image>
+          >
+          </van-image>
         </template>
       </Uploader>
       <van-field
@@ -86,10 +87,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.container {
-  padding-top: 2em;
-}
-
 .van-field {
   padding: 3em 0;
 }

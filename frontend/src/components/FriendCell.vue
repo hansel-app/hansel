@@ -5,6 +5,7 @@
     :label="label"
     :is-link="isClickable"
     class="content remove-padding"
+    v-bind:class="purpleSelect"
   >
     <template #icon>
       <CircleAvatar
@@ -51,6 +52,9 @@ export default defineComponent({
       }
       return this.shouldDisplayUsername ? "@" + this.friend.username : "";
     },
+    purpleSelect() {
+      return this.isClickable ? 'hover-change' : '';
+    }
   },
   components: {
     Cell,
@@ -82,7 +86,7 @@ export default defineComponent({
   border-radius: 100em;
 }
 
-.van-cell:hover {
+.hover-change:hover {
   background: @primary-color;
   color: white;
 }
