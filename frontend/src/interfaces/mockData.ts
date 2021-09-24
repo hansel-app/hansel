@@ -46,6 +46,7 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: null,
     color: GemColor.PURPLE,
+    attachment: "",
   },
   {
     id: 222,
@@ -56,6 +57,7 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: null,
     color: GemColor.BLACK,
+    attachment: "",
   },
   {
     id: 333,
@@ -66,5 +68,6 @@ export const mockGems: Gem[] = [
     receiver: mockSelfUser,
     receivedAt: null,
     color: GemColor.BLUE,
+    attachment: "",
   },
 ];

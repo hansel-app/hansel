@@ -31,6 +31,7 @@ import { Loading } from "vant";
 import HamburgerMenu from "@/components/HamburgerMenu.vue";
 import { mapState, useStore } from "vuex";
 import { PendingFriendRequest } from "@/protobuf/user_pb";
+import { mockFriends, mockSelfUser, mockGems } from "@/interfaces/mockData";
 
 export default defineComponent({
   components: {
@@ -42,6 +43,10 @@ export default defineComponent({
     const store = useStore();
     const fetchGems = () => store.dispatch("getGemsPendingCollectionForUser");
     const fetchFriendRequests = () => store.dispatch("getFriendRequests");
+
+    store.commit("setSelfInfo", mockSelfUser);
+    store.commit("setFriends", mockFriends);
+    store.commit("setGemsPendingCollection", mockGems);
 
     onMounted(() => {
       fetchGems();
