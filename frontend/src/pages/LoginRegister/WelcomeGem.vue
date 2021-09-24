@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
 import { GemColor } from "@/interfaces";
 
 export default defineComponent({
   props: {
     gemColor: {
-      type: Object as PropType<GemColor>,
+      type: String,
       required: true,
     },
   },
