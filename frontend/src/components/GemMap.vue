@@ -194,7 +194,7 @@ export default defineComponent({
       currPosition: (state: any) => state.user.currPosition as LatLng,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       shouldShowTutorial: (state: any) =>
-        state.auth.shouldShowTutorial as boolean,
+        state.user.shouldShowTutorial as boolean,
     }),
     mapConfig() {
       return {
