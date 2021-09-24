@@ -87,7 +87,7 @@ export default defineComponent({
           Toast.success(`Successfully sent friend request to @${user.username}`)
         )
         .catch((err) => {
-          Toast.success(
+          Toast.fail(
             `Failed to send friend request to @${user.username}. Try again later!`
           );
           console.error(err);
