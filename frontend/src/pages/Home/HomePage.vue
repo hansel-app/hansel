@@ -27,7 +27,6 @@
 import { onMounted, defineComponent } from "vue";
 import GemMap from "@/components/GemMap.vue";
 import { Gem } from "@/interfaces";
-import { mockSelfUser, mockFriends } from "@/interfaces/mockData";
 import { Loading } from "vant";
 import HamburgerMenu from "@/components/HamburgerMenu.vue";
 import { mapState, useStore } from "vuex";
