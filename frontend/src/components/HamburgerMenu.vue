@@ -14,35 +14,22 @@
             Profile
           </CircleAvatar>
         </div>
-        <div class="menu" :style="{ width: menuWidth }">
-          <div class="menu-contents" v-if="!collapsed">
-            <div class="avatar">
-              <CircleAvatar
-                :avatarUrl="self.avatar"
-                :radius="2.5"
-                @click="goToProfile"
-              >
-                Profile
-              </CircleAvatar>
-            </div>
-            <div class="links">
-              <van-row tabindex="1" @click="goToLogs">
-                <p>Gem logs</p>
-              </van-row>
-              <van-row tabindex="2" @click="goToAddFriends">
-                <p>Add friends</p>
-              </van-row>
-              <van-row tabindex="3" @click="goToFriendRequests">
-                <p>Friend requests</p>
-                <van-col v-if="requestCount > 0">
-                  <Notification :requestCount="requestCount"/>
-                </van-col>
-              </van-row>
-              <van-row class="log-out" tabindex="4" @click="logOut">
-                <p>Log out</p>
-              </van-row>
-            </div>
-          </div>
+        <div class="links">
+          <van-row tabindex="1" @click="goToLogs">
+            <p>Gem logs</p>
+          </van-row>
+          <van-row tabindex="2" @click="goToAddFriends">
+            <p>Add friends</p>
+          </van-row>
+          <van-row tabindex="3" @click="goToFriendRequests">
+            <p>Friend requests</p>
+            <van-col v-if="requestCount > 0">
+              <Notification :requestCount="requestCount" />
+            </van-col>
+          </van-row>
+          <van-row class="log-out" tabindex="4" @click="logOut">
+            <p>Log out</p>
+          </van-row>
         </div>
       </div>
     </div>
