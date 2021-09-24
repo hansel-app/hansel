@@ -44,10 +44,6 @@ export default defineComponent({
     const fetchGems = () => store.dispatch("getGemsPendingCollectionForUser");
     const fetchFriendRequests = () => store.dispatch("getFriendRequests");
 
-    // [for testing purposes]
-    store.commit("setSelfUser", mockSelfUser);
-    store.commit("setFriends", mockFriends);
-
     onMounted(() => {
       fetchGems();
       fetchFriendRequests();
