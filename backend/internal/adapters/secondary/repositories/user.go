@@ -111,7 +111,7 @@ func (r *userRepository) Add(user *users.User) (int64, error) {
 			"second_user_id": secondUserID,
 		}).
 		ToSQL()
-	tx.MustExec(sql)
+	tx.Exec(sql)
 
 	err = tx.Commit()
 
