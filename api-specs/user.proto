@@ -10,12 +10,11 @@ service UserService {
   rpc SearchByUsername (SearchByUsernameRequest) returns (SearchByUsernameResponse);
   rpc GetFriends (google.protobuf.Empty) returns (GetFriendsResponse);
   rpc GetFriendRequests (google.protobuf.Empty) returns (GetFriendRequestsResponse);
-  rpc AddFriendRequest (FriendRequest) returns (google.protobuf.Empty);
+  rpc AddFriendRequest (FriendRequest) returns (AddFriendRequestResponse);
   rpc AcceptFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc DeclineFriendRequest (FriendRequest) returns (google.protobuf.Empty);
   rpc Block (FriendRequest) returns (google.protobuf.Empty);
   rpc EditOwnProfile (EditProfileRequest) returns (google.protobuf.Empty);
-
 }
 
 message User {
@@ -54,6 +53,15 @@ message GetFriendRequestsResponse {
 message FriendRequest {
   int64 requester_id = 1;
   int64 receiver_id = 2;
+}
+
+enum AddFriendRequestStatus {
+  SENT_FRIEND_REQUEST = 0;
+  ADDED_AS_FRIEND = 1;
+}
+
+message AddFriendRequestResponse {
+  AddFriendRequestStatus status = 1;
 }
 
 message EditProfileRequest {
