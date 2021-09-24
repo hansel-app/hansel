@@ -1,7 +1,11 @@
 <template>
   <van-row :justify="justify">
     <van-row :justify="justify">
-      <van-image class="gem-image" :src="gem.attachment" radius="1em" />
+      <van-image
+        class="gem-image"
+        :src="`data:image/png;base64,${gem.attachment}`"
+        radius="1em"
+      />
     </van-row>
     <p class="gem-message" v-bind:style="gemMessageStyle">
       {{ gem.message }}
