@@ -3,7 +3,7 @@
     <BackSwipe />
     <Header title="Add friends" />
     <div class="container">
-      <Searchbar v-model="searchQuery" placeholder="Search by username" @input="handleSearch" />
+      <Searchbar v-model="searchQuery" placeholder="Search by username" />
       <div v-if="filteredUsers.length > 0">
         <CellGroup>
           <FriendCell
@@ -67,6 +67,7 @@ export default defineComponent({
         // Don't display any users when search bar is empty.
         return [];
       }
+      this.handleSearch();
       return this.users as User[];
     },
   },

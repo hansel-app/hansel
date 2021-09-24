@@ -163,6 +163,7 @@ const userModule: Module<UserState, RootState> = {
           .addFriendRequest(request)
           .then((resp: AddFriendRequestResponse) => {
             dispatch("getFriends");
+            dispatch("getPendingFriends");
             dispatch("getFriendRequests");
             resolve(resp);
           })
@@ -179,6 +180,7 @@ const userModule: Module<UserState, RootState> = {
           .acceptFriendRequest(request)
           .then((resp) => {
             dispatch("getFriends");
+            dispatch("getPendingFriends");
             dispatch("getFriendRequests");
             resolve(resp);
           })
