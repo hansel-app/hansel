@@ -58,6 +58,8 @@ export default defineComponent({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       friends: (state: any) => state.user.friends as User[],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pendingFriends: (state: any) => state.user.pendingFriends as User[],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       selfUser: (state: any) => state.user.self as User,
     }),
     filteredUsers(): User[] {
@@ -74,11 +76,12 @@ export default defineComponent({
     },
     handleSearch() {
       const filterFriends = (user: User) => !this.friends.map(x => x.userId).includes(user.userId);
+      const filterPendingFriends = (user: User) => !this.pendingFriends.map(x => x.userId).includes(user.userId);
       const filterSelf = (user: User) => this.selfUser.userId != user.userId;
       this.store
         .dispatch("searchByUsername", this.searchQuery)
         .then((users: User[]) => {
-          this.users = users.filter(filterFriends).filter(filterSelf);
+          this.users = users.filter(filterFriends).filter(filterPendingFriends).filter(filterSelf);
         });
     },
     addFriend(user: User) {
