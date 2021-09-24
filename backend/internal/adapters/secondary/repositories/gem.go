@@ -67,11 +67,24 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 		return 0, fmt.Errorf("unable to add gem: %w", err)
 	}
 
-	// If gem is sent to Gretel, automatically send another gem back
-	if gem.CreatorId != constants.GretelUserId && gem.ReceiverId == constants.GretelUserId {
+	var numGemsSentToGretel int64
+	sql, _, _ = qb.From(goqu.T("gems")).Select(goqu.COUNT("*")).Where(goqu.Ex{
+		"receiver_id": constants.GretelUserId,
+		"creator_id":  gem.CreatorId,
+	}).ToSQL()
+	_ = r.db.Select(&numGemsSentToGretel, sql)
+	isFirstGemSentToGretel := numGemsSentToGretel == 0
+
+	isNotCreatedByGretel := gem.CreatorId != constants.GretelUserId
+
+	isSentToGretel := gem.ReceiverId == constants.GretelUserId
+
+	shouldGretelSendGem := isNotCreatedByGretel && isSentToGretel && isFirstGemSentToGretel
+
+	if shouldGretelSendGem {
 		// TODO: replace placeholder values
 		gretelGem := &gems.Gem{
-			Message:    "blah",
+			Message:    "Congrats, you just sent your first gem!",
 			Latitude:   gem.Latitude,
 			Longitude:  gem.Longitude,
 			CreatorId:  constants.GretelUserId,
