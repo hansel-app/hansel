@@ -73,7 +73,7 @@ export default defineComponent({
       this.$router.back();
     },
     handleSearch() {
-      const filterFriends = (user: User) => !this.friends.includes(user);
+      const filterFriends = (user: User) => !this.friends.map(x => x.userId).includes(user.userId);
       const filterSelf = (user: User) => this.selfUser.userId != user.userId;
       this.store
         .dispatch("searchByUsername", this.searchQuery)
@@ -93,6 +93,7 @@ export default defineComponent({
           } else {
             console.error(`Invalid status: ${status}`);
           }
+          this.handleSearch();
         })
         .catch((err) => {
           Toast.fail(

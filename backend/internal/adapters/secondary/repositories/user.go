@@ -225,14 +225,47 @@ func (r *userRepository) GetFriendRequests(id int64) ([]*users.FriendRequest, er
 	return friendRequests, nil
 }
 
+func (r *userRepository) checkIfUsersAreFriends(firstUserID int64, secondUserID int64) (bool, error) {
+	sql, _, _ := qb.
+		Select(goqu.L("COUNT(*)")).
+		From(goqu.T("friends")).
+		Where(goqu.Or(
+			goqu.And(
+				goqu.C("first_user_id").Eq(firstUserID),
+				goqu.C("second_user_id").Eq(secondUserID),
+			),
+			goqu.And(
+				goqu.C("first_user_id").Eq(secondUserID),
+				goqu.C("second_user_id").Eq(firstUserID),
+			),
+		)).
+		ToSQL()
+
+	var count int64
+	err := r.db.Get(&count, sql)
+	if err != nil {
+		return false, fmt.Errorf("unable to check if users are friends: %w", err)
+	}
+
+	return count == 1, nil
+}
+
 func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) error {
+	usersAreFriends, err := r.checkIfUsersAreFriends(requesterID, receiverID)
+	if err != nil {
+		return err
+	}
+	if usersAreFriends {
+		return fmt.Errorf("requester with id %d and receiver with id %d are already friends", requesterID, receiverID)
+	}
+
 	sql, _, _ := qb.Insert("friend_requests").Rows(goqu.Record{
 		"requester_id": requesterID,
 		"receiver_id":  receiverID,
 		"created_at":   time.Now(),
 	}).ToSQL()
 
-	_, err := r.db.Exec(sql)
+	_, err = r.db.Exec(sql)
 	if err != nil {
 		return fmt.Errorf(
 			"unable to add friend request for requester with id %d and receiver with id %d: %w",
