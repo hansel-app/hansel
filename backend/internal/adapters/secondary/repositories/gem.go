@@ -67,7 +67,7 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	return gemId, nil
 }
 
-func (r *gemRepository) GetGemLogs(userId int64) (map[int64]([]gems.Gem), error) {
+func (r *gemRepository) GetGemLogs(userId int64) (map[int64][]gems.Gem, error) {
 	gemsCreatedbySelf := qb.From("gems").Where(goqu.C("creator_id").Eq(userId))
 	gemsSentToSelf := qb.From("gems").Where(goqu.C("receiver_id").Eq(userId))
 
