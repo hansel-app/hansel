@@ -1,6 +1,11 @@
 <template>
   <van-cell>
-    <template #value v-if="shouldShowTutorial">
+    <template #value v-if="!navigator?.onLine">
+      <van-row>
+        You are offline. Some functionalities may be unavailable.
+      </van-row>
+    </template>
+    <template #value v-else-if="shouldShowTutorial">
       <van-row>
         Welcome to hansel. Try dropping your first gem!
       </van-row>
