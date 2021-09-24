@@ -72,7 +72,7 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 		"receiver_id": constants.GretelUserId,
 		"creator_id":  gem.CreatorId,
 	}).ToSQL()
-	_ = r.db.Select(&numGemsSentToGretel, sql)
+	_ = r.db.Get(&numGemsSentToGretel, sql)
 	isFirstGemSentToGretel := numGemsSentToGretel == 0
 
 	isNotCreatedByGretel := gem.CreatorId != constants.GretelUserId
@@ -82,7 +82,7 @@ func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
 	shouldGretelSendGem := isNotCreatedByGretel && isSentToGretel && isFirstGemSentToGretel
 
 	if shouldGretelSendGem {
-		// TODO: replace placeholder values
+		// TODO: improve message phrasing and add attachment
 		gretelGem := &gems.Gem{
 			Message:    "Congrats, you just sent your first gem!",
 			Latitude:   gem.Latitude,
