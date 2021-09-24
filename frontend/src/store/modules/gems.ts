@@ -15,7 +15,7 @@ import {
   PickUpRequest,
 } from "@/protobuf/gem_pb";
 import { RootState } from "@/store";
-import { blobToUint8Array } from "@/utils/attachment";
+import { compressFileAndConvertToUint8Array } from "@/utils/attachment";
 import {
   gemColorToProtoGemColorMapper,
   protoGemLogToGemLogMapper,
@@ -119,7 +119,7 @@ const gemsModule: Module<GemsState, RootState> = {
         gemColorToProtoGemColorMapper(dropGemFormState.color)
       );
       gemMessage.setAttachment(
-        await blobToUint8Array(dropGemFormState.attachment)
+        await compressFileAndConvertToUint8Array(dropGemFormState.attachment)
       );
       gemMessage.setLatitude(this.state.user.currPosition.lat);
       gemMessage.setLongitude(this.state.user.currPosition.lng);

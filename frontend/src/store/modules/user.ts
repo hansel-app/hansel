@@ -13,7 +13,7 @@ import {
   SearchByUsernameResponse,
 } from "@/protobuf/user_pb";
 import { RootState } from "@/store";
-import { blobToUint8Array } from "@/utils/attachment";
+import { compressFileAndConvertToUint8Array } from "@/utils/attachment";
 import {
   protoPendingFriendRequestToPendingFriendRequestMapper,
   protoUserToUserMapper,
@@ -211,7 +211,9 @@ const userModule: Module<UserState, RootState> = {
       if (payload.newDisplayName)
         request.setNewDisplayName(payload.newDisplayName);
       if (payload.newAvatar)
-        request.setNewAvatar(await blobToUint8Array(payload.newAvatar));
+        request.setNewAvatar(
+          await compressFileAndConvertToUint8Array(payload.newAvatar)
+        );
 
       return new Promise((resolve, reject) => {
         services.userClient
