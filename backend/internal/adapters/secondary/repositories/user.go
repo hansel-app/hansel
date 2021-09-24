@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
+	"github.com/hansel-app/hansel/internal/constants"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
 	"github.com/jmoiron/sqlx"
 )
@@ -78,17 +79,49 @@ func (r *userRepository) SearchByUsername(searchQuery string) ([]users.User, err
 }
 
 func (r *userRepository) Add(user *users.User) (int64, error) {
+	errorMsg := "unable to insert user: %w"
+
+	tx := r.db.MustBegin()
+
 	sql, args, _ := qb.Insert(goqu.T("users")).Prepared(true).Rows(user).Returning("id").ToSQL()
 
 	var userId int64
-	stmt, err := r.db.Prepare(sql)
+	stmt, err := tx.Prepare(sql)
 	if err != nil {
 		return 0, fmt.Errorf("failed to prepare statement: %w", err)
 	}
 
 	err = stmt.QueryRow(args...).Scan(&userId)
 	if err != nil {
-		return 0, fmt.Errorf("unable to insert user: %w", err)
+		return 0, fmt.Errorf(errorMsg, err)
+	}
+
+	// Newly registered users are automatically friends with Gretel
+	var firstUserID, secondUserID int64
+	if constants.GretelUserId < userId {
+		firstUserID = constants.GretelUserId
+		secondUserID = userId
+	} else {
+		firstUserID = userId
+		secondUserID = constants.GretelUserId
+	}
+
+	sql, _, _ = qb.
+		Insert(goqu.T("friends")).
+		Rows(goqu.Record{
+			"first_user_id":  firstUserID,
+			"second_user_id": secondUserID,
+		}).
+		ToSQL()
+
+	_, err = tx.Exec(sql)
+	if err != nil {
+		return 0, fmt.Errorf(errorMsg, err)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return 0, fmt.Errorf(errorMsg, err)
 	}
 
 	return userId, nil

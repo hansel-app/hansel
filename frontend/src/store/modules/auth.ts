@@ -1,14 +1,14 @@
 import services from "@/api/services";
+import { LOGIN_ROUTE } from "@/constants";
 import {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
 } from "@/protobuf/auth_pb";
+import router from "@/router";
 import { RootState } from "@/store";
 import Cookies from "js-cookie";
 import { Module } from "vuex";
-import router from "@/router";
-import { LOGIN_ROUTE } from "@/constants";
 
 const ACCESS_TOKEN_COOKIE = "access-token";
 
@@ -73,8 +73,7 @@ const authModule: Module<AuthState, RootState> = {
         services.authClient
           .register(request)
           .then(() => {
-            dispatch("login", payload);
-            resolve();
+            dispatch("login", payload).then(() => resolve());
           })
           .catch((err) => reject(err));
       });
