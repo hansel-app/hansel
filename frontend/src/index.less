@@ -33,9 +33,14 @@
 @gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 @gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
 @gradient-blue: linear-gradient(150deg, white, #e2e9ff);
-@profile-gradient: linear-gradient(to right, hsla(187, 89%, 52%, 0.6), #19d8f200),
-linear-gradient(to bottom, #c27df9, #c27df900),
-linear-gradient(to top, #e43d97, #e43d9700);
+@gradient-blue-saturated: linear-gradient(150deg, white, #a5adfa);
+@profile-gradient: linear-gradient(
+    to right,
+    hsla(187, 89%, 52%, 0.6),
+    #19d8f200
+  ),
+  linear-gradient(to bottom, #c27df9, #c27df900),
+  linear-gradient(to top, #e43d97, #e43d9700);
 @box-shadow-gradient: -1px 1px 15px 15px rgba(103, 94, 226, 0.08);
 
 // Component Colors
@@ -128,11 +133,12 @@ linear-gradient(to top, #e43d97, #e43d9700);
 //Icons
 @circle-button-icon-size-lg: 7em;
 @circle-button-icon-size-md: 5em;
+@circle-button-icon-size-sm: 3em;
 @circle-button-icon-size-xs: 2.5em;
 .circle-button-icon-lg {
   font-size: @circle-button-icon-size-lg;
   img {
-    background: @background-color;
+    background: black;
     border-radius: @circle-button-icon-size-lg;
   }
 }
@@ -167,11 +173,24 @@ linear-gradient(to top, #e43d97, #e43d9700);
 // Cell
 @cell-border-color: transparent;
 
-// Background gradient
+// Background gradients
 .background-gradient {
   background: @gradient-blue;
   height: 100vh;
   position: relative;
+}
+
+.background-gradient-saturated {
+  background: @gradient-blue-saturated;
+  height: 100vh;
+  position: relative;
+}
+
+.reverse-background-gradient {
+  background: linear-gradient(to bottom, #c0c2e5, #e43d9700);
+  height: 100vh;
+  position: relative;
+  z-index: -2;
 }
 
 .van-cell-group,
@@ -199,6 +218,13 @@ linear-gradient(to top, #e43d97, #e43d9700);
   margin-left: auto;
   margin-right: auto;
 }
+
+// Use this on the parent of the component
+// you want to overlay.
+.base {
+  position: relative;
+}
+
 // Uploader
 @uploader-delete-icon-size: 20px;
 @uploader-icon-size: 40px;
