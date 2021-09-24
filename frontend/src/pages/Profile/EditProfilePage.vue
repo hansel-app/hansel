@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay">
+  <div class="overlay background-gradient">
     <Header title="Edit Profile" :backLink="PROFILE_ROUTE" />
     <van-form class="container">
       <Uploader v-model="fileList" :max-count="1" :preview-size="150">
