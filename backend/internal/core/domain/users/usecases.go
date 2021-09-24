@@ -73,8 +73,20 @@ func (u *UseCases) GetFriendRequests(userID int64) ([]*FriendRequest, error) {
 	return u.repository.GetFriendRequests(userID)
 }
 
-func (u *UseCases) AddFriendRequest(requesterID int64, receiverID int64) error {
-	return u.repository.AddFriendRequest(requesterID, receiverID)
+func (u *UseCases) AddFriendRequest(requesterID int64, receiverID int64) (AddFriendRequestStatus, error) {
+	// Try to accept any incoming friend requests first.
+	err := u.AcceptFriendRequest(receiverID, requesterID)
+	if err == nil {
+		return AddedAsFriend, nil
+	}
+
+	// If there are no incoming friend requests, send a friend request.
+	err = u.repository.AddFriendRequest(requesterID, receiverID)
+	if err != nil {
+		return 0, err
+	}
+
+	return SentFriendRequest, nil
 }
 
 func (u *UseCases) AcceptFriendRequest(requesterID, receiverID int64) error {

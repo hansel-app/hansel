@@ -2,6 +2,7 @@ import services from "@/api/services";
 import { SINGAPORE_CENTER } from "@/constants";
 import { LatLng, PendingFriendRequest, User } from "@/interfaces";
 import {
+  AddFriendRequestResponse,
   EditProfileRequest,
   FriendRequest,
   GetFriendRequestsResponse,
@@ -25,7 +26,6 @@ export interface UserState {
 
   // PendingFriendRequests includes User + datetime of request.
   friendRequests: PendingFriendRequest[];
-  isSendFriendRequestSuccessful: boolean;
   self?: User;
   currPosition: LatLng;
 }
@@ -34,7 +34,6 @@ const initialState: UserState = {
   friends: [],
   friendRequests: [],
   self: undefined,
-  isSendFriendRequestSuccessful: false,
   currPosition: SINGAPORE_CENTER,
 };
 
@@ -55,9 +54,6 @@ const userModule: Module<UserState, RootState> = {
     },
     setFriendRequests(state, pendingFriends: PendingFriendRequest[]) {
       state.friendRequests = pendingFriends;
-    },
-    updateSendFriendRequestStatus(state, isSuccess: boolean) {
-      state.isSendFriendRequestSuccessful = isSuccess;
     },
   },
   actions: {
@@ -134,15 +130,16 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    sendFriendRequest({ commit }, receiverId) {
+    sendFriendRequest({ dispatch }, receiverId) {
       const request = new FriendRequest();
       request.setReceiverId(receiverId);
 
       return new Promise((resolve, reject) => {
         services.userClient
           .addFriendRequest(request)
-          .then((resp) => {
-            commit("updateSendFriendRequestStatus", true);
+          .then((resp: AddFriendRequestResponse) => {
+            dispatch("getFriends");
+            dispatch("getFriendRequests");
             resolve(resp);
           })
           .catch((err) => reject(err));

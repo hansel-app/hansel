@@ -146,18 +146,20 @@ func (s *userService) GetFriendRequests(
 func (s *userService) AddFriendRequest(
 	c context.Context,
 	r *usersapi.FriendRequest,
-) (*emptypb.Empty, error) {
+) (*usersapi.AddFriendRequestResponse, error) {
 	userId, ok := c.Value(contextkeys.UserID).(int64)
 	if !ok {
 		return nil, status.Error(codes.Internal, "unable to retrieve user ID from context")
 	}
 
-	err := s.usecases.AddFriendRequest(userId, r.ReceiverId)
+	addFriendRequestStatus, err := s.usecases.AddFriendRequest(userId, r.ReceiverId)
 	if err != nil {
 		return nil, err
 	}
 
-	return new(emptypb.Empty), nil
+	return &usersapi.AddFriendRequestResponse{
+		Status: usersapi.AddFriendRequestStatus(addFriendRequestStatus),
+	}, nil
 }
 
 func (s *userService) AcceptFriendRequest(
