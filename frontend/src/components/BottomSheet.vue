@@ -161,8 +161,4 @@ export default defineComponent({
   overflow: hidden;
   overflow-wrap: break-all;
 }
-
-.image-wrapper {
-  clear: both;
-}
 </style>

@@ -1,14 +1,12 @@
 <template>
   <div class="profile-page">
     <div class="overlay container">
-      <Header title=""/>
+      <Header title="" />
       <ProfileAvatar :avatarUrl="self.avatar" />
       <div class="header">
         {{ self.displayName }}
       </div>
-      <div class="sub-header">
-        @{{ self.username }}
-      </div>
+      <div class="sub-header">@{{ self.username }}</div>
       <CellGroup :border="false" class="content container">
         <Cell title="Edit profile" is-link @click="goToEditProfile" />
         <Cell title="Friends" is-link @click="goToFriendList" />
@@ -85,9 +83,4 @@ export default defineComponent({
   color: @red;
   padding-bottom: 2em;
 }
-
-.stack-container {
-  z-index: -1;
-}
-
 </style>

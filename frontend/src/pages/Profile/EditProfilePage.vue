@@ -84,15 +84,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.sub-header {
-  text-align: left;
-}
-
-.edit-button {
-  position: absolute;
-  bottom: 0;
-}
-
 .container {
   padding-top: 2em;
 }
