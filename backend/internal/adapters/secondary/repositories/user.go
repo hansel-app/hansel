@@ -276,8 +276,8 @@ func (r *userRepository) UpdateAvatar(id int64, newAvatar []byte) error {
 	if err != nil {
 		return fmt.Errorf("failed to prepare statement: %w", err)
 	}
-	args = append([]interface{}{sql}, args...)
-	_, err = stmt.Exec(args)
+
+	_, err = stmt.Exec(args...)
 	if err != nil {
 		return fmt.Errorf("unable to update avatar for user with id %d: %w", id, err)
 	}
