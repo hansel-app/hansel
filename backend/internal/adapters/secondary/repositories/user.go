@@ -210,6 +210,11 @@ func (r *userRepository) AddFriendRequest(requesterID int64, receiverID int64) e
 }
 
 func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64) error {
+	errorMsg := fmt.Sprintf(
+		"unable to accept friend request for requester with id %d and receiver with id %d: %%w",
+		requesterID, receiverID,
+	)
+
 	tx := r.db.MustBegin()
 
 	var firstUserID, secondUserID int64
@@ -227,21 +232,24 @@ func (r *userRepository) AcceptFriendRequest(requesterID int64, receiverID int64
 			"second_user_id": secondUserID,
 		}).
 		ToSQL()
-	tx.MustExec(sql)
+	_, err := tx.Exec(sql)
+	if err != nil {
+		return fmt.Errorf(errorMsg, err)
+	}
 
 	sql, _, _ = qb.
 		From(goqu.T("friend_requests")).
 		Where(goqu.C("requester_id").Eq(requesterID), goqu.C("receiver_id").Eq(receiverID)).
 		Delete().
 		ToSQL()
-	tx.MustExec(sql)
-
-	err := tx.Commit()
+	_, err = tx.Exec(sql)
 	if err != nil {
-		return fmt.Errorf(
-			"unable to accept friend request for requester with id %d and receiver with id %d: %w",
-			requesterID, receiverID, err,
-		)
+		return fmt.Errorf(errorMsg, err)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return fmt.Errorf(errorMsg, err)
 	}
 
 	return nil
