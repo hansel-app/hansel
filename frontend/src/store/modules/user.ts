@@ -2,6 +2,7 @@ import services from "@/api/services";
 import { SINGAPORE_CENTER } from "@/constants";
 import { LatLng, PendingFriendRequest, User } from "@/interfaces";
 import {
+  AddFriendRequestResponse,
   EditProfileRequest,
   FriendRequest,
   GetFriendRequestsResponse,
@@ -129,14 +130,18 @@ const userModule: Module<UserState, RootState> = {
       });
     },
 
-    sendFriendRequest(_, receiverId) {
+    sendFriendRequest({ dispatch }, receiverId) {
       const request = new FriendRequest();
       request.setReceiverId(receiverId);
 
       return new Promise((resolve, reject) => {
         services.userClient
           .addFriendRequest(request)
-          .then((resp) => resolve(resp))
+          .then((resp: AddFriendRequestResponse) => {
+            dispatch("getFriends");
+            dispatch("getFriendRequests");
+            resolve(resp);
+          })
           .catch((err) => reject(err));
       });
     },
