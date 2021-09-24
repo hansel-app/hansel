@@ -7,7 +7,6 @@
     class="content remove-padding"
   >
     <template #icon>
-      <!-- TODO: replace with user's own avatar -->
       <CircleAvatar
         :avatarUrl="friend.avatar"
         class="avatar-border"
