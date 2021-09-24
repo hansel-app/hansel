@@ -13,6 +13,8 @@ type userRepository struct {
 	db sqlx.DB
 }
 
+const gretelId = 1
+
 func NewUserRepository(db *sqlx.DB) *userRepository {
 	return &userRepository{
 		db: *db,
@@ -78,10 +80,12 @@ func (r *userRepository) SearchByUsername(searchQuery string) ([]users.User, err
 }
 
 func (r *userRepository) Add(user *users.User) (int64, error) {
+	tx := r.db.MustBegin()
+
 	sql, args, _ := qb.Insert(goqu.T("users")).Prepared(true).Rows(user).Returning("id").ToSQL()
 
 	var userId int64
-	stmt, err := r.db.Prepare(sql)
+	stmt, err := tx.Prepare(sql)
 	if err != nil {
 		return 0, fmt.Errorf("failed to prepare statement: %w", err)
 	}
@@ -89,6 +93,31 @@ func (r *userRepository) Add(user *users.User) (int64, error) {
 	err = stmt.QueryRow(args...).Scan(&userId)
 	if err != nil {
 		return 0, fmt.Errorf("unable to insert user: %w", err)
+	}
+
+	// Newly registered users are automatically friends with Gretel
+	var firstUserID, secondUserID int64
+	if gretelId < userId {
+		firstUserID = gretelId
+		secondUserID = userId
+	} else {
+		firstUserID = userId
+		secondUserID = gretelId
+	}
+
+	sql, _, _ = qb.
+		Insert(goqu.T("friends")).
+		Rows(goqu.Record{
+			"first_user_id":  firstUserID,
+			"second_user_id": secondUserID,
+		}).
+		ToSQL()
+	tx.MustExec(sql)
+
+	err = tx.Commit()
+
+	if err != nil {
+		return 0, fmt.Errorf("unable to add new user: %w", err)
 	}
 
 	return userId, nil
