@@ -3,7 +3,7 @@ import axios from "axios";
 
 type Kilometer = number;
 
-const GOOGLE_API_KEY = "AIzaSyBQtPAxW1JqFaPHYhGcpwp_gYqEifJOrAU";
+const GOOGLE_API_KEY = window.env.VUE_APP_GOOGLE_API_KEY;
 
 // Adapted from https://stackoverflow.com/a/27943
 // Returns distance between 2 points (as indicated by their LatLng values) in km
