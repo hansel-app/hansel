@@ -22,6 +22,7 @@ import cloneDeep from "lodash.clonedeep";
 import { Module } from "vuex";
 
 export interface UserState {
+  shouldShowTutorial: boolean;
   friends: User[];
 
   // PendingFriendRequests includes User + datetime of request.
@@ -31,6 +32,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
+  shouldShowTutorial: false,
   friends: [],
   friendRequests: [],
   self: undefined,
@@ -42,6 +44,9 @@ const userModule: Module<UserState, RootState> = {
   mutations: {
     resetUserStore(state) {
       Object.assign(state, cloneDeep(initialState));
+    },
+    setShouldShowTutorial(state, shouldShowTutorial: boolean) {
+      state.shouldShowTutorial = shouldShowTutorial;
     },
     setCurrPosition(state, newPosition: LatLng) {
       state.currPosition = newPosition;

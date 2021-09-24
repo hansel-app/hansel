@@ -1,6 +1,11 @@
 <template>
   <van-cell>
-    <template #value v-if="numberGemsPendingCollection > 0">
+    <template #value v-if="shouldShowTutorial">
+      <van-row>
+        Welcome to hansel. Try dropping your first gem!
+      </van-row>
+    </template>
+    <template #value v-else-if="numberGemsPendingCollection > 0">
       <van-row>
         <van-col span="12">
           <van-row>
@@ -45,6 +50,10 @@ export default defineComponent({
     },
     numberGemsPendingCollection: {
       type: Number,
+      required: true,
+    },
+    shouldShowTutorial: {
+      type: Boolean,
       required: true,
     },
   },

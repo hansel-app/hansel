@@ -97,6 +97,7 @@
     v-click-away="hidePopup"
     :number-gems-pending-collection="gems.length"
     :nearest-gem-distance="nearestGemDistance"
+    :should-show-tutorial="shouldShowTutorial"
   />
 </template>
 
@@ -191,6 +192,9 @@ export default defineComponent({
     ...mapState({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       currPosition: (state: any) => state.user.currPosition as LatLng,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      shouldShowTutorial: (state: any) =>
+        state.user.shouldShowTutorial as boolean,
     }),
     mapConfig() {
       return {
@@ -338,6 +342,7 @@ export default defineComponent({
     },
     hidePopup() {
       this.shouldShowPopup = false;
+      this.store.commit("setShouldShowTutorial", false);
     },
 
     pickUpGem() {

@@ -61,7 +61,7 @@ const authModule: Module<AuthState, RootState> = {
       });
     },
     register(
-      { dispatch },
+      { commit, dispatch },
       payload: { displayName: string; username: string; password: string }
     ) {
       const request = new RegisterRequest();
@@ -73,6 +73,7 @@ const authModule: Module<AuthState, RootState> = {
         services.authClient
           .register(request)
           .then(() => {
+            commit("setShouldShowTutorial", true);
             dispatch("login", payload).then(() => resolve());
           })
           .catch((err) => reject(err));
