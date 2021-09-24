@@ -92,8 +92,8 @@ export default defineComponent({
 
 <style scoped lang="less">
 .friend-name-container {
-  width: 50vw;
-  margin-left: 3vw;
+  width: 50%;
+  height: 50%;
   .friend-displayname {
     color: @text-color;
     font-size: @font-size-xl;
@@ -118,6 +118,8 @@ export default defineComponent({
 
 .log-details-header {
   height: 12vh;
+  max-height: 12vh;
+  width: 90%;
 }
 
 .remove-margin {
