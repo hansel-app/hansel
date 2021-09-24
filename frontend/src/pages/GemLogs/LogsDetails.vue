@@ -46,7 +46,6 @@ import { defineComponent } from "vue";
 import { GEM_LOGS_ROUTE } from "@/constants";
 import CircleAvatar from "@/components/CircleAvatar.vue";
 import Header from "@/components/Header.vue";
-import { mockGemLogs, mockSelfUser } from "@/interfaces/mockData";
 import GemMessage from "./GemMessage.vue";
 import { mapState, useStore } from "vuex";
 import { Gem, GemLogsWithFriend, User } from "@/interfaces";
@@ -60,7 +59,6 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    store.commit("setGemLogs", mockGemLogs);
 
     return {
       store,
