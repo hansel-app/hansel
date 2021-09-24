@@ -8,11 +8,37 @@ export const SINGAPORE_CENTER: LatLng = Object.freeze({
   lng: 103.8198,
 });
 
-// copy-pasted from https://snazzymaps.com/style/124771/google-maps-clean
+// copy-pasted from https://snazzymaps.com/style/61/blue-essence
 const mapStyles: google.maps.MapTypeStyle[] = [
   {
-    featureType: "administrative",
-    elementType: "labels",
+    featureType: "landscape.natural",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#e0efef",
+      },
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#c0e8e8",
+      },
+      {
+        hue: "#1900ff",
+      },
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.business",
     stylers: [
       {
         visibility: "off",
@@ -20,71 +46,8 @@ const mapStyles: google.maps.MapTypeStyle[] = [
     ],
   },
   {
-    featureType: "landscape",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "poi.attraction",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "poi.business",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "poi.business",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "poi.business",
-    elementType: "labels.icon",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "poi.government",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "poi.school",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "poi.school",
-    elementType: "labels",
+    featureType: "poi.park",
+    elementType: "labels.text",
     stylers: [
       {
         visibility: "off",
@@ -93,10 +56,13 @@ const mapStyles: google.maps.MapTypeStyle[] = [
   },
   {
     featureType: "road",
-    elementType: "all",
+    elementType: "geometry",
     stylers: [
       {
-        visibility: "on",
+        lightness: 100,
+      },
+      {
+        visibility: "simplified",
       },
     ],
   },
@@ -106,6 +72,52 @@ const mapStyles: google.maps.MapTypeStyle[] = [
     stylers: [
       {
         visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "road.local",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "transit.line",
+    elementType: "geometry",
+    stylers: [
+      {
+        lightness: 700,
+      },
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    stylers: [
+      {
+        color: "#7dcdcd",
       },
     ],
   },
