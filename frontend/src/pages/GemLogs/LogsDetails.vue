@@ -68,7 +68,17 @@ export default defineComponent({
   computed: {
     ...mapState({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      gemLog: (state: any) => state.gems.selectedGemLog as GemLogsWithFriend,
+      gemLog: (state: any) => {
+        const logs = state.gems.selectedGemLog as GemLogsWithFriend;
+        const sortedGems = [...logs.gems].sort((gem1, gem2) =>
+          gem1.createdAt.diff(gem2.createdAt)
+        );
+
+        return {
+          friend: logs.friend,
+          gems: sortedGems,
+        } as GemLogsWithFriend;
+      },
       selfUser: (state: any) => state.user.self as User,
     }),
     gemsAndIsSentBySelf(): { gem: Gem; isSentBySelf: boolean }[] {
@@ -125,6 +135,4 @@ export default defineComponent({
 .remove-margin {
   margin-top: -5vh;
 }
-
-
 </style>
