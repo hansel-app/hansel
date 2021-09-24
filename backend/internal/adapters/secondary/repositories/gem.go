@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
+	"github.com/hansel-app/hansel/internal/constants"
 	"github.com/hansel-app/hansel/internal/core/domain/gems"
 	"github.com/jmoiron/sqlx"
 )
@@ -48,18 +49,49 @@ func (r *gemRepository) PickUpGem(id int64) error {
 }
 
 func (r *gemRepository) Add(gem *gems.Gem) (int64, error) {
+	tx := r.db.MustBegin()
+
 	// Necessary to use prepared statements here due to a bug in how goqu parses
 	// bytes (used for the gem attachments)
 	// More info here: https://github.com/doug-martin/goqu/issues/254
 	sql, args, _ := qb.Insert("gems").Prepared(true).Rows(gem).Returning("id").ToSQL()
 
 	var gemId int64
-	stmt, err := r.db.Prepare(sql)
+	stmt, err := tx.Prepare(sql)
 	if err != nil {
 		return 0, fmt.Errorf("failed to prepare statement: %w", err)
 	}
 
 	err = stmt.QueryRow(args...).Scan(&gemId)
+	if err != nil {
+		return 0, fmt.Errorf("unable to add gem: %w", err)
+	}
+
+	// If gem is sent to Gretel, automatically send another gem back
+	if gem.CreatorId != constants.GretelUserId && gem.ReceiverId == constants.GretelUserId {
+		// TODO: replace placeholder values
+		gretelGem := &gems.Gem{
+			Message:    "blah",
+			Latitude:   gem.Latitude,
+			Longitude:  gem.Longitude,
+			CreatorId:  constants.GretelUserId,
+			ReceiverId: gem.CreatorId,
+			ReceivedAt: nil,
+			Color:      gems.Purple,
+			Attachment: nil,
+		}
+
+		// Recursive call; ensure that Gretel doesn't continuously send gems
+		// to herself
+		_, err := r.Add(gretelGem)
+
+		if err != nil {
+			return 0, fmt.Errorf("unable to add gem by Gretel: %w", err)
+		}
+	}
+
+	err = tx.Commit()
+
 	if err != nil {
 		return 0, fmt.Errorf("unable to add gem: %w", err)
 	}
