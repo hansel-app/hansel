@@ -7,7 +7,7 @@
     </template>
     <template #value v-else-if="shouldShowTutorial">
       <van-row>
-        Welcome to hansel. Try dropping your first gem!
+        Welcome to hansel. I'm Gretel, your first friend on this app. Try dropping your first gem for me, and I'll send one back!
       </van-row>
     </template>
     <template #value v-else-if="numberGemsPendingCollection > 0">

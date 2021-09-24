@@ -38,7 +38,7 @@ func (u *UseCases) AuthenticatePassword(username string, password string) (int64
 func (u *UseCases) Register(displayName string, username string, password string) (int64, error) {
 	_, err := u.repository.GetByUsername(username)
 	if err == nil {
-		return 0, errors.New("user already exists")
+		return 0, errors.New("username is already taken")
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), hashingCost)

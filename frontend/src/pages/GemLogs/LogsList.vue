@@ -4,18 +4,23 @@
     <Header title="Gem logs" />
     <div class="container">
       <Searchbar v-model="searchQuery" placeholder="Search a friend" @input="filterFriends" />
-      <CellGroup>
-        <LogsPreview
-          v-for="friendAndActivity in state.filteredFriendsAndActivities"
-          :key="friendAndActivity.friend.userId"
-          :friend="friendAndActivity.friend"
-          :mostRecentGemActivity="friendAndActivity.mostRecentGem"
-          :gemLogsWithFriend="
-            gemLogs.gemLogsMap.get(friendAndActivity.friend.userId)
-          "
-          :isClickable="true"
-        />
-      </CellGroup>
+      <div v-if="state.filteredFriendsAndActivities.length > 0">
+        <CellGroup>
+          <LogsPreview
+            v-for="friendAndActivity in state.filteredFriendsAndActivities"
+            :key="friendAndActivity.friend.userId"
+            :friend="friendAndActivity.friend"
+            :mostRecentGemActivity="friendAndActivity.mostRecentGem"
+            :gemLogsWithFriend="
+              gemLogs.gemLogsMap.get(friendAndActivity.friend.userId)
+            "
+            :isClickable="true"
+          />
+        </CellGroup>
+      </div>
+      <div v-else>
+          <i>No results found</i> &#x1f4a9;
+      </div>
     </div>
   </div>
 </template>
