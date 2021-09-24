@@ -77,9 +77,4 @@ export default defineComponent({
   color: gray;
   font-weight: lighter !important;
 }
-
-.logout {
-  color: @red;
-  padding-bottom: 2em;
-}
 </style>
