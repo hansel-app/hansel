@@ -54,7 +54,6 @@ export async function getLocationNameFromLatLng(
       )
       .then((response) => {
         const address = response.data.results[1];
-        console.log(address);
         if (address !== undefined) resolve(address.formatted_address);
       })
       .catch((error) => reject(error));
