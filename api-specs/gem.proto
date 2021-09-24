@@ -8,7 +8,6 @@ import "user.proto";
 
 service GemService {
   rpc Drop (DropRequest) returns (DropResponse);
-  rpc Get (GetRequest) returns (GetResponse);
   rpc GetPendingCollectionForUser (google.protobuf.Empty) returns (GetPendingCollectionForUserResponse);
   rpc PickUp (PickUpRequest) returns (google.protobuf.Empty);
   rpc GetGemLogs (google.protobuf.Empty) returns (GemLogs);
@@ -51,15 +50,6 @@ message DropRequest {
 
 message DropResponse {
   int64 dropped_gem_id = 1;
-}
-
-message GetRequest {
-  int64 id = 1;
-}
-
-message GetResponse {
-  int64 id = 1;
-  string message = 2;
 }
 
 message GetPendingCollectionForUserResponse {

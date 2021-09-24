@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-container" :style="addBackground">
+  <div class="bg-container" v-bind:style="addBackground">
     <BottomSheet :gem="gem" />
   </div>
 </template>
@@ -22,8 +22,7 @@ export default defineComponent({
     return {
       show: true,
       addBackground: {
-        // TODO: get and chuck image here
-        backgroundImage: `url(${require("@/assets/images/gem-found-yellow.png")})`,
+        backgroundImage: `url(data:image/png;base64,${this.gem.attachment}`,
       },
     };
   },

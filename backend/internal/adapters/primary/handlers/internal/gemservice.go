@@ -55,18 +55,6 @@ func (s *gemService) Drop(c context.Context, r *gemsapi.DropRequest) (*gemsapi.D
 	}, nil
 }
 
-func (s *gemService) Get(c context.Context, r *gemsapi.GetRequest) (*gemsapi.GetResponse, error) {
-	gem, err := s.usecases.Get(r.Id)
-	if err != nil {
-		return nil, err
-	}
-
-	return &gemsapi.GetResponse{
-		Id:      gem.ID,
-		Message: gem.Message,
-	}, nil
-}
-
 func (s *gemService) GetPendingCollectionForUser(
 	c context.Context,
 	_ *empty.Empty,
@@ -133,6 +121,7 @@ func (s *gemService) GetPendingCollectionForUser(
 			},
 			ReceivedAt: nil,
 			Color:      gemsapi.GemColor(gem.Color),
+			Attachment: gem.Attachment,
 		}
 		processedGems = append(processedGems, &processedGem)
 	}
@@ -217,6 +206,7 @@ func (s *gemService) GetGemLogs(
 				},
 				ReceivedAt: receivedAt,
 				Color:      gemsapi.GemColor(gem.Color),
+				Attachment: gem.Attachment,
 			}
 			processedGems = append(processedGems, &processedGem)
 		}

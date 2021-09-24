@@ -3,7 +3,7 @@
     <van-image
       v-if="isSentBySelf || hasPickedUpGem"
       class="gem-image"
-      :src="gem.attachment"
+      :src="`data:image/png;base64,${gem.attachment}`"
     />
   </van-row>
   <van-row :justify="justify">
