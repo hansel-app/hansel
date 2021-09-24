@@ -19,18 +19,6 @@ func NewGemRepository(db *sqlx.DB) *gemRepository {
 	}
 }
 
-func (r *gemRepository) Get(id int64) (*gems.Gem, error) {
-	sql, _, _ := qb.From("gems").Where(goqu.C("id").Eq(id)).ToSQL()
-
-	var gem gems.Gem
-	err := r.db.Get(&gem, sql)
-	if err != nil {
-		return nil, fmt.Errorf("unable to get gem with id %d: %w", id, err)
-	}
-
-	return &gem, nil
-}
-
 func (r *gemRepository) GetPendingCollectionByUser(userId int64) ([]gems.Gem, error) {
 	sql, _, _ := qb.From("gems").Where(
 		goqu.C("receiver_id").Eq(userId),

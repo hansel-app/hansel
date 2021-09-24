@@ -1,7 +1,6 @@
 package gems
 
 type Repository interface {
-	Get(id int64) (*Gem, error)
 	GetPendingCollectionByUser(userId int64) ([]Gem, error)
 	Add(gem *Gem) (int64, error)
 	PickUpGem(id int64) error
