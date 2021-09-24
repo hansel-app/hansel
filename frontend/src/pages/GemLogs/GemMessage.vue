@@ -3,7 +3,7 @@
     <van-image
       v-if="isSentBySelf || hasPickedUpGem"
       class="gem-image"
-      :src="gem.attachment"
+      :src="`data:image/png;base64,${gem.attachment}`"
     />
   </van-row>
   <van-row :justify="justify">
@@ -35,6 +35,9 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+  },
+  setup(props) {
+    console.log(props.gem.attachment);
   },
   computed: {
     hasPickedUpGem() {

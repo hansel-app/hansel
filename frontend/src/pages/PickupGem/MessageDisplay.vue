@@ -22,7 +22,7 @@ export default defineComponent({
     return {
       show: true,
       addBackground: {
-        backgroundImage: `url(data:image/png;base64,${this.gem.attachment})`,
+        backgroundImage: `url(data:image/png;base64,${this.gem.attachment}`,
       },
     };
   },
