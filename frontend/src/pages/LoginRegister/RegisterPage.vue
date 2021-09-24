@@ -47,8 +47,11 @@
               Register
             </van-button>
           </div>
+          <span>
+            Already have an account?
+          </span>
           <span class="login-prompt" @click="goToLoginPage">
-            Already have an account? Login
+            Login
           </span>
         </van-form>
       </div>
@@ -100,7 +103,7 @@ export default defineComponent({
   margin: 16px;
 }
 .login-prompt {
-  padding: 0.5em 1em;
+  color: @primary-color;
 }
 
 .drawer {
