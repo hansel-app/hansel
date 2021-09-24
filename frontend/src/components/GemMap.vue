@@ -114,7 +114,7 @@ import { getDistanceFromLatLonInKm } from "@/utils/geolocation";
 import GemMarkerInfoWindow from "./GemMarkerInfoWindow.vue";
 import MapUserMarker from "./MapUserMarker.vue";
 import GemMapPopup from "./GemMapPopup.vue";
-import { useStore } from "vuex";
+import { mapState, useStore } from "vuex";
 import { getEnumKeyByEnumValue } from "@/utils/enum";
 import { Toast } from "vant";
 
@@ -147,7 +147,6 @@ export default defineComponent({
     const shouldShowPopup = ref<boolean>(isGemMapFirstMount);
 
     const { getLocation } = useGeolocation();
-    const currPosition: LatLng = store.state.user.currPosition;
 
     watchEffect(
       () => {
@@ -169,11 +168,9 @@ export default defineComponent({
     return {
       mapRef,
       gemMarkerInfoWindowRef,
-      currPosition,
       userCircleRadius: GEM_PICKUP_RADIUS_THRESHOLD,
       currGemIdx: null as null | number,
       apiKey: GOOGLE_API_KEY,
-      mapConfig: { ...DEFAULT_MAP_CONFIG, center: currPosition },
       shouldShowPopup,
       openedInfoWindowGem,
       store,
@@ -190,6 +187,16 @@ export default defineComponent({
   },
 
   computed: {
+    ...mapState({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      currPosition: (state: any) => state.user.currPosition as LatLng,
+    }),
+    mapConfig() {
+      return {
+        ...DEFAULT_MAP_CONFIG,
+        currPosition: this.currPosition,
+      };
+    },
     nearestGemDistance() {
       if (this.sortedGems.length === 0) {
         return undefined;
