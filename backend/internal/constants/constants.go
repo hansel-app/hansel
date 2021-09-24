@@ -10,6 +10,7 @@ const GretelUserId = 1
 
 var GretelGemAttachment []byte
 
+//nolint:gochecknoinits
 func init() {
 	gretelGemAttachmentPath := filepath.Join("assets", "gretel-gem-attachment.png")
 	imageBytes, ioErr := ioutil.ReadFile(filepath.Clean(gretelGemAttachmentPath))
