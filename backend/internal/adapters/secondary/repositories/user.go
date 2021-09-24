@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/doug-martin/goqu/v9"
+	"github.com/hansel-app/hansel/internal/constants"
 	"github.com/hansel-app/hansel/internal/core/domain/users"
 	"github.com/jmoiron/sqlx"
 )
@@ -12,8 +13,6 @@ import (
 type userRepository struct {
 	db sqlx.DB
 }
-
-const gretelId = 1
 
 func NewUserRepository(db *sqlx.DB) *userRepository {
 	return &userRepository{
@@ -97,12 +96,12 @@ func (r *userRepository) Add(user *users.User) (int64, error) {
 
 	// Newly registered users are automatically friends with Gretel
 	var firstUserID, secondUserID int64
-	if gretelId < userId {
-		firstUserID = gretelId
+	if constants.GretelUserId < userId {
+		firstUserID = constants.GretelUserId
 		secondUserID = userId
 	} else {
 		firstUserID = userId
-		secondUserID = gretelId
+		secondUserID = constants.GretelUserId
 	}
 
 	sql, _, _ = qb.
