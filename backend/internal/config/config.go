@@ -143,7 +143,7 @@ func loadEnvFromFiles(configFileNames []string) error {
 		if err == nil {
 			return nil
 		}
-		log.Print(fmt.Sprintf("'%s' not found. Loading next config file...", filename))
+		log.Printf("'%s' not found. Loading next config file...", filename)
 	}
 
 	configFileNamesList := strings.Join(configFileNames, ", ")
